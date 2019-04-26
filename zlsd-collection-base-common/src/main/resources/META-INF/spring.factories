@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.zhilingsd.collection.common.support.SnowflakeConfig,\
+com.zhilingsd.collection.common.support.AnnotationWrapConfig

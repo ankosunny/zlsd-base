@@ -37,6 +37,7 @@ import java.util.List;
  * @version Id: BeanUtils.java, v 0.1 2018年4月26日 上午9:20:16 linguangliang Exp $
  */
 public class BeanUtils extends  org.springframework.beans.BeanUtils{
+
     public static <T> List<T> copyArray(Collection sourceList, Class<T> clz){
         if (CollectionUtils.isEmpty(sourceList)) {
             return Collections.EMPTY_LIST;

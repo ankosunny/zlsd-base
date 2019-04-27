@@ -57,11 +57,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.wandaph.lang</groupId>
-                <artifactId>spring-boot-starter-rocketmq</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.collections</groupId>
                 <artifactId>google-collections</artifactId>
                 <version>${google-collections.version}</version>

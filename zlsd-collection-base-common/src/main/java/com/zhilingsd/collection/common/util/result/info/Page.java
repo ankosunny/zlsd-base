@@ -1,4 +1,5 @@
 package com.zhilingsd.collection.common.util.result.info;
+import com.zhilingsd.collection.common.util.result.ListResult;
 import com.zhilingsd.collection.common.util.result.base.ToString;
 /**
  * 分页对象
@@ -7,7 +8,7 @@ import com.zhilingsd.collection.common.util.result.base.ToString;
  * @version 1.0
  * @since 1.0 2017年12月12日 16:55
  */
-public class Page extends ToString {
+public class Page extends ListResult {
 
     /**
      * 当前页码

@@ -6,7 +6,6 @@ import com.zhilingsd.collection.common.exception.DAOException;
 import com.zhilingsd.collection.common.exception.ServiceException;
 import com.zhilingsd.collection.common.util.result.CommonResult;
 import com.zhilingsd.collection.common.util.result.ListResult;
-import com.zhilingsd.collection.common.util.result.PageListResult;
 import com.zhilingsd.collection.common.util.result.SingleResult;
 import com.zhilingsd.collection.common.util.result.info.Page;
 import java.util.Date;
@@ -16,43 +15,6 @@ import java.util.List;
  * Created by chenzongbo on 2017/12/13.
  */
 public class ResultUtils {
-    
-    public static <T> PageListResult<T> getSuccessPageListResult(List<T> t, Page page) {
-        PageListResult pageListResult = getPageListResult(t,page);
-        pageListResult.setSuccess(true);
-        pageListResult.setCode(BaseResultCodeEnum.SUCCESS.getCode());
-        pageListResult.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
-        Date now = new Date();
-        pageListResult.setSysTime(now.getTime()+"");
-        return pageListResult;
-    }
-    
-    public static <T> PageListResult<T> getPageListResult(List<T> t, Page page) {
-        PageListResult pageListResult = new PageListResult();
-        pageListResult.setDataList(t);
-        pageListResult.setPage(page);
-        return pageListResult;
-    }
-    
-    public static <T> PageListResult<T> getErrPageListResult(List<T> t, Exception e) {
-        if (e instanceof DAOException) {
-            DAOException daoException = (DAOException) e;
-            return ResultUtils.getErrPageListResult(t, daoException.getCode(), daoException.getMessage());
-        }else if (e instanceof ServiceException) {
-            ServiceException serviceException = (ServiceException) e;
-            return ResultUtils.getErrPageListResult(t, serviceException.getCode(), serviceException.getMessage());
-        }else{
-            return ResultUtils.getErrPageListResult(t, ExceptionCodeEnum.UNKNOWN_ERROR_999.getCode(), ExceptionCodeEnum.UNKNOWN_ERROR_999.getMsg());
-        }
-    }
-    
-    public static <T> PageListResult<T> getErrPageListResult(List<T> t, String errCode, String errMsg) {
-        PageListResult pageListResult = getPageListResult(t,null);
-        pageListResult.setSuccess(false);
-        pageListResult.setCode(errCode);
-        pageListResult.setMsg(errMsg);
-        return pageListResult;
-    }
 
     public static <T> ListResult<T> getSuccessListResult(List<T> t) {
         ListResult listResult = getListResult(t);

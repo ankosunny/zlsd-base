@@ -37,8 +37,9 @@ public class OpenApiReturnValueHandler implements HandlerMethodReturnValueHandle
         ResponseBody responseBody = declaringClass.getAnnotation(ResponseBody.class);
         GetSingleResult classSingleResult = declaringClass.getAnnotation(GetSingleResult.class);
         GetSingleResult methodGetSingleResult = methodParameter.getMethodAnnotation(GetSingleResult.class);
+        GetPageListResult methodGetPageListResult = methodParameter.getMethodAnnotation(GetPageListResult.class);
         ResponseBody methodResponseBody = methodParameter.getMethodAnnotation(ResponseBody.class);
-        return restController != null || responseBody != null || classSingleResult != null || methodGetSingleResult != null || methodResponseBody != null;
+        return restController != null || responseBody != null || classSingleResult != null || methodGetSingleResult != null || methodResponseBody != null || methodGetPageListResult != null;
     }
 
     @Override

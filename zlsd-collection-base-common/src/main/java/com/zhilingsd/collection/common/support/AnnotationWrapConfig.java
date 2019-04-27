@@ -15,8 +15,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(AnnotationWrapConfig.class)
 public class AnnotationWrapConfig {
+
     @Bean
     public ResponseBodyWrapFactoryBean getResponseBodyWrap() {
         return new ResponseBodyWrapFactoryBean();
     }
+
 }

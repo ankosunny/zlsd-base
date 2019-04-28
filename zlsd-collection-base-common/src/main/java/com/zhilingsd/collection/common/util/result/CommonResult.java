@@ -53,7 +53,7 @@ public class CommonResult extends ToString {
     }
 
 
-    public CommonResult(boolean success, String code, String msg) {
+    public CommonResult( String code, String msg) {
         this.code = code;
         this.msg = msg;
     }

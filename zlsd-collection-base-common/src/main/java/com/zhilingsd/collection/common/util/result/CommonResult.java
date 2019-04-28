@@ -17,13 +17,6 @@ import io.swagger.annotations.ApiModelProperty;
 public class CommonResult extends ToString {
 
     private static final long serialVersionUID = -5922291019518100856L;
-
-    /**
-     * 是否成功，需先判断该值是否为true，只有为ture时方可继续正常的后续业务处理
-     */
-    @ApiModelProperty("是否成功")
-    public boolean success = true;
-
     /**
      * 返回code
      */
@@ -54,7 +47,6 @@ public class CommonResult extends ToString {
     }
 
     public CommonResult(BaseResultCodeEnum baseResultCodeEnum) {
-        setSuccess(baseResultCodeEnum == BaseResultCodeEnum.SUCCESS);
         setCode(baseResultCodeEnum.getCode());
         setMsg(baseResultCodeEnum.getMsg());
         this.sysTime = String.valueOf(System.currentTimeMillis());
@@ -62,17 +54,8 @@ public class CommonResult extends ToString {
 
 
     public CommonResult(boolean success, String code, String msg) {
-        this.success = success;
         this.code = code;
         this.msg = msg;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public String getCode() {

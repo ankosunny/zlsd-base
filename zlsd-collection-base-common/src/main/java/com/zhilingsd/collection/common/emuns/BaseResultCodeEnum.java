@@ -20,8 +20,6 @@ public enum BaseResultCodeEnum {
     /**
      * system
      */
-    SUCCESS("SUCCESS", "操作成功"),
-
     SYSTEM_ERROR("SYSTEM_ERROR", "系统异常"),
 
     BUSINESS_ERROR("BUSINESS_ERROR", "业务异常"),
@@ -57,6 +55,7 @@ public enum BaseResultCodeEnum {
     METHOD_ARGUMENT_NOT_VALID_ERROR("METHOD_ARGUMENT_NOT_VALID_ERROR","参数校验异常"),
 
     COMMON_ERR_9999("9999", "其他未知错误"),
+    SUCCESS("200000", "操作成功"),
     ;
 
     /**

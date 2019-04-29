@@ -42,7 +42,6 @@ public class GlobalExceptionHandler {
         //LOGGER.error(errMsg + e.toString());
     	LOGGER.error(e.getMessage(), e);
         CommonResult result = new CommonResult();
-        result.setSuccess(false);
         result.setCode(code);
         result.setMsg(e.getMessage());
         result.setSysTime(String.valueOf(System.currentTimeMillis()));
@@ -51,7 +50,6 @@ public class GlobalExceptionHandler {
     private CommonResult returnErr(BaseException e, String errMsg) {
     	LOGGER.error(e.getMessage(), e);
         CommonResult result = new CommonResult();
-        result.setSuccess(false);
         result.setCode(e.getCode());
         result.setMsg(e.getMessage());
         result.setSysTime(String.valueOf(System.currentTimeMillis()));

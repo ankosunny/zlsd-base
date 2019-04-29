@@ -57,7 +57,6 @@ public class OpenApiReturnValueHandler implements HandlerMethodReturnValueHandle
             // 不是SingleResult、Map、Model等类型的返回值，需要包裹为Response类型
             if (!SingleResult.class.isAssignableFrom(returnValueType) && !Map.class.isAssignableFrom(returnValueType)
                     && !Model.class.isAssignableFrom(returnValueType) && (methodSingleResult != null || classSingleResult != null)) {
-                result.setSuccess(true);
                 result.setCode(BaseResultCodeEnum.SUCCESS.getCode());
                 result.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
                 result.setData(returnValue);
@@ -68,7 +67,6 @@ public class OpenApiReturnValueHandler implements HandlerMethodReturnValueHandle
                 finalResult = returnValue;
             }
         }else {
-            result.setSuccess(true);
             result.setCode(BaseResultCodeEnum.SUCCESS.getCode());
             result.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
             result.setSysTime(String.valueOf(System.currentTimeMillis()));

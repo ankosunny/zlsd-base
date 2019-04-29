@@ -18,7 +18,6 @@ public class ResultUtils {
 
     public static <T> ListResult<T> getSuccessListResult(List<T> t) {
         ListResult listResult = getListResult(t);
-        listResult.setSuccess(true);
         listResult.setCode(BaseResultCodeEnum.SUCCESS.getCode());
         listResult.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
         Date now = new Date();
@@ -28,7 +27,6 @@ public class ResultUtils {
 
     public static <T> ListResult<T> getErrListResult(List<T> t, String errCode, String errMsg) {
         ListResult listResult = getListResult(t);
-        listResult.setSuccess(false);
         listResult.setCode(errCode);
         listResult.setMsg(errMsg);
         return listResult;
@@ -48,7 +46,6 @@ public class ResultUtils {
 
     public static <T> SingleResult<T> getSuccessSingleResult(T t) {
         SingleResult singleResult = getSingleResult(t);
-        singleResult.setSuccess(true);
         singleResult.setCode(BaseResultCodeEnum.SUCCESS.getCode());
         singleResult.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
         Date now = new Date();
@@ -58,7 +55,6 @@ public class ResultUtils {
 
     public static <T> SingleResult<T> getErrSingleResult(T t, String errCode, String errMsg) {
         SingleResult singleResult = getSingleResult(t);
-        singleResult.setSuccess(false);
         singleResult.setCode(errCode);
         singleResult.setMsg(errMsg);
         return singleResult;
@@ -90,7 +86,6 @@ public class ResultUtils {
 
     public static CommonResult getErrCommonResult(String errCode, String errMsg) {
         CommonResult commonResult = new CommonResult();
-        commonResult.setSuccess(false);
         commonResult.setCode(errCode);
         commonResult.setMsg(errMsg);
         commonResult.setSysTime(String.valueOf(new Date()));
@@ -111,7 +106,6 @@ public class ResultUtils {
 
     public static CommonResult getSuccessCommonResult() {
         CommonResult commonResult = new CommonResult();
-        commonResult.setSuccess(true);
         commonResult.setCode(BaseResultCodeEnum.SUCCESS.getCode());
         commonResult.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
         Date now = new Date();

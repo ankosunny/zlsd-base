@@ -56,6 +56,7 @@ public class CommonResult extends ToString {
     public CommonResult( String code, String msg) {
         this.code = code;
         this.msg = msg;
+        this.sysTime = String.valueOf(System.currentTimeMillis());
     }
 
     public String getCode() {

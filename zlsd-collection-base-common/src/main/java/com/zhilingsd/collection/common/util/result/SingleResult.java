@@ -30,16 +30,15 @@ public class SingleResult<T> extends CommonResult {
     }
 
     public SingleResult(String code, String msg) {
-        super(false, code, msg);
+        super( code, msg);
     }
 
     public SingleResult(String code, String msg, T data) {
-        super(true, code, msg);
+        super(code, msg);
         setData(data);
     }
 
     public SingleResult(T data) {
-        this(BaseResultCodeEnum.SUCCESS);
         setData(data);
     }
 

@@ -1,6 +1,8 @@
 package com.zhilingsd.collection.common.aspect;
 
 import com.zhilingsd.collection.common.constants.AppConstants;
+import com.zhilingsd.collection.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.collection.common.exception.BusinessException;
 import com.zhilingsd.collection.utils.AppUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -50,7 +52,7 @@ public class CommonFacadeAspect {
             for (Object arg : args) {
                 ValidationResult validationResult = beanValidatorFail(arg);
                 if(!validationResult.getSuccess()){
-                    System.out.println(validationResult.getErrMsg());
+                    throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),validationResult.getErrMsg());
                 }
             }
         }

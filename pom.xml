@@ -12,6 +12,7 @@
         <module>zlsd-collection-base-common</module>
         <module>zlsd-collection-base-utils</module>
         <module>zlsd-collection-base-swagger-starter</module>
+        <module>zlsd-base-snowflake</module>
     </modules>
     <properties>
         <spring_boot_version>1.5.7.RELEASE</spring_boot_version>

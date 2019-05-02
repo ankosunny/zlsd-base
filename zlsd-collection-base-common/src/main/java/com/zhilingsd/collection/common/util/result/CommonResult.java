@@ -27,7 +27,7 @@ public class CommonResult extends ToString {
      * 结果描述
      */
     @ApiModelProperty("结果描述")
-    public String msg;
+    public Object msg;
 
     /**
      * 相应时间
@@ -67,11 +67,11 @@ public class CommonResult extends ToString {
         this.code = code;
     }
 
-    public String getMsg() {
+    public Object getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public void setMsg(Object msg) {
         this.msg = msg;
     }
 }

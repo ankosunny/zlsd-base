@@ -38,6 +38,7 @@ import java.util.List;
  */
 public class BeanUtils extends  org.springframework.beans.BeanUtils{
 
+
     public static <T> List<T> copyArray(Collection sourceList, Class<T> clz){
         if (CollectionUtils.isEmpty(sourceList)) {
             return Collections.EMPTY_LIST;
@@ -48,13 +49,24 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
             try {
                 target = clz.newInstance();
             } catch (Exception e) {
-                throw new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(),BaseResultCodeEnum.SYSTEM_ERROR.getMsg());
+                throw new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(),BaseResultCodeEnum.SYSTEM_ERROR.getMsg()+e);
             }
             org.springframework.beans.BeanUtils.copyProperties(source, target);
             list.add(target);
         }
 
         return list;
+    }
+
+    public static <T> T copyBean(Object source, Class<T> clz){
+        T target = null;
+        try {
+           target  = clz.newInstance();
+            org.springframework.beans.BeanUtils.copyProperties(source, target);
+        } catch (Exception e) {
+            throw new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(),BaseResultCodeEnum.SYSTEM_ERROR.getMsg()+e);
+        }
+        return target;
     }
     
 }

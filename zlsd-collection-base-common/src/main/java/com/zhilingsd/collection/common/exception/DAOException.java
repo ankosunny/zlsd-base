@@ -24,16 +24,19 @@ public class DAOException extends BaseException {
     public DAOException(String code, Throwable throwable) {
         super(throwable);
         this.code = code;
+        this.setMessage(throwable.getMessage());
     }
 
     public DAOException(String code, String message) {
         super(message);
         this.code = code;
+        this.setMessage(message);
     }
 
     public DAOException(String code, Throwable throwable, String message) {
         super(message, throwable);
         this.code = code;
+        this.setMessage(message);
     }
 
     public DAOException(ExceptionCodeEnum errorCode) {

@@ -8,16 +8,19 @@
     <artifactId>zlsd-collection-base</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
+
     <modules>
         <module>zlsd-collection-base-common</module>
         <module>zlsd-collection-base-utils</module>
         <module>zlsd-collection-base-swagger-starter</module>
+        <module>zlsd-base-redis</module>
         <module>zlsd-base-snowflake</module>
+        <module>zlsd-base-cache</module>
     </modules>
     <properties>
         <spring_boot_version>1.5.7.RELEASE</spring_boot_version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
         <spring-cloud.version>Edgware.SR1</spring-cloud.version>
         <mysql_version>5.1.25</mysql_version>
         <druid_version>1.0.15</druid_version>
@@ -40,10 +43,22 @@
         <commons_io_version>2.5</commons_io_version>
         <fastjson.version>1.2.37</fastjson.version>
         <guava.version>27.0.1-jre</guava.version>
+        <hessian_version>4.0.51</hessian_version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.zhilingsd</groupId>
+                <artifactId>zlsd-collection-base-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zhilingsd</groupId>
+                <artifactId>zlsd-base-cache</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -241,6 +256,12 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.caucho</groupId>
+                <artifactId>hessian</artifactId>
+                <version>${hessian_version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
       <distributionManagement>
@@ -271,8 +292,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

@@ -47,12 +47,11 @@ public class CommonFacadeAspect {
         }
 
         Object[] args = jp.getArgs();//获取方法参数值
-
         if (args != null) {
             for (Object arg : args) {
                 ValidationResult validationResult = beanValidatorFail(arg);
                 if(!validationResult.getSuccess()){
-                    throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),validationResult.getErrMsg());
+                   throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),validationResult.getErrMsg());
                 }
             }
         }

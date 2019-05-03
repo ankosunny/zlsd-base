@@ -66,6 +66,7 @@ public class CommonFacadeAspect {
     private <T> ValidationResult  beanValidatorFail(T object, Class<?>... groups) {
         //ValidationResult为自己封装的对象
         ValidationResult validationResult = new ValidationResult();
+        validationResult.setSuccess(true);
         try{
             BeanValidators.validateWithException(validator, object, groups);
         }catch(ConstraintViolationException ex){

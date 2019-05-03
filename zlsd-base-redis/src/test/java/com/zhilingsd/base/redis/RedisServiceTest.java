@@ -1,7 +1,7 @@
 package com.zhilingsd.base.redis;
 
 import com.zhilingsd.base.cache.Cache;
-import com.zhilingsd.collection.common.utils.JsonUtils;
+import com.zhilingsd.base.common.utils.JsonUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

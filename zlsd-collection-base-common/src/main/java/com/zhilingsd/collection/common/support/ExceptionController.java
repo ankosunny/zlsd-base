@@ -1,7 +1,7 @@
 package com.zhilingsd.collection.common.support;
 
 
-import com.zhilingsd.collection.common.util.result.CommonResult;
+import com.zhilingsd.collection.common.result.CommonResult;
 import org.springframework.boot.autoconfigure.web.AbstractErrorController;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -12,12 +12,12 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import springfox.documentation.annotations.ApiIgnore;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 
 /**
- *
  * @author jacky
  * @date 2018/4/12
  */
@@ -32,11 +32,11 @@ public class ExceptionController extends AbstractErrorController {
     public ExceptionController(ErrorAttributes errorAttributes,
                                ErrorProperties errorProperties) {
         this(errorAttributes, errorProperties,
-                Collections.<ErrorViewResolver>emptyList());
+                Collections.emptyList());
     }
 
     public ExceptionController(ErrorAttributes errorAttributes,
-                               ErrorProperties errorProperties, List<ErrorViewResolver> errorViewResolvers){
+                               ErrorProperties errorProperties, List<ErrorViewResolver> errorViewResolvers) {
         super(errorAttributes, errorViewResolvers);
         Assert.notNull(errorProperties, "ErrorProperties must not be null");
         this.errorProperties = errorProperties;
@@ -71,6 +71,7 @@ public class ExceptionController extends AbstractErrorController {
 
     /**
      * Provide access to the error properties.
+     *
      * @return the error properties
      */
     protected ErrorProperties getErrorProperties() {

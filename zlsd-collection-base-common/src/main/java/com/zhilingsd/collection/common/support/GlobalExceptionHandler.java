@@ -1,7 +1,7 @@
 package com.zhilingsd.collection.common.support;
 
 import com.zhilingsd.collection.common.exception.*;
-import com.zhilingsd.collection.common.util.result.CommonResult;
+import com.zhilingsd.collection.common.result.CommonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

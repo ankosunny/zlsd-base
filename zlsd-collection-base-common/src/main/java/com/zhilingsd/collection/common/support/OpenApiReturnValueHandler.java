@@ -2,7 +2,7 @@ package com.zhilingsd.collection.common.support;
 
 import com.zhilingsd.collection.common.annotation.GetSingleResult;
 import com.zhilingsd.collection.common.emuns.BaseResultCodeEnum;
-import com.zhilingsd.collection.common.util.result.SingleResult;
+import com.zhilingsd.collection.common.result.SingleResult;
 import org.springframework.core.MethodParameter;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ResponseBody;

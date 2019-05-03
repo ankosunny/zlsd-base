@@ -1,4 +1,5 @@
 package com.zhilingsd.collection.common.exception;
+
 import com.zhilingsd.collection.common.emuns.BaseResultCodeEnum;
 
 /**

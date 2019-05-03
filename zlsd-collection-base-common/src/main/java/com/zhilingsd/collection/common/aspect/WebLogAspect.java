@@ -24,7 +24,7 @@ package com.zhilingsd.collection.common.aspect;
 
 
 import com.zhilingsd.collection.common.annotation.WebLogger;
-import com.zhilingsd.collection.common.util.JsonUtils;
+import com.zhilingsd.collection.common.utils.JsonUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

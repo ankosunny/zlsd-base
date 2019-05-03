@@ -3,7 +3,7 @@ package com.zhilingsd.collection.common.aspect;
 import com.zhilingsd.collection.common.constants.AppConstants;
 import com.zhilingsd.collection.common.emuns.BaseResultCodeEnum;
 import com.zhilingsd.collection.common.exception.BusinessException;
-import com.zhilingsd.collection.utils.AppUtil;
+import com.zhilingsd.collection.common.utils.AppUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

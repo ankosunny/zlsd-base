@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zhilingsd</groupId>
-    <artifactId>zlsd-collection-base</artifactId>
+    <artifactId>zlsd-base</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
 
     <modules>
-        <module>zlsd-collection-base-common</module>
-        <module>zlsd-collection-base-swagger-starter</module>
+        <module>zlsd-base-common</module>
+        <module>zlsd-base-swagger-starter</module>
         <module>zlsd-base-redis</module>
         <module>zlsd-base-snowflake</module>
         <module>zlsd-base-cache</module>
@@ -25,7 +25,7 @@
         <druid_version>1.0.15</druid_version>
         <gson_version>2.3.1</gson_version>
         <oval_version>1.84</oval_version>
-        <commons-lang3.version>3.6</commons-lang3.version>
+        <commons-lang3_version>3.6</commons-lang3_version>
         <spring.data.redis.version>1.8.7.RELEASE</spring.data.redis.version>
         <spring.data.redis.commons>1.13.7.RELEASE</spring.data.redis.commons>
         <google-collections.version>1.0</google-collections.version>
@@ -40,8 +40,8 @@
         <pagehelper.spring.version>1.1.2</pagehelper.spring.version>
         <mybatis.spring.version>1.3.0</mybatis.spring.version>
         <commons_io_version>2.5</commons_io_version>
-        <fastjson.version>1.2.37</fastjson.version>
-        <guava.version>27.0.1-jre</guava.version>
+        <fastjson_version>1.2.57</fastjson_version>
+        <guava_version>18.0</guava_version>
         <hessian_version>4.0.51</hessian_version>
         <lombok_version>1.18.6</lombok_version>
         <shiro_version>1.4.0</shiro_version>
@@ -51,7 +51,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.zhilingsd</groupId>
-                <artifactId>zlsd-collection-base-common</artifactId>
+                <artifactId>zlsd-base-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -168,7 +168,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
-                <version>1.2.57</version>
+                <version>${fastjson_version}</version>
             </dependency>
 
             <dependency>
@@ -192,7 +192,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
+                <version>${commons-lang3_version}</version>
             </dependency>
 
             <dependency>
@@ -211,12 +211,6 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons_io_version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
             </dependency>
 
             <dependency>
@@ -260,7 +254,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
+                <version>${guava_version}</version>
             </dependency>
 
             <dependency>
@@ -299,17 +293,17 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-      <distributionManagement>
+    <distributionManagement>
         <repository>
             <id>releases</id>
             <name>Nexus Release Repository</name>
             <url>http://192.168.14.124:8081/nexus/content/repositories/releases/</url>
         </repository>
-            <snapshotRepository>
-                <id>snapshots</id>
-                <name>Nexus Snapshots Repository</name>
-                <url>http://192.168.14.124:8081/nexus/content/repositories/snapshots/</url>
-            </snapshotRepository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Nexus Snapshots Repository</name>
+            <url>http://192.168.14.124:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <build>

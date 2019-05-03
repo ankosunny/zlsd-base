@@ -6,8 +6,8 @@
 
     <parent>
         <groupId>com.zhilingsd</groupId>
-        <artifactId>zlsd-collection-base</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <artifactId>zlsd-base</artifactId>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>zlsd-base-redis</artifactId>
@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.zhilingsd</groupId>
-            <artifactId>zlsd-collection-base-utils</artifactId>
+            <artifactId>zlsd-base-common</artifactId>
         </dependency>
 
         <dependency>

@@ -1,5 +1,10 @@
 package com.zhilingsd.base.common.emuns;
 
+import com.google.common.collect.Lists;
+import com.zhilingsd.base.common.bean.KeyValueBean;
+
+import java.util.List;
+
 /**
  * **className CollectionTypeEnum
  * @author: zou.cp
@@ -24,55 +29,66 @@ public enum CollectionTypeEnum {
      *
      **/
     COLLECTION_MANUAL(1,"人工催收"),
-    COLLECTION_CALL(2,"预测式外呼"),
-    COLLECTION_VISIT(4,"外访催收"),
-    COLLECTION_JUSTICE(8,"函件催收"),
-    COLLECTION_POLICE(16,"公安协催"),
-    COLLECTION_MESSAGE(32,"短信催收"),
-    COLLECTION_VOICE(64,"语音催收"),
-    COLLECTION_ROBOT(128,"机器人催收");
+    COLLECTION_VISIT(2,"外访催收"),
+    COLLECTION_JUSTICE(4,"函件催收"),
+    COLLECTION_POLICE(8,"报案催收"),
+//    COLLECTION_CALL(16,"预测式外呼"),
+//    COLLECTION_MESSAGE(32,"短信催收"),
+//    COLLECTION_VOICE(64,"语音催收"),
+//    COLLECTION_ROBOT(128,"机器人催收");
 //    COLLECTION_ALL(255,"全部流程"); //全部流程后面有修改再改
+;
+    private int code;
+    private String value;
 
-    private int type;
-    private String desc;
-
-    public int getType() {
-        return type;
+    public int getCode() {
+        return code;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getValue() {
+        return value;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    CollectionTypeEnum(int type, String desc) {
-        this.type = type;
-        this.desc = desc;
+    CollectionTypeEnum(int code, String value) {
+        this.code = code;
+        this.value = value;
     }
 
-    public static String getDescByType(Integer type){
+
+
+    public static String getDescByType(Integer code){
         for(CollectionTypeEnum b : CollectionTypeEnum.values()){
-            if(b.type == type){
-                return b.desc.trim();
+            if(b.code == code){
+                return b.value.trim();
             }
         }
         return null;
     }
 
-    public static CollectionTypeEnum getByType(Integer type){
+    public static CollectionTypeEnum getByType(Integer code){
         for(CollectionTypeEnum b : CollectionTypeEnum.values()){
-            if(b.type == type){
+            if(b.code == code){
                 return b;
             }
         }
         return null;
+    }
+
+    public static List<KeyValueBean> initParam(){
+        List<KeyValueBean> initParamList = Lists.newArrayList();
+        for (CollectionTypeEnum osEnum: CollectionTypeEnum.values()){
+            KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode()+"").name(osEnum.getValue()).build();
+            initParamList.add(keyValueBean);
+        }
+        return initParamList;
     }
 }
 

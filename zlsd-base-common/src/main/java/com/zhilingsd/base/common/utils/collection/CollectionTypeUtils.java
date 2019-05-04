@@ -120,8 +120,8 @@ public class CollectionTypeUtils {
             return "未分配";
         }
         for (CollectionTypeEnum c : CollectionTypeEnum.values()) {
-            if (hasCollectionFlow(collectionType, c.getType())) {
-                sb.append(c.getDesc());
+            if (hasCollectionFlow(collectionType, c.getCode())) {
+                sb.append(c.getValue());
                 sb.append("+");
             }
         }
@@ -179,7 +179,7 @@ public class CollectionTypeUtils {
 //        System.out.println(hasCollectionFlows("1111",1,2,4));
 //        System.out.println(hasCollectionFlows("1011",1,2,4));
         List<Integer> flows = Lists.newArrayList();
-        flows.add(CollectionTypeEnum.COLLECTION_CALL.getType());
+        flows.add(CollectionTypeEnum.COLLECTION_JUSTICE.getCode());
         System.out.println(hasCollectionFlowList("1011", flows));
 
         List<String> flowStrs = Lists.newArrayList();

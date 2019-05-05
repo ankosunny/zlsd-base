@@ -15,14 +15,14 @@ import java.util.List;
  * @createTime 2019年05月04日 21:16*
  * log.info()
  */
-public enum CaseFollowTypeEnum {
+public enum BillFollowTypeEnum {
 
-    CASE_FOLLOW_1(1, "3天未跟进"),
-    CASE_FOLLOW_2(2, "5天未跟进"),
-    CASE_FOLLOW_3(3, "7天未跟进"),
-    CASE_FOLLOW_4(4, "15天未跟进"),
-    CASE_FOLLOW_5(5, "20天未跟进"),
-    CASE_FOLLOW_6(6, "30天未跟进"),
+    BILL_FOLLOW_1(1, "3天未跟进"),
+    BILL_FOLLOW_2(2, "5天未跟进"),
+    BILL_FOLLOW_3(3, "7天未跟进"),
+    BILL_FOLLOW_4(4, "15天未跟进"),
+    BILL_FOLLOW_5(5, "20天未跟进"),
+    BILL_FOLLOW_6(6, "30天未跟进"),
     ;
 
 
@@ -45,14 +45,14 @@ public enum CaseFollowTypeEnum {
         this.value = value;
     }
 
-    CaseFollowTypeEnum(int code, String value) {
+    BillFollowTypeEnum(int code, String value) {
         this.code = code;
         this.value = value;
     }
 
 
     public static String getDescByType(Integer code) {
-        for (CaseFollowTypeEnum b : CaseFollowTypeEnum.values()) {
+        for (BillFollowTypeEnum b : BillFollowTypeEnum.values()) {
             if (b.code == code) {
                 return b.value.trim();
             }
@@ -60,8 +60,8 @@ public enum CaseFollowTypeEnum {
         return null;
     }
 
-    public static CaseFollowTypeEnum getByType(Integer code) {
-        for (CaseFollowTypeEnum b : CaseFollowTypeEnum.values()) {
+    public static BillFollowTypeEnum getByType(Integer code) {
+        for (BillFollowTypeEnum b : BillFollowTypeEnum.values()) {
             if (b.code == code) {
                 return b;
             }
@@ -71,7 +71,7 @@ public enum CaseFollowTypeEnum {
 
     public static List<KeyValueBean> initParam() {
         List<KeyValueBean> initParamList = Lists.newArrayList();
-        for (CaseFollowTypeEnum osEnum : CaseFollowTypeEnum.values()) {
+        for (BillFollowTypeEnum osEnum : BillFollowTypeEnum.values()) {
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
             initParamList.add(keyValueBean);
         }

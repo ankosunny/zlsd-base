@@ -37,7 +37,7 @@ public enum PhoneStopStatusEnum {
         return "";
     }
 
-    public static List<KeyValueBean> initBillStopStatus() {
+    public static List<KeyValueBean> initParam() {
         List<KeyValueBean> allotStatusList = Lists.newArrayList();
         for (PhoneStopStatusEnum osEnum : PhoneStopStatusEnum.values()) {
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();

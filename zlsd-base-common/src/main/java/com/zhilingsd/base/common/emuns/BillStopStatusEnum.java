@@ -38,9 +38,9 @@ public enum BillStopStatusEnum {
         return "";
     }
 
-    public static List<KeyValueBean> initBillStopStatus() {
+    public static List<KeyValueBean> initParam() {
         List<KeyValueBean> allotStatusList = Lists.newArrayList();
-        for (BillAllotStatusEnum osEnum : BillAllotStatusEnum.values()) {
+        for (BillStopStatusEnum osEnum : BillStopStatusEnum.values()) {
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
             allotStatusList.add(keyValueBean);
         }

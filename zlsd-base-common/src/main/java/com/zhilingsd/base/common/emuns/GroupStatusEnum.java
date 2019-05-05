@@ -1,5 +1,10 @@
 package com.zhilingsd.base.common.emuns;
 
+import com.google.common.collect.Lists;
+import com.zhilingsd.base.common.bean.KeyValueBean;
+
+import java.util.List;
+
 /**
  * ^---^---^---^---^---^---^---^
  * --v---v---v---v---v---v---v--
@@ -49,6 +54,14 @@ public enum GroupStatusEnum {
             }
         }
         return  "";
+    }
+    public static List<KeyValueBean> initParam() {
+        List<KeyValueBean> allotStatusList = Lists.newArrayList();
+        for (GroupStatusEnum osEnum : GroupStatusEnum.values()) {
+            KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
+            allotStatusList.add(keyValueBean);
+        }
+        return allotStatusList;
     }
 
 }

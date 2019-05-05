@@ -1,5 +1,10 @@
 package com.zhilingsd.base.common.emuns;
 
+import com.google.common.collect.Lists;
+import com.zhilingsd.base.common.bean.KeyValueBean;
+
+import java.util.List;
+
 /**
  * ^---^---^---^---^---^---^---^
  * --v---v---v---v---v---v---v--
@@ -54,6 +59,15 @@ public enum BatchTimesEnum {
             }
         }
         return "";
+    }
+
+    public static List<KeyValueBean> initParam(){
+        List<KeyValueBean> initParamList = Lists.newArrayList();
+        for (BatchTimesEnum osEnum: BatchTimesEnum.values()){
+            KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode()+"").name(osEnum.getValue()).build();
+            initParamList.add(keyValueBean);
+        }
+        return initParamList;
     }
 
 }

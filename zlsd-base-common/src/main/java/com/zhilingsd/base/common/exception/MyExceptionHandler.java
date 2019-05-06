@@ -4,6 +4,7 @@ import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.result.CollectionResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -43,6 +44,16 @@ public class MyExceptionHandler {
         ex.printStackTrace();
         return CollectionResult.failed(ReturnCode.ERROR_4003.getCode(), ReturnCode.ERROR_4003.getMsg());
     }
+
+    /**
+     * mybatis异常
+     */
+    @ExceptionHandler(value = MyBatisSystemException.class)
+    public CollectionResult myBatisSystemException(MyBatisSystemException ex) {
+        ex.printStackTrace();
+        return CollectionResult.failed(ReturnCode.ERROR_01.getCode(), "mybatis异常");
+    }
+
 
     /**
      * 自定义业务异常

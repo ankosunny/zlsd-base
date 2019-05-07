@@ -34,13 +34,23 @@ public class BaseDictConstants {
     public static final String SEX = "sex";
     //手机停催状态
     public static final String PHONE_STOP_STATUS = "phone_stop_status";
-
     //产品类型 批次设置类型
     public static final String PRODUCT_TYPE = "product_type";
-    //催收流程
+    //币种
+    public static final String CURRENCY = "currency";
+    //客户关系
+    public static final String CLIENT_RELATION = "client_relation";
+    //地址类型
+    public static final String ADDRESS_TYPE = "address_type";
+/************************  常量信息  **********************************************/
+    //催收流程标识
     public static final String COLLECTION_TYPE = "collection_type";
     //产品名称 - 案件导入
     public static final String PRODUCT_NAME = "product_name";
     // 定义账龄种类
     public static final String BUCKET = "bucket";
+    //户籍地址
+    public static final String REGISTERED_ADDRESS = "registered_address";
+    //案件地区
+    public static final String CASE_AREA = "case_area";
 }

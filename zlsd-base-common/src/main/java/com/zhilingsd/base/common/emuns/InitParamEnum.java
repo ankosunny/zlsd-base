@@ -74,19 +74,43 @@ public enum InitParamEnum {
      **/
     APPROVER_STATUS(14, BaseDictConstants.APPROVER_STATUS),
     /**
-     * @description 催收流程
-     **/
-    COLLECTION_TYPE(15,BaseDictConstants.COLLECTION_TYPE),
-    /**
      * @description  案件分配状态
      **/
-    ALLOT_STATUS(16,BaseDictConstants.ALLOT_STATUS),
+    ALLOT_STATUS(15,BaseDictConstants.ALLOT_STATUS),
     /**
      * @description 地址类型  
      **/
+    ADDRESS_TYPE(16,BaseDictConstants.ADDRESS_TYPE),
     /**
      * @description  客户关系
      **/
+    CLIENT_RELATION(17,BaseDictConstants.CLIENT_RELATION),
+    /**
+     * @description  币种
+     **/
+    CURRENCY(18,BaseDictConstants.CURRENCY),
+    /**
+     * @description 催收流程
+     **/
+    COLLECTION_TYPE(19,BaseDictConstants.COLLECTION_TYPE),
+
+/************************ 常量信息表 ***********************************************/
+    /**
+     * @description  户籍地址
+     **/
+    REGISTERED_ADDRESS(20,BaseDictConstants.REGISTERED_ADDRESS),
+    /**
+     * @description  案件地区
+     **/
+    CASE_AREA(21,BaseDictConstants.CASE_AREA),
+    /**
+     * @description  账龄种类
+     **/
+    BUCKET(22,BaseDictConstants.BUCKET),
+    /**
+     * @description  产品名称
+     **/
+    PRODUCT_NAME(23,BaseDictConstants.PRODUCT_NAME),
     ;
 
     /**
@@ -98,9 +122,25 @@ public enum InitParamEnum {
         return list;
     }
     /**
+     * @description  案件中心下拉列表-常量
+     **/
+    public static List<String> getBillCenterConstantTypes(){
+        List<String> list = Lists.newArrayList(BILL_STATUS.getValue(),BILL_CLASSIFY_STATUS.getValue(),COLLECTION_TYPE.getValue(),
+                BACTH_TIME.getValue(),TEL_STATUS.getValue(),BILL_FOLLOW_TYPE.getValue());
+        return list;
+    }
+    /**
      * @description  人工催收下拉列表
      **/
     public static List<String> getManualDictTypes(){
+        List<String> list = Lists.newArrayList(BILL_STATUS.getValue(),BILL_CLASSIFY_STATUS.getValue(),COLLECTION_TYPE.getValue(),
+                BACTH_TIME.getValue(),TEL_STATUS.getValue(),BILL_FOLLOW_TYPE.getValue());
+        return list;
+    }
+    /**
+     * @description  人工催收下拉列表-常量
+     **/
+    public static List<String> getManualConstantTypes(){
         List<String> list = Lists.newArrayList(BILL_STATUS.getValue(),BILL_CLASSIFY_STATUS.getValue(),COLLECTION_TYPE.getValue(),
                 BACTH_TIME.getValue(),TEL_STATUS.getValue(),BILL_FOLLOW_TYPE.getValue());
         return list;

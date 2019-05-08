@@ -31,6 +31,7 @@ public enum SnowFlakeEntityEnum {
     BILL(30, "案件"),
     AGENT(40, "催收机构"),
     CIF(50, "客户"),
+    CONSOLE(60, "管理台"),
     ;
 
     private int entityId;

@@ -29,25 +29,25 @@ package com.zhilingsd.base.common.emuns;
  * @version Id: DeleteEnum.java, v 0.1 2018年4月25日 下午4:50:04 linguangliang Exp $
  */
 public enum DeleteEnum {
-    /**0-否*/
-    NO(0, "否"),
-    /**1-是*/
-    YES(1, "是");
+
+    NORMAL("normal", "正常"),
+
+    DELETED("deleted", "删除");
 
     /** 状态码 **/
-    private int code;
+    private String code;
     /** 状态描述 **/
     private String description;
 
     /**
      * 私有构造方法
-     * 
+     *
      * @param code
      *            编码
      * @param description
      *            描述
      **/
-    private DeleteEnum(int code, String description) {
+    private DeleteEnum(String code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -59,7 +59,7 @@ public enum DeleteEnum {
      * 
      * @return property value of code
      **/
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 

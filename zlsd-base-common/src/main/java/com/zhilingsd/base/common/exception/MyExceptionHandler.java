@@ -74,6 +74,7 @@ public class MyExceptionHandler {
         return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), fieldError.getDefaultMessage());
     }
 
+
     /**
      * 空指针异常
      */

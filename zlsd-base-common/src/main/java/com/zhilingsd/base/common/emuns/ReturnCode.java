@@ -23,32 +23,32 @@ public enum ReturnCode {
     /**
      * 新增成功
      */
-    SUCCESS_INSERT(0, "新增成功"),
+    SUCCESS_INSERT(2, "新增成功"),
 
     /**
      * 新增失败
      */
-    FAIL_INSERT(1, "新增失败"),
+    FAIL_INSERT(3, "新增失败"),
 
     /**
      * 修改成功
      */
-    SUCCESS_UPDATE(0, "修改成功"),
+    SUCCESS_UPDATE(4, "修改成功"),
 
     /**
      * 修改失败
      */
-    FAIL_UPDATE(1, "修改失败"),
+    FAIL_UPDATE(5, "修改失败"),
 
     /**
      * 删除成功
      */
-    SUCCESS_DELETE(0, "删除成功"),
+    SUCCESS_DELETE(6, "删除成功"),
 
     /**
      * 删除失败
      */
-    FAIL_DELETE(1, "删除失败"),
+    FAIL_DELETE(7, "删除失败"),
     /**
      * 认证失败
      */

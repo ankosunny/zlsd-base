@@ -1775,6 +1775,18 @@ public class DateUtil {
         }
         return result;
     }
+    /**
+     * @description  时分秒清零
+     **/
+    public static Date getResetHHMMSS(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
 
     /**
      * 获取下一个月第一天 时分秒清零

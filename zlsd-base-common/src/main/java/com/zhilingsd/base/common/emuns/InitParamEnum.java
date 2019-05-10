@@ -31,10 +31,6 @@ public enum InitParamEnum {
      **/
     BILL_CLASSIFY_STATUS(1, BaseDictConstants.BILL_CLASSIFY_STATUS),
     /**
-     * @description 手别
-     **/
-    BACTH_TIME(1, BaseDictConstants.BACTH_TIME),
-    /**
      * @description 电话状态
      **/
     TEL_STATUS(1, BaseDictConstants.TEL_STATUS),
@@ -97,6 +93,10 @@ public enum InitParamEnum {
     COLLECTION_TYPE(1, BaseDictConstants.COLLECTION_TYPE),
 
 /************************ 常量信息表 ***********************************************/
+    /**
+     * @description 手别
+     **/
+    BACTH_TIME(1, BaseDictConstants.BACTH_TIME),
     /**
      * @description 户籍地址
      **/

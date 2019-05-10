@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author zou.cp
  * @version 1.0
- * @Description 下拉参数枚举
+ * @Description 下拉参数属性枚举 ( key,value )说明:key=1 表示在字典表 key=0 表示在常量表
  * @createTime 2019年05月04日 14:22*
  * log.info()
  */

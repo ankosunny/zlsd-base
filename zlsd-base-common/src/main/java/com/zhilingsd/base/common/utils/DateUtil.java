@@ -80,6 +80,10 @@ public class DateUtil {
         return formatter.format(new Date());
     }
 
+    public static String getTime(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        return formatter.format(date);
+    }
     /**
      * 获取当前年度字符串。
      * <p>

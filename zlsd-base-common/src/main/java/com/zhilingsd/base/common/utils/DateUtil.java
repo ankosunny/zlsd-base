@@ -1789,6 +1789,19 @@ public class DateUtil {
     }
 
     /**
+     * @description  当天23:59:59
+     **/
+    public static Date getMaxHHMMSS(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        return cal.getTime();
+    }
+
+    /**
      * 获取下一个月第一天 时分秒清零
      *
      * @param date

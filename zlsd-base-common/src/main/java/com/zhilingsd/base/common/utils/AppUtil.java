@@ -1,5 +1,7 @@
 package com.zhilingsd.base.common.utils;
 
+import com.zhilingsd.base.common.bean.AppAgentInfo;
+
 /**
  * 系统工具
  * @author linmenghuai
@@ -22,12 +24,12 @@ public class AppUtil {
         return app;
     }
 
-    public static void setHeader(String key, String value) {
-        ThreadContextUtil.getInstance().set(key, value);
+    public static void setAppAgentInfo(AppAgentInfo appAgentInfo) {
+        ThreadContextUtil.getInstance().set("appAgentInfoKey", appAgentInfo);
     }
 
-    public static String getHeader(String key) {
-        return (String) ThreadContextUtil.getInstance().get(key);
+    public static AppAgentInfo getAppAgentInfo() {
+        return (AppAgentInfo) ThreadContextUtil.getInstance().get("appAgentInfoKey");
     }
 
 }

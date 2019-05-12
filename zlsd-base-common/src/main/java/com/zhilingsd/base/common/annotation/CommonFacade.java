@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
  * @date 2019-4-29 20:16:41
  * */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target({ElementType.TYPE})
 public @interface CommonFacade {
 }

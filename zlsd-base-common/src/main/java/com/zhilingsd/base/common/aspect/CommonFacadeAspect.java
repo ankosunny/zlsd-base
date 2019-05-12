@@ -1,9 +1,11 @@
 package com.zhilingsd.base.common.aspect;
 
+import com.zhilingsd.base.common.bean.AppAgentInfo;
 import com.zhilingsd.base.common.constants.AppConstants;
 import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
 import com.zhilingsd.base.common.exception.BusinessException;
 import com.zhilingsd.base.common.utils.AppUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -38,12 +40,16 @@ public class CommonFacadeAspect {
                 .getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()){
-            String name = headerNames.nextElement();
-            String value = request.getHeader(name);
-            if (AppConstants.CREATOR.equalsIgnoreCase(name) || AppConstants.MODIFIER.equalsIgnoreCase(name)){
-                AppUtil.setHeader(name,value);
-            }
+
+        // 创建AppAgentInfo对象，如果有字段为空则抛出异常
+        String operatorId = request.getHeader("operatorId");
+        String collectionCompanyId = request.getHeader("collectionCompanyId");
+        // 判空操作
+        if (StringUtils.isNotEmpty(operatorId) && StringUtils.isNotEmpty(collectionCompanyId)) {
+            AppUtil.setAppAgentInfo(new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId)));
+        }
+        else {
+            throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(), "AppAgentInfo is null");
         }
 
         Object[] args = jp.getArgs();//获取方法参数值

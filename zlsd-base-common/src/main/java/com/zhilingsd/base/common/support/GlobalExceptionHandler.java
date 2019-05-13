@@ -1,12 +1,15 @@
 package com.zhilingsd.base.common.support;
 
+import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
 import com.zhilingsd.base.common.exception.*;
 import com.zhilingsd.base.common.result.CommonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
+import java.util.stream.Collectors;
 
 /**
  * 统一异常处理
@@ -52,6 +56,14 @@ public class GlobalExceptionHandler {
         CommonResult result = new CommonResult();
         result.setCode(e.getCode());
         result.setMsg(e.getMessage());
+        result.setSysTime(String.valueOf(System.currentTimeMillis()));
+        return  result;
+    }
+    private CommonResult returnErr(String errMsg, String code,Exception e) {
+        LOGGER.error(e.getMessage(), e);
+        CommonResult result = new CommonResult();
+        result.setCode(code);
+        result.setMsg(errMsg);
         result.setSysTime(String.valueOf(System.currentTimeMillis()));
         return  result;
     }
@@ -94,8 +106,15 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public CommonResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {      
-        return returnErr(e,"参数验证失败","400");
+    public CommonResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+
+        BindingResult bindingResult = e.getBindingResult();
+        StringBuffer errorMesssage = new StringBuffer("参数校验错误:");
+        if(null != bindingResult && !CollectionUtils.isEmpty(bindingResult.getFieldErrors())){
+            String message =  bindingResult.getFieldErrors().stream().map(m -> m.getDefaultMessage()).collect(Collectors.joining(","));
+            errorMesssage.append(message);
+        }
+        return returnErr(errorMesssage.toString(),BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),e);
     }
 
     /**

@@ -44,7 +44,7 @@ public class SpringWebFileUtil {
     public static ResponseEntity<byte[]> download(byte[] fileByeArray, String fileName) throws IOException {
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add(HEADER_CONTENT_DISPOSITION, "attachment; filename=" + URLEncoder.encode(fileName, CHARACTER_ENCODING));
+        headers.add(HEADER_CONTENT_DISPOSITION, "attachment; filename=" + fileName);
         headers.add(HEADER_RESPONSE_MESSAGE, URLEncoder.encode(JSON.toJSONString(CollectionResult.success()), CHARACTER_ENCODING));
         return ResponseEntity.ok().headers(headers)
                 .contentType(MediaType.parseMediaType(MEDIA_TYPE_OCTET_STREAM)).body(fileByeArray);

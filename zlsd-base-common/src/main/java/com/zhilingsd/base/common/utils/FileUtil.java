@@ -2,11 +2,19 @@ package com.zhilingsd.base.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
+
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipOutputStream;
 
 /**
  * Created by liyang on 2018/3/14
@@ -137,7 +145,9 @@ public class FileUtil {
             return true;
         } else if (checkPackageType(file)) {
             return true;
-        } else return checkOfficeType(file);
+        } else {
+            return checkOfficeType(file);
+        }
     }
 
     public static boolean checkTypeList(List<MultipartFile> list) {
@@ -223,27 +233,6 @@ public class FileUtil {
         return UUID.randomUUID() + "." + fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-
-
-
-	/*public static void main(String args[]){
-	 	String name = "hwahaldgka哈哈是.jpg";
-	 	System.out.println(renameToUUID(name));
-		List<UrlBean> urlbeans = new ArrayList<>();
-		UrlBean u1 = new UrlBean(1,"文件1","url1");
-		UrlBean u2 = new UrlBean(2,"文件2","url2");
-		UrlBean u3 = new UrlBean(3,"文件3","url3");
-		urlbeans.add(u1);
-		urlbeans.add(u2);
-		urlbeans.add(u3);
-		String result = urlBeansToStr(urlbeans);
-		System.out.println("------------" + result);
-
-		List<UrlBean> urlBeans = strToUrlBeans(result);
-		System.out.println("------------" + urlBeans.toString());
-		System.out.println(fileTypes.values());
-	}*/
-
     /**
      * 判断文件是否超出规定大小
      */
@@ -274,5 +263,84 @@ public class FileUtil {
         up.createNewFile();
         file.transferTo(up);
         return up;
+    }
+
+    public static ResponseEntity<byte[]> zipFile(List<String> fileUrls, String zipName) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ZipOutputStream zout = new ZipOutputStream(out);
+        zout.setEncoding("GBK");
+
+        FileInputStream in = null;
+        try {
+            byte[] buf = new byte[1024];
+            int len;
+            for (String url : fileUrls) {
+                File file = new File(url);
+                String fileName = file.getName();
+                in = new FileInputStream(file);
+                zout.putNextEntry(new ZipEntry(fileName));
+                while ((len = in.read(buf)) > 0) {
+                    zout.write(buf, 0, len);
+                }
+                zout.closeEntry();
+            }
+            zout.close();
+            return SpringWebFileUtil.download(out.toByteArray(), zipName);
+        } finally {
+            if (zout != null) {
+                zout.close();
+            }
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
+
+    public static byte[] fileToBytes(String filePath) {
+        byte[] buffer = null;
+        File file = new File(filePath);
+
+        FileInputStream fis = null;
+        ByteArrayOutputStream bos = null;
+
+        try {
+            fis = new FileInputStream(file);
+            bos = new ByteArrayOutputStream();
+
+            byte[] b = new byte[1024];
+
+            int n;
+
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException ex) {
+            log.error("fileToBytes -> FileNotFoundException", ex);
+        } catch (IOException ex) {
+            log.error("fileToBytes -> IOException", ex);
+        } finally {
+            try {
+                if (null != bos) {
+                    bos.close();
+                }
+            } catch (IOException ex) {
+                log.error("fileToBytes -> IOException", ex);
+            } finally {
+                try {
+                    if (null != fis) {
+                        fis.close();
+                    }
+                } catch (IOException ex) {
+                    log.error("fileToBytes -> IOException", ex);
+                }
+            }
+        }
+
+        return buffer;
     }
 }

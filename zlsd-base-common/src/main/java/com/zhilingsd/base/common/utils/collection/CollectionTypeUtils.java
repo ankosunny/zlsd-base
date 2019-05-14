@@ -3,7 +3,10 @@ package com.zhilingsd.base.common.utils.collection;
 
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.emuns.CollectionTypeEnum;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -161,6 +164,25 @@ public class CollectionTypeUtils {
         return Ten2Binary(res);
     }
 
+    /**
+     *
+     * @param args
+     */
+    /**
+     * 字符串id变为list<Long>
+     * @param lendingAgencyIdsstr
+     * @return
+     */
+    public static List<Long> getLongIds( String lendingAgencyIdsstr) {
+        if(StringUtils.isBlank(lendingAgencyIdsstr)){
+            return null;
+        }
+        String[] split = lendingAgencyIdsstr.split(",");
+        List<Long> lendingAgencyIds = new ArrayList<>();
+        List<String> strings = Arrays.asList(split);
+        strings.stream().forEach(v->lendingAgencyIds.add(Long.parseLong(v)));
+        return lendingAgencyIds;
+    }
     public static void main(String[] args) {
 //        System.out.println(CollectionTypeUtils.Binary2Ten("11111111"));
 //        System.out.println(CollectionTypeUtils.Ten2Binary(4));

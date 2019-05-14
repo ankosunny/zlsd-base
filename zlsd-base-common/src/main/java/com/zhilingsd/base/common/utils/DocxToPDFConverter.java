@@ -1,5 +1,6 @@
 package com.zhilingsd.base.common.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.docx4j.Docx4J;
 import org.docx4j.convert.out.FOSettings;
 import org.docx4j.fonts.IdentityPlusMapper;
@@ -19,6 +20,7 @@ import java.net.URL;
  * @Author: zhangbo
  * @DateTime: 2019/5/14 14:55
  */
+@Slf4j
 public class DocxToPDFConverter {
 
     private InputStream inStream;
@@ -31,7 +33,7 @@ public class DocxToPDFConverter {
 
     public void convert() throws Exception {
 
-//        log.info("docx to pdf:{}", "convert start");
+        log.info("docx to pdf:{}", "convert start");
 
         InputStream iStream = inStream;
         WordprocessingMLPackage wordMLPackage = getMLPackage(iStream);
@@ -57,7 +59,7 @@ public class DocxToPDFConverter {
         wordMLPackage.getMainDocumentPart().getPropertyResolver()
                 .getDocumentDefaultRPr().setRFonts(rfonts);
 
-//        log.info("docx to pdf: load font finish.");
+        log.info("docx to pdf: load font finish.");
 
         FOSettings foSettings = Docx4J.createFOSettings();
         foSettings.setWmlPackage(wordMLPackage);
@@ -70,7 +72,7 @@ public class DocxToPDFConverter {
             throw e;
         }
 
-//        log.info("docx to pdf: convert finish.");
+        log.info("docx to pdf: convert finish.");
     }
 
     private WordprocessingMLPackage getMLPackage(InputStream iStream) throws Exception {

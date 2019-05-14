@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>zlsd-base</artifactId>
+        <groupId>com.zhilingsd</groupId>
+        <version>0.0.3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <artifactId>zlsd-base-zk</artifactId>
+
+    <modules>
+        <module>zlsd-base-zk-common</module>
+        <module>zlsd-base-zk-confcenter</module>
+        <module>zlsd-base-zk-zkclient</module>
+    </modules>
+
+    <properties>
+        <project.version>${project.parent.version}</project.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <hessian_version>4.0.51</hessian_version>
+        <zookeeper_version>3.4.6</zookeeper_version>
+        <log4j_version>1.2.17</log4j_version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 子系统依赖 -->
+            <dependency>
+                <groupId>com.zhilingsd</groupId>
+                <artifactId>zlsd-base-zk-zkclient</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zhilingsd</groupId>
+                <artifactId>zlsd-base-zk-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zhilingsd</groupId>
+                <artifactId>zlsd-base-zk-confcenter</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.caucho</groupId>
+                <artifactId>hessian</artifactId>
+                <version>${hessian_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j_version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

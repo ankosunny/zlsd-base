@@ -23,7 +23,7 @@ public enum ReturnCode {
     /**
      * 新增成功
      */
-    SUCCESS_INSERT(2, "新增成功"),
+    SUCCESS_INSERT(0, "新增成功"),
 
     /**
      * 新增失败
@@ -33,7 +33,7 @@ public enum ReturnCode {
     /**
      * 修改成功
      */
-    SUCCESS_UPDATE(4, "修改成功"),
+    SUCCESS_UPDATE(0, "修改成功"),
 
     /**
      * 修改失败
@@ -43,7 +43,7 @@ public enum ReturnCode {
     /**
      * 删除成功
      */
-    SUCCESS_DELETE(6, "删除成功"),
+    SUCCESS_DELETE(0, "删除成功"),
 
     /**
      * 删除失败

@@ -4,6 +4,12 @@ package com.zhilingsd.base.common.constants;
  * 字典及常量字段
  */
 public class BaseDictConstants {
+
+    public static final String REDIS_BASEDICT_KEY = "zlsd_initparam:basedict";
+    public static final String REDIS_CONSTANT_KEY = "zlsd_initparam:constant";
+    public static final String REDIS_ADDRESS_KEY = "zlsd_initparam:address";
+    public static final String REDIS_REG_ADDRESS_KEY = "zlsd_initparam:reg_address";
+
     // 定义案件状态code
     public static final String BILL_STATUS = "bill_status";
     //批次分配状态

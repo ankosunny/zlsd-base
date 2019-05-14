@@ -15,9 +15,15 @@ public class AppAgentInfo {
      */
     private long collectionCompanyId;
 
-    public AppAgentInfo(long operatorId, long collectionCompanyId) {
+    /**
+     * 当前登录用户所在的催收小组Id
+     */
+    private long collectionGroupId;
+
+    public AppAgentInfo(long operatorId, long collectionCompanyId,long collectionGroupId) {
         this.operatorId = operatorId;
         this.collectionCompanyId = collectionCompanyId;
+        this.collectionGroupId = collectionGroupId;
     }
 
     public long getOperatorId() {
@@ -34,5 +40,13 @@ public class AppAgentInfo {
 
     public void setCollectionCompanyId(long collectionCompanyId) {
         this.collectionCompanyId = collectionCompanyId;
+    }
+
+    public long getCollectionGroupId() {
+        return collectionGroupId;
+    }
+
+    public void setCollectionGroupId(long collectionGroupId) {
+        this.collectionGroupId = collectionGroupId;
     }
 }

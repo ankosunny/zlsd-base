@@ -1,6 +1,7 @@
 package com.zhilingsd.base.swagger.starter.config;
 
 import com.zhilingsd.base.swagger.starter.properties.SwaggerProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -21,7 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  **/
 @Configuration
 @EnableSwagger2
-@ConditionalOnProperty(prefix = SwaggerProperties.SWAGGER_PREFIX,value = "scanPackage")
+@ConditionalOnProperty(prefix = SwaggerProperties.SWAGGER_PREFIX, name = "whether.open",havingValue = "true",matchIfMissing = true)
 @EnableConfigurationProperties(SwaggerProperties.class)
 public class SwaggerConfig {
 
@@ -33,20 +35,22 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public Docket buildDocket() {
+    public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(buildApiInf())
+                .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(properties.getScanPackage()))      //要扫描的API(Controller)基础包
-                .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage(properties.getScanPackage()))
+                .paths("true".equals(properties.getFlag()) ? PathSelectors.any() : PathSelectors.none())
                 .build();
+
     }
 
-    private ApiInfo buildApiInf() {
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("智灵时代API文档")
-                .contact("zlsd")
-                .version("2.0")
+                .title(properties.getTile())
+                .description(properties.getDescription())
+                .contact(new Contact(properties.getNames(), null, null))
+                .version("1.0")
                 .build();
     }
 

@@ -5,11 +5,18 @@ package com.zhilingsd.base.common.constants;
  */
 public class BaseDictConstants {
 
-    public static final String REDIS_BASEDICT_KEY = "zlsd_initparam:basedict";
-    public static final String REDIS_CONSTANT_KEY = "zlsd_initparam:constant";
-    public static final String REDIS_ADDRESS_KEY = "zlsd_initparam:address";
-    public static final String REDIS_REG_ADDRESS_KEY = "zlsd_initparam:reg_address";
-
+    /*****redis key*****/
+    //省市区
+    public static final String REDIS_ADDRESS_KEY = "zlsd_initparam_address";
+    public static final String REGISTERED_ADDRESS_PROVINCE = "province";
+    public static final String REGISTERED_ADDRESS_CITY = "city";
+    //字典信息
+    public static final String REDIS_BASEDICT_KEY = "zlsd_initparam_basedict";
+    //常量信息
+    public static final String REDIS_CONSTANT_KEY = "zlsd_initparam_constant";
+    //身份证对应注册地址
+    public static final String REDIS_REG_ADDRESS_KEY = "zlsd_initparam_reg_address";
+    /***** redis key *****/
     // 定义案件状态code
     public static final String BILL_STATUS = "bill_status";
     //批次分配状态
@@ -26,8 +33,6 @@ public class BaseDictConstants {
     public static final String APPLY_TYPE = "apply_type";
     //审批状态
     public static final String APPROVER_STATUS = "approver_status";
-    // 定义手别
-    public static final String BACTH_TIME = "bacth_time";
     // 定义外访任务分配状态
     public static final String VISIT_ALLOT_STATUS = "visit_allot_status";
     //外访状态
@@ -53,6 +58,8 @@ public class BaseDictConstants {
     public static final String COLLECTION_TYPE = "collection_type";
     //产品名称 - 案件导入
     public static final String PRODUCT_NAME = "product_name";
+    // 定义手别
+    public static final String BACTH_TIME = "bacth_time";
     // 定义账龄种类
     public static final String BUCKET = "bucket";
     //户籍地址

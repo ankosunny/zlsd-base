@@ -16,7 +16,8 @@ public enum CollectionMarkTypeEnum {
     WORK_ORDER(2, "工单"),
     VISIT(3, "外访"),
     MARK(4, "标注5"),
-    ORIGIN_COLLECTION(5, "原始催记");
+    ORIGIN_COLLECTION(5, "原始催记"),
+    LETTER(6, "信函");
 
     private int code;
     private String value;

@@ -1,6 +1,7 @@
 package com.zhilingsd.base.swagger.starter.config;
 
 import com.zhilingsd.base.swagger.starter.properties.SwaggerProperties;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -41,6 +42,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(properties.getScanPackage()))
                 .paths("true".equals(properties.getFlag()) ? PathSelectors.any() : PathSelectors.none())
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .build();
 
     }

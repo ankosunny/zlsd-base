@@ -7,6 +7,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.validation.FieldError;
@@ -42,6 +43,7 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = UnauthorizedException.class)
     public CollectionResult unauthorizedExceptionHandler(UnauthorizedException ex) {
         ex.printStackTrace();
+        log.error("shiro权限验证异常,异常信息：{}",ex);
         return CollectionResult.failed(ReturnCode.ERROR_4003.getCode(), ReturnCode.ERROR_4003.getMsg());
     }
 
@@ -54,6 +56,15 @@ public class MyExceptionHandler {
         return CollectionResult.failed(ReturnCode.ERROR_01.getCode(), "mybatis异常");
     }
 
+
+    /**
+     * mysql异常
+     */
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    public CollectionResult DataIntegrityViolationException(DataIntegrityViolationException ex) {
+        ex.printStackTrace();
+        return CollectionResult.failed(ReturnCode.ERROR_01.getCode(), "sql错误");
+    }
 
     /**
      * 自定义业务异常

@@ -129,8 +129,12 @@
             <artifactId>ant</artifactId>
             <version>1.9.6</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 
-<!--        Word 转 PDF依赖 -->
+        <!--        Word 转 PDF依赖 -->
 <!--        <dependency>-->
 <!--            <groupId>org.docx4j</groupId>-->
 <!--            <artifactId>docx4j</artifactId>-->

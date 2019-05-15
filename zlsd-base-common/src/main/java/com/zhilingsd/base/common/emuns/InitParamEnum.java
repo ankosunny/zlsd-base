@@ -133,6 +133,23 @@ public enum InitParamEnum {
         return list;
     }
 
+    /**
+     * @description 外访下拉
+     **/
+    public static List<String> getVisitTypes() {
+        List<String> list = Lists.newArrayList(BILL_STATUS.getValue(), BILL_CLASSIFY_STATUS.getValue(), COLLECTION_TYPE.getValue(),
+                VISIT_ALLOT_STATUS.getValue(), VISIT_STATUS.getValue());
+        return list;
+    }
+
+    /**
+     * @description 函件下拉
+     **/
+    public static List<String> getJusticeTypes() {
+        List<String> list = Lists.newArrayList(BILL_STATUS.getValue(), BILL_CLASSIFY_STATUS.getValue());
+        return list;
+    }
+
     private int code;
     private String value;
 

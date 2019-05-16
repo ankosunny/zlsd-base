@@ -45,14 +45,20 @@ public class CommonFacadeAspect {
         String operatorId = request.getHeader("operatorId");
         String collectionCompanyId = request.getHeader("collectionCompanyId");
         String collectionGroupId = request.getHeader("collectionGroupId");
+        String resourceId = request.getHeader("resourceId");
+        AppAgentInfo agentInfo = null;
         // 判空操作
         if (StringUtils.isNotEmpty(operatorId) && StringUtils.isNotEmpty(collectionCompanyId)) {
-            AppUtil.setAppAgentInfo(new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId),Long.parseLong(collectionGroupId)));
-        }
-        else {
+            agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), Long.parseLong(collectionGroupId));
+        } else {
             throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(), "AppAgentInfo is null");
         }
-
+        if (StringUtils.isNotEmpty(resourceId)){
+           agentInfo.setResourceId(Long.parseLong(resourceId));
+        }
+        if (agentInfo != null) {
+            AppUtil.setAppAgentInfo(agentInfo);
+        }
         Object[] args = jp.getArgs();//获取方法参数值
         if (args != null) {
             for (Object arg : args) {

@@ -20,6 +20,9 @@ public class AppAgentInfo {
      */
     private long collectionGroupId;
 
+
+    private long resourceId;
+
     public AppAgentInfo(long operatorId, long collectionCompanyId,long collectionGroupId) {
         this.operatorId = operatorId;
         this.collectionCompanyId = collectionCompanyId;
@@ -48,5 +51,13 @@ public class AppAgentInfo {
 
     public void setCollectionGroupId(long collectionGroupId) {
         this.collectionGroupId = collectionGroupId;
+    }
+
+    public long getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(long resourceId) {
+        this.resourceId = resourceId;
     }
 }

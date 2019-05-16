@@ -66,4 +66,6 @@ public class BaseDictConstants {
     public static final String REGISTERED_ADDRESS = "registered_address";
     //案件地区
     public static final String CASE_AREA = "case_area";
+    //函件类型
+    public static final String JUSTICE_TYPE = "juestice_type";
 }

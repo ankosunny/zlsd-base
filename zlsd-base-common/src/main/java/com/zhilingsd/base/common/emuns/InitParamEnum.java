@@ -113,6 +113,10 @@ public enum InitParamEnum {
      * @description 产品名称
      **/
     PRODUCT_NAME(0, BaseDictConstants.PRODUCT_NAME),
+    /**
+     * 函件类型
+     */
+    JUSTICE_TYPE(1, BaseDictConstants.JUSTICE_TYPE)
     ;
 
     /**
@@ -146,7 +150,7 @@ public enum InitParamEnum {
      * @description 函件下拉
      **/
     public static List<String> getJusticeTypes() {
-        List<String> list = Lists.newArrayList(BILL_STATUS.getValue(), BILL_CLASSIFY_STATUS.getValue());
+        List<String> list = Lists.newArrayList(BILL_STATUS.getValue(), JUSTICE_TYPE.getValue());
         return list;
     }
 

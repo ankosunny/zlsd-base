@@ -7,6 +7,7 @@ import com.zhilingsd.base.common.exception.BusinessException;
 import com.zhilingsd.base.common.utils.AppUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +50,12 @@ public class CommonFacadeAspect {
         AppAgentInfo agentInfo = null;
         // 判空操作
         if (StringUtils.isNotEmpty(operatorId) && StringUtils.isNotEmpty(collectionCompanyId)) {
-            agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), Long.parseLong(collectionGroupId));
+            agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId));
         } else {
             throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(), "AppAgentInfo is null");
+        }
+        if(StringUtils.isNotEmpty(collectionGroupId)){
+            agentInfo.setCollectionGroupId(Long.parseLong(collectionGroupId));
         }
         if (StringUtils.isNotEmpty(resourceId)){
            agentInfo.setResourceId(Long.parseLong(resourceId));
@@ -59,12 +63,15 @@ public class CommonFacadeAspect {
         if (agentInfo != null) {
             AppUtil.setAppAgentInfo(agentInfo);
         }
+        Signature signature = jp.getSignature();
+        String mvcInterface = signature.getDeclaringTypeName();
+        String mvcMethod = signature.getName();
         Object[] args = jp.getArgs();//获取方法参数值
         if (args != null) {
             for (Object arg : args) {
                 ValidationResult validationResult = beanValidatorFail(arg);
                 if(!validationResult.getSuccess()){
-                   throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),validationResult.getErrMsg());
+                   throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),"接口"+mvcInterface+"方法:"+mvcMethod+";"+validationResult.getErrMsg());
                 }
             }
         }

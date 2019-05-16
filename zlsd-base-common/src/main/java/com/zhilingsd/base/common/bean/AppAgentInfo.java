@@ -23,10 +23,9 @@ public class AppAgentInfo {
 
     private long resourceId;
 
-    public AppAgentInfo(long operatorId, long collectionCompanyId,long collectionGroupId) {
+    public AppAgentInfo(long operatorId, long collectionCompanyId) {
         this.operatorId = operatorId;
         this.collectionCompanyId = collectionCompanyId;
-        this.collectionGroupId = collectionGroupId;
     }
 
     public long getOperatorId() {

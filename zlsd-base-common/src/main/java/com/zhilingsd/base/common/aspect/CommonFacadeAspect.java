@@ -37,11 +37,13 @@ public class CommonFacadeAspect {
 
     @Around(value = "@annotation(com.zhilingsd.base.common.annotation.CommonFacade)")
     public Object before(ProceedingJoinPoint jp) throws Throwable {
+        Signature signature = jp.getSignature();
+        String mvcInterface = signature.getDeclaringTypeName();
+        String mvcMethod = signature.getName();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         Enumeration<String> headerNames = request.getHeaderNames();
-
         // 创建AppAgentInfo对象，如果有字段为空则抛出异常
         String operatorId = request.getHeader("operatorId");
         String collectionCompanyId = request.getHeader("collectionCompanyId");
@@ -52,7 +54,7 @@ public class CommonFacadeAspect {
         if (StringUtils.isNotEmpty(operatorId) && StringUtils.isNotEmpty(collectionCompanyId)) {
             agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId));
         } else {
-            throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(), "AppAgentInfo is null");
+            throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(), "接口:"+mvcInterface+";方法:"+mvcMethod+";AppAgentInfo is null");
         }
         if(StringUtils.isNotEmpty(collectionGroupId)){
             agentInfo.setCollectionGroupId(Long.parseLong(collectionGroupId));
@@ -63,15 +65,12 @@ public class CommonFacadeAspect {
         if (agentInfo != null) {
             AppUtil.setAppAgentInfo(agentInfo);
         }
-        Signature signature = jp.getSignature();
-        String mvcInterface = signature.getDeclaringTypeName();
-        String mvcMethod = signature.getName();
         Object[] args = jp.getArgs();//获取方法参数值
         if (args != null) {
             for (Object arg : args) {
                 ValidationResult validationResult = beanValidatorFail(arg);
                 if(!validationResult.getSuccess()){
-                   throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),"接口"+mvcInterface+"方法:"+mvcMethod+";"+validationResult.getErrMsg());
+                   throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),validationResult.getErrMsg());
                 }
             }
         }

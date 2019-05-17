@@ -57,6 +57,8 @@ public enum BaseResultCodeEnum {
     COMMON_ERR_9999("9999", "其他未知错误"),
     SUCCESS("200000", "操作成功"),
     QUERY_MAX_SIZE("200001", "查询数量超过限制"),
+    UPDATE_MAX_SIZE("200002", "更新数量超过限制"),
+    ADD_MAX_SIZE("200003", "新增数量超过限制"),
     ;
 
     /**

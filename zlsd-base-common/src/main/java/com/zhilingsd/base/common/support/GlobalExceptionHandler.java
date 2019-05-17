@@ -244,6 +244,15 @@ public class GlobalExceptionHandler {
     public CommonResult  illegalParameterErrorHandler(IllegalParameterException e) throws Exception {
         return returnErr(e,"illegalParameter异常");
     }
-
+    /**
+     * 捕获处理IllegalParameterException
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @ExceptionHandler(value = MaxSizeException.class)
+    public CommonResult  illegalParameterErrorHandler(MaxSizeException e) throws Exception {
+        return returnErr(e,"illegalParameter异常");
+    }
 
 }

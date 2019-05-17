@@ -44,7 +44,6 @@ public class CommonFacadeAspect {
                 .getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         Enumeration<String> headerNames = request.getHeaderNames();
-
         // 创建AppAgentInfo对象，如果有字段为空则抛出异常
         String operatorId = request.getHeader("operatorId");
         String collectionCompanyId = request.getHeader("collectionCompanyId");

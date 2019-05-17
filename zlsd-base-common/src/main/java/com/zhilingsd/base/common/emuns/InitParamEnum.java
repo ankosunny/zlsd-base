@@ -86,6 +86,10 @@ public enum InitParamEnum {
      * @description 币种
      **/
     CURRENCY(1, BaseDictConstants.CURRENCY),
+    /**
+     * 函件类型
+     */
+    JUSTICE_TYPE(1, BaseDictConstants.JUSTICE_TYPE),
 /******************** 使用CollectionType作为下拉 ，查询需要通过现有流程进行处理 ****************************/
     /**
      * @description 催收流程
@@ -113,10 +117,6 @@ public enum InitParamEnum {
      * @description 产品名称
      **/
     PRODUCT_NAME(0, BaseDictConstants.PRODUCT_NAME),
-    /**
-     * 函件类型
-     */
-    JUSTICE_TYPE(1, BaseDictConstants.JUSTICE_TYPE)
     ;
 
     /**

@@ -33,6 +33,7 @@ public enum SnowFlakeEntityEnum {
     CIF(50, "客户"),
     CONSOLE(60, "管理台"),
     TEMPLATE(70, "模板"),
+    WORK_MANAGE(80, "作业"),
     ;
 
     private int entityId;

@@ -13,10 +13,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +30,7 @@ public class ReportWordUtil {
     /**
      * @description 导出ZIP文件
      **/
-    public static ResponseEntity<byte[]> getWorldZipFile(String intputPath, List<ReportExportVo> list) throws IOException {
+    public static ResponseEntity<byte[]> getWorldZipFile(List<byte[]> listBytes, List<ReportExportVo> list) throws IOException {
         //最大10M的world文件
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(10 * 1024);
         ZipOutputStream zipOut = new ZipOutputStream(byteArrayOutputStream);
@@ -42,7 +39,7 @@ public class ReportWordUtil {
                 for (int i = 0; i < list.size(); i++) {
                     ReportExportVo vo = list.get(i);
                     //输出地址 输入地址 加随机数
-                    InputStream is = new FileInputStream(intputPath);
+                    InputStream is = new ByteArrayInputStream(listBytes.get(i));
                     XWPFDocument doc = new XWPFDocument(is);
 
                     replaceContent(doc, vo);
@@ -77,14 +74,14 @@ public class ReportWordUtil {
     /**
      * 导出单个文件 world
      *
-     * @param intputPath 输入地址
+     * @param bytes 输入地址
      * @throws Exception 导出单个文件
      */
-    public static ResponseEntity<byte[]> getWorldFile(String intputPath, ReportExportVo vo) throws Exception {
+    public static ResponseEntity<byte[]> getWorldFile(byte[] bytes, ReportExportVo vo) throws Exception {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         try {
             //输出地址 输入地址 加随机数
-            InputStream is = new FileInputStream(intputPath);
+            InputStream is = new ByteArrayInputStream(bytes);
             XWPFDocument docx = new XWPFDocument(is);
             replaceContent(docx, vo);
             //把doc输出到输出流中

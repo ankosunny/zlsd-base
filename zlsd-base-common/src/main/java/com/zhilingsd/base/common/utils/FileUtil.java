@@ -1,16 +1,12 @@
 package com.zhilingsd.base.common.utils;
 
+import com.zhilingsd.base.common.bean.ZipFilleStream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import org.apache.tools.zip.ZipEntry;
@@ -263,6 +259,38 @@ public class FileUtil {
         up.createNewFile();
         file.transferTo(up);
         return up;
+    }
+
+    public static ResponseEntity<byte[]> zipByte(List<ZipFilleStream> streams, String zipName) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ZipOutputStream zout = new ZipOutputStream(out);
+        zout.setEncoding("GBK");
+
+        InputStream in = null;
+        try {
+            byte[] buf = new byte[1024];
+            int len;
+            for (ZipFilleStream stream : streams) {
+                in = new ByteArrayInputStream(stream.getContent());
+                zout.putNextEntry(new ZipEntry(stream.getFileName()));
+                while ((len = in.read(buf)) > 0) {
+                    zout.write(buf, 0, len);
+                }
+                zout.closeEntry();
+            }
+            zout.close();
+            return SpringWebFileUtil.download(out.toByteArray(), zipName);
+        } finally {
+            if (zout != null) {
+                zout.close();
+            }
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+        }
     }
 
     public static ResponseEntity<byte[]> zipFile(List<String> fileUrls, String zipName) throws IOException {

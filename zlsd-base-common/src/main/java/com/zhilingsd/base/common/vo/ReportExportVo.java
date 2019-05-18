@@ -35,6 +35,9 @@ public class ReportExportVo implements Serializable {
             "[委托年]",
             "[委托月]",
             "[委托日]",
+            "[当前年]",
+            "[当前月]",
+            "[当前日]",
             "[催收员姓]",
             "[催收员座机]",
             "[当前日期]"
@@ -78,13 +81,25 @@ public class ReportExportVo implements Serializable {
     /**
      * 委托年
      */
-    private String year;
+    private String commitYear;
     /**
      * 委托月
      */
-    private String month;
+    private String commitMonth;
     /**
      * 委托日
+     */
+    private String commitDay;
+    /**
+     * 当前年
+     */
+    private String year;
+    /**
+     * 当前月
+     */
+    private String month;
+    /**
+     * 当前日
      */
     private String day;
     /**
@@ -150,24 +165,45 @@ public class ReportExportVo implements Serializable {
         }
     }
 
+    public void setCommitYear(String commitYear) {
+        if (commitYear != null) {
+            this.commitYear = commitYear;
+            this.exportValue.put("[委托年]", commitYear);
+        }
+    }
+
+    public void setCommitMonth(String commitMonth) {
+        if (commitMonth != null) {
+            this.commitMonth = commitMonth;
+            this.exportValue.put("[委托月]", commitMonth);
+        }
+    }
+
+    public void setCommitDay(String commitDay) {
+        if (commitDay != null) {
+            this.commitDay = commitDay;
+            this.exportValue.put("[委托日]", commitDay);
+        }
+    }
+
     public void setYear(String year) {
         if (year != null) {
             this.year = year;
-            this.exportValue.put("[委托年]", year);
+            this.exportValue.put("[当前年]", year);
         }
     }
 
     public void setMonth(String month) {
         if (month != null) {
             this.month = month;
-            this.exportValue.put("[委托月]", month);
+            this.exportValue.put("[当前月]", month);
         }
     }
 
     public void setDay(String day) {
         if (day != null) {
             this.day = day;
-            this.exportValue.put("[委托日]", day);
+            this.exportValue.put("[当前日]", day);
         }
     }
 

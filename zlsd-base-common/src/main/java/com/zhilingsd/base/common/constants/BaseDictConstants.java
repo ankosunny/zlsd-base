@@ -5,6 +5,19 @@ package com.zhilingsd.base.common.constants;
  */
 public class BaseDictConstants {
 
+    /**
+     * @description  催收机构ID
+     **/
+    public static final String COLLECTION_COMPANY_ID = "1";
+    /**
+     * @description  操作人ID
+     **/
+    public static final long OPERATOR_ID = 1;
+    /**
+     * @description  部门ID
+     **/
+    public static final long COLLECTION_GROUP_ID = 1;
+    
     /*****redis key*****/
     //省市区
     public static final String REDIS_ADDRESS_KEY = "zlsd_initparam_address";

@@ -2,6 +2,7 @@ package com.zhilingsd.base.common.emuns;
 
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.bean.KeyValueBean;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @createTime 2019年04月19日 14:33*
  * log.info()
  */
+@Slf4j
 public enum BillClassifyStatusEnum {
     CLASSIFY_1(1, "新案件"),
     CLASSIFY_2(2, "已报停催"),
@@ -76,18 +78,22 @@ public enum BillClassifyStatusEnum {
     }
 
     public static String getValueByCode(int code) {
-        for (BillClassifyStatusEnum osEnum : BillClassifyStatusEnum.values()) {
-            if (osEnum.getCode() == code) {
-                return osEnum.getValue();
+        try {
+            for (BillClassifyStatusEnum osEnum : BillClassifyStatusEnum.values()) {
+                if (osEnum.getCode() == code) {
+                    return osEnum.getValue();
+                }
             }
+        } catch (Exception e) {
+            log.error("找不到对应的案件归类状态信息");
         }
         return "";
     }
 
-    public static List<KeyValueBean> initParam(){
+    public static List<KeyValueBean> initParam() {
         List<KeyValueBean> initParamList = Lists.newArrayList();
-        for (BillClassifyStatusEnum osEnum: BillClassifyStatusEnum.values()){
-            KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode()+"").name(osEnum.getValue()).build();
+        for (BillClassifyStatusEnum osEnum : BillClassifyStatusEnum.values()) {
+            KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
             initParamList.add(keyValueBean);
         }
         return initParamList;

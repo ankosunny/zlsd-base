@@ -50,14 +50,7 @@ public enum ExportTypeEnum {
     }
 
     public static Boolean isSelect(int code){
-        if (code == EXPORT_TYPE_1.getCode()){
-            return true;
-        }
-        return false;
-    }
-
-    public static Boolean isPage(int code){
-        if (code == EXPORT_TYPE_2.getCode()){
+        if (code == EXPORT_TYPE_1.getCode() || code == EXPORT_TYPE_2.getCode()){
             return true;
         }
         return false;

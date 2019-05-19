@@ -55,7 +55,7 @@ public class OpenApiReturnValueHandler implements HandlerMethodReturnValueHandle
         GetSingleResult classSingleResult = declaringClass.getAnnotation(GetSingleResult.class);
         if (!void.class.isAssignableFrom(returnValueType)) {
             // 不是SingleResult、Map、Model等类型的返回值，需要包裹为Response类型
-            if (!SingleResult.class.isAssignableFrom(returnValueType) && !Map.class.isAssignableFrom(returnValueType)
+            if (!SingleResult.class.isAssignableFrom(returnValueType)
                     && !Model.class.isAssignableFrom(returnValueType) && (methodSingleResult != null || classSingleResult != null)) {
                 result.setCode(BaseResultCodeEnum.SUCCESS.getCode());
                 result.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());

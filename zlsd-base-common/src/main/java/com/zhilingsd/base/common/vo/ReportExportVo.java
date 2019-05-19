@@ -24,7 +24,28 @@ public class ReportExportVo implements Serializable {
 
     private Map<String, String> exportValue;
 
+    private Integer type;
+
     private String[] words = {
+            "[姓名]",
+            "[卡号]",
+            "[委案金额]",
+            "[催收员]",
+            "[地区]",
+            "[收件地址]",
+            "[身份证]",
+            "[委托年]",
+            "[委托月]",
+            "[委托日]",
+            "[当前年]",
+            "[当前月]",
+            "[当前日]",
+            "[催收员姓]",
+            "[催收员座机]",
+            "[当前日期]"
+    };
+
+    private String[] visitWords = {
             "[姓名]",
             "[卡号]",
             "[委案金额]",
@@ -47,6 +68,19 @@ public class ReportExportVo implements Serializable {
         exportValue = new HashMap<>();
         for (String word : words) {
             exportValue.put(word, "");
+        }
+    }
+
+    public ReportExportVo(Integer type) {
+        exportValue = new HashMap<>();
+        if (type ==1 ){
+            for (String word : words) {
+                exportValue.put(word, "");
+            }
+        }else if (type == 2){
+            for (String word : visitWords) {
+                exportValue.put(word, "");
+            }
         }
     }
 

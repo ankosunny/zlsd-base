@@ -15,23 +15,24 @@ import java.util.List;
  * @createTime 2019年05月19日 09:59*
  * log.info()
  */
-public enum ExportTypeEnum {
+public enum SelTypeEnum {
 
-    //导出类型(1:外访,2:函件)
-    EXPORT_TYPE_1(1, "外访"),
-    EXPORT_TYPE_2(2, "函件"),
+    //选择类型(1:勾选,2:本页,3:筛选)
+    SEL_TYPE_1(1, "勾选"),
+    SEL_TYPE_2(2, "本页"),
+    SEL_TYPE_3(3,"筛选"),
     ;
 
     private int code;
     private String value;
 
-    ExportTypeEnum(int code, String value) {
+    SelTypeEnum(int code, String value) {
         this.code = code;
         this.value = value;
     }
 
     public static String getValueByCode(int code) {
-        for (ExportTypeEnum osEnum : ExportTypeEnum.values()) {
+        for (SelTypeEnum osEnum : SelTypeEnum.values()) {
             if (osEnum.getCode() == code) {
                 return osEnum.getValue();
             }
@@ -41,11 +42,25 @@ public enum ExportTypeEnum {
 
     public static List<KeyValueBean> initParam(){
         List<KeyValueBean> initParamList = Lists.newArrayList();
-        for (ExportTypeEnum osEnum: ExportTypeEnum.values()){
+        for (SelTypeEnum osEnum: SelTypeEnum.values()){
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode()+"").name(osEnum.getValue()).build();
             initParamList.add(keyValueBean);
         }
         return initParamList;
+    }
+
+    public static Boolean isSelect(int code){
+        if (code == SEL_TYPE_1.getCode() || code == SEL_TYPE_2.getCode()){
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean isSearch(int code){
+        if (code == SEL_TYPE_3.getCode()){
+            return true;
+        }
+        return false;
     }
 
     public int getCode() {

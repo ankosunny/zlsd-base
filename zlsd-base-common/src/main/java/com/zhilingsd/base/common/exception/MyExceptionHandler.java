@@ -43,7 +43,7 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = UnauthorizedException.class)
     public CollectionResult unauthorizedExceptionHandler(UnauthorizedException ex) {
         ex.printStackTrace();
-        log.error("shiro权限验证异常,异常信息：{}",ex);
+        log.error("shiro权限验证异常,异常信息：{}",ex.toString());
         return CollectionResult.failed(ReturnCode.ERROR_4003.getCode(), ReturnCode.ERROR_4003.getMsg());
     }
 
@@ -53,8 +53,8 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = MyBatisSystemException.class)
     public CollectionResult myBatisSystemException(MyBatisSystemException ex) {
         ex.printStackTrace();
-        log.error("mybatis异常,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_01.getCode(), "mybatis异常");
+        log.error("mybatis异常,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
 
@@ -64,8 +64,8 @@ public class MyExceptionHandler {
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public CollectionResult DataIntegrityViolationException(DataIntegrityViolationException ex) {
         ex.printStackTrace();
-        log.error("sql错误,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_01.getCode(), "sql错误");
+        log.error("sql错误,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -74,7 +74,7 @@ public class MyExceptionHandler {
     @ExceptionHandler(BusinessExceptionSZ.class)
     public CollectionResult businessException(BusinessExceptionSZ ex) {
         ex.printStackTrace();
-        log.error("业务异常,异常信息：{}",ex);
+        log.error("业务异常,异常信息：{}",ex.toString());
         return CollectionResult.failed(ex.getCode(), ex.getMsg());
     }
 
@@ -84,9 +84,9 @@ public class MyExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public CollectionResult methodArgumentNotValidException(MethodArgumentNotValidException ex) {
         ex.printStackTrace();
-        log.error("参数校验异常,异常信息：{}",ex);
+        log.error("参数校验异常,异常信息：{}",ex.toString());
         FieldError fieldError = ex.getBindingResult().getFieldError();
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), fieldError.getDefaultMessage());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), fieldError.getDefaultMessage());
     }
 
 
@@ -96,8 +96,8 @@ public class MyExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     public CollectionResult nullPointerExceptionHandler(NullPointerException ex) {
         ex.printStackTrace();
-        log.error("空指针异常,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), "参数不存在");
+        log.error("空指针异常,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -106,8 +106,8 @@ public class MyExceptionHandler {
     @ExceptionHandler(ClassCastException.class)
     public CollectionResult classCastExceptionHandler(ClassCastException ex) {
         ex.printStackTrace();
-        log.error("类型转换异常,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), ex.getMessage());
+        log.error("类型转换异常,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -116,8 +116,8 @@ public class MyExceptionHandler {
     @ExceptionHandler(IOException.class)
     public CollectionResult iOExceptionHandler(IOException ex) {
         ex.printStackTrace();
-        log.error("IO异常,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), "文件读写错误");
+        log.error("IO异常,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -126,8 +126,8 @@ public class MyExceptionHandler {
     @ExceptionHandler(NoSuchMethodException.class)
     public CollectionResult noSuchMethodExceptionHandler(NoSuchMethodException ex) {
         ex.printStackTrace();
-        log.error("未知方法异常,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), "未知方法");
+        log.error("未知方法异常,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -136,8 +136,8 @@ public class MyExceptionHandler {
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public CollectionResult indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException ex) {
         ex.printStackTrace();
-        log.error("数组越界异常,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), "数组越界");
+        log.error("数组越界异常,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -146,8 +146,8 @@ public class MyExceptionHandler {
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public CollectionResult requestNotReadable(HttpMessageNotReadableException ex) {
         ex.printStackTrace();
-        log.error("HttpMessageNotReadableException,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_400.getCode(), "requestNotReadable");
+        log.error("HttpMessageNotReadableException,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_400.getCode(), ex.toString());
     }
 
     /**
@@ -156,8 +156,8 @@ public class MyExceptionHandler {
     @ExceptionHandler({TypeMismatchException.class})
     public CollectionResult requestTypeMismatch(TypeMismatchException ex) {
         ex.printStackTrace();
-        log.error("TypeMismatchException,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_400.getCode(), "TypeMismatchException");
+        log.error("TypeMismatchException,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_400.getCode(), ex.toString());
     }
 
 //    /**
@@ -191,7 +191,7 @@ public class MyExceptionHandler {
     @ExceptionHandler({ConversionNotSupportedException.class, RuntimeException.class, HttpMessageNotWritableException.class})
     public CollectionResult server500(Exception ex) {
         ex.printStackTrace();
-        log.error("系统错误,异常信息：{}",ex);
-        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.getMessage());
+        log.error("系统错误,异常信息：{}",ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 }

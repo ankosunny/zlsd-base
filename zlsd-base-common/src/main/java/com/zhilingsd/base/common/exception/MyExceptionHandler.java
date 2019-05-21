@@ -54,7 +54,7 @@ public class MyExceptionHandler {
     public CollectionResult myBatisSystemException(MyBatisSystemException ex) {
         ex.printStackTrace();
         log.error("mybatis异常,异常信息：{}",ex.toString());
-        return CollectionResult.failed(ReturnCode.ERROR_01.getCode(), ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
 
@@ -65,7 +65,7 @@ public class MyExceptionHandler {
     public CollectionResult DataIntegrityViolationException(DataIntegrityViolationException ex) {
         ex.printStackTrace();
         log.error("sql错误,异常信息：{}",ex.toString());
-        return CollectionResult.failed(ReturnCode.ERROR_01.getCode(), ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -86,7 +86,7 @@ public class MyExceptionHandler {
         ex.printStackTrace();
         log.error("参数校验异常,异常信息：{}",ex.toString());
         FieldError fieldError = ex.getBindingResult().getFieldError();
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), fieldError.getDefaultMessage());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), fieldError.getDefaultMessage());
     }
 
 
@@ -97,7 +97,7 @@ public class MyExceptionHandler {
     public CollectionResult nullPointerExceptionHandler(NullPointerException ex) {
         ex.printStackTrace();
         log.error("空指针异常,异常信息：{}",ex.toString());
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -107,7 +107,7 @@ public class MyExceptionHandler {
     public CollectionResult classCastExceptionHandler(ClassCastException ex) {
         ex.printStackTrace();
         log.error("类型转换异常,异常信息：{}",ex.toString());
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -117,7 +117,7 @@ public class MyExceptionHandler {
     public CollectionResult iOExceptionHandler(IOException ex) {
         ex.printStackTrace();
         log.error("IO异常,异常信息：{}",ex.toString());
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -127,7 +127,7 @@ public class MyExceptionHandler {
     public CollectionResult noSuchMethodExceptionHandler(NoSuchMethodException ex) {
         ex.printStackTrace();
         log.error("未知方法异常,异常信息：{}",ex.toString());
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**
@@ -137,7 +137,7 @@ public class MyExceptionHandler {
     public CollectionResult indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException ex) {
         ex.printStackTrace();
         log.error("数组越界异常,异常信息：{}",ex.toString());
-        return CollectionResult.failed(ReturnCode.ERROR_102.getCode(), ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
 
     /**

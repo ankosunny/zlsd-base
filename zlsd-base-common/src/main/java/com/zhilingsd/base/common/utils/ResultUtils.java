@@ -112,4 +112,15 @@ public class ResultUtils {
         commonResult.setSysTime(now.getTime()+"");
         return commonResult;
     }
+
+    /**
+     * 验证
+     * @param result       SingleResult
+     * @param exceptionMsg 异常信息
+     */
+    public static void verifyResult(SingleResult result,String exceptionMsg) {
+        if (!BaseResultCodeEnum.SUCCESS.getCode().equals(result.code)){
+            throw new ServiceException(BaseResultCodeEnum.BUSINESS_ERROR.getCode(), exceptionMsg);
+        }
+    }
 }

@@ -4,6 +4,7 @@ import com.zhilingsd.base.common.emuns.ReturnCode;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.xpath.operations.Bool;
 
 import java.io.Serializable;
 
@@ -122,7 +123,11 @@ public class CollectionResult<T> implements Serializable {
      * @return CollectionResult
      */
     public static <E> CollectionResult<E> success(E data) {
-        return new CollectionResult<>(ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), data);
+        if (data instanceof Boolean){
+            return new CollectionResult<>(ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg());
+        }else {
+            return new CollectionResult<>(ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), data);
+        }
     }
 
     /**

@@ -1,13 +1,11 @@
 package com.zhilingsd.base.common.vo;
 
+import com.zhilingsd.base.common.emuns.workmanage.ExportTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,22 +44,18 @@ public class ReportExportVo implements Serializable {
     };
 
     private String[] visitWords = {
+            "[案件编号]",
+            "[外访日期]",
+            "[外访时间]",
+            "[结束时间]",
             "[姓名]",
-            "[卡号]",
+            "[委托日期]",
             "[委案金额]",
-            "[催收员]",
-            "[地区]",
-            "[收件地址]",
+            "[目前余额]",
+            "[卡号]",
             "[身份证]",
-            "[委托年]",
-            "[委托月]",
-            "[委托日]",
-            "[当前年]",
-            "[当前月]",
-            "[当前日]",
-            "[催收员姓]",
-            "[催收员座机]",
-            "[当前日期]"
+            "[手机]",
+            "[外访情况]"
     };
 
     public ReportExportVo() {
@@ -70,19 +64,10 @@ public class ReportExportVo implements Serializable {
             exportValue.put(word, "");
         }
     }
-
-    public ReportExportVo(Integer type) {
-        exportValue = new HashMap<>();
-        if (type ==1 ){
-            for (String word : words) {
-                exportValue.put(word, "");
-            }
-        }else if (type == 2){
-            for (String word : visitWords) {
-                exportValue.put(word, "");
-            }
-        }
-    }
+    /**
+     * @description 案件编号
+     **/
+    private String billCode;
 
     /**
      * 姓名
@@ -261,4 +246,101 @@ public class ReportExportVo implements Serializable {
             this.exportValue.put("[催收员姓]", lastName);
         }
     }
+    /**
+     * @description 外访日期
+     **/
+    private String beginDate;
+    /**
+     * @description 外访时间
+     **/
+    private String beginTime;
+    /**
+     * @description 结束时间
+     **/
+    private String endTime;
+    /**
+     * @description 外访对象电话
+     **/
+    private String visitPhone;
+    /**
+     * @description 委托年月日
+     **/
+    private String commitDate;
+    /**
+     * @description 欠款金额
+     **/
+    private String debtMoney;
+    /**
+     * @description 外访情况
+     **/
+    private String visitDesc;
+    public ReportExportVo(Integer type) {
+        exportValue = new HashMap<>();
+        if (type == ExportTypeEnum.EXPORT_TYPE_2.getCode()){
+            for (String word : words) {
+                exportValue.put(word, "");
+            }
+        }else if (type == ExportTypeEnum.EXPORT_TYPE_1.getCode()){
+            for (String word : visitWords) {
+                exportValue.put(word, "");
+            }
+        }
+    }
+
+    public void setBillCode(String billCode) {
+        if (idCard != null) {
+            this.billCode = billCode;
+            this.exportValue.put("案件编号",billCode);
+        }
+    }
+
+    public void setBeginDate(String beginDate) {
+        if (beginDate != null){
+            this.beginDate = beginDate;
+            this.exportValue.put("外访日期",beginDate);
+        }
+    }
+
+    public void setBeginTime(String beginTime) {
+        if (beginTime != null){
+            this.beginTime = beginTime;
+            this.exportValue.put("外访时间",beginTime);
+        }
+    }
+
+    public void setEndTime(String endTime) {
+        if (endTime != null){
+            this.endTime = endTime;
+            this.exportValue.put("结束时间",endTime);
+        }
+    }
+
+    public void setVisitPhone(String visitPhone) {
+        if (visitPhone != null) {
+            this.visitPhone = visitPhone;
+            this.exportValue.put("电话",visitPhone);
+        }
+    }
+
+    public void setCommitDate(String commitDate) {
+        if (commitDate != null){
+            this.commitDate = commitDate;
+            this.exportValue.put("委托日期",commitDate);
+        }
+    }
+
+    public void setDebtMoney(String debtMoney) {
+        if (debtMoney != null){
+            this.debtMoney = debtMoney;
+            this.exportValue.put("目前余额",debtMoney);
+        }
+    }
+
+    public void setVisitDesc(String visitDesc) {
+        if (visitDesc != null){
+            this.visitDesc = visitDesc;
+            this.exportValue.put("外访情况",visitDesc);
+        }
+    }
+
 }

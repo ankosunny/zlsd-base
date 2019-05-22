@@ -17,9 +17,10 @@ import java.util.List;
  */
 public enum ExportTypeEnum {
 
-    //导出类型(1:外访,2:函件)
+    //导出类型(1:外访,2:函件,3:信封)
     EXPORT_TYPE_1(1, "外访"),
     EXPORT_TYPE_2(2, "函件"),
+    EXPORT_TYPE_3(3, "信封"),
     ;
 
     private int code;

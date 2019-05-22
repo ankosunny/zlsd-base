@@ -131,16 +131,96 @@ public class ReportWordUtil {
                 //CTR ctr = CTR.Factory.parse(obj.newInputStream());
                 XWPFRun bufferrun = new XWPFRun(ctr, (IRunBody) paragraph);
                 String text = bufferrun.getText(0);
+
+
+                if ("[".equals(text) || "]".equals(text)) {
+                    System.out.println("if:" + text);
+                    bufferrun.setText("", 0);
+                    continue;
+                }
+                System.out.println(text);
                 if (text != null) {
                     for (String word : vo.getExportValue().keySet()) {
-                        if (text.contains(word)) {
-                            text = text.replace(word, vo.getExportValue().get(word));
+                        if (word.equals(text) || word.contains(text)) {
+                            text = text.replace(text, vo.getExportValue().get(word));
                             bufferrun.setText(text, 0);
+                            break;
                         }
                     }
                 }
                 obj.set(bufferrun.getCTR());
             }
         }
+    }
+
+    /**
+     * 导出单个文件 world
+     *
+     * @param bytes 输入地址
+     * @throws Exception 导出单个文件
+     */
+    public static void createWorldFile(byte[] bytes, ReportExportVo vo) throws Exception {
+
+
+        //输出地址 输入地址 加随机数
+        InputStream is = new ByteArrayInputStream(bytes);
+        XWPFDocument docx = new XWPFDocument(is);
+        replaceContent(docx, vo);
+        //把doc输出到输出流中
+
+
+        File file = new File("C:\\Users\\dell\\Desktop\\私有化\\c.docx");
+        if (!file.exists()) {
+            file.createNewFile();
+            try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+                docx.write(fileOutputStream);
+                fileOutputStream.close();
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+
+    public static void main(String[] args) {
+
+        ReportExportVo vo = new ReportExportVo();
+        vo.setName("我的姓名");
+        vo.setCardNum("123456789");
+        vo.setCommitMoney("100000");
+        vo.setStaffName("我是催收员");
+        vo.setAddress("我的地址");
+        vo.setArea("我的地区");
+        vo.setIdCard("511321777777");
+        vo.setCommitYear("2019");
+        vo.setCommitMonth("5");
+        vo.setCommitDay("21");
+        vo.setYear("2019");
+        vo.setMonth("5");
+        vo.setDay("20");
+        vo.setStaffTelPhone("10010");
+        vo.setDate("2019-05-21");
+        vo.setLastName("李");
+        vo.setBillCode("case0010");
+        vo.setBeginDate("2019-05-21");
+        vo.setBeginTime("15:16");
+        vo.setEndTime("18:00");
+        vo.setVisitPhone("1578787878");
+        vo.setCommitDate("2019-05-21");
+        vo.setDebtMoney("1000");
+        vo.setVisitDesc("外放中");
+
+        byte[] readSize = new byte[8 * 1024];
+
+        try (FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\dell\\Desktop\\私有化\\a.docx"))) {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            while (fileInputStream.read(readSize) != -1) {
+                byteArrayOutputStream.write(readSize);
+            }
+            createWorldFile(byteArrayOutputStream.toByteArray(), vo);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
 }

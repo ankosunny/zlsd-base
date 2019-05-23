@@ -14,8 +14,8 @@ package com.zhilingsd.base.common.emuns;
 public enum NotStanTemplateEnum {
 
     LETTER(1, "函件"),
-    CERTIFICATE(2, "凭证")
-    ;
+    CERTIFICATE(2, "信封"),
+    CUSTOM_REPORT(3, "自定义报告");
     private int code;
     private String value;
 

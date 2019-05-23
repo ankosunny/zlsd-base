@@ -8,7 +8,7 @@ public class BaseDictConstants {
     /**
      * @description  催收机构ID
      **/
-    public static final String COLLECTION_COMPANY_ID = "1";
+    public static final String COLLECTION_COMPANY_ID = "783477993317728256";
     /**
      * @description  操作人ID
      **/

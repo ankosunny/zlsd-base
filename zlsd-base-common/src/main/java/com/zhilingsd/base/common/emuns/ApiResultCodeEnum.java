@@ -59,6 +59,7 @@ public enum ApiResultCodeEnum {
 
     INSUFFICIENT_ISV_PERMISSIONS(ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getCode(), ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getMsg(), "isv.insufficient_isv_permissions", "isv权限不足", "请检查账户是否有当前接口权限"),
     LOGIN_TIMEOUT(ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getCode(), ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getMsg(), "login_timout", "登录超时，请重新登录", "重新登录"),
+    CHECK_TOKEN_FAILED(ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getCode(), ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getMsg(), "check_token_failed", "验证token失败，请重新登录", "重新登录"),
 
     BUSINESS_PROCESSING_FAILURE(ApiResultMainCodeEnum.BUSINESS_PROCESSING_FAILURE.getCode(), ApiResultMainCodeEnum.BUSINESS_PROCESSING_FAILURE.getMsg(), "", "", ""),
     ;

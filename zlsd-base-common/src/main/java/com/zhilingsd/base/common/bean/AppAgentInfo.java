@@ -9,11 +9,11 @@ public class AppAgentInfo {
     /**
      * 当前登录用户Id
      */
-    private long operatorId;
+    private Long operatorId;
     /**
      * 当前登录用户所在的催收机构Id
      */
-    private long collectionCompanyId;
+    private Long collectionCompanyId;
 
     /**
      * 当前登录用户所在的催收小组Id
@@ -26,24 +26,24 @@ public class AppAgentInfo {
     public AppAgentInfo() {
     }
 
-    public AppAgentInfo(long operatorId, long collectionCompanyId) {
+    public AppAgentInfo(Long operatorId, Long collectionCompanyId) {
         this.operatorId = operatorId;
         this.collectionCompanyId = collectionCompanyId;
     }
 
-    public long getOperatorId() {
+    public Long getOperatorId() {
         return operatorId;
     }
 
-    public void setOperatorId(long operatorId) {
+    public void setOperatorId(Long operatorId) {
         this.operatorId = operatorId;
     }
 
-    public long getCollectionCompanyId() {
+    public Long getCollectionCompanyId() {
         return collectionCompanyId;
     }
 
-    public void setCollectionCompanyId(long collectionCompanyId) {
+    public void setCollectionCompanyId(Long collectionCompanyId) {
         this.collectionCompanyId = collectionCompanyId;
     }
 

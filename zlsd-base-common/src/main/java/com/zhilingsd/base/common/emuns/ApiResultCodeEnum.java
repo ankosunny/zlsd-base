@@ -58,6 +58,7 @@ public enum ApiResultCodeEnum {
     DECRYPTION_ERROR_UNKNOWN(ApiResultMainCodeEnum.ILLEGAL_PARAMETERS.getCode(), ApiResultMainCodeEnum.ILLEGAL_PARAMETERS.getMsg(), "isv.decryption_error_unknown", "解密出错，未知异常", "重试"),
 
     INSUFFICIENT_ISV_PERMISSIONS(ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getCode(), ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getMsg(), "isv.insufficient_isv_permissions", "isv权限不足", "请检查账户是否有当前接口权限"),
+    LOGIN_TIMEOUT(ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getCode(), ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getMsg(), "login_timout", "登录超时，请重新登录", "重新登录"),
 
     BUSINESS_PROCESSING_FAILURE(ApiResultMainCodeEnum.BUSINESS_PROCESSING_FAILURE.getCode(), ApiResultMainCodeEnum.BUSINESS_PROCESSING_FAILURE.getMsg(), "", "", ""),
     ;

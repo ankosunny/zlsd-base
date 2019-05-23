@@ -47,8 +47,8 @@ public class CommonFacadeAspect {
         // 创建AppAgentInfo对象，如果有字段为空则抛出异常
         String operatorId = request.getHeader("operatorId");
         String collectionCompanyId = request.getHeader("collectionCompanyId");
-        String collectionGroupId = request.getHeader("collectionGroupId");
-        String resourceId = request.getHeader("resourceId");
+//        String collectionGroupId = request.getHeader("collectionGroupId");
+//        String resourceId = request.getHeader("resourceId");
         AppAgentInfo agentInfo = null;
         // 判空操作
         if (StringUtils.isNotEmpty(operatorId) && StringUtils.isNotEmpty(collectionCompanyId)) {
@@ -56,24 +56,24 @@ public class CommonFacadeAspect {
         } else {
             throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(), "接口:"+mvcInterface+";方法:"+mvcMethod+";AppAgentInfo is null");
         }
-        if(StringUtils.isNotEmpty(collectionGroupId)){
-            agentInfo.setCollectionGroupId(Long.parseLong(collectionGroupId));
-        }
-        if (StringUtils.isNotEmpty(resourceId)){
-           agentInfo.setResourceId(Long.parseLong(resourceId));
-        }
+//        if(StringUtils.isNotEmpty(collectionGroupId)){
+//            agentInfo.setCollectionGroupId(Long.parseLong(collectionGroupId));
+//        }
+//        if (StringUtils.isNotEmpty(resourceId)){
+//           agentInfo.setResourceId(Long.parseLong(resourceId));
+//        }
         if (agentInfo != null) {
             AppUtil.setAppAgentInfo(agentInfo);
         }
-        Object[] args = jp.getArgs();//获取方法参数值
-        if (args != null) {
-            for (Object arg : args) {
-                ValidationResult validationResult = beanValidatorFail(arg);
-                if(!validationResult.getSuccess()){
-                   throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),validationResult.getErrMsg());
-                }
-            }
-        }
+//        Object[] args = jp.getArgs();//获取方法参数值
+//        if (args != null) {
+//            for (Object arg : args) {
+//                ValidationResult validationResult = beanValidatorFail(arg);
+//                if(!validationResult.getSuccess()){
+//                   throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),validationResult.getErrMsg());
+//                }
+//            }
+//        }
 
         Object obj = jp.proceed();
         return obj;

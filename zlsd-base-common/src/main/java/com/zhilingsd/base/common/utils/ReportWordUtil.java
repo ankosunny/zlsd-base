@@ -2,6 +2,7 @@ package com.zhilingsd.base.common.utils;
 
 import com.zhilingsd.base.common.vo.ReportExportVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xwpf.usermodel.IRunBody;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -18,6 +19,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -118,31 +120,50 @@ public class ReportWordUtil {
         for (XWPFParagraph paragraph : doc.getParagraphs()) {
             XmlCursor cursor = paragraph.getCTP().newCursor();
             cursor.selectPath("declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//*/w:txbxContent/w:p/w:r");
-
             List<XmlObject> ctrsintxtbx = new ArrayList<>();
-
             while (cursor.hasNextSelection()) {
                 cursor.toNextSelection();
                 XmlObject obj = cursor.getObject();
                 ctrsintxtbx.add(obj);
             }
+            String preText = "";
+            StringBuffer text1 = new StringBuffer();
             for (XmlObject obj : ctrsintxtbx) {
                 CTR ctr = CTR.Factory.parse(obj.xmlText());
                 //CTR ctr = CTR.Factory.parse(obj.newInputStream());
                 XWPFRun bufferrun = new XWPFRun(ctr, (IRunBody) paragraph);
+                log.info("bufferrun.getTextPosition()：{}", bufferrun.getTextPosition());
+                System.out.println(bufferrun.getText(0));
+            }
+            log.info("文档内容：{}", text1);
+            for (int i = 0; i < ctrsintxtbx.size(); i++) {
+                XmlObject obj = ctrsintxtbx.get(i);
+                CTR ctr = CTR.Factory.parse(obj.xmlText());
+                //CTR ctr = CTR.Factory.parse(obj.newInputStream());
+                XWPFRun bufferrun = new XWPFRun(ctr, (IRunBody) paragraph);
+                log.info("bufferrun.getTextPosition()：{}", bufferrun.getTextPosition());
                 String text = bufferrun.getText(0);
-
-
-                if ("[".equals(text) || "]".equals(text)) {
-                    System.out.println("if:" + text);
-                    bufferrun.setText("", 0);
-                    continue;
-                }
                 System.out.println(text);
+                if (i != 0) {
+                    preText = new XWPFRun(CTR.Factory.parse(ctrsintxtbx.get(i - 1).xmlText()), (IRunBody) paragraph).getText(0);
+                }
                 if (text != null) {
+                    if ("[".equals(text)) {
+                        bufferrun.setText("", 0);
+                        obj.set(bufferrun.getCTR());
+                        continue;
+                    }
+                    if ("]".equals(text)) {
+                        bufferrun.setText("", 0);
+                        obj.set(bufferrun.getCTR());
+                        if (!StringUtils.isBlank(preText)) {
+                            text = "[" + preText + "]";
+                        }
+                    }
+
                     for (String word : vo.getExportValue().keySet()) {
-                        if (word.equals(text) || word.contains(text)) {
-                            text = text.replace(text, vo.getExportValue().get(word));
+                        if (word.equals(text) || text.contains(word)) {
+                            text = text.replace(word, vo.getExportValue().get(word));
                             bufferrun.setText(text, 0);
                             break;
                         }
@@ -160,27 +181,27 @@ public class ReportWordUtil {
      * @throws Exception 导出单个文件
      */
     public static void createWorldFile(byte[] bytes, ReportExportVo vo) throws Exception {
-
-
         //输出地址 输入地址 加随机数
         InputStream is = new ByteArrayInputStream(bytes);
         XWPFDocument docx = new XWPFDocument(is);
         replaceContent(docx, vo);
         //把doc输出到输出流中
-
-
-        File file = new File("C:\\Users\\dell\\Desktop\\私有化\\c.docx");
+        File file = new File("F:\\新私有化\\导出\\c.docx");
         if (!file.exists()) {
             file.createNewFile();
-            try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+            FileOutputStream fileOutputStream = null;
+            try{
+                fileOutputStream = new FileOutputStream(file);
                 docx.write(fileOutputStream);
-                fileOutputStream.close();
             } catch (Exception e) {
-
+                log.error("导出错误：{}",e);
+            }finally {
+                if (Objects.nonNull(fileOutputStream)){
+                    fileOutputStream.close();
+                }
             }
         }
     }
-
 
     public static void main(String[] args) {
 
@@ -212,7 +233,8 @@ public class ReportWordUtil {
 
         byte[] readSize = new byte[8 * 1024];
 
-        try (FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\dell\\Desktop\\私有化\\a.docx"))) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(new File("F:\\新私有化\\导出\\a.docx"));
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             while (fileInputStream.read(readSize) != -1) {
                 byteArrayOutputStream.write(readSize);

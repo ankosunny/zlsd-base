@@ -12,6 +12,7 @@ import org.docx4j.openpackaging.parts.WordprocessingML.BinaryPartAbstractImage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.relationships.Relationship;
 import org.docx4j.wml.*;
+import org.springframework.http.ResponseEntity;
 
 import java.io.*;
 import java.nio.MappedByteBuffer;
@@ -29,13 +30,7 @@ import java.util.List;
  */
 public class DocUtil {
     private static ObjectFactory factory = new ObjectFactory();
-    /**
-     * 合并docx
-     * @param streams
-     * @return
-     * @throws Docx4JException
-     * @throws IOException
-     */
+
     /**
      * 合并docx
      *
@@ -303,11 +298,11 @@ public class DocUtil {
 
 
     public static void main(String[] args) throws Exception {
-        File file1 = new File("C:\\Users\\dell\\Desktop\\私有化\\a.docx");
-        File file2 = new File("C:\\Users\\dell\\Desktop\\私有化\\b.docx");
+        File file1 = new File("F:\\新私有化\\导出\\a.docx");
+        File file2 = new File("F:\\新私有化\\导出\\b.docx");
         List<File> files = new ArrayList<File>();
         files.add(file1);
         files.add(file2);
-        DocUtil.mergeWordML(files, "C:\\Users\\dell\\Desktop\\私有化\\z.docx");
+        DocUtil.mergeWordML(files, "F:\\新私有化\\导出\\z.docx");
     }
 }

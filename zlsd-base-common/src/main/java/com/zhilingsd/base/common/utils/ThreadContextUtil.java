@@ -9,7 +9,7 @@ import java.util.Map;
  * */
 public class ThreadContextUtil extends AbstractThreadContext{
 
-    private static ThreadLocal<Map<String,Object>> threadContext = new ThreadLocal<Map<String,Object>>();
+    private static ThreadLocal<Map<String,Object>> threadContext = new InheritableThreadLocal<>();
     private volatile static ThreadContextUtil app = null;
 
     private ThreadContextUtil(){}

@@ -17,12 +17,13 @@ import java.util.List;
  */
 public enum  ApproverStatusEnum {
 
-//    0：待审批；1：一级主管通过；2：一级主管拒绝；3：二级文员通过；4：二级文员拒绝'
+//    0：待审批；1：一级主管通过；2：一级主管拒绝；3：二级文员通过；4：二级文员拒绝';5：失效
     APPROVER_STATUS_0(0, "待审批"),
     APPROVER_STATUS_1(1, "一级主管通过"),
     APPROVER_STATUS_2(2, "一级主管驳回"),
     APPROVER_STATUS_3(3, "通过"),
     APPROVER_STATUS_4(4, "驳回"),
+    APPROVER_STATUS_5(5, "失效"),
             ;
 
     private int code;

@@ -51,7 +51,8 @@ public class Word2PDFUtil {
 
         //加载字体文件（解决linux环境下无中文字体问题）
         URL simsunUrl = classLoader.getResource("font/simsun.ttc");
-        PhysicalFonts.addPhysicalFont(fontFamily, simsunUrl);
+        //PhysicalFonts.addPhysicalFont(fontFamily, simsunUrl); //旧版本
+        PhysicalFonts.addPhysicalFont(simsunUrl);
         PhysicalFont simsunFont = PhysicalFonts.get(fontFamily);
         fontMapper.put(fontFamily, simsunFont);
 

@@ -1,6 +1,7 @@
 package com.zhilingsd.base.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
 import org.docx4j.dml.wordprocessingDrawing.Inline;
 import org.docx4j.jaxb.Context;
@@ -12,7 +13,6 @@ import org.docx4j.openpackaging.parts.WordprocessingML.BinaryPartAbstractImage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.relationships.Relationship;
 import org.docx4j.wml.*;
-import org.springframework.http.ResponseEntity;
 
 import java.io.*;
 import java.nio.MappedByteBuffer;
@@ -43,8 +43,7 @@ public class DocUtil {
     public static File mergeDocx(final List<InputStream> streams, String path) throws Docx4JException, IOException {
 
         WordprocessingMLPackage target = null;
-        final File generated = new File(path);
-
+        File generated = new File(path);
         int chunkId = 0;
         Iterator<InputStream> it = streams.iterator();
         while (it.hasNext()) {
@@ -60,11 +59,9 @@ public class DocUtil {
                         target = WordprocessingMLPackage.load(generated);
                     } else {
                         MainDocumentPart documentPart = target.getMainDocumentPart();
-
-                        addPageBreak(documentPart); // 另起一页，换页
-
-                        insertDocx(documentPart,
-                                IOUtils.toByteArray(is), chunkId++);
+                        // 另起一页，换页
+                        addPageBreak(documentPart);
+                        insertDocx(documentPart, IOUtils.toByteArray(is), chunkId++);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -82,9 +79,80 @@ public class DocUtil {
             return null;
         }
     }
+    /**
+     * @description  文档混合处理
+     **/
+    public static byte[] mergeDocx(final List<InputStream> streams) throws IOException, Docx4JException {
+        WordprocessingMLPackage target = null;
+        File generated = File.createTempFile("函件套打", ".docx");
+        int chunkId = 0;
+        Iterator<InputStream> it = streams.iterator();
+        while (it.hasNext()) {
+            InputStream is = it.next();
+            if (is != null) {
+                try {
+                    if (target == null) {
+                        long start2 = System.currentTimeMillis();
+                        // Copy first (master) document
+                        long start3 = System.currentTimeMillis();
+                        target = WordprocessingMLPackage.load(is);
+                        System.out.println("start3 第一页 花费时间 ：" +(System.currentTimeMillis()-start3));
+                        System.out.println("第一页 花费时间 ：" +(System.currentTimeMillis()-start2));
+                    } else {
+                        long start1 = System.currentTimeMillis();
+                        MainDocumentPart documentPart = target.getMainDocumentPart();
+                        // 另起一页，换页
+                        addPageBreak(documentPart);
+                        insertDocx(documentPart, IOUtils.toByteArray(is), chunkId++);
+                        System.out.println("另起一页 花费时间 ：" +(System.currentTimeMillis()-start1));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    is.close();
+                }
+            }
+        }
+
+        if (target != null) {
+            long start = System.currentTimeMillis();
+            target.save(generated);
+            System.out.println("save 花费时间 ：" +(System.currentTimeMillis()-start));
+            return getFileBytes(generated);
+        } else {
+            return null;
+        }
+    }
 
 
-    // 插入文档
+    /**
+     * 获得指定文件的byte数组
+     */
+    public static byte[] getFileBytes(File file){
+        long start = System.currentTimeMillis();
+        byte[] buffer = null;try {
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(2048);
+            byte[] b = new byte[2048];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("花费时间："+(System.currentTimeMillis()-start));
+        return buffer;
+    }
+
+    /**
+     * @description  插入文档
+     **/
     private static void insertDocx(MainDocumentPart main, byte[] bytes, int chunkId) {
         try {
             AlternativeFormatInputPart afiPart = new AlternativeFormatInputPart(
@@ -303,6 +371,13 @@ public class DocUtil {
         List<File> files = new ArrayList<File>();
         files.add(file1);
         files.add(file2);
-        DocUtil.mergeWordML(files, "F:\\新私有化\\导出\\z.docx");
+        List<InputStream> list = Lists.newArrayList(new FileInputStream(file1),new FileInputStream(file2));
+        String path = "F:\\新私有化\\导出\\z.docx";
+        //DocUtil.mergeWordML(files, path);
+        long start = System.currentTimeMillis();
+        byte[] bytes = mergeDocx(list);
+        System.out.println("end 花费时间："+(System.currentTimeMillis()-start));
+        //byte[] bytes = DocUtil.mergeDocx(list);
+        FileUtil.uploadFile(bytes,"F:\\新私有化\\导出\\","zz.docx");
     }
 }

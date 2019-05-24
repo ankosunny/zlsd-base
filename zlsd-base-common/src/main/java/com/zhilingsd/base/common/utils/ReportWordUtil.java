@@ -3,13 +3,12 @@ package com.zhilingsd.base.common.utils;
 import com.zhilingsd.base.common.vo.ReportExportVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.xwpf.usermodel.IRunBody;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTBody;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -43,9 +42,7 @@ public class ReportWordUtil {
                     //输出地址 输入地址 加随机数
                     InputStream is = new ByteArrayInputStream(listBytes.get(i));
                     XWPFDocument doc = new XWPFDocument(is);
-
                     replaceContent(doc, vo);
-
                     //把doc输出到输出流中
                     ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
                     doc.write(byteOutputStream);
@@ -79,7 +76,7 @@ public class ReportWordUtil {
      * @param bytes 输入地址
      * @throws Exception 导出单个文件
      */
-    public static ResponseEntity<byte[]> getWorldFile(byte[] bytes, ReportExportVo vo) throws Exception {
+    public static ResponseEntity<byte[]> getWorldFile(byte[] bytes, ReportExportVo vo,String docName) throws Exception {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         try {
             //输出地址 输入地址 加随机数
@@ -89,13 +86,57 @@ public class ReportWordUtil {
             //把doc输出到输出流中
             docx.write(byteOutputStream);
             byteOutputStream.close();
-            String docName = DateUtil.convertDateToString(DateUtil.DATE_TIME_PATTERN, new Date()) + ".docx";
             return SpringWebFileUtil.download(byteOutputStream.toByteArray(), docName);
         } finally {
             if (null != byteOutputStream) {
                 byteOutputStream.close();
             }
         }
+    }
+
+    /**
+     * @description 两个对象进行追加
+     **/
+    public static XWPFDocument mergeWord(XWPFDocument document1, XWPFDocument document2) throws Exception {
+        //设置分页符---当刚好一页数据时，会导致出现空白页，后面出现分页符导致格式有一点差异
+        //解决方法是，在模板头上增加分页符
+        CTBody src1Body = document1.getDocument().getBody();
+        CTBody src2Body = document2.getDocument().getBody();
+        XmlOptions optionsOuter = new XmlOptions();
+        optionsOuter.setSaveOuter();
+        String appendString = src2Body.xmlText(optionsOuter);
+        String srcString = src1Body.xmlText();
+        String prefix = srcString.substring(0, srcString.indexOf(">") + 1);
+        String mainPart = srcString.substring(srcString.indexOf(">") + 1, srcString.lastIndexOf("<"));
+        String sufix = srcString.substring(srcString.lastIndexOf("<"));
+        String addPart = appendString.substring(appendString.indexOf(">") + 1, appendString.lastIndexOf("<"));
+        CTBody makeBody = CTBody.Factory.parse(prefix + mainPart + addPart + sufix);
+        src1Body.set(makeBody);
+        return document1;
+    }
+
+    /**
+     * @description 追加文档属性设置
+     **/
+    public static ResponseEntity<byte[]> mergeWord(List<byte[]> byteArrList , String docName) throws Exception {
+        //设置分页符---当刚好一页数据时，会导致出现空白页，后面出现分页符导致格式有一点差异
+        //解决方法是，在模板头上增加分页符
+        InputStream is = new ByteArrayInputStream(byteArrList.get(0));
+        XWPFDocument docx = new XWPFDocument(is);
+        for (int i = 0; i < byteArrList.size(); i++) {
+            if (i == 1) {
+                continue;
+            } else {
+                InputStream newIs = new ByteArrayInputStream(byteArrList.get(0));
+                XWPFDocument newDocx = new XWPFDocument(newIs);
+                docx = mergeWord(docx, newDocx);
+            }
+        }
+        //把doc输出到输出流中
+        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+        docx.write(byteOutputStream);
+        byteOutputStream.close();
+        return SpringWebFileUtil.download(byteOutputStream.toByteArray(),docName);
     }
 
     /**
@@ -190,13 +231,13 @@ public class ReportWordUtil {
         if (!file.exists()) {
             file.createNewFile();
             FileOutputStream fileOutputStream = null;
-            try{
+            try {
                 fileOutputStream = new FileOutputStream(file);
                 docx.write(fileOutputStream);
             } catch (Exception e) {
-                log.error("导出错误：{}",e);
-            }finally {
-                if (Objects.nonNull(fileOutputStream)){
+                log.error("导出错误：{}", e);
+            } finally {
+                if (Objects.nonNull(fileOutputStream)) {
                     fileOutputStream.close();
                 }
             }

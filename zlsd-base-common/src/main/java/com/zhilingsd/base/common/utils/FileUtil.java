@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.*;
+import java.util.zip.CRC32;
 
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
@@ -370,5 +371,11 @@ public class FileUtil {
         }
 
         return buffer;
+    }
+
+    public static String getCrc32(byte[] content) {
+        CRC32 crc32 = new CRC32();
+        crc32.update(content, 0, content.length);
+        return String.valueOf(crc32.getValue());
     }
 }

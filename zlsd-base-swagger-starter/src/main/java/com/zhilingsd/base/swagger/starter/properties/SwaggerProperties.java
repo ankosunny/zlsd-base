@@ -29,7 +29,7 @@ public class SwaggerProperties {
     private String description;
 
     /**
-     * 项目维护人员 example 杨国均，林梦怀
+     * 项目维护人员 example 吞星，林梦怀
      */
     private String names;
 

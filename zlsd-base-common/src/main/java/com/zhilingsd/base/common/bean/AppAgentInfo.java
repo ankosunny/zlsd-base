@@ -7,6 +7,10 @@ package com.zhilingsd.base.common.bean;
  * */
 public class AppAgentInfo {
     /**
+     * 相当于token
+     */
+    private String session;
+    /**
      * 当前登录用户Id
      */
     private Long operatorId;
@@ -21,14 +25,15 @@ public class AppAgentInfo {
     private long collectionGroupId;
 
 
-    private long resourceId;
+
 
     public AppAgentInfo() {
     }
 
-    public AppAgentInfo(Long operatorId, Long collectionCompanyId) {
+    public AppAgentInfo(Long operatorId, Long collectionCompanyId,String session) {
         this.operatorId = operatorId;
         this.collectionCompanyId = collectionCompanyId;
+        this.session=session;
     }
 
     public Long getOperatorId() {
@@ -55,11 +60,11 @@ public class AppAgentInfo {
         this.collectionGroupId = collectionGroupId;
     }
 
-    public long getResourceId() {
-        return resourceId;
+    public String getSession() {
+        return session;
     }
 
-    public void setResourceId(long resourceId) {
-        this.resourceId = resourceId;
+    public void setSession(String session) {
+        this.session = session;
     }
 }

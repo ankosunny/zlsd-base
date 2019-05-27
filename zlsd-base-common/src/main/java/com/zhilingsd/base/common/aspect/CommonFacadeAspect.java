@@ -1,12 +1,11 @@
 package com.zhilingsd.base.common.aspect;
 
 import com.zhilingsd.base.common.bean.AppAgentInfo;
-import com.zhilingsd.base.common.constants.AppConstants;
 import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
 import com.zhilingsd.base.common.exception.BusinessException;
+import com.zhilingsd.base.common.exception.ServiceException;
 import com.zhilingsd.base.common.utils.AppUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -20,9 +19,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 接口公共服务处理
@@ -46,40 +45,26 @@ public class CommonFacadeAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        Enumeration<String> headerNames = request.getHeaderNames();
         // 创建AppAgentInfo对象，如果有字段为空则抛出异常
-        String operatorId = request.getHeader("operatorId");
+        String session = Optional.ofNullable(request.getHeader("session")).orElseThrow(() -> new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(), "请求头session不能为空"));
+        String operatorId = Optional.ofNullable(request.getHeader("operatorId")).orElseThrow(() -> new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
+        String collectionCompanyId = Optional.ofNullable(request.getHeader("collectionCompanyId")).orElseThrow(() -> new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(), "请求头collectionCompanyId不能为空"));
+        log.info("当前登录session:{}",Objects.isNull(session)?"无信息":session);
         log.info("当前登录operatorId：{}", Objects.isNull(operatorId)?"无信息":operatorId);
-        String collectionCompanyId = request.getHeader("collectionCompanyId");
         log.info("当前登录collectionCompanyId：{}", Objects.isNull(collectionCompanyId)?"无信息":collectionCompanyId);
-        //String collectionGroupId = request.getHeader("collectionGroupId");
-        //String resourceId = request.getHeader("resourceId");
-        AppAgentInfo agentInfo = null;
-        // 判空操作
-        if (StringUtils.isNotEmpty(operatorId) && StringUtils.isNotEmpty(collectionCompanyId)) {
-            agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId));
-        } else {
-            throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(), "接口:"+mvcInterface+";方法:"+mvcMethod+";AppAgentInfo is null");
-        }
-//        if(StringUtils.isNotEmpty(collectionGroupId)){
-//            agentInfo.setCollectionGroupId(Long.parseLong(collectionGroupId));
-//        }
-//        if (StringUtils.isNotEmpty(resourceId)){
-//           agentInfo.setResourceId(Long.parseLong(resourceId));
-//        }
+        AppAgentInfo  agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId),session);
         if (agentInfo != null) {
             AppUtil.setAppAgentInfo(agentInfo);
         }
-//        Object[] args = jp.getArgs();//获取方法参数值
-//        if (args != null) {
-//            for (Object arg : args) {
-//                ValidationResult validationResult = beanValidatorFail(arg);
-//                if(!validationResult.getSuccess()){
-//                   throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),validationResult.getErrMsg());
-//                }
-//            }
-//        }
-
+        Object[] args = jp.getArgs();//获取方法参数值
+        if (args != null) {
+            for (Object arg : args) {
+                ValidationResult validationResult = beanValidatorFail(arg);
+                if(!validationResult.getSuccess()){
+                   throw new BusinessException(BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),validationResult.getErrMsg());
+                }
+            }
+        }
         Object obj = jp.proceed();
         return obj;
     }
@@ -100,4 +85,5 @@ public class CommonFacadeAspect {
         }
         return validationResult;
     }
+
 }

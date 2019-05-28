@@ -48,14 +48,12 @@ public class WebLogAspect {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
 
-    ThreadLocal<Long> startTime = new ThreadLocal<>();
-
     private static final String PRE_TAG = "************** ";
 
     @Around(value = "execution( * com.zhilingsd..*.*(..))" +
             "&& @annotation(webLogger)")
     public Object webLog(ProceedingJoinPoint jp, WebLogger webLogger) throws Throwable {
-        startTime.set(System.currentTimeMillis());
+        long startTime = System.currentTimeMillis();
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -71,7 +69,7 @@ public class WebLogAspect {
         StringBuffer sbreturn = new StringBuffer();
         sbreturn.append("\n" + PRE_TAG + jp.getSignature().getDeclaringTypeName() + "." + jp.getSignature().getName());
         sbreturn.append("\n" + PRE_TAG +  " 接口返回 : " + returnRes);
-        sbreturn.append("\n" + PRE_TAG + " 花费时间 : " + (System.currentTimeMillis() - startTime.get()) + "ms");
+        sbreturn.append("\n" + PRE_TAG + " 花费时间 : " + (System.currentTimeMillis() - startTime) + "ms");
         logger.info(sbreturn.toString());
         return returnRes;
     }

@@ -3,6 +3,7 @@ package com.zhilingsd.base.common.emuns;
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.bean.KeyValueBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,17 @@ public enum  ApproverStatusEnum {
 
     private int code;
     private String value;
+
+    public static List<Integer> ONE_APPROVE = new ArrayList<>(2);
+    public static List<Integer> TWO_APPROVE = new ArrayList<>(2);
+
+
+    static {
+        ONE_APPROVE.add(APPROVER_STATUS_1.getCode());
+        ONE_APPROVE.add(APPROVER_STATUS_2.getCode());
+        TWO_APPROVE.add(APPROVER_STATUS_3.getCode());
+        TWO_APPROVE.add(APPROVER_STATUS_4.getCode());
+    }
 
     ApproverStatusEnum(int code, String value) {
         this.code = code;

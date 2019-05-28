@@ -2,6 +2,8 @@ package com.zhilingsd.base.common.result;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageSerializable;
+import com.zhilingsd.base.common.utils.collection.GV;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -78,6 +80,17 @@ public class PageBean<T> extends PageSerializable<T> {
      */
     public PageBean(List<T> list) {
         this(list, 8);
+    }
+
+    /**
+     * 包装Page对象
+     *
+     * @param list
+     */
+    public PageBean(List<T> list,Long totalNum) {
+        this(list, 8);
+        this.total = totalNum;
+        this.pages = (GV.i(this.total)+this.pageSize-1)/this.pageSize;
     }
 
     /**

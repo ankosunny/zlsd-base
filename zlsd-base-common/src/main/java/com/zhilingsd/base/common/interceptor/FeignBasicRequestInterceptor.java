@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 
+
 /**
  * feign拦截器
  * @author linmenghuai
@@ -23,7 +24,10 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
      * 催收机构ID
      * */
     private final static String COLLECTION_COMPANY_ID = "collectionCompanyId";
-
+    /**
+     * Session
+     * */
+    private final static String SESSION = "session";
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
@@ -32,11 +36,13 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
         }else {
             log.info(OPERATOR_ID +": "+AppUtil.getAppAgentInfo().getOperatorId());
             log.info(COLLECTION_COMPANY_ID +": "+AppUtil.getAppAgentInfo().getCollectionCompanyId());
+            log.info(SESSION +": "+AppUtil.getAppAgentInfo().getSession());
         }
-        if (Objects.nonNull(AppUtil.getAppAgentInfo().getOperatorId()) && Objects.nonNull(AppUtil.getAppAgentInfo().getCollectionCompanyId())){
+        if (Objects.nonNull(AppUtil.getAppAgentInfo().getOperatorId()) && Objects.nonNull(AppUtil.getAppAgentInfo().getCollectionCompanyId())
+                &&Objects.nonNull(AppUtil.getAppAgentInfo().getSession())){
             requestTemplate.header(OPERATOR_ID, AppUtil.getAppAgentInfo().getOperatorId()+"");
             requestTemplate.header(COLLECTION_COMPANY_ID, AppUtil.getAppAgentInfo().getCollectionCompanyId()+"");
+            requestTemplate.header(SESSION,AppUtil.getAppAgentInfo().getSession());
         }
     }
 }
-

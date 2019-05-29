@@ -21,7 +21,7 @@ public class ResultUtils {
         listResult.setCode(BaseResultCodeEnum.SUCCESS.getCode());
         listResult.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
         Date now = new Date();
-        listResult.setSysTime(now.getTime()+"");
+        listResult.setSysTime(now.getTime() + "");
         return listResult;
     }
 
@@ -36,10 +36,10 @@ public class ResultUtils {
         if (e instanceof DAOException) {
             DAOException daoException = (DAOException) e;
             return ResultUtils.getErrListResult(t, daoException.getCode(), daoException.getMessage());
-        }else if (e instanceof ServiceException) {
+        } else if (e instanceof ServiceException) {
             ServiceException serviceException = (ServiceException) e;
             return ResultUtils.getErrListResult(t, serviceException.getCode(), serviceException.getMessage());
-        }else{
+        } else {
             return ResultUtils.getErrListResult(t, ExceptionCodeEnum.UNKNOWN_ERROR_999.getCode(), ExceptionCodeEnum.UNKNOWN_ERROR_999.getMsg());
         }
     }
@@ -76,10 +76,10 @@ public class ResultUtils {
         if (e instanceof DAOException) {
             DAOException daoException = (DAOException) e;
             return ResultUtils.getErrSingleResult(t, daoException.getCode(), daoException.getMessage());
-        }else if (e instanceof ServiceException) {
+        } else if (e instanceof ServiceException) {
             ServiceException serviceException = (ServiceException) e;
             return ResultUtils.getErrSingleResult(t, serviceException.getCode(), serviceException.getMessage());
-        }else{
+        } else {
             return ResultUtils.getErrSingleResult(t, ExceptionCodeEnum.UNKNOWN_ERROR_999.getCode(), ExceptionCodeEnum.UNKNOWN_ERROR_999.getMsg());
         }
     }
@@ -96,10 +96,10 @@ public class ResultUtils {
         if (e instanceof DAOException) {
             DAOException daoException = (DAOException) e;
             return ResultUtils.getErrCommonResult(daoException.getCode(), daoException.getMessage());
-        }else if (e instanceof ServiceException) {
+        } else if (e instanceof ServiceException) {
             ServiceException serviceException = (ServiceException) e;
             return ResultUtils.getErrCommonResult(serviceException.getCode(), serviceException.getMessage());
-        }else{
+        } else {
             return ResultUtils.getErrCommonResult(ExceptionCodeEnum.UNKNOWN_ERROR_999.getCode(), ExceptionCodeEnum.UNKNOWN_ERROR_999.getMsg());
         }
     }
@@ -109,18 +109,19 @@ public class ResultUtils {
         commonResult.setCode(BaseResultCodeEnum.SUCCESS.getCode());
         commonResult.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
         Date now = new Date();
-        commonResult.setSysTime(now.getTime()+"");
+        commonResult.setSysTime(now.getTime() + "");
         return commonResult;
     }
 
     /**
      * 验证
+     *
      * @param result       SingleResult
      * @param exceptionMsg 异常信息
      */
-    public static void verifyResult(SingleResult result,String exceptionMsg) {
-        if (!BaseResultCodeEnum.SUCCESS.getCode().equals(result.code)){
-            throw new ServiceException(BaseResultCodeEnum.BUSINESS_ERROR.getCode(), exceptionMsg);
+    public static void verifyResult(SingleResult result, String exceptionMsg) {
+        if (!BaseResultCodeEnum.SUCCESS.getCode().equals(result.code)) {
+            throw new ServiceException(BaseResultCodeEnum.BUSINESS_ERROR.getCode(), exceptionMsg + "---------" + result.getMsg());
         }
     }
 }

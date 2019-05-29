@@ -42,7 +42,7 @@ public enum ApiResultCodeEnum {
 
     MISSING_METHOD(ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getCode(), ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getMsg(), "isv.missing_method", "缺少方法名参数", "请求参数里面必须要有method参数"),
     MISSING_SIGNATURE(ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getCode(), ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getMsg(), "isv.missing_signature", "缺少签名参数", "检查请求参数，缺少sign参数"),
-    MISSING_APP_KEY(ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getCode(), ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getMsg(), "isv.missing_timestamp", "缺少时间戳参数", "检查请求参数，缺少timestamp参数"),
+    MISSING_TIMESTAMP(ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getCode(), ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getMsg(), "isv.missing_timestamp", "缺少时间戳参数", "检查请求参数，缺少timestamp参数"),
     MISSING_VERSION(ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getCode(), ApiResultMainCodeEnum.MISSING_REQUIRED_ARGUMENTS.getMsg(), "isv.missing_version", "缺少版本参数", "检查请求参数，缺少version参数"),
 
     INVALID_PARAMETER(ApiResultMainCodeEnum.ILLEGAL_PARAMETERS.getCode(), ApiResultMainCodeEnum.ILLEGAL_PARAMETERS.getMsg(), "isv.invalid_parameter", "参数无效", "检查参数，格式不对、非法值、越界等"),
@@ -62,6 +62,8 @@ public enum ApiResultCodeEnum {
     CHECK_TOKEN_FAILED(ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getCode(), ApiResultMainCodeEnum.INSUFFICIENT_AUTHORITY.getMsg(), "check_token_failed", "验证token失败，请重新登录", "重新登录"),
 
     BUSINESS_PROCESSING_FAILURE(ApiResultMainCodeEnum.BUSINESS_PROCESSING_FAILURE.getCode(), ApiResultMainCodeEnum.BUSINESS_PROCESSING_FAILURE.getMsg(), "", "", ""),
+
+    RESPONSE_NON_STANDARD(ApiResultMainCodeEnum.API_PROCESSING_FAILURE.getCode(), ApiResultMainCodeEnum.API_PROCESSING_FAILURE.getMsg(), "isp.response_non_standard", "业务可能成功，但业务系统出参格式不规范，API无法正确解析返回数据", "需要业务系统改造"),
     ;
 
     private int code;

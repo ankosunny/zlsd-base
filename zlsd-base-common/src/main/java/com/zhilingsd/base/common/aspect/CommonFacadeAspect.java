@@ -39,9 +39,6 @@ public class CommonFacadeAspect {
 
     @Around(value = "@annotation(com.zhilingsd.base.common.annotation.CommonFacade)")
     public Object before(ProceedingJoinPoint jp) throws Throwable {
-        Signature signature = jp.getSignature();
-        String mvcInterface = signature.getDeclaringTypeName();
-        String mvcMethod = signature.getName();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();

@@ -34,39 +34,41 @@ public class EasyExcelUtil {
 
     /**
      * Description: 导出excel 支持一张表导出多个sheet
+     *
+     * @param response             输出流
+     * @param sheetNameAndDateList sheetName和每个sheet的数据
+     * @param type                 要导出的excel的类型 有ExcelTypeEnum.xls 和有ExcelTypeEnum.xlsx
+     * @param fileName             文件名
+     * @return void
      * @Author zengkai
      * @Date 2019/5/6 16:52
-     * @param response 输出流
-     * @param SheetNameAndDateList sheetName和每个sheet的数据
-     * @param type 要导出的excel的类型 有ExcelTypeEnum.xls 和有ExcelTypeEnum.xlsx
-     * @param fileName 文件名
-     * @return void
      */
-    public static void createExcelStreamMutilByEaysExcel(HttpServletResponse response, Map<String, List<? extends BaseRowModel>> sheetNameAndDateList, ExcelTypeEnum type,String fileName) throws IOException {
+    public static void createExcelStreamMutilByEaysExcel(HttpServletResponse response, Map<String, List<? extends BaseRowModel>> sheetNameAndDateList, ExcelTypeEnum type, String fileName) throws IOException {
 
-            if (checkParam(sheetNameAndDateList, type)){
-                response.setContentType("multipart/form-data");
-                response.setCharacterEncoding("utf-8");
-                response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileName, "utf-8") + type.getValue());
-                response.setHeader("response-message", "attachment;filename="+ URLEncoder.encode(JSON.toJSONString(CollectionResult.success()), "utf-8"));
-                ServletOutputStream out = response.getOutputStream();
-                ExcelWriter writer = new ExcelWriter(out, type, true);
-                setSheet(sheetNameAndDateList, writer);
-                writer.finish();
-                out.flush();
-            }else {
-                throw new BusinessExceptionSZ("导出数据存在错误信息");
-            }
+        if (checkParam(sheetNameAndDateList, type)) {
+            response.setContentType("multipart/form-data");
+            response.setCharacterEncoding("utf-8");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf-8") + type.getValue());
+            response.setHeader("response-message", "attachment;filename=" + URLEncoder.encode(JSON.toJSONString(CollectionResult.success()), "utf-8"));
+            ServletOutputStream out = response.getOutputStream();
+            ExcelWriter writer = new ExcelWriter(out, type, true);
+            setSheet(sheetNameAndDateList, writer);
+            writer.finish();
+            out.flush();
+        } else {
+            throw new BusinessExceptionSZ("导出数据存在错误信息");
+        }
     }
 
 
     /**
      * Description: setSheet数据
+     *
+     * @param SheetNameAndDateList
+     * @param writer
+     * @return void
      * @Author zengkai
      * @Date 2019/5/6 16:52
-     * @param SheetNameAndDateList
-     * @param writer
-     * @return void
      */
     private static void setSheet(Map<String, List<? extends BaseRowModel>> SheetNameAndDateList, ExcelWriter writer) {
         int sheetNum = 1;
@@ -81,11 +83,12 @@ public class EasyExcelUtil {
 
     /**
      * Description: 校验参数
+     *
+     * @param sheetNameAndDateList
+     * @param type
+     * @return boolean
      * @Author zengkai
      * @Date 2019/5/6 16:52
-     * @param sheetNameAndDateList
- * @param type
-     * @return boolean
      */
     private static boolean checkParam(Map<String, List<? extends BaseRowModel>> sheetNameAndDateList, ExcelTypeEnum type) {
         if (CollectionUtils.isEmpty(sheetNameAndDateList)) {
@@ -96,7 +99,7 @@ public class EasyExcelUtil {
             return false;
         }
         for (List<? extends BaseRowModel> value : sheetNameAndDateList.values()) {
-            if (CollectionUtils.isEmpty(value)){
+            if (CollectionUtils.isEmpty(value)) {
                 log.error("导出的excel数据对象不能为空");
                 return false;
             }

@@ -262,6 +262,72 @@ public class FileUtil {
         return up;
     }
 
+    public static byte[] zipFileReturnByte(List<String> fileUrls) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ZipOutputStream zout = new ZipOutputStream(out);
+        zout.setEncoding("GBK");
+
+        FileInputStream in = null;
+        try {
+            byte[] buf = new byte[1024];
+            int len;
+            for (String url : fileUrls) {
+                File file = new File(url);
+                String fileName = file.getName();
+                in = new FileInputStream(file);
+                zout.putNextEntry(new ZipEntry(fileName));
+                while ((len = in.read(buf)) > 0) {
+                    zout.write(buf, 0, len);
+                }
+                zout.closeEntry();
+            }
+            zout.close();
+            return out.toByteArray();
+        } finally {
+            if (zout != null) {
+                zout.close();
+            }
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
+
+    public static byte[] zipReturnByte(List<ZipFilleStream> streams) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ZipOutputStream zout = new ZipOutputStream(out);
+        zout.setEncoding("GBK");
+
+        InputStream in = null;
+        try {
+            byte[] buf = new byte[1024];
+            int len;
+            for (ZipFilleStream stream : streams) {
+                in = new ByteArrayInputStream(stream.getContent());
+                zout.putNextEntry(new ZipEntry(stream.getFileName()));
+                while ((len = in.read(buf)) > 0) {
+                    zout.write(buf, 0, len);
+                }
+                zout.closeEntry();
+            }
+            zout.close();
+            return out.toByteArray();
+        } finally {
+            if (zout != null) {
+                zout.close();
+            }
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
+
     public static ResponseEntity<byte[]> zipByte(List<ZipFilleStream> streams, String zipName) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ZipOutputStream zout = new ZipOutputStream(out);

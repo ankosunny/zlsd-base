@@ -31,7 +31,7 @@ public class ReportWordUtil {
     /**
      * @description 导出ZIP文件
      **/
-    public static ResponseEntity<byte[]> getWorldZipFile(List<byte[]> listBytes, List<ReportExportVo> list) throws IOException {
+    public static byte[] getWorldZipFile(List<byte[]> listBytes, List<ReportExportVo> list) throws IOException {
         //最大10M的world文件
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(10 * 1024);
         ZipOutputStream zipOut = new ZipOutputStream(byteArrayOutputStream);
@@ -55,7 +55,7 @@ public class ReportWordUtil {
                 }
                 zipOut.close();
                 String zipName = DateUtil.convertDateToString(DateUtil.DATE_TIME_PATTERN, new Date()) + ".zip";
-                return SpringWebFileUtil.download(byteArrayOutputStream.toByteArray(), zipName);
+                return byteArrayOutputStream.toByteArray();
             }
         } catch (XmlException e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class ReportWordUtil {
      * @param bytes 输入地址
      * @throws Exception 导出单个文件
      */
-    public static ResponseEntity<byte[]> getWorldFile(byte[] bytes, ReportExportVo vo,String docName) throws Exception {
+    public static byte[] getWorldFile(byte[] bytes, ReportExportVo vo) throws Exception {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         try {
             //输出地址 输入地址 加随机数
@@ -86,7 +86,7 @@ public class ReportWordUtil {
             //把doc输出到输出流中
             docx.write(byteOutputStream);
             byteOutputStream.close();
-            return SpringWebFileUtil.download(byteOutputStream.toByteArray(), docName);
+            return byteOutputStream.toByteArray();
         } finally {
             if (null != byteOutputStream) {
                 byteOutputStream.close();

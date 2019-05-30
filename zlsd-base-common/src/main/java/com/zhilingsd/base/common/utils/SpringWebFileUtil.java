@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +26,18 @@ public class SpringWebFileUtil {
     private static final String MEDIA_TYPE_OCTET_STREAM = "application/octet-stream";
     private static final String MEDIA_TYPE_JSON = "application/json;charset=UTF-8";
     private static final String CHARACTER_ENCODING = "UTF-8";
+
+    public static void downloadByte(HttpServletResponse response, byte[] bytes, String fileName) throws IOException {
+        //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        response.setCharacterEncoding("utf-8");
+        response.setHeader(HEADER_CONTENT_DISPOSITION, "attachment; filename=" + URLEncoder.encode(fileName, CHARACTER_ENCODING));
+        response.setHeader(HEADER_RESPONSE_MESSAGE, URLEncoder.encode(JSON.toJSONString(CollectionResult.success()), CHARACTER_ENCODING));
+        ServletOutputStream outputStream = response.getOutputStream();
+        outputStream.write(bytes);
+        outputStream.flush();
+        outputStream.close();
+    }
 
     public static ResponseEntity<Resource> download(Resource file) throws IOException {
         HttpHeaders headers = new HttpHeaders();

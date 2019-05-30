@@ -15,12 +15,6 @@ import java.util.List;
  */
 public class SearchInfoCacheConstant {
 
-    //公司常量缓存的key前缀
-    public static final String ORG_CONSTANT_CACHE = "collection_org_constant_cache:";
-
-    //所有常量缓存的key前缀
-    public static final String ALL_CONSTANT_CACHE = "collection_all_constant_cache:";
-
     //产品名称
     public static final String PRODUCT_NAME = "product_name";
 
@@ -36,7 +30,10 @@ public class SearchInfoCacheConstant {
     //账龄
     public static final String BUCKET = "bucket";
 
+    //手別
+    public static final String BACTH_TIME = "bacth_time";
+
     //所有的案件缓存常量
-    public static List<String> CONSTANT_CASE_TYPE_LIST = Arrays.asList(BUCKET,PRODUCT_NAME, REGISTERED_ADDRESS, CASE_AREA, COLLECTION_TYPE);
+    public static List<String> CONSTANT_CASE_TYPE_LIST = Arrays.asList(BUCKET,PRODUCT_NAME, REGISTERED_ADDRESS, CASE_AREA, COLLECTION_TYPE,BACTH_TIME);
 
 }

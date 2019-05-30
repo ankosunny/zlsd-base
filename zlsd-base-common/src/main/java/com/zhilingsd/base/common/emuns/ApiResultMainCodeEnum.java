@@ -33,6 +33,7 @@ public enum ApiResultMainCodeEnum {
     ILLEGAL_PARAMETERS(40002, "非法参数"),
     INSUFFICIENT_AUTHORITY(40003, "权限不足"),
     BUSINESS_PROCESSING_FAILURE(40004, "业务处理失败"),
+    BUSINESS_EXCEPTION(40005,"业务异常"),
     API_PROCESSING_FAILURE(50000, "网关处理失败"),
     ;
 

@@ -63,6 +63,8 @@ public enum ApiResultCodeEnum {
 
     BUSINESS_PROCESSING_FAILURE(ApiResultMainCodeEnum.BUSINESS_PROCESSING_FAILURE.getCode(), ApiResultMainCodeEnum.BUSINESS_PROCESSING_FAILURE.getMsg(), "", "", ""),
 
+    BUSINESS_EXCEPTION(ApiResultMainCodeEnum.BUSINESS_EXCEPTION.getCode(), ApiResultMainCodeEnum.BUSINESS_EXCEPTION.getMsg(), "", "", ""),
+
     RESPONSE_NON_STANDARD(ApiResultMainCodeEnum.API_PROCESSING_FAILURE.getCode(), ApiResultMainCodeEnum.API_PROCESSING_FAILURE.getMsg(), "isp.response_non_standard", "业务可能成功，但业务系统出参格式不规范，API无法正确解析返回数据", "需要业务系统改造"),
     ;
 

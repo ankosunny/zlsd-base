@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -60,6 +61,24 @@ public class EasyExcelUtil {
         }
     }
 
+    /**
+     * @param sheetNameAndDateList
+     * @param type
+     * @throws IOException
+     */
+    public static byte[] getExcelFileBytes(Map<String, List<? extends BaseRowModel>> sheetNameAndDateList, ExcelTypeEnum type) throws IOException {
+        ByteArrayOutputStream out = null;
+        if (checkParam(sheetNameAndDateList, type)) {
+            out = new ByteArrayOutputStream();
+            ExcelWriter writer = new ExcelWriter(out, type, true);
+            setSheet(sheetNameAndDateList, writer);
+            writer.finish();
+            out.flush();
+        } else {
+            throw new BusinessExceptionSZ("导出数据存在错误信息");
+        }
+        return out.toByteArray();
+    }
 
     /**
      * Description: setSheet数据

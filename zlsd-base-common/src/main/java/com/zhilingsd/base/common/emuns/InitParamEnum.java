@@ -132,8 +132,7 @@ public enum InitParamEnum {
      * @description 人工催收下拉列表
      **/
     public static List<String> getManualTypes() {
-        List<String> list = Lists.newArrayList(BILL_STATUS.getValue(), BILL_CLASSIFY_STATUS.getValue(), COLLECTION_TYPE.getValue(),
-                BACTH_TIME.getValue(), TEL_STATUS.getValue(), BILL_FOLLOW_TYPE.getValue());
+        List<String> list = Lists.newArrayList(CASE_AREA.getValue(), BACTH_TIME.getValue());
         return list;
     }
 

@@ -1,9 +1,12 @@
 package com.zhilingsd.base.common.utils;
 
+import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.vo.ReportExportVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.xwpf.usermodel.*;
+import org.apache.poi.xwpf.usermodel.IRunBody;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -118,7 +121,7 @@ public class ReportWordUtil {
     /**
      * @description 追加文档属性设置
      **/
-    public static ResponseEntity<byte[]> mergeWord(List<byte[]> byteArrList , String docName) throws Exception {
+    public static ResponseEntity<byte[]> mergeWord(List<byte[]> byteArrList, String docName) throws Exception {
         //设置分页符---当刚好一页数据时，会导致出现空白页，后面出现分页符导致格式有一点差异
         //解决方法是，在模板头上增加分页符
         InputStream is = new ByteArrayInputStream(byteArrList.get(0));
@@ -136,7 +139,7 @@ public class ReportWordUtil {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         docx.write(byteOutputStream);
         byteOutputStream.close();
-        return SpringWebFileUtil.download(byteOutputStream.toByteArray(),docName);
+        return SpringWebFileUtil.download(byteOutputStream.toByteArray(), docName);
     }
 
     /**
@@ -158,6 +161,9 @@ public class ReportWordUtil {
 
 
     private static void replaceContent(XWPFDocument doc, ReportExportVo vo) throws XmlException {
+
+        String LEFT = "[";
+        String RIGHT = "]";
         for (XWPFParagraph paragraph : doc.getParagraphs()) {
             XmlCursor cursor = paragraph.getCTP().newCursor();
             cursor.selectPath("declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//*/w:txbxContent/w:p/w:r");
@@ -167,41 +173,46 @@ public class ReportWordUtil {
                 XmlObject obj = cursor.getObject();
                 ctrsintxtbx.add(obj);
             }
-            String preText = "";
-            StringBuffer text1 = new StringBuffer();
-            for (XmlObject obj : ctrsintxtbx) {
-                CTR ctr = CTR.Factory.parse(obj.xmlText());
-                //CTR ctr = CTR.Factory.parse(obj.newInputStream());
-                XWPFRun bufferrun = new XWPFRun(ctr, (IRunBody) paragraph);
-                log.info("bufferrun.getTextPosition()：{}", bufferrun.getTextPosition());
-                System.out.println(bufferrun.getText(0));
-            }
-            log.info("文档内容：{}", text1);
+            List<String> textList = Lists.newArrayList();
             for (int i = 0; i < ctrsintxtbx.size(); i++) {
                 XmlObject obj = ctrsintxtbx.get(i);
                 CTR ctr = CTR.Factory.parse(obj.xmlText());
-                //CTR ctr = CTR.Factory.parse(obj.newInputStream());
                 XWPFRun bufferrun = new XWPFRun(ctr, (IRunBody) paragraph);
-                log.info("bufferrun.getTextPosition()：{}", bufferrun.getTextPosition());
                 String text = bufferrun.getText(0);
-                System.out.println(text);
-                if (i != 0) {
-                    preText = new XWPFRun(CTR.Factory.parse(ctrsintxtbx.get(i - 1).xmlText()), (IRunBody) paragraph).getText(0);
-                }
-                if (text != null) {
-                    if ("[".equals(text)) {
-                        bufferrun.setText("", 0);
-                        obj.set(bufferrun.getCTR());
-                        continue;
-                    }
-                    if ("]".equals(text)) {
-                        bufferrun.setText("", 0);
-                        obj.set(bufferrun.getCTR());
-                        if (!StringUtils.isBlank(preText)) {
-                            text = "[" + preText + "]";
+                textList.add(text);
+                log.info("当前文档值{}：{}" ,i,text);
+                //分情况
+                //3、  [文字]
+                if (Objects.nonNull(text)) {
+                    if (text.contains(LEFT) && text.contains(RIGHT)) {
+                        //这种不用替换 往下走
+                        log.info("{}都包含：{}",i,text);
+                    } else {
+                        //1、  [  文字 ]
+                        if (text.contains(LEFT)) {
+                            //删除所有
+                            bufferrun.setText("", 0);
+                            obj.set(bufferrun.getCTR());
+                            continue;
+                        } else if (text.contains(RIGHT)) {
+                            if(textList.size()>1 && textList.get(i-1).contains(LEFT)){
+                                text = textList.get(i-1) + text;
+                            }else if (textList.size()>2 && textList.get(i-2).contains(LEFT)){
+                                text = textList.get(i-2)+textList.get(i-1)+ text;
+                            }
+                        } else {
+                            //纯文字
+                            if (textList.size()>1 && textList.get(i-1).contains(LEFT)){
+                                //删除所有
+                                bufferrun.setText("", 0);
+                                obj.set(bufferrun.getCTR());
+                                continue;
+                            }else {
+                                continue;
+                            }
                         }
                     }
-
+                    log.info("到达之前{}：{}",i,text);
                     for (String word : vo.getExportValue().keySet()) {
                         if (word.equals(text) || text.contains(word)) {
                             text = text.replace(word, vo.getExportValue().get(word));
@@ -275,7 +286,7 @@ public class ReportWordUtil {
         byte[] readSize = new byte[8 * 1024];
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(new File("F:\\新私有化\\导出\\a.docx"));
+            FileInputStream fileInputStream = new FileInputStream(new File("F:\\新私有化\\导出\\a2.docx"));
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             while (fileInputStream.read(readSize) != -1) {
                 byteArrayOutputStream.write(readSize);

@@ -123,56 +123,56 @@ public class VisitReportExportVo implements Serializable {
     public void setBillCode(String billCode) {
         if (idCard != null) {
             this.billCode = billCode;
-            this.exportValue.put("案件编号",billCode);
+            this.exportValue.put("[案件编号]",billCode);
         }
     }
 
     public void setBeginDate(String beginDate) {
         if (beginDate != null){
             this.beginDate = beginDate;
-            this.exportValue.put("外访日期",beginDate);
+            this.exportValue.put("[外访日期]",beginDate);
         }
     }
 
     public void setBeginTime(String beginTime) {
         if (beginTime != null){
             this.beginTime = beginTime;
-            this.exportValue.put("外访时间",beginTime);
+            this.exportValue.put("[外访时间]",beginTime);
         }
     }
 
     public void setEndTime(String endTime) {
         if (endTime != null){
             this.endTime = endTime;
-            this.exportValue.put("结束时间",endTime);
+            this.exportValue.put("[结束时间]",endTime);
         }
     }
 
     public void setVisitPhone(String visitPhone) {
         if (visitPhone != null) {
             this.visitPhone = visitPhone;
-            this.exportValue.put("电话",visitPhone);
+            this.exportValue.put("[电话]",visitPhone);
         }
     }
 
     public void setCommitDate(String commitDate) {
         if (commitDate != null){
             this.commitDate = commitDate;
-            this.exportValue.put("委托日期",commitDate);
+            this.exportValue.put("[委托日期]",commitDate);
         }
     }
 
     public void setDebtMoney(String debtMoney) {
         if (debtMoney != null){
             this.debtMoney = debtMoney;
-            this.exportValue.put("目前余额",debtMoney);
+            this.exportValue.put("[目前余额]",debtMoney);
         }
     }
 
     public void setVisitDesc(String visitDesc) {
         if (visitDesc != null){
             this.visitDesc = visitDesc;
-            this.exportValue.put("外访情况",visitDesc);
+            this.exportValue.put("[外访情况]",visitDesc);
         }
     }
 }

@@ -55,7 +55,7 @@ public class MessageExportVo implements Serializable {
     public void setPostCode(String postCode) {
         if (postCode != null){
             this.postCode = postCode;
-            this.exportValue.put("[案件编号]",postCode);
+            this.exportValue.put("[邮编]",postCode);
         }
     }
 

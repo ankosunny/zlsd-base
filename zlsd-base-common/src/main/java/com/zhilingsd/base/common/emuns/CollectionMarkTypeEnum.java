@@ -15,7 +15,7 @@ public enum CollectionMarkTypeEnum {
     PHONE_COLLECTION(1, "电催"),
     WORK_ORDER(2, "工单"),
     VISIT(3, "外访"),
-    MARK(4, "标注5"),
+    MARK(4, "标注"),
     ORIGIN_COLLECTION(5, "原始催记"),
     LETTER(6, "信函");
 

@@ -29,8 +29,8 @@ public enum AddressStationEnum {
     PERSONCOMPADDR("personCompAddr","个人单位地址"),
     PERSONBIRTHADDR("personBirthAddr", "个人户籍地"),
     PERSONBILLADDR("personBillAddr","个人账务地址"),
-    personFrequentAddr("personFrequentAddr","个人常用地址"),
-    others("others","其他"),
+    PERSONFREQUENTADDR("personFrequentAddr","个人常用地址"),
+    OTHERS("others","其他"),
     ;
 
     private String code;

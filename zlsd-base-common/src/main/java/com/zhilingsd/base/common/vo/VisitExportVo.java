@@ -25,13 +25,16 @@ public class VisitExportVo implements Serializable {
             "[案件编号]",
             "[姓名]",
             "[身份证]",
+            "[脱敏身份证]",
             "[手机]",
             "[委案金额]",
             "[帐号]",
             "[卡号]",
+            "[脱敏卡号]",
             "[客户号]",
             "[委案时间]",
             "[退案时间]",
+            "[家庭电话]",
             "[外访日期]",
             "[外访时间]",
             "[结束日期]",
@@ -59,7 +62,11 @@ public class VisitExportVo implements Serializable {
     /**
      * 身份证
      **/
-    private String idCard;
+    private String idNumber;
+    /**
+     * 脱敏身份证
+     **/
+    private String idNumberSafe;
     /**
      * 手机
      **/
@@ -77,6 +84,10 @@ public class VisitExportVo implements Serializable {
      **/
     private String cardNum;
     /**
+     * 脱敏卡号
+     **/
+    private String cardNumSafe;
+    /**
      * 客户号
      **/
     private String clientNum;
@@ -88,6 +99,10 @@ public class VisitExportVo implements Serializable {
      * 退案时间
      **/
     private String limitDate;
+    /**
+     * 家庭电话
+     **/
+    private String homeTel;
     /**
      * 外访日期
      **/
@@ -170,10 +185,16 @@ public class VisitExportVo implements Serializable {
         }
     }
 
-    public void setIdCard(String idCard) {
-        if (StringUtils.isNotBlank(idCard)) {
-            this.idCard = idCard;
-            this.exportValue.put("[身份证]", idCard);
+    public void setIdNumber(String idNumber) {
+        if (StringUtils.isNotBlank(idNumber)) {
+            this.idNumber = idNumber;
+            this.exportValue.put("[身份证]", idNumber);
+        }
+    }
+    public void setIdNumberSafe(String idNumberSafe) {
+        if (StringUtils.isNotBlank(idNumberSafe)) {
+            this.idNumberSafe = idNumberSafe;
+            this.exportValue.put("[脱敏身份证]", idNumberSafe);
         }
     }
 
@@ -204,6 +225,13 @@ public class VisitExportVo implements Serializable {
             this.exportValue.put("[卡号]", cardNum);
         }
     }
+    public void setCardNumSafe(String cardNumSafe) {
+        if (StringUtils.isNotBlank(cardNumSafe)) {
+            this.cardNumSafe = cardNumSafe;
+            this.exportValue.put("[脱敏卡号]", cardNumSafe);
+        }
+    }
+
 
     public void setClientNum(String clientNum) {
         if (StringUtils.isNotBlank(clientNum)) {
@@ -223,6 +251,12 @@ public class VisitExportVo implements Serializable {
         if (StringUtils.isNotBlank(limitDate)) {
             this.limitDate = limitDate;
             this.exportValue.put("[退案时间]", limitDate);
+        }
+    }
+    public void setHomeTel(String homeTel) {
+        if (StringUtils.isNotBlank(homeTel)) {
+            this.homeTel = homeTel;
+            this.exportValue.put("[家庭电话]", homeTel);
         }
     }
 

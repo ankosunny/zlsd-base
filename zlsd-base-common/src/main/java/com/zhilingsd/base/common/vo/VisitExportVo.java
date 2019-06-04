@@ -1,9 +1,11 @@
 package com.zhilingsd.base.common.vo;
 
+import com.zhilingsd.base.common.utils.ExportVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -16,7 +18,7 @@ import java.util.Map;
 @Getter
 @Builder
 @AllArgsConstructor
-public class VisitExportVo implements Serializable {
+public class VisitExportVo extends ExportVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Map<String, String> exportValue;
@@ -51,6 +53,18 @@ public class VisitExportVo implements Serializable {
             "[外访催记催收方式]",
             "[外访催记内容]"
     };
+
+    @Override
+    public void replaceContent(String text, XWPFRun bufferrun) {
+        for (String word : this.getExportValue().keySet()) {
+            if (word.equals(text) || text.contains(word)) {
+                text = text.replace(word, this.getExportValue().get(word));
+                bufferrun.setText(text, 0);
+                break;
+            }
+        }
+    }
+
     /**
      * 案件编号
      **/

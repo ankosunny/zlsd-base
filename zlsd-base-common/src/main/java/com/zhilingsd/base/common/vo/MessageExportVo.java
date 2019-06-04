@@ -23,8 +23,6 @@ public class MessageExportVo extends ExportVo implements Serializable {
 
     private Map<String, String> exportValue;
 
-    private Integer type;
-
     private String[] words = {
             "[邮编]",
             "[发函地址]",

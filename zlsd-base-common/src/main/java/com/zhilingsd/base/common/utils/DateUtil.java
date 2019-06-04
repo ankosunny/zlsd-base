@@ -81,6 +81,9 @@ public class DateUtil {
     }
 
     public static String getTime(Date date) {
+        if(date == null){
+            return "";
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
         return formatter.format(date);
     }
@@ -156,6 +159,9 @@ public class DateUtil {
     }
 
     public static String getDate(Date date) {
+        if(date == null){
+            return "";
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         return formatter.format(date);

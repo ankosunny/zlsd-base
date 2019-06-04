@@ -3,7 +3,6 @@ package com.zhilingsd.base.common.utils;
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.vo.ReportExportVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.xwpf.usermodel.IRunBody;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -31,22 +30,22 @@ import java.util.zip.ZipOutputStream;
  * @DateTime: 2019/5/17 9:34
  */
 @Slf4j
-public class ReportWordUtil {
+public class ExportReprotUtil<T extends ExportVo> {
     /**
      * @description 导出ZIP文件
      **/
-    public static byte[] getWorldZipFile(List<byte[]> listBytes, List<ReportExportVo> list) throws IOException {
+    public  byte[] getWorldZipFile(List<byte[]> listBytes, List<T> list) throws IOException {
         //最大10M的world文件
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(10 * 1024);
         ZipOutputStream zipOut = new ZipOutputStream(byteArrayOutputStream);
         try {
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
-                    ReportExportVo vo = list.get(i);
+                    T vo = list.get(i);
                     //输出地址 输入地址 加随机数
                     InputStream is = new ByteArrayInputStream(listBytes.get(i));
                     XWPFDocument doc = new XWPFDocument(is);
-                    replaceContent(doc, vo);
+                    replaceTemplateContent(doc, vo);
                     //把doc输出到输出流中
                     ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
                     doc.write(byteOutputStream);
@@ -80,13 +79,13 @@ public class ReportWordUtil {
      * @param bytes 输入地址
      * @throws Exception 导出单个文件
      */
-    public static byte[] getWorldFile(byte[] bytes, ReportExportVo vo) throws Exception {
+    public byte[] getWorldFile(byte[] bytes, T vo) throws Exception {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         try {
             //输出地址 输入地址 加随机数
             InputStream is = new ByteArrayInputStream(bytes);
             XWPFDocument docx = new XWPFDocument(is);
-            replaceContent(docx, vo);
+            replaceTemplateContent(docx, vo);
             //把doc输出到输出流中
             docx.write(byteOutputStream);
             byteOutputStream.close();
@@ -161,8 +160,9 @@ public class ReportWordUtil {
     }
 
 
-    private static void replaceContent(XWPFDocument doc, ReportExportVo vo) throws XmlException {
 
+
+    private void replaceTemplateContent(XWPFDocument doc, T vo ) throws XmlException {
         String LEFT = "[";
         String RIGHT = "]";
         for (XWPFParagraph paragraph : doc.getParagraphs()) {
@@ -213,20 +213,20 @@ public class ReportWordUtil {
                             }
                         }
                     }
-                    log.info("到达之前{}：{}",i,text);
-                    for (String word : vo.getExportValue().keySet()) {
-                        if (word.equals(text) || text.contains(word)) {
-                            text = text.replace(word, vo.getExportValue().get(word));
-                            bufferrun.setText(text, 0);
-                            break;
-                        }
-                    }
+                    vo.replaceContent(text,bufferrun);
+//                    log.info("到达之前{}：{}",i,text);
+//                    for (String word : vo.getExportValue().keySet()) {
+//                        if (word.equals(text) || text.contains(word)) {
+//                            text = text.replace(word, vo.getExportValue().get(word));
+//                            bufferrun.setText(text, 0);
+//                            break;
+//                        }
+//                    }
                 }
                 obj.set(bufferrun.getCTR());
             }
         }
     }
-
 
     /**
      * 导出单个文件 world
@@ -234,13 +234,13 @@ public class ReportWordUtil {
      * @param bytes 输入地址
      * @throws Exception 导出单个文件
      */
-    public static void createWorldFile(byte[] bytes, ReportExportVo vo) throws Exception {
+    public void createWorldFile(byte[] bytes, T vo) throws Exception {
         //输出地址 输入地址 加随机数
         InputStream is = new ByteArrayInputStream(bytes);
         XWPFDocument docx = new XWPFDocument(is);
-        replaceContent(docx, vo);
+        replaceTemplateContent(docx, vo);
         //把doc输出到输出流中
-        File file = new File("F:\\新私有化\\导出\\c.docx");
+        File file = new File("F:\\data\\c.docx");
         if (!file.exists()) {
             file.createNewFile();
             FileOutputStream fileOutputStream = null;
@@ -258,7 +258,7 @@ public class ReportWordUtil {
     }
 
     public static void main(String[] args) {
-
+        ExportReprotUtil<ReportExportVo>  exportVoExportReprotUtil = new ExportReprotUtil();
         ReportExportVo vo = new ReportExportVo();
         vo.setName("我的姓名");
         vo.setCardNum("123456789");
@@ -288,12 +288,12 @@ public class ReportWordUtil {
         byte[] readSize = new byte[8 * 1024];
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(new File("F:\\新私有化\\导出\\a2.docx"));
+            FileInputStream fileInputStream = new FileInputStream(new File("F:\\data\\a.docx"));
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             while (fileInputStream.read(readSize) != -1) {
                 byteArrayOutputStream.write(readSize);
             }
-            createWorldFile(byteArrayOutputStream.toByteArray(), vo);
+            exportVoExportReprotUtil.createWorldFile(byteArrayOutputStream.toByteArray(), vo);
         } catch (Exception e) {
             System.out.println(e);
         }

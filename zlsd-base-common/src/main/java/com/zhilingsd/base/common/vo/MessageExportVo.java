@@ -1,8 +1,10 @@
 package com.zhilingsd.base.common.vo;
 
+import com.zhilingsd.base.common.utils.ExportVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -15,7 +17,7 @@ import java.util.Map;
 @Getter
 @Builder
 @AllArgsConstructor
-public class MessageExportVo implements Serializable {
+public class MessageExportVo extends ExportVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -80,4 +82,14 @@ public class MessageExportVo implements Serializable {
         }
     }
 
+    @Override
+    public void replaceContent(String text, XWPFRun bufferrun) {
+        for (String word : this.getExportValue().keySet()) {
+            if (word.equals(text) || text.contains(word)) {
+                text = text.replace(word, this.getExportValue().get(word));
+                bufferrun.setText(text, 0);
+                break;
+            }
+        }
+    }
 }

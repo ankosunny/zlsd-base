@@ -108,4 +108,14 @@ public class ImportUtils {
         }
         return head + str;
     }
+    public static String encrypIdNum(String idNum,int start,int end){
+        if(idNum.length()<end||0>start){ return null;}
+        String substring = idNum.substring(start, end);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i <substring.length() ; i++) {
+            stringBuilder.append("*");
+        }
+        idNum.replace(substring,stringBuilder.toString());
+        return idNum;
+    }
 }

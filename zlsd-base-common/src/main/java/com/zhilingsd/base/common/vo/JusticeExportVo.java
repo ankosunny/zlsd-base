@@ -1,6 +1,7 @@
 package com.zhilingsd.base.common.vo;
 
 import com.zhilingsd.base.common.utils.ExportVo;
+import com.zhilingsd.base.common.utils.ImportUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -299,8 +300,9 @@ public class JusticeExportVo extends ExportVo implements Serializable {
 
     public void setIdNumberSafe(String idNumberSafe) {
         if (StringUtils.isNotBlank(idNumberSafe)) {
-            this.idNumberSafe = idNumberSafe;
-            this.exportValue.put("[脱敏身份证]", idNumberSafe);
+            String s = ImportUtils.encrypIdNum(idNumberSafe, 12, 15);
+            this.idNumberSafe = s;
+            this.exportValue.put("[脱敏身份证]", s);
         }
     }
 
@@ -355,8 +357,9 @@ public class JusticeExportVo extends ExportVo implements Serializable {
 
     public void setCardNumSafe(String cardNumSafe) {
         if (StringUtils.isNotBlank(cardNumSafe)) {
-            this.cardNumSafe = cardNumSafe;
-            this.exportValue.put("[脱敏卡号]", cardNumSafe);
+            String s = ImportUtils.encrypIdNum(cardNum, 9, 12);
+            this.cardNumSafe = s;
+            this.exportValue.put("[脱敏卡号]", s);
         }
     }
 

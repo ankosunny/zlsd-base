@@ -328,6 +328,44 @@ public class FileUtil {
         }
     }
 
+    public static byte[] zipReturnByte(Map<String,List<ZipFilleStream>> map) throws IOException {
+
+
+        //1.创建字节数组输出流，用于返回压缩后的输出流字节数组
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        //2.创建压缩输出流
+        ZipOutputStream zipOut = new ZipOutputStream(baos);
+
+        zipOut.setEncoding("GBK");//设置编码格式，否则中文文件名乱码
+
+        //3.遍历要批量压缩的集合文件流
+        ByteArrayInputStream bais =null;
+        int temp = 0 ;
+
+        for (String fileNamePath : map.keySet()) {
+            List<ZipFilleStream> streams = map.get(fileNamePath);
+
+            zipOut.putNextEntry(new ZipEntry(fileNamePath));
+
+            for (int i = 0; i < streams.size(); i++) {
+                bais = new ByteArrayInputStream(streams.get(i).getContent());
+                while((temp=bais.read())!=-1){
+                    zipOut.write(temp) ;    // 压缩输出
+                }
+            }
+        }
+
+        // 3.4关闭流
+        bais.close();
+
+        zipOut.close();
+
+        baos.close();// 关闭流
+
+        return baos.toByteArray();
+    }
+
     public static ResponseEntity<byte[]> zipByte(List<ZipFilleStream> streams, String zipName) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ZipOutputStream zout = new ZipOutputStream(out);

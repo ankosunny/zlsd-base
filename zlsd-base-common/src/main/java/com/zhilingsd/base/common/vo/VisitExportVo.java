@@ -141,6 +141,11 @@ public class VisitExportVo extends ExportVo implements Serializable {
      * 外访人2
      **/
     private String visitTwo;
+
+    private Long staffAId;
+
+    private Long staffBId;
+
     /**
      * 外访地址
      **/
@@ -153,6 +158,11 @@ public class VisitExportVo extends ExportVo implements Serializable {
      * 外访催记时间
      **/
     private String visitMarkTime;
+
+    /**
+     * 外访催记类型
+     **/
+    private Integer markType;
     /**
      * 外访催记类型
      **/
@@ -378,4 +388,8 @@ public class VisitExportVo extends ExportVo implements Serializable {
             this.exportValue.put("[外访催记内容]", visitMarkContent);
         }
     }
+
+
+
+
 }

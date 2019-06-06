@@ -2,8 +2,8 @@ package com.zhilingsd.base.common.utils;
 
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.vo.ReportExportVo;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
+import com.zhilingsd.base.common.vo.VisitExportVo;
+
 import org.apache.poi.xwpf.usermodel.IRunBody;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -17,7 +17,13 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +31,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Author: zhangbo
@@ -35,14 +43,14 @@ public class ReportWordUtil {
     /**
      * @description 导出ZIP文件
      **/
-    public static byte[] getWorldZipFile(List<byte[]> listBytes, List<ReportExportVo> list) throws IOException {
+    public static byte[] getWorldZipFile(List<byte[]> listBytes, List<VisitExportVo> list) throws IOException {
         //最大10M的world文件
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(10 * 1024);
         ZipOutputStream zipOut = new ZipOutputStream(byteArrayOutputStream);
         try {
             if (!CollectionUtils.isEmpty(list)) {
                 for (int i = 0; i < list.size(); i++) {
-                    ReportExportVo vo = list.get(i);
+                    VisitExportVo vo = list.get(i);
                     //输出地址 输入地址 加随机数
                     InputStream is = new ByteArrayInputStream(listBytes.get(i));
                     XWPFDocument doc = new XWPFDocument(is);
@@ -161,7 +169,7 @@ public class ReportWordUtil {
     }
 
 
-    private static void replaceContent(XWPFDocument doc, ReportExportVo vo) throws XmlException {
+    private static void replaceContent(XWPFDocument doc, ExportVo vo) throws XmlException {
 
         String LEFT = "[";
         String RIGHT = "]";

@@ -32,7 +32,6 @@ public class ReportExportVo extends ExportVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Map<String, String> exportValue;
 
     private Integer type;
 

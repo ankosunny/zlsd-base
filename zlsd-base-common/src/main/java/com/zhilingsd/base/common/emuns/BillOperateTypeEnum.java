@@ -20,7 +20,8 @@ public enum BillOperateTypeEnum {
     ALLOT_0(0, "分案"),
     ADJUST_1(1, "调案"),
     REVOKE_2(2, "撤销案件"),
-    CANCEL_3(3,"取消流程"),
+    CANCEL_3(3,"取消分案"),
+    BACK_4(3,"退案"),
     ;
     private int code;
     private String value;

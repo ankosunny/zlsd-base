@@ -104,7 +104,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public CommonResult errorHandler(Exception e) {
-        return returnErr(ReturnCode.ERROR_500.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
     /**
@@ -114,7 +114,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public CommonResult handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-        return returnErr(ReturnCode.ERROR_400.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -124,7 +124,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public CommonResult handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return returnErr(ReturnCode.ERROR_400.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
 
     }
 
@@ -144,7 +144,7 @@ public class GlobalExceptionHandler {
             String message =  bindingResult.getFieldErrors().stream().map(m -> m.getDefaultMessage()).collect(Collectors.joining(","));
             errorMesssage.append(message);
         }
-        return returnErr(ReturnCode.ERROR_400.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -156,7 +156,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public CommonResult handleBindException(BindException e) {
-        return returnErr(ReturnCode.ERROR_400.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -169,7 +169,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public CommonResult handleServiceException(ConstraintViolationException e) {
-        return returnErr(ReturnCode.ERROR_400.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -181,7 +181,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
     public CommonResult handleValidationException(ValidationException e) {
-        return returnErr(ReturnCode.ERROR_400.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -192,7 +192,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public CommonResult handleHttpMediaTypeNotSupportedException(Exception e) {
-        return returnErr(ReturnCode.ERROR_400.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -203,7 +203,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CommonResult handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        return returnErr(ReturnCode.ERROR_405.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_405.getCode()),e);
     }
 
 
@@ -215,7 +215,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = WebException.class)
     public CommonResult webErrorHandler(WebException e) throws Exception {
-        return returnErr(ReturnCode.ERROR_500.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
    
@@ -228,7 +228,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = DAOException.class)
     public CommonResult daoErrorHandler(DAOException e) throws Exception {
-        return returnErr(ReturnCode.ERROR_500.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
     /**
@@ -239,7 +239,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BaseException.class)
     public CommonResult baseErrorHandler(BaseException e) throws Exception {
-        return returnErr(ReturnCode.ERROR_500.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
     /**
@@ -250,7 +250,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ServiceException.class)
     public CommonResult serviceErrorHandler(ServiceException e) throws Exception {
-        return returnErr(ReturnCode.ERROR_500.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
     /**
@@ -261,7 +261,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BusinessException.class)
     public CommonResult bussinessErrorHandler(BusinessException e) throws Exception {
-        return returnErr(ReturnCode.ERROR_500.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
     /**
@@ -272,7 +272,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = IllegalParameterException.class)
     public CommonResult  illegalParameterErrorHandler(IllegalParameterException e) throws Exception {
-        return returnErr(ReturnCode.ERROR_500.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
     /**
      * 捕获处理IllegalParameterException
@@ -282,7 +282,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = MaxSizeException.class)
     public CommonResult  illegalParameterErrorHandler(MaxSizeException e) throws Exception {
-        return returnErr(ReturnCode.ERROR_500.getMsg(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
 

@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * 统一异常处理
- * @author jacky
+ * @author 吞星
  * @date 2018/4/12
  */
 @RestControllerAdvice

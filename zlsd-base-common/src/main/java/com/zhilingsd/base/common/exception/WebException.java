@@ -2,7 +2,7 @@ package com.zhilingsd.base.common.exception;
 
 /**
  * 此类是针对控制层向外抛出的异常，非控制层不要向上抛此异常
- * @author jacky
+ * @author 吞星
  */
 public class WebException extends BaseException {
   
@@ -34,10 +34,12 @@ public class WebException extends BaseException {
         this.message = message;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
 
+    @Override
     public void setCode(String code) {
         this.code = code;
     }
@@ -47,6 +49,7 @@ public class WebException extends BaseException {
         return message;
     }
 
+    @Override
     public void setMessage(String message) {
         this.message = message;
     }

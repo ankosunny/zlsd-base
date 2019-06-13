@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * @program: 智灵时代广州研发中心
  * @description:
- * @author: jacky(yangguojun)
+ * @author: 吞星(yangguojun)
  * @create: 2019-05-17 10:57
  **/
 @EnableWebMvc

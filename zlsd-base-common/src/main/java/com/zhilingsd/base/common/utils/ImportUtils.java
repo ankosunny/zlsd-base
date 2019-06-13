@@ -100,9 +100,9 @@ public class ImportUtils {
     public static String getFortBitNumStr(Integer i) {
         String str = i.toString();
         String head = "";
-        if (str.length() < 4) {
+        if (str.length() < 6) {
             char[] chars = str.toCharArray();
-            for (int i1 = 0; i1 < 4 - chars.length; i1++) {
+            for (int j = 0; j < 6 - chars.length; j++) {
                 head += "0";
             }
         }

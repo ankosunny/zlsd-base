@@ -1913,7 +1913,7 @@ public class DateUtil {
         return c.getTime();
     }
 
-    public static Date toDate(String source) {
+    public static Date toDateTime(String source) {
         StringBuilder dateStr = new StringBuilder("00000000000000");
         if (StringUtils.isEmpty(source)) {
             return null;
@@ -1943,6 +1943,32 @@ public class DateUtil {
 
         try {
             return new SimpleDateFormat("yyyyMMddHHmmss").parse(dateStr.toString());
+        } catch (ParseException e) {
+            throw new RuntimeException(String.format("parser %s to Date fail", source));
+        }
+
+    }
+
+    public static Date toDate(String source) {
+        StringBuilder dateStr = new StringBuilder("00000000");
+        if (StringUtils.isEmpty(source)) {
+            return null;
+        }
+
+        String[] dateEles = source.split("[^0-9]+");
+        for (int i = 0; i < dateEles.length; i++) {
+            if (i == 0) {
+                dateStr.replace(0, 4, String.format("%04d", Integer.valueOf(dateEles[0])));
+            }
+            if (i == 1) {
+                dateStr.replace(4, 6, String.format("%02d", Integer.valueOf(dateEles[1])));
+            }
+            if (i == 2) {
+                dateStr.replace(6, 8, String.format("%02d", Integer.valueOf(dateEles[2])));
+            }
+        }
+        try {
+            return new SimpleDateFormat("yyyyMMdd").parse(dateStr.toString());
         } catch (ParseException e) {
             throw new RuntimeException(String.format("parser %s to Date fail", source));
         }
@@ -2311,8 +2337,5 @@ public class DateUtil {
         return resultList;
     }
 
-    public static void main(String[] args) {
-        int day = DateUtil.getGapOfTwoDate(DateUtil.getStartDate(new Date()), DateUtil.getStartDate(DateUtil.addDate(new Date(), -0)));
-        System.out.println(day);
-    }
+
 }

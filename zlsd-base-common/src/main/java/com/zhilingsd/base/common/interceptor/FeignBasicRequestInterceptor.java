@@ -1,5 +1,7 @@
 package com.zhilingsd.base.common.interceptor;
 
+import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.exception.ServiceException;
 import com.zhilingsd.base.common.utils.AppUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -33,6 +35,7 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate requestTemplate) {
         if (Objects.isNull(AppUtil.getAppAgentInfo())) {
             log.info("拦截器没有当前登录用户信息");
+            throw new ServiceException(BaseResultCodeEnum.BUSINESS_ERROR.getCode(),"请重新登录!");
         }else {
             log.info(OPERATOR_ID +": "+AppUtil.getAppAgentInfo().getOperatorId());
             log.info(COLLECTION_COMPANY_ID +": "+AppUtil.getAppAgentInfo().getCollectionCompanyId());

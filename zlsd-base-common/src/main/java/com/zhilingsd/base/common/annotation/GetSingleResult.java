@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * 向外输出SingleResult注解
- * @author jacky
+ * @author 吞星
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

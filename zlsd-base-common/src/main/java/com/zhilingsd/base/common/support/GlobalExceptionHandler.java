@@ -55,8 +55,6 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
 
     /**
      * 应用到所有@RequestMapping注解方法，在其执行之前初始化数据绑定器
@@ -67,7 +65,7 @@ public class GlobalExceptionHandler {
 
     private CommonResult returnErr(Exception e, String errMsg, String code) {
         //LOGGER.error(errMsg + e.toString());
-    	LOGGER.error(e.getMessage(), e);
+    	log.error(e.getMessage(), e);
         CommonResult result = new CommonResult();
         result.setCode(code);
         result.setMsg(e.getMessage());
@@ -75,7 +73,7 @@ public class GlobalExceptionHandler {
         return  result;
     }
     private CommonResult returnErr(BaseException e, String errMsg) {
-    	LOGGER.error(e.getMessage(), e);
+    	log.error(e.getMessage(), e);
         CommonResult result = new CommonResult();
         result.setCode(e.getCode());
         result.setMsg(e.getMessage());
@@ -83,10 +81,19 @@ public class GlobalExceptionHandler {
         return  result;
     }
     private CommonResult returnErr(String errMsg, String code,Exception e) {
-        LOGGER.error(e.getMessage(), e);
+        log.error(e.getMessage(), e);
         CommonResult result = new CommonResult();
         result.setCode(code);
         result.setMsg(errMsg);
+        result.setSysTime(String.valueOf(System.currentTimeMillis()));
+        return  result;
+    }
+
+    private CommonResult returnErr(String code, Exception e ) {
+        log.error(e.getMessage(), e);
+        CommonResult result = new CommonResult();
+        result.setCode(code);
+        result.setMsg(e.getMessage());
         result.setSysTime(String.valueOf(System.currentTimeMillis()));
         return  result;
     }
@@ -97,7 +104,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public CommonResult errorHandler(Exception e) {
-        return returnErr("系统异常","500",e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
     /**
@@ -107,7 +114,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public CommonResult handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-        return returnErr(e,"缺少请求参数","400");
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -117,7 +124,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public CommonResult handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return returnErr(e,"参数解析失败","400");
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
 
     }
 
@@ -137,7 +144,7 @@ public class GlobalExceptionHandler {
             String message =  bindingResult.getFieldErrors().stream().map(m -> m.getDefaultMessage()).collect(Collectors.joining(","));
             errorMesssage.append(message);
         }
-        return returnErr(errorMesssage.toString(),BaseResultCodeEnum.METHOD_ARGUMENT_NOT_VALID_ERROR.getCode(),e);
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -149,7 +156,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public CommonResult handleBindException(BindException e) {
-        return returnErr(e,"参数绑定失败","400");
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -162,7 +169,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public CommonResult handleServiceException(ConstraintViolationException e) {
-        return returnErr(e,"约束违反异常","400");
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -174,7 +181,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
     public CommonResult handleValidationException(ValidationException e) {
-        return returnErr(e,"参数验证异常","400");
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -185,7 +192,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public CommonResult handleHttpMediaTypeNotSupportedException(Exception e) {
-        return returnErr(e,"不支持当前媒体类型","400");
+        return returnErr(String.valueOf(ReturnCode.ERROR_400.getCode()),e);
     }
 
     /**
@@ -196,7 +203,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CommonResult handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        return returnErr(e,"请求方式不支持异常","405");
+        return returnErr(String.valueOf(ReturnCode.ERROR_405.getCode()),e);
     }
 
 
@@ -208,7 +215,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = WebException.class)
     public CommonResult webErrorHandler(WebException e) throws Exception {
-        return returnErr(e,"请求web异常");
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
    
@@ -221,7 +228,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = DAOException.class)
     public CommonResult daoErrorHandler(DAOException e) throws Exception {
-        return returnErr(e,"请求dao异常");
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
     /**
@@ -232,7 +239,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BaseException.class)
     public CommonResult baseErrorHandler(BaseException e) throws Exception {
-        return returnErr(e,"base异常");
+        return returnErr(String.valueOf(ReturnCode.UN_SUCCESS.getCode()),e);
     }
 
     /**
@@ -243,7 +250,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ServiceException.class)
     public CommonResult serviceErrorHandler(ServiceException e) throws Exception {
-        return returnErr(e,"service异常");
+        return returnErr(String.valueOf(ReturnCode.UN_SUCCESS.getCode()),e);
     }
 
     /**
@@ -254,7 +261,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BusinessException.class)
     public CommonResult bussinessErrorHandler(BusinessException e) throws Exception {
-        return returnErr(e,"bussiness异常");
+        return returnErr(String.valueOf(ReturnCode.UN_SUCCESS.getCode()),e);
     }
 
     /**
@@ -265,7 +272,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = IllegalParameterException.class)
     public CommonResult  illegalParameterErrorHandler(IllegalParameterException e) throws Exception {
-        return returnErr(e,"illegalParameter异常");
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
     /**
      * 捕获处理IllegalParameterException
@@ -275,7 +282,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = MaxSizeException.class)
     public CommonResult  illegalParameterErrorHandler(MaxSizeException e) throws Exception {
-        return returnErr(e,"illegalParameter异常");
+        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
     }
 
 

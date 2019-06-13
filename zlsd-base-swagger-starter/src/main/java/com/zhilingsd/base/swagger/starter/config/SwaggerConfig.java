@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * @program: 智灵时代广州研发中心
  * @description: swagger配置类
- * @author: jacky(yangguojun)
+ * @author: 吞星(yangguojun)
  * @create: 2019-04-30 16:49
  **/
 @Configuration

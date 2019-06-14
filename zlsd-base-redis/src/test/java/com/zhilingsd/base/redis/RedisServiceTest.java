@@ -2,8 +2,10 @@ package com.zhilingsd.base.redis;
 
 import com.zhilingsd.base.cache.Cache;
 import com.zhilingsd.base.common.utils.JsonUtils;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +13,33 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestApplication.class)
+@FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
 public class RedisServiceTest {
 
     private final static Logger log = LoggerFactory.getLogger(RedisServiceTest.class);
 
-    private final static String KEY = "redis_test_key";
+    private final static String KEY = "redis_test_key_";
     private final static String VALUE = "test_test_test_测试_测试_测试";
-    private final static String KEY1 = "redis_test_key1";
+    private final static String KEY1 = "redis_test_key1_";
     private final static String VALUE1 = "test_test_test_测试_测试_测试_2_2_2_2";
     private final static String FIELD = "field";
     private final static String FIELD1 = "field1";
     private final static int EXPIRE_TIME = 60;
-
+    private static String setnxKey = "setnxKey";
+    private static String setnxKey1 = "setnxKey1";
+    private static String lpushKey = "lpushKey";
+    private static String lpushKey1 = "lpushKey1";
+    private static String rpushKey = "rpushKey";
+    private static String rpushKey1 = "rpushKey1";
+    private static String hsetTest = "hsetTest";
     @Autowired
-    Cache<String,Serializable> redisService;
+    Cache<String, Serializable> redisService;
 
     @Test
     public void set() {
@@ -68,8 +79,6 @@ public class RedisServiceTest {
         doPrint("isKeyExist", "end");
     }
 
-    private static String setnxKey = "setnxKey";
-
     @Test
     public void setnx() {
         doPrint("setnx", "begin");
@@ -77,8 +86,6 @@ public class RedisServiceTest {
         log.info("key = {}, return = {}", setnxKey, bool.booleanValue());
         doPrint("setnx", "end");
     }
-
-    private static String setnxKey1 = "setnxKey1";
 
     @Test
     public void setnx1() {
@@ -96,8 +103,6 @@ public class RedisServiceTest {
         doPrint("expire", "end");
     }
 
-    private static String lpushKey = "lpushKey";
-
     @Test
     public void lpush() {
         doPrint("lpush", "begin");
@@ -106,8 +111,6 @@ public class RedisServiceTest {
         doPrint("lpush", "end");
     }
 
-    private static String lpushKey1 = "lpushKey1";
-
     @Test
     public void lpush1() {
         doPrint("lpush1", "begin");
@@ -115,9 +118,6 @@ public class RedisServiceTest {
         log.info("key = {}, return = {}", lpushKey1, longObj.longValue());
         doPrint("lpush1", "end");
     }
-
-    private static String rpushKey = "rpushKey";
-    private static String rpushKey1 = "rpushKey1";
 
     @Test
     public void rpush() {
@@ -138,7 +138,7 @@ public class RedisServiceTest {
     @Test
     public void lpop() throws Exception {
         doPrint("lpop", "begin");
-        String value = (String)redisService.lpop(lpushKey);
+        String value = (String) redisService.lpop(lpushKey);
         log.info("key = {}, return = {}", lpushKey, value);
         doPrint("lpop", "end");
     }
@@ -146,7 +146,7 @@ public class RedisServiceTest {
     @Test
     public void rpop() throws Exception {
         doPrint("rpop", "begin");
-        String value = (String)redisService.rpop(rpushKey);
+        String value = (String) redisService.rpop(rpushKey);
         log.info("key = {}, return = {}", rpushKey, value);
         doPrint("rpop", "end");
     }
@@ -189,12 +189,10 @@ public class RedisServiceTest {
         doPrint("hset1", "end");
     }
 
-    private static String hsetTest = "hsetTest";
-
     @Test
     public void hget() {
         doPrint("hget", "begin");
-        String value= (String)redisService.hget(hsetTest, FIELD);
+        String value = (String) redisService.hget(hsetTest, FIELD);
         log.info("key = {}, field = {}, value = {}", hsetTest, FIELD, value);
         doPrint("hget", "end");
     }
@@ -278,7 +276,7 @@ public class RedisServiceTest {
         doPrint("testSetObject", "begin");
         log.info("入参：{}", JsonUtils.toJsonString(p));
         redisService.set("p", p);
-        Pojo p2 = (Pojo)redisService.get("p");
+        Pojo p2 = (Pojo) redisService.get("p");
         log.info("出参：{}", JsonUtils.toJsonString(p2));
         doPrint("testGetObject", "end");
 
@@ -286,17 +284,67 @@ public class RedisServiceTest {
 
 
     private void doPrint(String operate, String status) {
-        if("begin".equals(status)) {
+        if ("begin".equals(status)) {
             System.out.println("--------- " + operate + " begin ---------");
         } else {
             System.out.println("--------- " + operate + " end ---------");
         }
     }
 
+    @Test
+    public void test_1_sAdd() {
+        doPrint(KEY + "sAdd", "begin");
+        redisService.sAdd(KEY + "sAdd", VALUE);
+        redisService.sAdd(KEY + "sAdd", VALUE1);
+//        redisService.sAdd(KEY, VALUE);
+        doPrint(KEY + "sAdd", "end");
+    }
+
+    @Test
+    public void test_2_sAdd1() {
+        doPrint(KEY + "sAdd1", "begin");
+        redisService.sAdd(KEY + "sAdd1", VALUE, EXPIRE_TIME);
+        redisService.sAdd(KEY + "sAdd1", VALUE1, EXPIRE_TIME);
+        doPrint(KEY + "sAdd1", "end");
+    }
+
+
+    @Test
+    public void test_3_sPop() {
+        doPrint(KEY + "sPop", "begin");
+        System.out.println(redisService.sPop(KEY + "sAdd"));
+        doPrint(KEY + "sPop", "end");
+    }
+
+    @Test
+    public void test_4_sMembers() {
+        doPrint(KEY + "sMembers", "begin");
+        System.out.println(redisService.sMembers(KEY + "sAdd"));
+        System.out.println(redisService.sMembers(KEY + "sAdd1"));
+        doPrint(KEY + "sMembers", "end");
+    }
+
+    @Test
+    public void test_5_sIsMember() {
+        doPrint(KEY + "sIsMember", "begin");
+        System.out.println(redisService.sIsMember(KEY + "sAdd", VALUE));
+        System.out.println(redisService.sIsMember(KEY + "sAdd1", VALUE1));
+        System.out.println(redisService.sIsMember(KEY + "sAdd2", VALUE));
+        doPrint(KEY + "sIsMember", "end");
+    }
+
+    @Test
+    public void test_6_sRem() {
+        doPrint(KEY + "sRem", "begin");
+        System.out.println(redisService.sRem(KEY + "sAdd1", VALUE));
+        System.out.println(redisService.sRem(KEY + "sAdd1", VALUE1 + "2"));
+        doPrint(KEY + "sRem", "end");
+    }
+
 
 }
 
-class Pojo implements Serializable{
+class Pojo implements Serializable {
     private String name;
     private int age;
     private List<String> addrs;
@@ -335,7 +383,7 @@ class Pojo implements Serializable{
     }
 }
 
-class Certification implements Serializable{
+class Certification implements Serializable {
     private String certiName;
     private String certiCode;
 

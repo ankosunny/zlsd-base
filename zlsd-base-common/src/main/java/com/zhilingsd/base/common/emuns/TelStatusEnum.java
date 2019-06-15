@@ -18,9 +18,10 @@ import java.util.List;
  */
 public enum TelStatusEnum {
 
-    PACKET_NOT_ALLOT(0, "待分配"),
-    PACKET_ALLOTING(1, "部分分配"),
-    PACKET_ALLOT(2, "已分配");
+    TEL_STATUS_0(0, "未知"),
+    TEL_STATUS_1(1, "有效"),
+    TEL_STATUS_2(2, "无效"),
+    ;
 
     private int code;
     private String value;

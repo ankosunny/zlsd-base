@@ -14,7 +14,9 @@ import java.util.List;
 public enum JusticeStatusEnum {
     JUSTICE_STATUS_0(0, "待处理"),
     JUSTICE_STATUS_1(1, "已打印"),
-    JUSTICE_STATUS_2(2, "已完成");
+    JUSTICE_STATUS_2(2, "已完成"),
+    JUSTICE_STATUS_3(3,"已取消")
+    ;
 
     private int code;
     private String value;

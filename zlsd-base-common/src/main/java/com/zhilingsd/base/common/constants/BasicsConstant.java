@@ -216,4 +216,9 @@ public class BasicsConstant {
 
 
     public static final String DECIMAL_MIN_STR = "0.000000001";
+
+    /**
+     * 字符串-英文逗号分隔符
+     */
+    public static final String STRING_SPLIT_COMMA = ",";
 }

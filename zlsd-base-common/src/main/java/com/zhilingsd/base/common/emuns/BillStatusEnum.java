@@ -18,7 +18,7 @@ import java.util.List;
  */
 public enum BillStatusEnum {
 
-    BILL_NOT_ALLOT(0, "未分配"),
+    BILL_NOT_ALLOT(0, "新案件"),
     BILL_NOT_FLOW(1, "待跟进"),
     BILL_FLOW(2, "跟进中"),
     BILL_BACK(3, "已退案"),

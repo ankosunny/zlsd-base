@@ -294,4 +294,63 @@ public interface Cache<K extends Serializable, V extends Serializable> {
      * @return 被成功移除的域的数量，不包括被忽略的域。
      */
     Long hdel(K key, String... fields);
+
+    /**
+     * 添加一个指定的member元素到集合的key中，使用默认超时时间.
+     * 指定的一个元素member 如果已经在集合key中存在则忽略.
+     * 如果集合key 不存在，则新建集合key,并添加member元素到集合key中.
+     * 如果key 的类型不是集合则抛出异常.
+     *
+     * @param key
+     * @param value
+     */
+    void sAdd(K key, V value);
+
+    /**
+     * 添加一个指定的member元素到集合的 key中，并指定时间.
+     * 指定的一个元素member 如果已经在集合key中存在则忽略.
+     * 如果集合key 不存在，则新建集合key,并添加member元素到集合key中.
+     * 如果key 的类型不是集合则抛出异常.
+     *
+     * @param key
+     * @param value
+     * @param time
+     */
+    void sAdd(K key, V value, int time);
+
+    /**
+     * 从存储在key的集合中移除并返回一个随机元素.
+     *
+     * @param key
+     * @return 被删除的元素，或者当key不存在时返回null。
+     */
+    V sPop(K key);
+
+    /**
+     * 返回key集合所有的元素.
+     *
+     * @param key
+     * @return 返回key集合所有的元素.
+     */
+    Set<V> sMembers(K key);
+
+    /**
+     * 确定一个给定的值是否为集合的成员.
+     *
+     * @param key
+     * @param value
+     * @return 如果member元素是集合key的成员，则返回true; 不是集合key的成员，或者集合key不存在，则返回false
+     */
+    Boolean sIsMember(Serializable key, Serializable value);
+
+    /**
+     * 在key集合中移除指定的元素.
+     * 如果指定的元素不是key集合中的元素则忽略 如果key集合不存在则被视为一个空的集合，该命令返回0.
+     * 如果key的类型不是一个集合,则返回错误.
+     *
+     * @param key
+     * @param value
+     * @return 从集合中移除元素的个数，不包括不存在的成员.
+     */
+    Long sRem(K key, V value);
 }

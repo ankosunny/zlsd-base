@@ -239,7 +239,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BaseException.class)
     public CommonResult baseErrorHandler(BaseException e) throws Exception {
-        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
+        return returnErr(String.valueOf(ReturnCode.UN_SUCCESS.getCode()),e);
     }
 
     /**
@@ -250,7 +250,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ServiceException.class)
     public CommonResult serviceErrorHandler(ServiceException e) throws Exception {
-        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
+        return returnErr(String.valueOf(ReturnCode.UN_SUCCESS.getCode()),e);
     }
 
     /**
@@ -261,7 +261,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BusinessException.class)
     public CommonResult bussinessErrorHandler(BusinessException e) throws Exception {
-        return returnErr(String.valueOf(ReturnCode.ERROR_500.getCode()),e);
+        return returnErr(String.valueOf(ReturnCode.UN_SUCCESS.getCode()),e);
     }
 
     /**

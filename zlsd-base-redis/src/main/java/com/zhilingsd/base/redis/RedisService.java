@@ -23,8 +23,8 @@
 package com.zhilingsd.base.redis;
 
 import com.zhilingsd.base.cache.Cache;
-import com.zhilingsd.base.redis.exception.RedisOperateException;
 import com.zhilingsd.base.common.utils.SerializeUtil;
+import com.zhilingsd.base.redis.exception.RedisOperateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,7 +72,7 @@ public class RedisService implements Cache {
             }
         } catch (Exception e) {
             log.error("Redis set 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis set 异常", e.getMessage());
+            throw new RedisOperateException("Redis set 异常:" + e.getMessage());
         }
     }
 
@@ -87,7 +87,7 @@ public class RedisService implements Cache {
             }
         } catch (Exception e) {
             log.error("Redis get 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis get 异常", e.getMessage());
+            throw new RedisOperateException("Redis get 异常:" + e.getMessage());
         }
     }
 
@@ -97,7 +97,7 @@ public class RedisService implements Cache {
             redisTemplate.delete((String) key);
         } catch (Exception e) {
             log.error("Redis delete 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis delete 异常", e.getMessage());
+            throw new RedisOperateException("Redis delete 异常:" + e.getMessage());
         }
     }
 
@@ -107,7 +107,7 @@ public class RedisService implements Cache {
             return redisTemplate.hasKey((String) key);
         } catch (Exception e) {
             log.error("Redis isKeyExist 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis isKeyExist 异常", e.getMessage());
+            throw new RedisOperateException("Redis isKeyExist 异常:" + e.getMessage());
         }
     }
 
@@ -127,7 +127,7 @@ public class RedisService implements Cache {
             return success;
         } catch (Exception e) {
             log.error("Redis setnx 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis setnx 异常", e.getMessage());
+            throw new RedisOperateException("Redis setnx 异常:" + e.getMessage());
         }
     }
 
@@ -137,7 +137,7 @@ public class RedisService implements Cache {
             return redisTemplate.expire((String) key, time, TimeUnit.SECONDS);
         } catch (Exception e) {
             log.error("Redis expire 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis expire 异常", e.getMessage());
+            throw new RedisOperateException("Redis expire 异常:" + e.getMessage());
         }
     }
 
@@ -157,7 +157,7 @@ public class RedisService implements Cache {
             return length;
         } catch (Exception e) {
             log.error("Redis lpush 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis lpush 异常", e.getMessage());
+            throw new RedisOperateException("Redis lpush 异常:" + e.getMessage());
         }
     }
 
@@ -177,7 +177,7 @@ public class RedisService implements Cache {
             return length;
         } catch (Exception e) {
             log.error("Redis rpush 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis rpush 异常", e.getMessage());
+            throw new RedisOperateException("Redis rpush 异常:" + e.getMessage());
         }
     }
 
@@ -192,7 +192,7 @@ public class RedisService implements Cache {
             }
         } catch (Exception e) {
             log.error("Redis lpop 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis lpop 异常", e.getMessage());
+            throw new RedisOperateException("Redis lpop 异常:" + e.getMessage());
         }
     }
 
@@ -207,7 +207,7 @@ public class RedisService implements Cache {
             }
         } catch (Exception e) {
             log.error("Redis rpop 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis rpop 异常", e.getMessage());
+            throw new RedisOperateException("Redis rpop 异常:" + e.getMessage());
         }
     }
 
@@ -222,7 +222,7 @@ public class RedisService implements Cache {
             return result;
         } catch (Exception e) {
             log.error("Redis lget 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis lget 异常", e.getMessage());
+            throw new RedisOperateException("Redis lget 异常:" + e.getMessage());
         }
     }
 
@@ -232,7 +232,7 @@ public class RedisService implements Cache {
             return redisTemplate.opsForList().size((String) key);
         } catch (Exception e) {
             log.error("Redis lLength 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis lLength 异常", e.getMessage());
+            throw new RedisOperateException("Redis lLength 异常:" + e.getMessage());
         }
     }
 
@@ -243,7 +243,7 @@ public class RedisService implements Cache {
                     new String(SerializeUtil.serialize(value)));
         } catch (Exception e) {
             log.error("Redis lremove 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis lremove 异常", e.getMessage());
+            throw new RedisOperateException("Redis lremove 异常:" + e.getMessage());
         }
     }
 
@@ -261,7 +261,7 @@ public class RedisService implements Cache {
             expire(key, expireTime);
         } catch (Exception e) {
             log.error("Redis hset 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis hset 异常", e.getMessage());
+            throw new RedisOperateException("Redis hset 异常:" + e.getMessage());
         }
     }
 
@@ -276,7 +276,7 @@ public class RedisService implements Cache {
             }
         } catch (Exception e) {
             log.error("Redis hget 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis hget 异常", e.getMessage());
+            throw new RedisOperateException("Redis hget 异常:" + e.getMessage());
         }
     }
 
@@ -297,7 +297,7 @@ public class RedisService implements Cache {
             return success;
         } catch (Exception e) {
             log.error("Redis hsetnx 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis hsetnx 异常", e.getMessage());
+            throw new RedisOperateException("Redis hsetnx 异常:" + e.getMessage());
         }
     }
 
@@ -307,7 +307,7 @@ public class RedisService implements Cache {
             return redisTemplate.opsForHash().keys((String) key);
         } catch (Exception e) {
             log.error("Redis hkeys 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis hkeys 异常", e.getMessage());
+            throw new RedisOperateException("Redis hkeys 异常:" + e.getMessage());
         }
     }
 
@@ -327,7 +327,7 @@ public class RedisService implements Cache {
             expire(key, expireSeconds);
         } catch (Exception e) {
             log.error("Redis hmset 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis hmset 异常", e.getMessage());
+            throw new RedisOperateException("Redis hmset 异常:" + e.getMessage());
         }
     }
 
@@ -343,7 +343,7 @@ public class RedisService implements Cache {
             return result;
         } catch (Exception e) {
             log.error("Redis hmget 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis hmget 异常", e.getMessage());
+            throw new RedisOperateException("Redis hmget 异常:" + e.getMessage());
         }
     }
 
@@ -353,9 +353,80 @@ public class RedisService implements Cache {
             return redisTemplate.opsForHash().delete((String) key, fields);
         } catch (Exception e) {
             log.error("Redis hdel 异常，堆栈信息：{}", getStackTrace(e));
-            throw new RedisOperateException("Redis hdel 异常", e.getMessage());
+            throw new RedisOperateException("Redis hdel 异常:" + e.getMessage());
         }
     }
+
+    /*************************Set*************************************/
+    @Override
+    public void sAdd(Serializable key, Serializable value) {
+        sAdd(key, value, -1);
+    }
+
+    @Override
+    public void sAdd(Serializable key, Serializable value, int time) {
+        try {
+            redisTemplate.opsForSet().add((String) key, SerializeUtil.serialize(value));
+            redisTemplate.expire((String) key, time > 0 ? time : expireSeconds, TimeUnit.SECONDS);
+        } catch (Throwable e) {
+            log.error("sAdd key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            throw new RedisOperateException("Redis sAdd 异常:" + e.getMessage());
+        }
+    }
+
+
+    @Override
+    public Serializable sPop(Serializable key) {
+        try {
+            byte[] value = redisTemplate.opsForSet().pop((String) key);
+            return value == null ? null : (Serializable) SerializeUtil.unSerialize(value);
+        } catch (Throwable e) {
+            log.error("sPop key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return null;
+        }
+    }
+
+    @Override
+    public Set<Serializable> sMembers(Serializable key) {
+        try {
+            Set<byte[]> value = redisTemplate.opsForSet().members((String) key);
+            Set<Serializable> result = new HashSet<>();
+            if (value == null) {
+                return null;
+            } else {
+                Iterator<byte[]> iterator = value.iterator();
+                while (iterator.hasNext()) {
+                    result.add((Serializable) SerializeUtil.unSerialize(iterator.next()));
+                }
+
+                return result;
+            }
+        } catch (Throwable e) {
+            log.error("sMembers key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return null;
+        }
+    }
+
+    @Override
+    public Boolean sIsMember(Serializable key, Serializable value) {
+        try {
+            return redisTemplate.opsForSet().isMember((String) key, SerializeUtil.serialize(value));
+        } catch (Throwable e) {
+            log.error("sIsMember key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return false;
+        }
+    }
+
+    @Override
+    public Long sRem(Serializable key, Serializable value) {
+        try {
+            return redisTemplate.opsForSet().remove((String) key, SerializeUtil.serialize(value));
+        } catch (Throwable e) {
+            log.error("sRem key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return -1L;
+        }
+    }
+
 
     public int getExpireSeconds() {
         return expireSeconds;

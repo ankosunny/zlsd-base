@@ -330,6 +330,64 @@ public class DateUtil {
     }
 
     /**
+     * 获取周一的时间
+     * @return
+     */
+    public static Date theMonDayOfWeek() {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        c.set(Calendar.HOUR_OF_DAY,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.SECOND,0);
+        Date time = c.getTime();
+        return time;
+    }
+    /**
+     * 获取周一的时间
+     * @return
+     */
+    public static Date theDayOfWeek(int i) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        c.set(Calendar.DAY_OF_WEEK, i);
+        c.set(Calendar.HOUR_OF_DAY,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.SECOND,0);
+        Date time = c.getTime();
+        return time;
+    }
+    /**
+     * 获取周六的时间
+     * @return
+     */
+    public static Date theSaturdayOfWeek() {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        c.set(Calendar.HOUR_OF_DAY,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.SECOND,0);
+        Date time = c.getTime();
+        return time;
+    }
+
+    /**
+     * 获取周天
+     * @return
+     */
+    public static Date theSunDayOfWeek() {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        c.set(Calendar.HOUR_OF_DAY,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.SECOND,0);
+        Date time = c.getTime();
+        return time;
+    }
+    /**
+     * 获取当月的第一天
      * @return
      */
     public static Date theFirstDayOfMonth() {
@@ -343,6 +401,7 @@ public class DateUtil {
         return time;
     }
     /**
+     * 获取当月的最后一天
      * @return
      */
     public static Date theLastDayOfMonth() {
@@ -2237,14 +2296,30 @@ public class DateUtil {
         return listDate;
     }
 
-
     /**
-     * 日期转化成字符串
-     *
-     * @param date          日期字符串
-     * @param formatPattern 转化格式
+     * 获取当前时间是星期几
+     * @param currentDate
      * @return
      */
+    public static int dayForWeek(Date currentDate)  {
+        Calendar c =Calendar.getInstance();
+        c.setTime(currentDate);
+        int dayForWeek=0;
+        if (c.get(Calendar.DAY_OF_WEEK)==1){
+        dayForWeek=7;
+        }else {
+        dayForWeek=c.get(Calendar.DAY_OF_WEEK)- 1;}
+        return dayForWeek;
+    }
+
+
+        /**
+         * 日期转化成字符串
+         *
+         * @param date          日期字符串
+         * @param formatPattern 转化格式
+         * @return
+         */
     public static String dateToString(Date date, String formatPattern) {
         if (date == null) {
             return null;

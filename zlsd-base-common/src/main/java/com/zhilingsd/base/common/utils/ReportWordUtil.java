@@ -85,7 +85,7 @@ public class ReportWordUtil {
      * @param bytes 输入地址
      * @throws Exception 导出单个文件
      */
-    public static byte[] getWorldFile(byte[] bytes, ReportExportVo vo) throws Exception {
+    public static byte[] getWorldFile(byte[] bytes, ExportVo vo) throws Exception {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         try {
             //输出地址 输入地址 加随机数

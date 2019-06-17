@@ -24,34 +24,34 @@ public class VisitExportVo extends ExportVo implements Serializable {
     private Map<String, String> exportValue;
 
     private String[] words = {
-            "[案件编号]",
-            "[姓名]",
-            "[身份证]",
-            "[脱敏身份证]",
-            "[手机]",
-            "[委案金额]",
-            "[帐号]",
-            "[卡号]",
-            "[脱敏卡号]",
-            "[客户号]",
-            "[委案时间]",
-            "[退案时间]",
-            "[家庭电话]",
-            "[外访日期]",
-            "[外访时间]",
-            "[结束日期]",
-            "[结束时间]",
-            "[外访人1]",
-            "[外访人2]",
-            "[外访地址]",
-            "[外访催记日期]",
-            "[外访催记时间]",
-            "[外访催记类型]",
-            "[外访催记关系]",
-            "[外访催记电话]",
-            "[外访催记结果]",
-            "[外访催记催收方式]",
-            "[外访催记内容]"
+            "案件编号",
+            "姓名",
+            "身份证",
+            "脱敏身份证",
+            "手机",
+            "委案金额",
+            "帐号",
+            "卡号",
+            "脱敏卡号",
+            "客户号",
+            "委案时间",
+            "退案时间",
+            "家庭电话",
+            "外访日期",
+            "外访时间",
+            "结束日期",
+            "结束时间",
+            "外访人1",
+            "外访人2",
+            "外访地址",
+            "外访催记日期",
+            "外访催记时间",
+            "外访催记类型",
+            "外访催记关系",
+            "外访催记电话",
+            "外访催记结果",
+            "外访催记催收方式",
+            "外访催记内容"
     };
 
     @Override
@@ -197,7 +197,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
 
     public void setBillCode(String billCode) {
         if (StringUtils.isNotBlank(billCode)) {
-            this.exportValue.put("[案件编号]", billCode);
+            this.exportValue.put("案件编号", billCode);
         }
         this.billCode = billCode;
     }
@@ -205,54 +205,54 @@ public class VisitExportVo extends ExportVo implements Serializable {
     public void setName(String name) {
         if (StringUtils.isNotBlank(name)) {
             this.name = name;
-            this.exportValue.put("[姓名]", name);
+            this.exportValue.put("姓名", name);
         }
     }
 
     public void setIdNumber(String idNumber) {
         if (StringUtils.isNotBlank(idNumber)) {
             this.idNumber = idNumber;
-            this.exportValue.put("[身份证]", idNumber);
+            this.exportValue.put("身份证", idNumber);
         }
     }
     public void setIdNumberSafe(String idNumberSafe) {
         if (StringUtils.isNotBlank(idNumberSafe)) {
             this.idNumberSafe = idNumberSafe;
-            this.exportValue.put("[脱敏身份证]", idNumberSafe);
+            this.exportValue.put("脱敏身份证", idNumberSafe);
         }
     }
 
     public void setPhone(String phone) {
         if (StringUtils.isNotBlank(phone)) {
             this.phone = phone;
-            this.exportValue.put("[手机]", phone);
+            this.exportValue.put("手机", phone);
         }
     }
 
     public void setCommitMoney(String commitMoney) {
         if (StringUtils.isNotBlank(commitMoney)) {
             this.commitMoney = commitMoney;
-            this.exportValue.put("[委案金额]", commitMoney);
+            this.exportValue.put("委案金额", commitMoney);
         }
     }
 
     public void setAccountNum(String accountNum) {
         if (StringUtils.isNotBlank(accountNum)) {
             this.accountNum = accountNum;
-            this.exportValue.put("[账号]", accountNum);
+            this.exportValue.put("账号", accountNum);
         }
     }
 
     public void setCardNum(String cardNum) {
         if (StringUtils.isNotBlank(cardNum)) {
             this.cardNum = cardNum;
-            this.exportValue.put("[卡号]", cardNum);
+            this.exportValue.put("卡号", cardNum);
         }
     }
     public void setCardNumSafe(String cardNumSafe) {
         if (StringUtils.isNotBlank(cardNumSafe)) {
             this.cardNumSafe = cardNumSafe;
-            this.exportValue.put("[脱敏卡号]", cardNumSafe);
+            this.exportValue.put("脱敏卡号", cardNumSafe);
         }
     }
 
@@ -260,132 +260,132 @@ public class VisitExportVo extends ExportVo implements Serializable {
     public void setClientNum(String clientNum) {
         if (StringUtils.isNotBlank(clientNum)) {
             this.clientNum = clientNum;
-            this.exportValue.put("[客户号]", clientNum);
+            this.exportValue.put("客户号", clientNum);
         }
     }
 
     public void setCommitDate(String commitDate) {
         if (StringUtils.isNotBlank(commitDate)) {
             this.commitDate = commitDate;
-            this.exportValue.put("[委案时间]", commitDate);
+            this.exportValue.put("委案时间", commitDate);
         }
     }
 
     public void setLimitDate(String limitDate) {
         if (StringUtils.isNotBlank(limitDate)) {
             this.limitDate = limitDate;
-            this.exportValue.put("[退案时间]", limitDate);
+            this.exportValue.put("退案时间", limitDate);
         }
     }
     public void setHomeTel(String homeTel) {
         if (StringUtils.isNotBlank(homeTel)) {
             this.homeTel = homeTel;
-            this.exportValue.put("[家庭电话]", homeTel);
+            this.exportValue.put("家庭电话", homeTel);
         }
     }
 
     public void setVisitDate(String visitDate) {
         if (StringUtils.isNotBlank(visitDate)) {
             this.visitDate = visitDate;
-            this.exportValue.put("[外访日期]", visitDate);
+            this.exportValue.put("外访日期", visitDate);
         }
     }
 
     public void setVisitTime(String visitTime) {
         if (StringUtils.isNotBlank(visitTime)) {
             this.visitTime = visitTime;
-            this.exportValue.put("[外访时间]", visitTime);
+            this.exportValue.put("外访时间", visitTime);
         }
     }
 
     public void setVisitEndDate(String visitEndDate) {
         if (StringUtils.isNotBlank(visitEndDate)) {
             this.visitEndDate = visitEndDate;
-            this.exportValue.put("[外访结束日期]", visitEndDate);
+            this.exportValue.put("外访结束日期", visitEndDate);
         }
     }
 
     public void setVisitEndTime(String visitEndTime) {
         if (StringUtils.isNotBlank(visitEndTime)) {
             this.visitEndTime = visitEndTime;
-            this.exportValue.put("[外访结束时间]", visitEndTime);
+            this.exportValue.put("外访结束时间", visitEndTime);
         }
     }
 
     public void setVisitOne(String visitOne) {
         if (StringUtils.isNotBlank(visitOne)) {
             this.visitOne = visitOne;
-            this.exportValue.put("[外访人1]", visitOne);
+            this.exportValue.put("外访人1", visitOne);
         }
     }
 
     public void setVisitTwo(String visitTwo) {
         if (StringUtils.isNotBlank(visitTwo)) {
             this.visitTwo = visitTwo;
-            this.exportValue.put("[外访人2]", visitTwo);
+            this.exportValue.put("外访人2", visitTwo);
         }
     }
 
     public void setVisitAdress(String visitAdress) {
         if (StringUtils.isNotBlank(visitAdress)) {
             this.visitAdress = visitAdress;
-            this.exportValue.put("[外放地址]", visitAdress);
+            this.exportValue.put("外放地址", visitAdress);
         }
     }
 
     public void setVisitMarkDate(String visitMarkDate) {
         if (StringUtils.isNotBlank(visitMarkDate)) {
             this.visitMarkDate = visitMarkDate;
-            this.exportValue.put("[外访催记日期]", visitMarkDate);
+            this.exportValue.put("外访催记日期", visitMarkDate);
         }
     }
 
     public void setVisitMarkTime(String visitMarkTime) {
         if (StringUtils.isNotBlank(visitMarkTime)) {
             this.visitMarkTime = visitMarkTime;
-            this.exportValue.put("[外访催记时间]", visitMarkTime);
+            this.exportValue.put("外访催记时间", visitMarkTime);
         }
     }
 
     public void setVisitMarkType(String visitMarkType) {
         if (StringUtils.isNotBlank(visitMarkType)) {
             this.visitMarkType = visitMarkType;
-            this.exportValue.put("[外访催记类型]", visitMarkType);
+            this.exportValue.put("外访催记类型", visitMarkType);
         }
     }
 
     public void setVisitMarkRelation(String visitMarkRelation) {
         if (StringUtils.isNotBlank(visitMarkRelation)) {
             this.visitMarkRelation = visitMarkRelation;
-            this.exportValue.put("[外访催记关系]", visitMarkRelation);
+            this.exportValue.put("外访催记关系", visitMarkRelation);
         }
     }
 
     public void setVisitMarkPhone(String visitMarkPhone) {
         if (StringUtils.isNotBlank(visitMarkPhone)) {
             this.visitMarkPhone = visitMarkPhone;
-            this.exportValue.put("[外访催记电话]", visitMarkPhone);
+            this.exportValue.put("外访催记电话", visitMarkPhone);
         }
     }
 
     public void setVisitMarkResult(String visitMarkResult) {
         if (StringUtils.isNotBlank(visitMarkResult)) {
             this.visitMarkResult = visitMarkResult;
-            this.exportValue.put("[外访催记结果]", visitMarkResult);
+            this.exportValue.put("外访催记结果", visitMarkResult);
         }
     }
 
     public void setVisitMarkMethod(String visitMarkMethod) {
         if (StringUtils.isNotBlank(visitMarkMethod)) {
             this.visitMarkMethod = visitMarkMethod;
-            this.exportValue.put("[外访催记催收方式]", visitMarkMethod);
+            this.exportValue.put("外访催记催收方式", visitMarkMethod);
         }
     }
 
     public void setVisitMarkContent(String visitMarkContent) {
         if (StringUtils.isNotBlank(visitMarkContent)) {
             this.visitMarkContent = visitMarkContent;
-            this.exportValue.put("[外访催记内容]", visitMarkContent);
+            this.exportValue.put("外访催记内容", visitMarkContent);
         }
     }
 

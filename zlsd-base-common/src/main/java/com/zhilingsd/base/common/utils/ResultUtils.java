@@ -114,10 +114,12 @@ public class ResultUtils {
     }
 
     /**
-     * 验证
      *
-     * @param result       SingleResult
-     * @param exceptionMsg 异常信息
+     * 功能描述:验证singleResult返回结果
+     * @param: [result, exceptionMsg]
+     * @return: void
+     * @auther: 吞星
+     * @date: 2019/6/18-14:46
      */
     public static void verifyResult(SingleResult result, String exceptionMsg) {
         if (!BaseResultCodeEnum.SUCCESS.getCode().equals(result.code)) {

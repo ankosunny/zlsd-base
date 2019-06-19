@@ -36,37 +36,37 @@ public class ReportExportVo extends ExportVo implements Serializable {
     private Integer type;
 
     private String[] words = {
-            "[姓名]",
-            "[卡号]",
-            "[委案金额]",
-            "[催收员]",
-            "[地区]",
-            "[收件地址]",
-            "[身份证]",
-            "[委托年]",
-            "[委托月]",
-            "[委托日]",
-            "[当前年]",
-            "[当前月]",
-            "[当前日]",
-            "[催收员姓]",
-            "[催收员座机]",
-            "[当前日期]"
+            "姓名",
+            "卡号",
+            "委案金额",
+            "催收员",
+            "地区",
+            "收件地址",
+            "身份证",
+            "委托年",
+            "委托月",
+            "委托日",
+            "当前年",
+            "当前月",
+            "当前日",
+            "催收员姓",
+            "催收员座机",
+            "当前日期"
     };
 
     private String[] visitWords = {
-            "[案件编号]",
-            "[外访日期]",
-            "[外访时间]",
-            "[结束时间]",
-            "[姓名]",
-            "[委托日期]",
-            "[委案金额]",
-            "[目前余额]",
-            "[卡号]",
-            "[身份证]",
-            "[手机]",
-            "[外访情况]"
+            "案件编号",
+            "外访日期",
+            "外访时间",
+            "结束时间",
+            "姓名",
+            "委托日期",
+            "委案金额",
+            "目前余额",
+            "卡号",
+            "身份证",
+            "手机",
+            "外访情况"
     };
 
     public ReportExportVo() {
@@ -141,7 +141,7 @@ public class ReportExportVo extends ExportVo implements Serializable {
      */
     private String date;
     /**
-     * [催收员姓]
+     * 催收员姓
      */
     private String lastName;
 
@@ -149,112 +149,112 @@ public class ReportExportVo extends ExportVo implements Serializable {
     public void setName(String name) {
         if (name != null) {
             this.name = name;
-            this.exportValue.put("[姓名]", name);
+            this.exportValue.put("姓名", name);
         }
     }
 
     public void setCardNum(String cardNum) {
         if (cardNum != null) {
             this.cardNum = cardNum;
-            this.exportValue.put("[卡号]", cardNum);
+            this.exportValue.put("卡号", cardNum);
         }
     }
 
     public void setCommitMoney(String commitMoney) {
         if (commitMoney != null) {
             this.commitMoney = commitMoney;
-            this.exportValue.put("[委案金额]", commitMoney);
+            this.exportValue.put("委案金额", commitMoney);
         }
     }
 
     public void setStaffName(String staffName) {
         if (staffName != null) {
             this.staffName = staffName;
-            this.exportValue.put("[催收员]", staffName);
+            this.exportValue.put("催收员", staffName);
         }
     }
 
     public void setAddress(String address) {
         if (address != null) {
             this.address = address;
-            this.exportValue.put("[收件地址]", address);
+            this.exportValue.put("收件地址", address);
         }
     }
 
     public void setArea(String area) {
         if (area != null) {
             this.area = area;
-            this.exportValue.put("[地区]", area);
+            this.exportValue.put("地区", area);
         }
     }
 
     public void setIdCard(String idCard) {
         if (idCard != null) {
             this.idCard = idCard;
-            this.exportValue.put("[身份证]", idCard);
+            this.exportValue.put("身份证", idCard);
         }
     }
 
     public void setCommitYear(String commitYear) {
         if (commitYear != null) {
             this.commitYear = commitYear;
-            this.exportValue.put("[委托年]", commitYear);
+            this.exportValue.put("委托年", commitYear);
         }
     }
 
     public void setCommitMonth(String commitMonth) {
         if (commitMonth != null) {
             this.commitMonth = commitMonth;
-            this.exportValue.put("[委托月]", commitMonth);
+            this.exportValue.put("委托月", commitMonth);
         }
     }
 
     public void setCommitDay(String commitDay) {
         if (commitDay != null) {
             this.commitDay = commitDay;
-            this.exportValue.put("[委托日]", commitDay);
+            this.exportValue.put("委托日", commitDay);
         }
     }
 
     public void setYear(String year) {
         if (year != null) {
             this.year = year;
-            this.exportValue.put("[当前年]", year);
+            this.exportValue.put("当前年", year);
         }
     }
 
     public void setMonth(String month) {
         if (month != null) {
             this.month = month;
-            this.exportValue.put("[当前月]", month);
+            this.exportValue.put("当前月", month);
         }
     }
 
     public void setDay(String day) {
         if (day != null) {
             this.day = day;
-            this.exportValue.put("[当前日]", day);
+            this.exportValue.put("当前日", day);
         }
     }
 
     public void setStaffTelPhone(String staffTelPhone) {
         if (staffTelPhone != null) {
             this.staffTelPhone = staffTelPhone;
-            this.exportValue.put("[催收员座机]", staffTelPhone);
+            this.exportValue.put("催收员座机", staffTelPhone);
         }
     }
 
     public void setDate(String date) {
         if (date != null) {
             this.date = date;
-            this.exportValue.put("[当前日期]", date);
+            this.exportValue.put("当前日期", date);
         }
     }
 
     public void setLastName(String lastName) {
         if (lastName != null) {
             this.lastName = lastName;
-            this.exportValue.put("[催收员姓]", lastName);
+            this.exportValue.put("催收员姓", lastName);
         }
     }
     /**
@@ -301,56 +301,56 @@ public class ReportExportVo extends ExportVo implements Serializable {
     public void setBillCode(String billCode) {
         if (idCard != null) {
             this.billCode = billCode;
-            this.exportValue.put("[案件编号]",billCode);
+            this.exportValue.put("案件编号",billCode);
         }
     }
 
     public void setBeginDate(String beginDate) {
         if (beginDate != null){
             this.beginDate = beginDate;
-            this.exportValue.put("[外访日期]",beginDate);
+            this.exportValue.put("外访日期",beginDate);
         }
     }
 
     public void setBeginTime(String beginTime) {
         if (beginTime != null){
             this.beginTime = beginTime;
-            this.exportValue.put("[外访时间]",beginTime);
+            this.exportValue.put("外访时间",beginTime);
         }
     }
 
     public void setEndTime(String endTime) {
         if (endTime != null){
             this.endTime = endTime;
-            this.exportValue.put("[结束时间]",endTime);
+            this.exportValue.put("结束时间",endTime);
         }
     }
 
     public void setVisitPhone(String visitPhone) {
         if (visitPhone != null) {
             this.visitPhone = visitPhone;
-            this.exportValue.put("[电话]",visitPhone);
+            this.exportValue.put("电话",visitPhone);
         }
     }
 
     public void setCommitDate(String commitDate) {
         if (commitDate != null){
             this.commitDate = commitDate;
-            this.exportValue.put("[委托日期]",commitDate);
+            this.exportValue.put("委托日期",commitDate);
         }
     }
 
     public void setDebtMoney(String debtMoney) {
         if (debtMoney != null){
             this.debtMoney = debtMoney;
-            this.exportValue.put("[目前余额]",debtMoney);
+            this.exportValue.put("目前余额",debtMoney);
         }
     }
 
     public void setVisitDesc(String visitDesc) {
         if (visitDesc != null){
             this.visitDesc = visitDesc;
-            this.exportValue.put("[外访情况]",visitDesc);
+            this.exportValue.put("外访情况",visitDesc);
         }
     }
 

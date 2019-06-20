@@ -1,17 +1,23 @@
 package com.zhilingsd.base.common.utils;
 
+import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.vo.ReportExportVo;
 import com.zhilingsd.base.common.vo.VisitExportVo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xwpf.usermodel.IRunBody;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTBody;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 
@@ -23,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -85,7 +92,7 @@ public class ReportWordUtil {
      * @param bytes 输入地址
      * @throws Exception 导出单个文件
      */
-    public static byte[] getWorldFile(byte[] bytes, ExportVo vo) throws Exception {
+    public static byte[] getWorldFile(byte[] bytes, VisitExportVo vo) throws Exception {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         try {
             //输出地址 输入地址 加随机数
@@ -164,6 +171,75 @@ public class ReportWordUtil {
         }
         return result;
     }
+
+
+    private static void replaceJusticeContent(XWPFDocument doc, ReportExportVo vo) throws XmlException {
+
+        String LEFT = "[";
+        String RIGHT = "]";
+        for (XWPFParagraph paragraph : doc.getParagraphs()) {
+            XmlCursor cursor = paragraph.getCTP().newCursor();
+            cursor.selectPath("declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//*/w:txbxContent/w:p/w:r");
+            List<XmlObject> ctrsintxtbx = new ArrayList<>();
+            while (cursor.hasNextSelection()) {
+                cursor.toNextSelection();
+                XmlObject obj = cursor.getObject();
+                ctrsintxtbx.add(obj);
+            }
+            List<String> textList = Lists.newArrayList();
+            for (int i = 0; i < ctrsintxtbx.size(); i++) {
+                XmlObject obj = ctrsintxtbx.get(i);
+                CTR ctr = CTR.Factory.parse(obj.xmlText());
+                XWPFRun bufferrun = new XWPFRun(ctr, (IRunBody) paragraph);
+                String text = bufferrun.getText(0);
+                textList.add(text);
+                log.info("当前文档值{}：{}" ,i,text);
+                //分情况
+                //3、  [文字]
+                if (Objects.nonNull(text)) {
+                    if (text.contains(LEFT) && text.contains(RIGHT)) {
+                        //这种不用替换 往下走
+                        log.info("{}都包含：{}",i,text);
+                    } else {
+                        //1、  [  文字 ]
+                        if (text.contains(LEFT)) {
+                            //删除所有
+                            bufferrun.setText("", 0);
+                            obj.set(bufferrun.getCTR());
+                            continue;
+                        } else if (text.contains(RIGHT)) {
+                            if(textList.size()>1 && textList.get(i-1).contains(LEFT)){
+                                text = textList.get(i-1) + text;
+                            }else if (textList.size()>2 && textList.get(i-2).contains(LEFT)){
+                                text = textList.get(i-2)+textList.get(i-1)+ text;
+                            }
+                        } else {
+                            //纯文字
+                            if (textList.size()>1 && textList.get(i-1).contains(LEFT)){
+                                //删除所有
+                                bufferrun.setText("", 0);
+                                obj.set(bufferrun.getCTR());
+                                continue;
+                            }else {
+                                continue;
+                            }
+                        }
+                    }
+                    log.info("到达之前{}：{}",i,text);
+                    for (String word : vo.getExportValue().keySet()) {
+                        if (word.equals(text) || text.contains(word)) {
+                            text = text.replace(word, vo.getExportValue().get(word));
+                            bufferrun.setText(text, 0);
+                            break;
+                        }
+                    }
+                }
+                obj.set(bufferrun.getCTR());
+            }
+        }
+    }
+
+
 
 
     private static void replaceContent(XWPFDocument doc, ExportVo vo){

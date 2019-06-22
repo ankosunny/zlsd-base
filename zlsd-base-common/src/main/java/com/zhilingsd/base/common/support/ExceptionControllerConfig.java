@@ -13,7 +13,10 @@ import javax.servlet.Servlet;
 import java.util.List;
 
 /**
- * Created by 吞星 on 2017/8/21.
+ *
+ * 功能描述:
+ * @auther: 吞星
+ * @date: 2019/6/22-11:57
  */
 @Configuration
 @ConditionalOnWebApplication

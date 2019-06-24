@@ -18,27 +18,29 @@ import java.util.List;
  */
 public enum BillStatusEnum {
 
-    BILL_NOT_ALLOT(0, "新案件"),
-    BILL_NOT_FLOW(1, "待跟进"),
-    BILL_FLOW(2, "跟进中"),
-    BILL_BACK(3, "已退案"),
-    BILL_REVOKE(4, "已撤案");
+    BILL_NOT_ALLOT("notAllow", "未分配"),
+    BILL_ALLOTING("allowing", "分配中"),
+    BILL_ALLOTED("alloted", "已分配"),
+    BILL_WAIT_FLOW("waitFlow", "待跟进"),
+    BILL_FLOWING("flowing", "跟进中"),
+    BILL_BACK("back", "已退案"),
+    BILL_REVOKE("revoke", "已撤案");
 
-    private int code;
+    private String code;
     private String value;
 
-    BillStatusEnum(int code, String value) {
+    BillStatusEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static BillStatusEnum getValueByCode(String code) {
         for (BillStatusEnum osEnum : BillStatusEnum.values()) {
-            if (osEnum.getCode() == code) {
-                return osEnum.getValue();
+            if (osEnum.getCode().equals(code)) {
+                return osEnum;
             }
         }
-        return "";
+        return null;
     }
 
     public static List<KeyValueBean> initParam() {
@@ -50,20 +52,13 @@ public enum BillStatusEnum {
         return allotStatusList;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
 
 }

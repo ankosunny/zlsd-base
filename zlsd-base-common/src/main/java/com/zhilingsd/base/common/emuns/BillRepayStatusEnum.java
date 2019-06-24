@@ -18,25 +18,25 @@ import java.util.List;
  */
 public enum BillRepayStatusEnum {
 
-    BILL_NOT_REPAY(0, "未还款"),
-    BILL_SOME_REPAY(1, "部分还款"),
-    BILL_ALL_REPAY(2, "已还款");
+    BILL_NOT_REPAY("notRepay", "未还款"),
+    BILL_SOME_REPAY("someRepay", "部分还款"),
+    BILL_ALL_REPAY("allRepay", "已还款");
 
-    private int code;
+    private String code;
     private String value;
 
-    BillRepayStatusEnum(int code, String value) {
+    BillRepayStatusEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static BillRepayStatusEnum getByCode(int code) {
         for (BillRepayStatusEnum osEnum : BillRepayStatusEnum.values()) {
-            if (osEnum.getCode() == code) {
-                return osEnum.getValue();
+            if (osEnum.getCode().equals(code)) {
+                return osEnum;
             }
         }
-        return "";
+        return null;
     }
 
     public static List<KeyValueBean> initParam() {
@@ -48,19 +48,12 @@ public enum BillRepayStatusEnum {
         return allotStatusList;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
 }

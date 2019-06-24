@@ -6,8 +6,8 @@ package com.zhilingsd.base.common.emuns;
  * @date 2019年4月28日14:05:47
  * */
 public enum EnumDeleteState {
-    NORMAL("NORMAL","正常状态"),
-    DELETE("DELETE","删除状态")
+    NORMAL("normal","正常状态"),
+    DELETE("delete","删除状态")
     ;
 
     /** 状态码 **/

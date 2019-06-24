@@ -46,8 +46,8 @@ public enum EnumAgentIdentity {
         return map;
     }
 
-    public static EnumDeleteState find(int code) {
-        for (EnumDeleteState frs : EnumDeleteState.values()) {
+    public static EnumAgentIdentity find(int code) {
+        for (EnumAgentIdentity frs : EnumAgentIdentity.values()) {
             if (frs.getCode().equals(code)) {
                 return frs;
             }

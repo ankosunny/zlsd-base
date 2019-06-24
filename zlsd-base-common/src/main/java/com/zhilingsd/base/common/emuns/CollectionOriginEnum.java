@@ -12,22 +12,22 @@ import java.util.List;
  * @DateTime: 2019/5/9 19:17
  */
 public enum CollectionOriginEnum {
-    REAL_COLLECTION(1, "实时催记"),
-    ADD_COLLECTION(2, "补崔进");
+    REAL_COLLECTION("shishicuiji", "实时催记"),
+    ADD_COLLECTION("bucuiji", "补催记");
 
-    private int code;
+    private String code;
     private String value;
 
-    CollectionOriginEnum(int code, String value) {
+    CollectionOriginEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -39,7 +39,7 @@ public enum CollectionOriginEnum {
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static String getValueByCode(String code) {
         for (CollectionOriginEnum osEnum : CollectionOriginEnum.values()) {
             if (osEnum.getCode() == code) {
                 return osEnum.getValue();

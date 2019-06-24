@@ -12,26 +12,24 @@ import java.util.List;
  * @DateTime: 2019/5/9 19:17
  */
 public enum CollectionMarkTypeEnum {
-    PHONE_COLLECTION(1, "电催"),
-    WORK_ORDER(2, "工单"),
-    VISIT(3, "外访"),
-    MARK(4, "备注"),
-    ORIGIN_COLLECTION(5, "原始催记"),
-    LETTER(6, "信函");
+    PHONE_COLLECTION("diancui", "电催"),
+    WORK_ORDER("police", "报警"),
+    VISIT("waifang", "外访"),
+    LETTER("xinhan", "信函");
 
-    private int code;
+    private String code;
     private String value;
 
-    CollectionMarkTypeEnum(int code, String value) {
+    CollectionMarkTypeEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -43,7 +41,7 @@ public enum CollectionMarkTypeEnum {
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static String getValueByCode(String code) {
         for (CollectionMarkTypeEnum osEnum : CollectionMarkTypeEnum.values()) {
             if (osEnum.getCode() == code) {
                 return osEnum.getValue();

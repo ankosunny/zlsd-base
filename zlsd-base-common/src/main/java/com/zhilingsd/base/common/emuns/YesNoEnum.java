@@ -14,16 +14,18 @@ public enum YesNoEnum {
 
     /**
      */
-    YES("yes"),
-    NO("no"),
+    YES("yes","是"),
+    NO("no","否"),
     ;
 
     /**
      */
     private String code;
+    private String value;
 
-    YesNoEnum(String code) {
+    YesNoEnum(String code,String value) {
         this.code = code;
+        this.value = value;
     }
 
     public static YesNoEnum find(String code) {
@@ -43,4 +45,11 @@ public enum YesNoEnum {
         this.code = code;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

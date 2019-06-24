@@ -95,6 +95,15 @@ public class PageBean<T> extends PageSerializable<T> {
     /**
      * 包装Page对象
      *
+     * @param list
+     */
+    public PageBean(List<T> list,Page page) {
+        this(list, 8,page);
+    }
+
+    /**
+     * 包装Page对象
+     *
      * @param list          page结果
      * @param navigatePages 页码数量
      */
@@ -120,6 +129,50 @@ public class PageBean<T> extends PageSerializable<T> {
             this.pageNum = 1;
             this.pageSize = list.size();
             this.pages = this.pageSize > 0 ? 1 : 0;
+            this.size = list.size();
+            this.startRow = 0;
+            this.endRow = list.size() > 0 ? list.size() - 1 : 0;
+        }
+        if (list instanceof Collection) {
+            this.navigatePages = navigatePages;
+            //计算导航页
+            calcNavigatepageNums();
+            //计算前后页，第一页，最后一页
+            calcPage();
+            //判断页面边界
+            judgePageBoudary();
+        }
+    }
+
+    /**
+     * 包装Page对象
+     *
+     * @param list          page结果
+     * @param navigatePages 页码数量
+     */
+    public PageBean(List<T> list, int navigatePages , Page curPage) {
+        super(list);
+        if (list instanceof Page) {
+            Page page = (Page) list;
+            this.pageNum = page.getPageNum();
+            this.pageSize = page.getPageSize();
+
+            this.pages = page.getPages();
+            this.size = page.size();
+            //由于结果是>startRow的，所以实际的需要+1
+            if (this.size == 0) {
+                this.startRow = 0;
+                this.endRow = 0;
+            } else {
+                this.startRow = page.getStartRow() + 1;
+                //计算实际的endRow（最后一页的时候特殊）
+                this.endRow = this.startRow - 1 + this.size;
+            }
+        } else if (list instanceof Collection) {
+            this.pageNum = curPage.getPageNum();
+            this.pageSize = curPage.getPageSize();
+            this.total = curPage.getTotal();
+            this.pages = this.pageSize>0?(GV.i(this.total)+this.pageSize-1)/this.pageSize:0;
             this.size = list.size();
             this.startRow = 0;
             this.endRow = list.size() > 0 ? list.size() - 1 : 0;

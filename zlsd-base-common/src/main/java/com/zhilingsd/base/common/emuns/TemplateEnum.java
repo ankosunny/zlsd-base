@@ -35,23 +35,25 @@ public class TemplateEnum {
     public enum TemplateBaseTypeEnum{
 
         IMPORT_TEMPLATE_CASE(1, "案件导入模板"),
-        IMPORT_TEMPLATE_WORK_ORDER(2, "工单导入模板"),
-        IMPORT_TEMPLATE_CONTACT(3, "联系人导入模板"),
-        IMPORT_TEMPLATE_WITHDRAW(4, "撤案导入模板"),
-        IMPORT_TEMPLATE_STOP_COLLECTION(5, "停催导入模板"),
-        IMPORT_TEMPLATE_REPAYMENT(6, "还款导入模板"),
-        IMPORT_TEMPLATE_COMPLAINT(7, "投诉导入模板"),
-        IMPORT_TEMPLATE_BLACKLIST_NUMBER(8, "黑名单号码库导入模板"),
-        IMPORT_TEMPLATE_CASE_UPDATE(9, "案件更新导入模板"),
-        EXPORT_TEMPLATE_COLLECTION_RECORD(10, "催记导出模板"),
-        EXPORT_TEMPLATE_FOLLOW_STREAM(11, "跟进流水导出模板"),
-        EXPORT_TEMPLATE_APPLY_INFO(12, "审批信息导出模板"),
-        EXPORT_TEMPLATE_VISIT_REPORT(13, "外访报告导出模板"),
-        EXPORT_TEMPLATE_REPAYMENT_LIST(14, "还款列表导出模板"),
-        EXPORT_TEMPLATE_COMPLAINT_WARN(15, "投诉预警导出模板"),
-        EXPORT_TEMPLATE_REPAYMENT_STREAM(16, "还款流水导出模板"),
-        EXPORT_TEMPLATE_TRANSFER_CASE_RECODE(17, "调案记录(流水、案件)导出模板"),
-        EXPORT_TEMPLATE_WITHDRAW_CASE_URECODE(18, "撤案记录导出模板");
+        IMPORT_TEMPLATE_CASE_UPDATE(2, "案件更新"),
+        IMPORT_TEMPLATE_WORK_ORDER(3, "工单导入模板"),
+        IMPORT_TEMPLATE_CONTACT(4, "联系人导入模板"),
+        IMPORT_TEMPLATE_WITHDRAW(5, "撤案导入模板"),
+        IMPORT_TEMPLATE_REPAYMENT(6, "还款流水"),
+        IMPORT_TEMPLATE_WATER_BILL(7, "还款流水账单"),
+        IMPORT_TEMPLATE_BATCH_CLEAN_SUM(8, "批次结算汇总账单"),
+        IMPORT_TEMPLATE_COMPLAINT(9, "投诉导入模板"),
+        IMPORT_TEMPLATE_STOP_COLLECTION(10, "投诉导入模板"),
+        EXPORT_TEMPLATE_COLLECTION_RECORD(11, "原始催记模板"),
+        EXPORT_TEMPLATE_STOP_PHONE(12, "停催号码"),
+        EXPORT_TEMPLATE_BATCH_COLLECTION_MARK(13, "批量催记"),
+        EXPORT_TEMPLATE_SINGLE_COLLECTION_MARK(14, "单户催记模板"),
+        EXPORT_TEMPLATE_VISIT_REPORT(15, "外访报告导出模板");
+//        EXPORT_TEMPLATE_REPAYMENT_LIST(14, "还款列表导出模板"),
+//        EXPORT_TEMPLATE_COMPLAINT_WARN(15, "投诉预警导出模板"),
+//        EXPORT_TEMPLATE_REPAYMENT_STREAM(16, "还款流水导出模板"),
+//        EXPORT_TEMPLATE_TRANSFER_CASE_RECODE(17, "调案记录(流水、案件)导出模板"),
+//        EXPORT_TEMPLATE_WITHDRAW_CASE_URECODE(18, "撤案记录导出模板");
 
         private int code ;
         private String value;

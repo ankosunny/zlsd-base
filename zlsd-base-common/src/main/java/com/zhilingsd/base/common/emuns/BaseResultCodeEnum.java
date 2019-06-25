@@ -32,6 +32,8 @@ public enum BaseResultCodeEnum {
 
     DATA_NOT_EXIST("DATA_NOT_EXIST", "数据不存在"),
 
+    DATA_EXIST("DATA_EXIST", "数据已存在"),
+
     RETURN_IS_NULL("RETURN_IS_NULL", "返回结果为空"),
 
     SYSTEM_BUSY("SYSTEM_BUSY", "系统繁忙"),

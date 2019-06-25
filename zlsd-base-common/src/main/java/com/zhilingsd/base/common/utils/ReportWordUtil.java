@@ -110,74 +110,6 @@ public class ReportWordUtil {
         }
     }
 
-
-    private static void replaceJusticeContent(XWPFDocument doc, ReportExportVo vo) throws XmlException {
-
-        String LEFT = "[";
-        String RIGHT = "]";
-        for (XWPFParagraph paragraph : doc.getParagraphs()) {
-            XmlCursor cursor = paragraph.getCTP().newCursor();
-            cursor.selectPath("declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//*/w:txbxContent/w:p/w:r");
-            List<XmlObject> ctrsintxtbx = new ArrayList<>();
-            while (cursor.hasNextSelection()) {
-                cursor.toNextSelection();
-                XmlObject obj = cursor.getObject();
-                ctrsintxtbx.add(obj);
-            }
-            List<String> textList = Lists.newArrayList();
-            for (int i = 0; i < ctrsintxtbx.size(); i++) {
-                XmlObject obj = ctrsintxtbx.get(i);
-                CTR ctr = CTR.Factory.parse(obj.xmlText());
-                XWPFRun bufferrun = new XWPFRun(ctr, (IRunBody) paragraph);
-                String text = bufferrun.getText(0);
-                textList.add(text);
-                log.info("当前文档值{}：{}" ,i,text);
-                //分情况
-                //3、  [文字]
-                if (Objects.nonNull(text)) {
-                    if (text.contains(LEFT) && text.contains(RIGHT)) {
-                        //这种不用替换 往下走
-                        log.info("{}都包含：{}",i,text);
-                    } else {
-                        //1、  [  文字 ]
-                        if (text.contains(LEFT)) {
-                            //删除所有
-                            bufferrun.setText("", 0);
-                            obj.set(bufferrun.getCTR());
-                            continue;
-                        } else if (text.contains(RIGHT)) {
-                            if(textList.size()>1 && textList.get(i-1).contains(LEFT)){
-                                text = textList.get(i-1) + text;
-                            }else if (textList.size()>2 && textList.get(i-2).contains(LEFT)){
-                                text = textList.get(i-2)+textList.get(i-1)+ text;
-                            }
-                        } else {
-                            //纯文字
-                            if (textList.size()>1 && textList.get(i-1).contains(LEFT)){
-                                //删除所有
-                                bufferrun.setText("", 0);
-                                obj.set(bufferrun.getCTR());
-                                continue;
-                            }else {
-                                continue;
-                            }
-                        }
-                    }
-                    log.info("到达之前{}：{}",i,text);
-                    for (String word : vo.getExportValue().keySet()) {
-                        if (word.equals(text) || text.contains(word)) {
-                            text = text.replace(word, vo.getExportValue().get(word));
-                            bufferrun.setText(text, 0);
-                            break;
-                        }
-                    }
-                }
-                obj.set(bufferrun.getCTR());
-            }
-        }
-    }
-
-
     /**
      * @description 两个对象进行追加
      **/
@@ -241,7 +173,7 @@ public class ReportWordUtil {
     }
 
 
-    private static void replaceJusticeContent(XWPFDocument doc, ReportExportVo vo) throws XmlException {
+    private static void replaceJusticeContent(XWPFDocument doc, VisitExportVo vo) throws XmlException {
 
         String LEFT = "[";
         String RIGHT = "]";

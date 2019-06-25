@@ -3,6 +3,11 @@ package com.zhilingsd.base.common.emuns;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 用户身份
+ * @author Administrator
+ *
+ */
 public enum EnumAgentIdentity {
 
 	AGENT_IDENTITY_CSY("AID000001","催收员"),
@@ -35,14 +40,14 @@ public enum EnumAgentIdentity {
 
     public static Map<String, String> GetALL() {
     	Map<String, String> map = new HashMap<>();
-        for (EnumDeleteState frs : EnumDeleteState.values()) {
+        for (EnumAgentIdentity frs : EnumAgentIdentity.values()) {
             map.put(frs.getCode(), frs.getDescription());
         }
         return map;
     }
 
-    public static EnumDeleteState find(int code) {
-        for (EnumDeleteState frs : EnumDeleteState.values()) {
+    public static EnumAgentIdentity find(int code) {
+        for (EnumAgentIdentity frs : EnumAgentIdentity.values()) {
             if (frs.getCode().equals(code)) {
                 return frs;
             }

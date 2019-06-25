@@ -16,7 +16,7 @@ import java.util.List;
  * @createTime 2019年04月19日 14:33*
  * log.info()
  */
-public enum BillStatusEnum {
+public enum EnumBillStatus {
 
     BILL_NOT_ALLOT("notAllow", "未分配"),
     BILL_ALLOTING("allowing", "分配中"),
@@ -30,13 +30,13 @@ public enum BillStatusEnum {
     private String code;
     private String value;
 
-    BillStatusEnum(String code, String value) {
+    EnumBillStatus(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public static BillStatusEnum getValueByCode(String code) {
-        for (BillStatusEnum osEnum : BillStatusEnum.values()) {
+    public static EnumBillStatus getValueByCode(String code) {
+        for (EnumBillStatus osEnum : EnumBillStatus.values()) {
             if (osEnum.getCode().equals(code)) {
                 return osEnum;
             }
@@ -46,7 +46,7 @@ public enum BillStatusEnum {
 
     public static List<KeyValueBean> initParam() {
         List<KeyValueBean> allotStatusList = Lists.newArrayList();
-        for (BillStatusEnum osEnum : BillStatusEnum.values()) {
+        for (EnumBillStatus osEnum : EnumBillStatus.values()) {
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
             allotStatusList.add(keyValueBean);
         }

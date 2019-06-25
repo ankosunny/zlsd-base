@@ -16,22 +16,22 @@ import java.util.List;
  * @createTime 2019年04月19日 14:33*
  * log.info()
  */
-public enum BillRepayStatusEnum {
+public enum EnumBillRepayStatus {
 
-    BILL_NOT_REPAY("notRepay", "未还款"),
-    BILL_SOME_REPAY("someRepay", "部分还款"),
-    BILL_ALL_REPAY("allRepay", "已还款");
+    BILL_NOT_REPAY("not_repay", "未还款"),
+    BILL_SOME_REPAY("some_repay", "部分还款"),
+    BILL_ALL_REPAY("all_repay", "已还款");
 
     private String code;
     private String value;
 
-    BillRepayStatusEnum(String code, String value) {
+    EnumBillRepayStatus(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public static BillRepayStatusEnum getByCode(int code) {
-        for (BillRepayStatusEnum osEnum : BillRepayStatusEnum.values()) {
+    public static EnumBillRepayStatus getByCode(int code) {
+        for (EnumBillRepayStatus osEnum : EnumBillRepayStatus.values()) {
             if (osEnum.getCode().equals(code)) {
                 return osEnum;
             }
@@ -41,7 +41,7 @@ public enum BillRepayStatusEnum {
 
     public static List<KeyValueBean> initParam() {
         List<KeyValueBean> allotStatusList = Lists.newArrayList();
-        for (BillRepayStatusEnum osEnum : BillRepayStatusEnum.values()) {
+        for (EnumBillRepayStatus osEnum : EnumBillRepayStatus.values()) {
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
             allotStatusList.add(keyValueBean);
         }

@@ -18,10 +18,9 @@ import java.util.List;
  */
 public enum EnumBillStatus {
 
-    BILL_NOT_ALLOT("notAllow", "未分配"),
+    BILL_NOT_ALLOT("not_allow", "未分配"),
     BILL_ALLOTING("allowing", "分配中"),
-    BILL_ALLOTED("alloted", "已分配"),
-    BILL_WAIT_FLOW("waitFlow", "待跟进"),
+    BILL_WAIT_FLOW("wait_flow", "待跟进"),
     BILL_FLOWING("flowing", "跟进中"),
     BILL_BACK("back", "已退案"),
     BILL_REVOKE("revoke", "已撤案"),

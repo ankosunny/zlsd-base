@@ -68,7 +68,7 @@ public class CommonFacadeAspect {
 
         StringBuffer sbreturn = new StringBuffer();
         sbreturn.append("\n" + PRE_TAG + jp.getSignature().getDeclaringTypeName() + "." + jp.getSignature().getName());
-        sbreturn.append("\n" + PRE_TAG +  " 接口返回 : " + obj);
+        sbreturn.append("\n" + PRE_TAG +  " 接口返回 : " + JsonUtils.toJsonString(obj));
         sbreturn.append("\n" + PRE_TAG + " 花费时间 : " + (System.currentTimeMillis() - startTime) + "ms");
         log.info(sbreturn.toString());
         return obj;

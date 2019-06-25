@@ -64,7 +64,6 @@ public class GlobalExceptionHandler {
     public void initBinder(WebDataBinder binder) {}
 
     private CommonResult returnErr(Exception e, String errMsg, String code) {
-        //LOGGER.error(errMsg + e.toString());
     	log.error(e.getMessage(), e);
         CommonResult result = new CommonResult();
         result.setCode(code);

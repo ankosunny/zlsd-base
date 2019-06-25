@@ -8,17 +8,28 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBody
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * @author 吞星
- * @date 2018/4/12
+ *
+ * 功能描述:singleResult包装类
+ * @param: []
+ * @return: void
+ * @auther: 吞星
+ * @date: 2019/6/22-14:48
  */
-public class ResponseBodyWrapFactoryBean implements InitializingBean {
+public class SingleResultWrapFactoryBean implements InitializingBean {
 
     @Autowired
     private RequestMappingHandlerAdapter adapter;
 
+
     /**
-     * 初始化ResponseBodyWrapFactoryBean对象之后，执行这个方法
+     *
+     * 功能描述:初始化ResponseBodyWrapFactoryBean对象之后，执行这个方法
+     * @param: []
+     * @return: void
+     * @auther: 吞星
+     * @date: 2019/6/22-14:48
      */
     @Override
     public void afterPropertiesSet() {
@@ -28,11 +39,12 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
         adapter.setReturnValueHandlers(handlers);
     }
 
+
     private void decorateHandlers(List<HandlerMethodReturnValueHandler> handlers) {
         for(int i = 0;i<handlers.size();i++){
             HandlerMethodReturnValueHandler handler = handlers.get(i);
             if (handler instanceof RequestResponseBodyMethodProcessor) {
-                OpenApiReturnValueHandler decorator = new OpenApiReturnValueHandler(handler);
+                ApiReturnValueHandler decorator = new ApiReturnValueHandler(handler);
                 //用自定义的OpenApiReturnValueHandler替换掉原来的RequestResponseBodyMethodProcessor类型处理器
                 handlers.set(i, decorator);
                 break;

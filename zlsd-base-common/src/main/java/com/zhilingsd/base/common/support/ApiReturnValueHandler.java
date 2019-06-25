@@ -11,27 +11,32 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import java.util.Map;
-
 /**
- * @author 吞星
- * @date 2018/4/12
+ *
+ * 功能描述:api返回值处理器
+ * @auther: 吞星
+ * @date: 2019/6/22-11:54
  */
-public class OpenApiReturnValueHandler implements HandlerMethodReturnValueHandler {
+public class ApiReturnValueHandler implements HandlerMethodReturnValueHandler {
 
-    private final HandlerMethodReturnValueHandler delegate;
+    private final HandlerMethodReturnValueHandler handlerMethodReturnValueHandler;
 
 
-    public OpenApiReturnValueHandler(HandlerMethodReturnValueHandler delegate) {
-        this.delegate = delegate;
+    public ApiReturnValueHandler(HandlerMethodReturnValueHandler handlerMethodReturnValueHandler) {
+        this.handlerMethodReturnValueHandler = handlerMethodReturnValueHandler;
     }
 
     /**
-     * @param methodParameter
-     * @return
+     *
+     * 功能描述:
+     * @param: [methodParameter]
+     * @return: boolean
+     * @auther: 吞星
+     * @date: 2019/6/22-11:54
      */
     @Override
     public boolean supportsReturnType(MethodParameter methodParameter) {
+
         Class<?> declaringClass = methodParameter.getDeclaringClass();
         RestController restController = declaringClass.getAnnotation(RestController.class);
         ResponseBody responseBody = declaringClass.getAnnotation(ResponseBody.class);
@@ -41,13 +46,21 @@ public class OpenApiReturnValueHandler implements HandlerMethodReturnValueHandle
         return restController != null || responseBody != null || classSingleResult != null || methodGetSingleResult != null || methodResponseBody != null;
     }
 
+    /**
+     *
+     * 功能描述:
+     * @param: [returnValue, methodParameter, mavContainer, webRequest]
+     * @return: void
+     * @auther: 吞星
+     * @date: 2019/6/22-11:54
+     */
     @Override
     public void handleReturnValue(Object returnValue,
                                   MethodParameter methodParameter,
                                   ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest) throws Exception {
-        Object finalResult = returnValue;
-        SingleResult result = new SingleResult<Object>();
+        Object handleResult = null;
+        SingleResult<Object> result = new SingleResult();
         //获得返回值类型
         Class<?> returnValueType = methodParameter.getParameterType();
         GetSingleResult methodSingleResult = methodParameter.getMethodAnnotation(GetSingleResult.class);
@@ -56,22 +69,23 @@ public class OpenApiReturnValueHandler implements HandlerMethodReturnValueHandle
         if (!void.class.isAssignableFrom(returnValueType)) {
             // 不是SingleResult、Map、Model等类型的返回值，需要包裹为Response类型
             if (!SingleResult.class.isAssignableFrom(returnValueType)
-                    && !Model.class.isAssignableFrom(returnValueType) && (methodSingleResult != null || classSingleResult != null)) {
+                    && !Model.class.isAssignableFrom(returnValueType)
+                    && (methodSingleResult != null || classSingleResult != null)) {
                 result.setCode(BaseResultCodeEnum.SUCCESS.getCode());
                 result.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
                 result.setData(returnValue);
                 result.setSysTime(String.valueOf(System.currentTimeMillis()));
-                finalResult = result;
+                handleResult = result;
             } else {
                 //不包装
-                finalResult = returnValue;
+                handleResult = returnValue;
             }
-        }else {
+        } else {
             result.setCode(BaseResultCodeEnum.SUCCESS.getCode());
             result.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
             result.setSysTime(String.valueOf(System.currentTimeMillis()));
-            finalResult = result;
+            handleResult = result;
         }
-        delegate.handleReturnValue(finalResult, methodParameter, mavContainer, webRequest);
+        handlerMethodReturnValueHandler.handleReturnValue(handleResult, methodParameter, mavContainer, webRequest);
     }
 }

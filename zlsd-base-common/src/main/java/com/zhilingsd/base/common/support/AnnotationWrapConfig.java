@@ -5,20 +5,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created with IntelliJ IDEA.
- *
+ *功能描述:SingleResult注解包装配置类
  * @author: 吞星
  * @date: 2018/5/15
  * Time: 17:05
- * Description:
  **/
 @Configuration
 @EnableConfigurationProperties(AnnotationWrapConfig.class)
 public class AnnotationWrapConfig {
 
     @Bean
-    public ResponseBodyWrapFactoryBean getResponseBodyWrap() {
-        return new ResponseBodyWrapFactoryBean();
+    public SingleResultWrapFactoryBean getResponseBodyWrap() {
+        return new SingleResultWrapFactoryBean();
     }
+
 
 }

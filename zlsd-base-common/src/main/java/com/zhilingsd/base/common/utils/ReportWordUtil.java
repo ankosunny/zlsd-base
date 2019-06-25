@@ -98,7 +98,7 @@ public class ReportWordUtil {
             //输出地址 输入地址 加随机数
             InputStream is = new ByteArrayInputStream(bytes);
             XWPFDocument docx = new XWPFDocument(is);
-            replaceContent(docx, vo);
+            replaceJusticeContent(docx, vo);
             //把doc输出到输出流中
             docx.write(byteOutputStream);
             byteOutputStream.close();
@@ -173,7 +173,7 @@ public class ReportWordUtil {
     }
 
 
-    private static void replaceJusticeContent(XWPFDocument doc, ReportExportVo vo) throws XmlException {
+    private static void replaceJusticeContent(XWPFDocument doc, VisitExportVo vo) throws XmlException {
 
         String LEFT = "[";
         String RIGHT = "]";

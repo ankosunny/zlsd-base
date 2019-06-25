@@ -17,8 +17,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author 吞星
- * @date 2018/4/12
+ *
+ * 功能描述:重写spring mvc处理404类型错误，返回值
+ * @auther: 吞星
+ * @date: 2019/6/22-11:56
  */
 @ApiIgnore
 @Controller
@@ -26,6 +28,8 @@ import java.util.List;
 public class ExceptionController extends AbstractErrorController {
 
     private final ErrorProperties errorProperties;
+
+    public static final String ERROR_MESSAGE_404="路径错误:";
 
 
     public ExceptionController(ErrorAttributes errorAttributes,
@@ -51,7 +55,7 @@ public class ExceptionController extends AbstractErrorController {
     public CommonResult error(HttpServletRequest request) {
         CommonResult result = new CommonResult();
         result.setCode("404");
-        result.setMsg("路径错误");
+        result.setMsg(ERROR_MESSAGE_404+request.getRequestURL());
         result.setSysTime(String.valueOf(System.currentTimeMillis()));
         return result;
     }

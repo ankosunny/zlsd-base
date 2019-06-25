@@ -13,7 +13,7 @@ import java.util.List;
  */
 public enum CollectionMarkTypeEnum {
     PHONE_COLLECTION("diancui", "电催"),
-    WORK_ORDER("police", "报警"),
+    WORK_ORDER("baojing", "报警"),
     VISIT("waifang", "外访"),
     LETTER("xinhan", "信函");
 

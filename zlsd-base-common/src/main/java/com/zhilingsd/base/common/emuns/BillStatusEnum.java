@@ -24,8 +24,9 @@ public enum BillStatusEnum {
     BILL_WAIT_FLOW("waitFlow", "待跟进"),
     BILL_FLOWING("flowing", "跟进中"),
     BILL_BACK("back", "已退案"),
-    BILL_REVOKE("revoke", "已撤案");
-
+    BILL_REVOKE("revoke", "已撤案"),
+    BILL_STOP("stop", "停催"),
+    ;
     private String code;
     private String value;
 

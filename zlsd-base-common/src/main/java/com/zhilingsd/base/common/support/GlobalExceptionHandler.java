@@ -263,17 +263,7 @@ public class GlobalExceptionHandler {
         return returnErr(ReturnCode.UN_SUCCESS.getCode(), e);
     }
 
-    /**
-     * 捕获处理BusinessException
-     *
-     * @param e
-     * @return
-     * @throws Exception
-     */
-    @ExceptionHandler(value = BusinessException.class)
-    public CommonResult bussinessErrorHandler(BusinessException e) throws Exception {
-        return returnErr(ReturnCode.UN_SUCCESS.getCode(), e);
-    }
+
 
     /**
      * 捕获处理IllegalParameterException

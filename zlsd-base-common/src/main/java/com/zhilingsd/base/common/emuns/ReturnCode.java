@@ -23,6 +23,8 @@ public enum ReturnCode {
     NETWORK_ERROR(-6, "网络异常"),
 
     SYSTEM_ERROR(-7, "系统错误"),
+    ADD_MAX_SIZE(-8,"批量添加数据过大"),
+    UPDATE_MAX_SIZE(-9,"批量更新数据过大"),
     /**
      * 操作成功
      */

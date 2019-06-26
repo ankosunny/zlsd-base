@@ -6,7 +6,7 @@ import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.util.CollectionUtils;
 import com.alibaba.fastjson.JSON;
-import com.zhilingsd.base.common.exception.BusinessExceptionSZ;
+import com.zhilingsd.base.common.exception.BusinessException;
 import com.zhilingsd.base.common.result.CollectionResult;
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,7 +57,7 @@ public class EasyExcelUtil {
             writer.finish();
             out.flush();
         } else {
-            throw new BusinessExceptionSZ("导出数据存在错误信息");
+            throw new BusinessException("导出数据存在错误信息");
         }
     }
 
@@ -75,7 +75,7 @@ public class EasyExcelUtil {
             writer.finish();
             out.flush();
         } else {
-            throw new BusinessExceptionSZ("导出数据存在错误信息");
+            throw new BusinessException("导出数据存在错误信息");
         }
         return out.toByteArray();
     }

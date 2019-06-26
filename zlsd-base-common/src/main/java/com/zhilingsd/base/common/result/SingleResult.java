@@ -1,6 +1,6 @@
 package com.zhilingsd.base.common.result;
 
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -25,15 +25,15 @@ public class SingleResult<T> extends CommonResult {
     public SingleResult() {
     }
 
-    public SingleResult(BaseResultCodeEnum baseResultCodeEnum) {
-        super(baseResultCodeEnum);
+    public SingleResult(ReturnCode ReturnCode) {
+        super(ReturnCode);
     }
 
-    public SingleResult(String code, String msg) {
+    public SingleResult(int code, String msg) {
         super( code, msg);
     }
 
-    public SingleResult(String code, String msg, T data) {
+    public SingleResult(int code, String msg, T data) {
         super(code, msg);
         setData(data);
     }
@@ -42,13 +42,13 @@ public class SingleResult<T> extends CommonResult {
         setData(data);
     }
 
-    public SingleResult(BaseResultCodeEnum baseResultCodeEnum, T data) {
-        this(baseResultCodeEnum);
+    public SingleResult(ReturnCode ReturnCode, T data) {
+        this(ReturnCode);
         setData(data);
     }
 
-    public static <T> SingleResult<T> of(BaseResultCodeEnum baseResultCodeEnum) {
-        return new SingleResult<>(baseResultCodeEnum);
+    public static <T> SingleResult<T> of(ReturnCode ReturnCode) {
+        return new SingleResult<>(ReturnCode);
     }
 
     public T getData() {

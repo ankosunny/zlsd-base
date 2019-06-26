@@ -2,28 +2,21 @@ package com.zhilingsd.base.common.aspect;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhilingsd.base.common.bean.AppAgentInfo;
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
-import com.zhilingsd.base.common.exception.BusinessException;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
 import com.zhilingsd.base.common.utils.AppUtil;
 import com.zhilingsd.base.common.utils.IPUtils;
 import com.zhilingsd.base.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -56,9 +49,9 @@ public class CommonFacadeAspect {
         sb.append("\n" + PRE_TAG + "接口入参 : " + JsonUtils.toJsonString(jp.getArgs()));
         log.info(sb.toString());
         // 创建AppAgentInfo对象，如果有字段为空则抛出异常
-        String session = Optional.ofNullable(request.getHeader("session")).orElseThrow(() -> new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(), "请求头session不能为空"));
-        String operatorId = Optional.ofNullable(request.getHeader("operatorId")).orElseThrow(() -> new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
-        String collectionCompanyId = Optional.ofNullable(request.getHeader("collectionCompanyId")).orElseThrow(() -> new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(), "请求头collectionCompanyId不能为空"));
+        String session = Optional.ofNullable(request.getHeader("session")).orElseThrow(() -> new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), "请求头session不能为空"));
+        String operatorId = Optional.ofNullable(request.getHeader("operatorId")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
+        String collectionCompanyId = Optional.ofNullable(request.getHeader("collectionCompanyId")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头collectionCompanyId不能为空"));
         AppAgentInfo agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), session);
         if (agentInfo != null) {
             AppUtil.setAppAgentInfo(agentInfo);

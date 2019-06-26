@@ -1,7 +1,7 @@
 package com.zhilingsd.base.common.support;
 
 import com.zhilingsd.base.common.annotation.GetSingleResult;
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.result.SingleResult;
 import org.springframework.core.MethodParameter;
 import org.springframework.ui.Model;
@@ -71,8 +71,8 @@ public class ApiReturnValueHandler implements HandlerMethodReturnValueHandler {
             if (!SingleResult.class.isAssignableFrom(returnValueType)
                     && !Model.class.isAssignableFrom(returnValueType)
                     && (methodSingleResult != null || classSingleResult != null)) {
-                result.setCode(BaseResultCodeEnum.SUCCESS.getCode());
-                result.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
+                result.setCode(ReturnCode.SUCCESS.getCode());
+                result.setMsg(ReturnCode.SUCCESS.getMsg());
                 result.setData(returnValue);
                 result.setSysTime(String.valueOf(System.currentTimeMillis()));
                 handleResult = result;
@@ -81,8 +81,8 @@ public class ApiReturnValueHandler implements HandlerMethodReturnValueHandler {
                 handleResult = returnValue;
             }
         } else {
-            result.setCode(BaseResultCodeEnum.SUCCESS.getCode());
-            result.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
+            result.setCode(ReturnCode.SUCCESS.getCode());
+            result.setMsg(ReturnCode.SUCCESS.getMsg());
             result.setSysTime(String.valueOf(System.currentTimeMillis()));
             handleResult = result;
         }

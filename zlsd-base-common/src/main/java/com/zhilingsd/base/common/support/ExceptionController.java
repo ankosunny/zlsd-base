@@ -54,7 +54,7 @@ public class ExceptionController extends AbstractErrorController {
     @ResponseBody
     public CommonResult error(HttpServletRequest request) {
         CommonResult result = new CommonResult();
-        result.setCode("404");
+        result.setCode(404);
         result.setMsg(ERROR_MESSAGE_404+request.getRequestURL());
         result.setSysTime(String.valueOf(System.currentTimeMillis()));
         return result;

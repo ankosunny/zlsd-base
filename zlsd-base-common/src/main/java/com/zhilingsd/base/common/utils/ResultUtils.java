@@ -1,7 +1,6 @@
 package com.zhilingsd.base.common.utils;
 
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
-import com.zhilingsd.base.common.emuns.ExceptionCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.DAOException;
 import com.zhilingsd.base.common.exception.ServiceException;
 import com.zhilingsd.base.common.result.CommonResult;
@@ -12,20 +11,25 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by chenzongbo on 2017/12/13.
+ *
+ * 功能描述:返回值工具类
+ * @param: [t]
+ * @return: com.zhilingsd.base.common.result.ListResult<T>
+ * @auther: 吞星
+ * @date: 2019/6/26-11:30
  */
 public class ResultUtils {
 
     public static <T> ListResult<T> getSuccessListResult(List<T> t) {
         ListResult listResult = getListResult(t);
-        listResult.setCode(BaseResultCodeEnum.SUCCESS.getCode());
-        listResult.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
+        listResult.setCode(ReturnCode.SUCCESS.getCode());
+        listResult.setMsg(ReturnCode.SUCCESS.getMsg());
         Date now = new Date();
         listResult.setSysTime(now.getTime() + "");
         return listResult;
     }
 
-    public static <T> ListResult<T> getErrListResult(List<T> t, String errCode, String errMsg) {
+    public static <T> ListResult<T> getErrListResult(List<T> t, int errCode, String errMsg) {
         ListResult listResult = getListResult(t);
         listResult.setCode(errCode);
         listResult.setMsg(errMsg);
@@ -36,24 +40,22 @@ public class ResultUtils {
         if (e instanceof DAOException) {
             DAOException daoException = (DAOException) e;
             return ResultUtils.getErrListResult(t, daoException.getCode(), daoException.getMessage());
-        } else if (e instanceof ServiceException) {
+        } else {
             ServiceException serviceException = (ServiceException) e;
             return ResultUtils.getErrListResult(t, serviceException.getCode(), serviceException.getMessage());
-        } else {
-            return ResultUtils.getErrListResult(t, ExceptionCodeEnum.UNKNOWN_ERROR_999.getCode(), ExceptionCodeEnum.UNKNOWN_ERROR_999.getMsg());
         }
     }
 
     public static <T> SingleResult<T> getSuccessSingleResult(T t) {
         SingleResult singleResult = getSingleResult(t);
-        singleResult.setCode(BaseResultCodeEnum.SUCCESS.getCode());
-        singleResult.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
+        singleResult.setCode(ReturnCode.SUCCESS.getCode());
+        singleResult.setMsg(ReturnCode.SUCCESS.getMsg());
         Date now = new Date();
         singleResult.setSysTime(now.getTime() + "");
         return singleResult;
     }
 
-    public static <T> SingleResult<T> getErrSingleResult(T t, String errCode, String errMsg) {
+    public static <T> SingleResult<T> getErrSingleResult(T t, int errCode, String errMsg) {
         SingleResult singleResult = getSingleResult(t);
         singleResult.setCode(errCode);
         singleResult.setMsg(errMsg);
@@ -76,15 +78,13 @@ public class ResultUtils {
         if (e instanceof DAOException) {
             DAOException daoException = (DAOException) e;
             return ResultUtils.getErrSingleResult(t, daoException.getCode(), daoException.getMessage());
-        } else if (e instanceof ServiceException) {
+        } else  {
             ServiceException serviceException = (ServiceException) e;
             return ResultUtils.getErrSingleResult(t, serviceException.getCode(), serviceException.getMessage());
-        } else {
-            return ResultUtils.getErrSingleResult(t, ExceptionCodeEnum.UNKNOWN_ERROR_999.getCode(), ExceptionCodeEnum.UNKNOWN_ERROR_999.getMsg());
         }
     }
 
-    public static CommonResult getErrCommonResult(String errCode, String errMsg) {
+    public static CommonResult getErrCommonResult(int errCode, String errMsg) {
         CommonResult commonResult = new CommonResult();
         commonResult.setCode(errCode);
         commonResult.setMsg(errMsg);
@@ -96,34 +96,32 @@ public class ResultUtils {
         if (e instanceof DAOException) {
             DAOException daoException = (DAOException) e;
             return ResultUtils.getErrCommonResult(daoException.getCode(), daoException.getMessage());
-        } else if (e instanceof ServiceException) {
+        } else {
             ServiceException serviceException = (ServiceException) e;
             return ResultUtils.getErrCommonResult(serviceException.getCode(), serviceException.getMessage());
-        } else {
-            return ResultUtils.getErrCommonResult(ExceptionCodeEnum.UNKNOWN_ERROR_999.getCode(), ExceptionCodeEnum.UNKNOWN_ERROR_999.getMsg());
         }
     }
 
     public static CommonResult getSuccessCommonResult() {
         CommonResult commonResult = new CommonResult();
-        commonResult.setCode(BaseResultCodeEnum.SUCCESS.getCode());
-        commonResult.setMsg(BaseResultCodeEnum.SUCCESS.getMsg());
+        commonResult.setCode(ReturnCode.SUCCESS.getCode());
+        commonResult.setMsg(ReturnCode.SUCCESS.getMsg());
         Date now = new Date();
         commonResult.setSysTime(now.getTime() + "");
         return commonResult;
     }
 
     /**
-     *
      * 功能描述:验证singleResult返回结果
+     *
      * @param: [result, exceptionMsg]
      * @return: void
      * @auther: 吞星
      * @date: 2019/6/18-14:46
      */
     public static void verifyResult(SingleResult result, String exceptionMsg) {
-        if (!BaseResultCodeEnum.SUCCESS.getCode().equals(result.code)) {
-            throw new ServiceException(BaseResultCodeEnum.BUSINESS_ERROR.getCode(), exceptionMsg + "---------" + result.getMsg());
+        if (!(ReturnCode.SUCCESS.getCode() == result.code)) {
+            throw new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), exceptionMsg + "---------" + result.getMsg());
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.zhilingsd.base.common.exception;
 
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 
 /**
  * 业务异常
@@ -15,27 +15,27 @@ public class BusinessException extends BaseException {
     public BusinessException() {
     }
 
-    public BusinessException(BaseResultCodeEnum resultCodeEnum) {
+    public BusinessException(ReturnCode resultCodeEnum) {
         super(resultCodeEnum.getCode(), resultCodeEnum.getMsg());
     }
 
     public BusinessException(String message) {
-        super(BaseResultCodeEnum.BUSINESS_ERROR.getCode(), message);
+        super(ReturnCode.BUSINESS_ERROR.getCode(), message);
     }
 
-    public BusinessException(BaseResultCodeEnum resultCodeEnum, String message) {
+    public BusinessException(ReturnCode resultCodeEnum, String message) {
         super(resultCodeEnum.getCode(), message);
     }
 
-    public BusinessException(String code, String message) {
+    public BusinessException(int code, String message) {
         super(code, message);
     }
 
-    public BusinessException(String code, String message, Throwable cause) {
+    public BusinessException(int code, String message, Throwable cause) {
         super(code, message, cause);
     }
 
-    public BusinessException(String code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public BusinessException(int code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(code, message, cause, enableSuppression, writableStackTrace);
     }
 }

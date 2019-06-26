@@ -8,7 +8,7 @@ public class WebException extends BaseException {
   
     private static final long serialVersionUID = 1L;
 
-    private String code;
+    private int code;
 
     private String message;
 
@@ -16,31 +16,31 @@ public class WebException extends BaseException {
         super();
     }
 
-    public WebException(String code, String message) {
+    public WebException(int code, String message) {
         super(message);
         this.code = code;
         this.message = message;
     }
 
-    public WebException(String code, String message, Throwable cause) {
+    public WebException(int code, String message, Throwable cause) {
         super(message, cause);
         this.code = code;
         this.message = message;
     }
 
-    public WebException(String code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public WebException(int code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(code,message, cause, enableSuppression, writableStackTrace);
         this.code = code;
         this.message = message;
     }
 
     @Override
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
     @Override
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

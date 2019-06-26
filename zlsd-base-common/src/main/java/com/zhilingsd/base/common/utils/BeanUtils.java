@@ -22,7 +22,7 @@
  */
 package com.zhilingsd.base.common.utils;
 
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
@@ -54,7 +54,7 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
             try {
                 target = clz.newInstance();
             } catch (Exception e) {
-                throw new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(),BaseResultCodeEnum.SYSTEM_ERROR.getMsg()+e);
+                throw new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(),ReturnCode.SYSTEM_ERROR.getMsg()+e);
             }
             org.springframework.beans.BeanUtils.copyProperties(source, target);
             list.add(target);
@@ -69,7 +69,7 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
            target  = clz.newInstance();
             copyProperties(source, target, null, (String[]) null);
         } catch (Exception e) {
-            throw new ServiceException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(),BaseResultCodeEnum.SYSTEM_ERROR.getMsg()+e);
+            throw new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(),ReturnCode.SYSTEM_ERROR.getMsg()+e);
         }
         return target;
     }

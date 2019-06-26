@@ -1,44 +1,40 @@
 package com.zhilingsd.base.common.exception;
 
 
-import com.zhilingsd.base.common.emuns.ExceptionCodeEnum;
-
 /**
  * Created by chenzongbo on 2017/12/13.
  */
 public class ServiceException extends BaseException {
 
-    private String code;
+    private int code;
 
-    public String getCode() {
+    @Override
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    @Override
+    public void setCode(int code) {
         this.code = code;
     }
 
-    public ServiceException(String code) {
+    public ServiceException(int code) {
         this.code = code;
     }
 
-    public ServiceException(String code, Throwable throwable) {
+    public ServiceException(int code, Throwable throwable) {
         super(throwable);
         this.code = code;
     }
 
-    public ServiceException(String code, String message) {
+    public ServiceException(int code, String message) {
         super(message);
         this.code = code;
     }
 
-    public ServiceException(String code, Throwable throwable, String message) {
+    public ServiceException(int code, Throwable throwable, String message) {
         super(message, throwable);
         this.code = code;
     }
 
-    public ServiceException(ExceptionCodeEnum errorCode) {
-        super(errorCode.getMsg());
-        this.code = errorCode.getCode();
-    }
 }

@@ -1,7 +1,7 @@
 package com.zhilingsd.base.common.exception;
 
 
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 
 /**
  * 非法参数异常
@@ -17,27 +17,27 @@ public class IllegalParameterException extends BaseException {
         super();
     }
 
-    public IllegalParameterException(BaseResultCodeEnum resultCodeEnum) {
+    public IllegalParameterException(ReturnCode resultCodeEnum) {
         super(resultCodeEnum.getCode(), resultCodeEnum.getMsg());
     }
 
     public IllegalParameterException(String message) {
-        super(BaseResultCodeEnum.ILLEGAL_ARGUMENT.getCode(), message);
+        super(ReturnCode.ERROR_117.getCode(), message);
     }
 
-    public IllegalParameterException(BaseResultCodeEnum resultCodeEnum, String message) {
+    public IllegalParameterException(ReturnCode resultCodeEnum, String message) {
         super(resultCodeEnum.getCode(), message);
     }
 
-    public IllegalParameterException(String code, String message) {
+    public IllegalParameterException(int code, String message) {
         super(code, message);
     }
 
-    public IllegalParameterException(String code, String message, Throwable cause) {
+    public IllegalParameterException(int code, String message, Throwable cause) {
         super(code, message, cause);
     }
 
-    public IllegalParameterException(String code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public IllegalParameterException(int code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(code, message, cause, enableSuppression, writableStackTrace);
     }
 }

@@ -1,46 +1,41 @@
 package com.zhilingsd.base.common.exception;
 
-import com.zhilingsd.base.common.emuns.ExceptionCodeEnum;
-
 /**
  * Created by chenzongbo on 2017/12/13.
  */
 public class DAOException extends BaseException {
 
-    private String code;
+    private int code;
 
-    public String getCode() {
+    @Override
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    @Override
+    public void setCode(int code) {
         this.code = code;
     }
 
-    public DAOException(String code) {
+    public DAOException(int code) {
         this.code = code;
     }
 
-    public DAOException(String code, Throwable throwable) {
+    public DAOException(int code, Throwable throwable) {
         super(throwable);
         this.code = code;
         this.setMessage(throwable.getMessage());
     }
 
-    public DAOException(String code, String message) {
+    public DAOException(int code, String message) {
         super(message);
         this.code = code;
         this.setMessage(message);
     }
 
-    public DAOException(String code, Throwable throwable, String message) {
+    public DAOException(int code, Throwable throwable, String message) {
         super(message, throwable);
         this.code = code;
         this.setMessage(message);
-    }
-
-    public DAOException(ExceptionCodeEnum errorCode) {
-        super(errorCode.getMsg());
-        this.code = errorCode.getCode();
     }
 }

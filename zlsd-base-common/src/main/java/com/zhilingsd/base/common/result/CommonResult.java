@@ -1,7 +1,7 @@
 package com.zhilingsd.base.common.result;
 
 
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.result.base.ToString;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,7 +21,7 @@ public class CommonResult extends ToString {
      * 返回code
      */
     @ApiModelProperty("返回code")
-    public String code;
+    public int code;
 
     /**
      * 结果描述
@@ -46,24 +46,24 @@ public class CommonResult extends ToString {
 	public CommonResult() {
     }
 
-    public CommonResult(BaseResultCodeEnum baseResultCodeEnum) {
-        setCode(baseResultCodeEnum.getCode());
-        setMsg(baseResultCodeEnum.getMsg());
+    public CommonResult(ReturnCode returnCode) {
+        setCode(returnCode.getCode());
+        setMsg(returnCode.getMsg());
         this.sysTime = String.valueOf(System.currentTimeMillis());
     }
 
 
-    public CommonResult( String code, String msg) {
+    public CommonResult(int code, String msg) {
         this.code = code;
         this.msg = msg;
         this.sysTime = String.valueOf(System.currentTimeMillis());
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

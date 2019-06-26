@@ -1,7 +1,7 @@
 package com.zhilingsd.base.common.result;
 
 
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -24,12 +24,12 @@ public class ListResult<T> extends CommonResult {
     public ListResult(){
     }
 
-    public ListResult(BaseResultCodeEnum baseResultCodeEnum) {
-        super(baseResultCodeEnum);
+    public ListResult(ReturnCode ReturnCode) {
+        super(ReturnCode);
     }
 
     public ListResult(List<T> dataList) {
-        this(BaseResultCodeEnum.SUCCESS);
+        this(ReturnCode.SUCCESS);
         setDataList(dataList);
     }
 

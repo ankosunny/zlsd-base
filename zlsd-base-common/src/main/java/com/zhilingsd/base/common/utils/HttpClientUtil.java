@@ -1,6 +1,6 @@
 package com.zhilingsd.base.common.utils;
 
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.BusinessException;
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
@@ -153,12 +153,12 @@ public class HttpClientUtil {
             }
         } catch (IOException e) {//网络异常时，做业务时也要认为处理中
             LOGGER.warn("网络异常", e);
-            throw new BusinessException(BaseResultCodeEnum.NETWORK_ERROR.getCode(),
-                    BaseResultCodeEnum.NETWORK_ERROR.getMsg(), e);
+            throw new BusinessException(ReturnCode.NETWORK_ERROR.getCode(),
+                    ReturnCode.NETWORK_ERROR.getMsg(), e);
         } catch (Exception e) {
             LOGGER.warn("执行post请求异常", e);
-            throw new BusinessException(BaseResultCodeEnum.SYSTEM_ERROR.getCode(),
-                    BaseResultCodeEnum.SYSTEM_ERROR.getMsg(), e);
+            throw new BusinessException(ReturnCode.SYSTEM_ERROR.getCode(),
+                    ReturnCode.SYSTEM_ERROR.getMsg(), e);
         }
     }
 

@@ -10,7 +10,7 @@ package com.zhilingsd.base.common.exception;
 public class BaseException extends RuntimeException {
     private static final long serialVersionUID = 1218030605042529457L;
 
-    private String code;
+    private int code;
 
     private String message;
 
@@ -29,29 +29,29 @@ public class BaseException extends RuntimeException {
         super(message);
         this.message = message;
     }
-    public BaseException(String code, String message) {
+    public BaseException(int code, String message) {
         super(message);
         this.code = code;
         this.message = message;
     }
 
-    public BaseException(String code, String message, Throwable cause) {
+    public BaseException(int code, String message, Throwable cause) {
         super(message, cause);
         this.code = code;
         this.message = message;
     }
 
-    public BaseException(String code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public BaseException(int code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.code = code;
         this.message = message;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

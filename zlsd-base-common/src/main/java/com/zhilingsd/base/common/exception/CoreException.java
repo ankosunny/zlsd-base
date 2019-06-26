@@ -1,6 +1,6 @@
 package com.zhilingsd.base.common.exception;
 
-import com.zhilingsd.base.common.emuns.BaseResultCodeEnum;
+import com.zhilingsd.base.common.emuns.ReturnCode;
 
 /**
  * 接口异常
@@ -13,27 +13,27 @@ public class CoreException extends BaseException {
     public CoreException() {
     }
 
-    public CoreException(BaseResultCodeEnum resultCodeEnum) {
+    public CoreException(ReturnCode resultCodeEnum) {
         super(resultCodeEnum.getCode(), resultCodeEnum.getMsg());
     }
 
     public CoreException(String message) {
-        super(BaseResultCodeEnum.BUSINESS_ERROR.getCode(), message);
+        super(ReturnCode.BUSINESS_ERROR.getCode(), message);
     }
 
-    public CoreException(BaseResultCodeEnum resultCodeEnum, String message) {
+    public CoreException(ReturnCode resultCodeEnum, String message) {
         super(resultCodeEnum.getCode(), message);
     }
 
-    public CoreException(String code, String message) {
+    public CoreException(int code, String message) {
         super(code, message);
     }
 
-    public CoreException(String code, String message, Throwable cause) {
+    public CoreException(int code, String message, Throwable cause) {
         super(code, message, cause);
     }
 
-    public CoreException(String code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public CoreException(int code, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(code, message, cause, enableSuppression, writableStackTrace);
     }
 }

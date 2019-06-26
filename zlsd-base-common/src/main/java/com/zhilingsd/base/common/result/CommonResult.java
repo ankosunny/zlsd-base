@@ -21,7 +21,7 @@ public class CommonResult extends ToString {
      * 返回code
      */
     @ApiModelProperty("返回code")
-    public int code;
+    public Integer code;
 
     /**
      * 结果描述
@@ -53,17 +53,17 @@ public class CommonResult extends ToString {
     }
 
 
-    public CommonResult(int code, String msg) {
+    public CommonResult(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
         this.sysTime = String.valueOf(System.currentTimeMillis());
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

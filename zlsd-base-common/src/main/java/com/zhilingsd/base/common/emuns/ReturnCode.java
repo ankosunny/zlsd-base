@@ -27,6 +27,8 @@ public enum ReturnCode {
     UPDATE_MAX_SIZE(-9, "批量更新数据过大"),
     MISSING_PARAMETER(-10, "缺少参数异常"),
     QUERY_MAX_SIZE(-11,"批量查询数据过大"),
+    DATA_NOT_EXIST(-12,"数据不存在异常"),
+    DATA_EXIST(-13,"数据存在异常"),
     /**
      * 操作成功
      */

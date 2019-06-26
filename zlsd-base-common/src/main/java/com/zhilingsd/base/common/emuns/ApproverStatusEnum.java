@@ -18,39 +18,39 @@ import java.util.List;
  */
 public enum  ApproverStatusEnum {
 
-//    0：待审批；1：一级审批通过；2：一级审批驳回；3：二级文员通过；4：二级文员拒绝';5：失效
-    APPROVER_STATUS_0(0, "待审批"),
-    APPROVER_STATUS_1(1, "一级审批通过"),
-    APPROVER_STATUS_2(2, "一级审批驳回"),
-    APPROVER_STATUS_3(3, "通过"),
-    APPROVER_STATUS_4(4, "驳回"),
-    APPROVER_STATUS_5(5, "失效"),
+//审批状态 daishenpi：待审批；yitongguo：一级主管通过；yijujue：一级主管拒绝；ertongguo：二级主管通过；erjujue：二级主管拒绝 ;shixiao：失效
+    APPROVER_DAISHENPI("daishenpi", "待审批"),
+    APPROVER_YITONGGUO("yitongguo", "一级审批通过"),
+    APPROVER_YIJUJUE("yijujue", "一级审批驳回"),
+    APPROVER_ERTONGGUO("ertongguo", "通过"),
+    APPROVER_ERJUJUE("erjujue", "驳回"),
+    APPROVER_SHIXIAO("shixiao", "失效"),
             ;
 
-    private int code;
+    private String code;
     private String value;
 
-    public static List<Integer> ONE_APPROVE = new ArrayList<>(2);
-    public static List<Integer> TWO_APPROVE = new ArrayList<>(2);
+    public static List<String> ONE_APPROVE = new ArrayList<>(2);
+    public static List<String> TWO_APPROVE = new ArrayList<>(2);
 
 
     static {
-        ONE_APPROVE.add(APPROVER_STATUS_1.getCode());
-        ONE_APPROVE.add(APPROVER_STATUS_2.getCode());
-        TWO_APPROVE.add(APPROVER_STATUS_3.getCode());
-        TWO_APPROVE.add(APPROVER_STATUS_4.getCode());
+        ONE_APPROVE.add(APPROVER_YITONGGUO.getCode());
+        ONE_APPROVE.add(APPROVER_YIJUJUE.getCode());
+        TWO_APPROVE.add(APPROVER_ERTONGGUO.getCode());
+        TWO_APPROVE.add(APPROVER_ERJUJUE.getCode());
     }
 
-    ApproverStatusEnum(int code, String value) {
+    ApproverStatusEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -62,9 +62,9 @@ public enum  ApproverStatusEnum {
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static String getValueByCode(String code) {
         for (ApproverStatusEnum osEnum : ApproverStatusEnum.values()) {
-            if (osEnum.getCode() == code) {
+            if (osEnum.getCode() .equals(code) ) {
                 return osEnum.getValue();
             }
         }

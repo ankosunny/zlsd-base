@@ -19,6 +19,10 @@ public class BusinessException extends BaseException {
         super(resultCodeEnum.getCode(), resultCodeEnum.getMsg());
     }
 
+    public BusinessException(int code) {
+        super(code, ReturnCode.getValueByCode(code));
+    }
+
     public BusinessException(String message) {
         super(ReturnCode.BUSINESS_ERROR.getCode(), message);
     }

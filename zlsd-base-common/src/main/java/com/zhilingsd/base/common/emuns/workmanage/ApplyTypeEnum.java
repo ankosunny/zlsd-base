@@ -17,27 +17,28 @@ import java.util.List;
  */
 public enum ApplyTypeEnum{
 
+    //waifang：外访，jianmian：减免，chean：撤案，liuan：留案,baoan：报案
     //    外访/减免/撤案/留案/报案
-    APPLY_TYPE_1(1, "外访"),
-    APPLY_TYPE_2(2, "减免"),
-    APPLY_TYPE_3(3, "撤案"),
-    APPLY_TYPE_4(4, "留案"),
-    APPLY_TYPE_5(5, "报案"),
+    APPLY_TYPE_waifang("waifang", "外访"),
+    APPLY_TYPE_jianmian("jianmian", "减免"),
+    APPLY_TYPE_chean("chean", "撤案"),
+    APPLY_TYPE_liuan("liuan", "留案"),
+    APPLY_TYPE_baoan("baoan", "报案"),
     ;
 
-    private int code;
+    private String code;
     private String value;
 
-    ApplyTypeEnum(int code, String value) {
+    ApplyTypeEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -51,7 +52,7 @@ public enum ApplyTypeEnum{
 
     public static String getValueByCode(int code) {
         for (ApplyTypeEnum osEnum : ApplyTypeEnum.values()) {
-            if (osEnum.getCode() == code) {
+            if (osEnum.getCode() .equals(code)) {
                 return osEnum.getValue();
             }
         }

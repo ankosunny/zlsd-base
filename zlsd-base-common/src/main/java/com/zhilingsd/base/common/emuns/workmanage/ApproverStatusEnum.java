@@ -1,4 +1,4 @@
-package com.zhilingsd.base.common.emuns;
+package com.zhilingsd.base.common.emuns.workmanage;
 
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.bean.KeyValueBean;

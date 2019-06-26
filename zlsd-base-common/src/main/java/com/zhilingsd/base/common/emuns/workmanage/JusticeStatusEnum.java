@@ -1,4 +1,4 @@
-package com.zhilingsd.base.common.emuns;
+package com.zhilingsd.base.common.emuns.workmanage;
 
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.bean.KeyValueBean;
@@ -12,25 +12,26 @@ import java.util.List;
  * @DateTime: 2019/5/9 19:17
  */
 public enum JusticeStatusEnum {
-    JUSTICE_STATUS_0(0, "待处理"),
-    JUSTICE_STATUS_1(1, "已打印"),
-    JUSTICE_STATUS_2(2, "已完成"),
-    JUSTICE_STATUS_3(3,"已取消")
+    // daichuli：待处理，dayin：已打印，wancheng：已完成，quxiao：已取消
+    JUSTICE_DAICHULI("daichuli", "待处理"),
+    JUSTICE_DAYIN("dayin", "已打印"),
+    JUSTICE_WANCHENG("wancheng", "已完成"),
+    JUSTICE_QUXIAO("quxiao","已取消")
     ;
 
-    private int code;
+    private String code;
     private String value;
 
-    JusticeStatusEnum(int code, String value) {
+    JusticeStatusEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -42,9 +43,9 @@ public enum JusticeStatusEnum {
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static String getValueByCode(String code) {
         for (JusticeStatusEnum osEnum : JusticeStatusEnum.values()) {
-            if (osEnum.getCode() == code) {
+            if (osEnum.getCode() .equals(code) ) {
                 return osEnum.getValue();
             }
         }

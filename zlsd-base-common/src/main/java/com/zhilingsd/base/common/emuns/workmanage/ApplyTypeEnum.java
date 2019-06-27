@@ -19,11 +19,11 @@ public enum ApplyTypeEnum{
 
     //waifang：外访，jianmian：减免，chean：撤案，liuan：留案,baoan：报案
     //    外访/减免/撤案/留案/报案
-    APPLY_TYPE_waifang("waifang", "外访"),
-    APPLY_TYPE_jianmian("jianmian", "减免"),
-    APPLY_TYPE_chean("chean", "撤案"),
-    APPLY_TYPE_liuan("liuan", "留案"),
-    APPLY_TYPE_baoan("baoan", "报案"),
+    APPLY_TYPE_WAIFANG("waifang", "外访"),
+    APPLY_TYPE_JIANMIAN("jianmian", "减免"),
+    APPLY_TYPE_CHEAN("chean", "撤案"),
+    APPLY_TYPE_LIUAN("liuan", "留案"),
+    APPLY_TYPE_BAOAN("baoan", "报案"),
     ;
 
     private String code;
@@ -50,7 +50,7 @@ public enum ApplyTypeEnum{
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static String getValueByCode(String code) {
         for (ApplyTypeEnum osEnum : ApplyTypeEnum.values()) {
             if (osEnum.getCode() .equals(code)) {
                 return osEnum.getValue();

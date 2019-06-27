@@ -17,27 +17,28 @@ import java.util.List;
  */
 public enum FlowTypeEnum {
 
+    //跟进类型：waifang:外访 jianmian:减免 chean:撤案 liuan:留案 baoan:报案 hanjian:函件 cuiji:记催记
     //    外访/减免/撤案/留案/报案/函件/记催记
-    APPLY_TYPE_1(1, "外访"),
-    APPLY_TYPE_2(2, "减免"),
-    APPLY_TYPE_3(3, "撤案"),
-    APPLY_TYPE_4(4, "留案"),
-    APPLY_TYPE_5(5, "报案"),
-    APPLY_TYPE_6(6, "函件"),
-    APPLY_TYPE_7(7, "记催记"),
+    FLOW_TYPE_WAIFANG("waifang", "外访"),
+    FLOW_TYPE_JIANMIAN("jianmian", "减免"),
+    FLOW_TYPE_CHEAN("chean", "撤案"),
+    FLOW_TYPE_LIUAN("liuan", "留案"),
+    FLOW_TYPE_BAOAN("baoan", "报案"),
+    FLOW_TYPE_HANJIAN("hanjian", "函件"),
+    FLOW_TYPE_CUIJI("cuiji", "记催记"),
     ;
 
-    private int code;
+    private String code;
     private String value;
 
-    FlowTypeEnum(int code, String value) {
+    FlowTypeEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static String getValueByCode(String code) {
         for (FlowTypeEnum osEnum : FlowTypeEnum.values()) {
-            if (osEnum.getCode() == code) {
+            if (osEnum.getCode().equals( code)) {
                 return osEnum.getValue();
             }
         }
@@ -53,11 +54,11 @@ public enum FlowTypeEnum {
         return initParamList;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

@@ -43,6 +43,15 @@ public enum BillStatusEnum {
         return "";
     }
 
+    public static BillStatusEnum getByCode(String code) {
+        for (BillStatusEnum osEnum : BillStatusEnum.values()) {
+            if (osEnum.getCode().equals(code)) {
+                return osEnum;
+            }
+        }
+        return null;
+    }
+
     public static List<KeyValueBean> initParam() {
         List<KeyValueBean> allotStatusList = Lists.newArrayList();
         for (BillStatusEnum osEnum : BillStatusEnum.values()) {

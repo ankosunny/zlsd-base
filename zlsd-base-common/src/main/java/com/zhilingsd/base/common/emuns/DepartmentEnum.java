@@ -27,9 +27,9 @@ public enum DepartmentEnum {
 	/**
 	 * 部门主兼职-主部门 MASTER -兼职部门 SLAVE
 	 */
-	MASTER("1", "MASTER"),
+	MASTER("1", "master"),
 
-	SLAVE("0", "SLAVE");
+	SLAVE("0", "slave");
 
 	private String code;
 

@@ -18,25 +18,25 @@ import java.util.List;
  */
 public enum BatchTimesEnum {
 
-    BATCH_TIMES_1(1, "一手"),
-    BATCH_TIMES_2(2, "二手"),
-    BATCH_TIMES_3(3, "三手"),
-    BATCH_TIMES_4(4, "四手"),
-    BATCH_TIMES_5(5, "五手"),
-    BATCH_TIMES_6(6, "六手"),
-    BATCH_TIMES_7(7, "七手"),
-    BATCH_TIMES_8(8, "八手"),
-    BATCH_TIMES_9(9, "九手"),
+    BATCH_TIMES_1("1", "一手"),
+    BATCH_TIMES_2("2", "二手"),
+    BATCH_TIMES_3("3", "三手"),
+    BATCH_TIMES_4("4", "四手"),
+    BATCH_TIMES_5("5", "五手"),
+    BATCH_TIMES_6("6", "六手"),
+    BATCH_TIMES_7("7", "七手"),
+    BATCH_TIMES_8("8", "八手"),
+    BATCH_TIMES_9("9", "九手"),
     ;
-    private int code;
+    private String code;
     private String value;
 
-    BatchTimesEnum(int code, String value) {
+    BatchTimesEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -44,9 +44,18 @@ public enum BatchTimesEnum {
         return value;
     }
 
+    public static String getValueByCode(String code) {
+        for (BatchTimesEnum osEnum : BatchTimesEnum.values()) {
+            if (osEnum.getCode().equals(code)) {
+                return osEnum.value;
+            }
+        }
+        return "";
+    }
+
     public static BatchTimesEnum getByCode(int code) {
         for (BatchTimesEnum osEnum : BatchTimesEnum.values()) {
-            if (osEnum.getCode() == code) {
+            if (osEnum.getCode().equals(code)) {
                 return osEnum;
             }
         }

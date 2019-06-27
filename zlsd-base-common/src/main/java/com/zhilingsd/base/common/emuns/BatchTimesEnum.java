@@ -40,25 +40,17 @@ public enum BatchTimesEnum {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public static String getValueByCode(int code) {
+    public static BatchTimesEnum getByCode(int code) {
         for (BatchTimesEnum osEnum : BatchTimesEnum.values()) {
             if (osEnum.getCode() == code) {
-                return osEnum.getValue();
+                return osEnum;
             }
         }
-        return "";
+        return null;
     }
 
     public static List<KeyValueBean> initParam(){

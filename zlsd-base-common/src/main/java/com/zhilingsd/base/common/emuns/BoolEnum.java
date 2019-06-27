@@ -4,9 +4,9 @@ package com.zhilingsd.base.common.emuns;
  * 是否
  * 
  * @author yangtao20815
- * @version $Id: EnumBool.java, v 1.0 2017年3月8日 上午9:16:38 yangtao20815 Exp $
+ * @version $Id: BoolEnum.java, v 1.0 2017年3月8日 上午9:16:38 yangtao20815 Exp $
  */
-public enum EnumBool {
+public enum BoolEnum {
     /**0-否*/
     NO("0", "否"),
     /**1-是*/
@@ -25,7 +25,7 @@ public enum EnumBool {
      * @param description
      *            描述
      **/
-    private EnumBool(String code, String description) {
+    private BoolEnum(String code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -35,10 +35,10 @@ public enum EnumBool {
      * 
      * @param code
      *            编码
-     * @return {@link EnumBool} 实例
+     * @return {@link BoolEnum} 实例
      **/
-    public static EnumBool find(String code) {
-        for (EnumBool frs : EnumBool.values()) {
+    public static BoolEnum find(String code) {
+        for (BoolEnum frs : BoolEnum.values()) {
             if (frs.getCode().equals(code)) {
                 return frs;
             }

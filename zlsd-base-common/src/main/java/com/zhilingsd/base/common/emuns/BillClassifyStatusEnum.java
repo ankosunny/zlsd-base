@@ -18,7 +18,7 @@ import java.util.List;
  * log.info()
  */
 @Slf4j
-public enum EnumBillClassifyStatus {
+public enum BillClassifyStatusEnum {
     XIN_AN_JIAN("xinanjian", "新案件"),
     YI_BAO_TING_CUI("yibaotingcui", "已报停催"),
     YI_JIE_AN("yijiean", "已还清，结案"),
@@ -56,7 +56,7 @@ public enum EnumBillClassifyStatus {
     private String code;
     private String value;
 
-    EnumBillClassifyStatus(String code, String value) {
+    BillClassifyStatusEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
@@ -70,10 +70,10 @@ public enum EnumBillClassifyStatus {
     }
 
 
-    public static String getValueByCode(String code) {
-        for (EnumBillClassifyStatus osEnum : EnumBillClassifyStatus.values()) {
+    public static BillClassifyStatusEnum getByCode(String code) {
+        for (BillClassifyStatusEnum osEnum : BillClassifyStatusEnum.values()) {
             if (osEnum.getCode().equals(code)) {
-                return osEnum.value;
+                return osEnum;
             }
         }
         return null;
@@ -81,7 +81,7 @@ public enum EnumBillClassifyStatus {
 
     public static List<KeyValueBean> initParam() {
         List<KeyValueBean> initParamList = Lists.newArrayList();
-        for (EnumBillClassifyStatus osEnum : EnumBillClassifyStatus.values()) {
+        for (BillClassifyStatusEnum osEnum : BillClassifyStatusEnum.values()) {
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
             initParamList.add(keyValueBean);
         }

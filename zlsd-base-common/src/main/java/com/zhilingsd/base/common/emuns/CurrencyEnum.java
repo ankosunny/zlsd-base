@@ -17,25 +17,25 @@ import java.util.List;
  */
 public enum CurrencyEnum {
 
-    RMB(0, "人民币"),
-    HKD(1, "港币"),
-    USD(2, "美元");
+    RMB("rmb", "人民币"),
+    HKD("hkd", "港币"),
+    USD("usd", "美元");
 
-    private int code;
+    private String code;
     private String value;
 
-    CurrencyEnum(int code, String value) {
+    CurrencyEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static CurrencyEnum getByCode(String code) {
         for (CurrencyEnum osEnum : CurrencyEnum.values()) {
-            if (osEnum.getCode() == code) {
-                return osEnum.getValue();
+            if (osEnum.getCode().equals(code)) {
+                return osEnum;
             }
         }
-        return "";
+        return null;
     }
 
     public static List<KeyValueBean> initParam() {
@@ -47,20 +47,13 @@ public enum CurrencyEnum {
         return allotStatusList;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
 
 }

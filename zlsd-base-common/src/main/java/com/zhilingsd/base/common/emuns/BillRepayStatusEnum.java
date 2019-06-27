@@ -12,55 +12,57 @@ import java.util.List;
  * @author zou.cp
  * @version 1.0
  * @className com.zhilingsd.enums.java
- * @Description 案件停催状态
+ * @Description 案件回款状态
  * @createTime 2019年04月19日 14:33*
  * log.info()
  */
-public enum BillStopStatusEnum {
+public enum BillRepayStatusEnum {
 
-    BILL_NOT_STOP(0, "未停催"),
-    BILL_STOP(1, "已停催");
+    BILL_NOT_REPAY("not_repay", "未还款"),
+    BILL_SOME_REPAY("some_repay", "部分还款"),
+    BILL_ALL_REPAY("all_repay", "已还款");
 
-    private int code;
+    private String code;
     private String value;
 
-    BillStopStatusEnum(int code, String value) {
+    BillRepayStatusEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
-        for (BillStopStatusEnum osEnum : BillStopStatusEnum.values()) {
-            if (osEnum.getCode() == code) {
-                return osEnum.getValue();
+    public static String getValueByCode(String code) {
+        for (BillRepayStatusEnum osEnum : BillRepayStatusEnum.values()) {
+            if (osEnum.getCode().equals(code)) {
+                return osEnum.value;
             }
         }
-        return "";
+        return null;
+    }
+
+    public static BillRepayStatusEnum getByCode(String code) {
+        for (BillRepayStatusEnum osEnum : BillRepayStatusEnum.values()) {
+            if (osEnum.getCode().equals(code)) {
+                return osEnum;
+            }
+        }
+        return null;
     }
 
     public static List<KeyValueBean> initParam() {
         List<KeyValueBean> allotStatusList = Lists.newArrayList();
-        for (BillStopStatusEnum osEnum : BillStopStatusEnum.values()) {
+        for (BillRepayStatusEnum osEnum : BillRepayStatusEnum.values()) {
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
             allotStatusList.add(keyValueBean);
         }
         return allotStatusList;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public String getValue() {
         return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
 }

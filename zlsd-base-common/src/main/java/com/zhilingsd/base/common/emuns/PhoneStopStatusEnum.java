@@ -29,7 +29,7 @@ public enum PhoneStopStatusEnum {
     }
 
     public static String getValueByCode(int code) {
-        for (BillStopStatusEnum osEnum : BillStopStatusEnum.values()) {
+        for (PhoneStopStatusEnum osEnum : PhoneStopStatusEnum.values()) {
             if (osEnum.getCode() == code) {
                 return osEnum.getValue();
             }

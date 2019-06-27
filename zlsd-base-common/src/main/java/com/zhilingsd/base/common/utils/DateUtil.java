@@ -2246,7 +2246,14 @@ public class DateUtil {
         return seconds;
     }
 
-
+    public static boolean checkCurrentMonth(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int currentMonth = -1;
+        int i = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar.setTime(date);
+        return i==calendar.get(Calendar.DAY_OF_MONTH);
+    }
     /**
      * 获取当天开始时间（0点）
      *
@@ -2305,10 +2312,7 @@ public class DateUtil {
         Calendar c =Calendar.getInstance();
         c.setTime(currentDate);
         int dayForWeek=0;
-        if (c.get(Calendar.DAY_OF_WEEK)==1){
-        dayForWeek=7;
-        }else {
-        dayForWeek=c.get(Calendar.DAY_OF_WEEK)- 1;}
+        dayForWeek=c.get(Calendar.DAY_OF_WEEK);
         return dayForWeek;
     }
 

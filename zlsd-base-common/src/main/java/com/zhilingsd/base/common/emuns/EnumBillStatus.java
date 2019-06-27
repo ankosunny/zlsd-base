@@ -34,13 +34,13 @@ public enum EnumBillStatus {
         this.value = value;
     }
 
-    public static EnumBillStatus getValueByCode(String code) {
+    public static String getValueByCode(String code) {
         for (EnumBillStatus osEnum : EnumBillStatus.values()) {
             if (osEnum.getCode().equals(code)) {
-                return osEnum;
+                return osEnum.value;
             }
         }
-        return null;
+        return "";
     }
 
     public static List<KeyValueBean> initParam() {

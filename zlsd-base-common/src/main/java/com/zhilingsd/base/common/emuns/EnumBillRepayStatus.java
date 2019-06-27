@@ -30,10 +30,10 @@ public enum EnumBillRepayStatus {
         this.value = value;
     }
 
-    public static EnumBillRepayStatus getByCode(int code) {
+    public static String getByCode(String code) {
         for (EnumBillRepayStatus osEnum : EnumBillRepayStatus.values()) {
             if (osEnum.getCode().equals(code)) {
-                return osEnum;
+                return osEnum.value;
             }
         }
         return null;

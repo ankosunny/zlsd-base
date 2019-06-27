@@ -70,10 +70,10 @@ public enum EnumBillClassifyStatus {
     }
 
 
-    public static EnumBillClassifyStatus getValueByCode(int code) {
+    public static String getValueByCode(String code) {
         for (EnumBillClassifyStatus osEnum : EnumBillClassifyStatus.values()) {
             if (osEnum.getCode().equals(code)) {
-                return osEnum;
+                return osEnum.value;
             }
         }
         return null;

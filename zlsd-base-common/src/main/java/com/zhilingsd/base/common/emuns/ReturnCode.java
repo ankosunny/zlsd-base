@@ -66,6 +66,7 @@ public enum ReturnCode {
     ERROR_135(135, "数据库更新失败"),
     ERROR_136(136, "数据库查询异常"),
     ERROR_137(137, " 文件不能为空"),
+    ERROR_138(138, "数据库插入主键不存在"),
     ERROR_400(401, "HTTP请求异常"),
     ERROR_405(405, "请求方式不支持"),
     ERROR_500(501, "系统繁忙，请稍后再试"),
@@ -196,5 +197,17 @@ public enum ReturnCode {
             }
         }
         return "";
+    }
+    /**
+     * @description  确定到错误信息发生地点
+     **/
+    public static ReturnCode setErrInfo(ReturnCode returnCode,String headStr){
+        returnCode.msg = headStr+"-"+returnCode.getMsg();
+        return returnCode;
+    }
+
+    public static void main(String[] args) {
+        ReturnCode returnCode = ReturnCode.setErrInfo(ReturnCode.ERROR_138,"上报还款");
+        System.out.println(returnCode.getMsg());
     }
 }

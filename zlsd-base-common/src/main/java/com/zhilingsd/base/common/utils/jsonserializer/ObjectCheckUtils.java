@@ -60,6 +60,7 @@ public class ObjectCheckUtils {
             }
         } catch (IllegalAccessException e){
             log.error("判断对象属性为空异常", e);
+            return true;
         }
         return false;
     }

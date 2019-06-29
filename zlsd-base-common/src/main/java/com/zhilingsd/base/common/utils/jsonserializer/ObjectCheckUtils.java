@@ -1,5 +1,6 @@
 package com.zhilingsd.base.common.utils.jsonserializer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Field;
@@ -14,24 +15,28 @@ import java.util.Map;
  * @create: 2019/04/24 20:30
  * @Copyright: 2018 www.mujinkeji.com Inc. All rights reserved.
  */
-
+@Slf4j
 public class ObjectCheckUtils {
     /**
      * 判断obj对象所有属性是否为空（除去static final类型）
      * @param obj
      * @return
      */
-    public static boolean objFieldsIsEmpty(Object obj) throws IllegalAccessException {
-        for(Field f : getFields(obj)){
-            f.setAccessible(true);
-            if(Modifier.isFinal(f.getModifiers())&&Modifier.isStatic(f.getModifiers())){
-                continue;
-            }
-            if(!isEmpty(f.get(obj))){
+    public static boolean objFieldsIsEmpty(Object obj){
+        try {
+            for(Field f : getFields(obj)){
+                f.setAccessible(true);
+                if(Modifier.isFinal(f.getModifiers())&&Modifier.isStatic(f.getModifiers())){
+                    continue;
+                }
+                if(!isEmpty(f.get(obj))){
+                    f.setAccessible(false);
+                    return false;
+                }
                 f.setAccessible(false);
-                return false;
             }
-            f.setAccessible(false);
+        } catch (IllegalAccessException e){
+            log.error("判断对象属性为空异常", e);
         }
         return true;
     }
@@ -40,13 +45,21 @@ public class ObjectCheckUtils {
      * @param obj
      * @return
      */
-    public static boolean objFieldIsEmpty(Object obj,String fileName) throws IllegalAccessException {
-        Field f = getFieldByFieldName(obj,fileName);
-        f.setAccessible(true);
-        Object value = f.get(obj);
-        f.setAccessible(false);
-        if(isEmpty(value)) {
-            return true;
+    public static boolean objFieldIsEmpty(Object obj,String fileName){
+        try {
+            Field f = getFieldByFieldName(obj,fileName);
+            if (f == null) {
+                return true;
+            }
+
+            f.setAccessible(true);
+            Object value = f.get(obj);
+            f.setAccessible(false);
+            if(isEmpty(value)) {
+                return true;
+            }
+        } catch (IllegalAccessException e){
+            log.error("判断对象属性为空异常", e);
         }
         return false;
     }
@@ -55,7 +68,7 @@ public class ObjectCheckUtils {
      * @param obj
      * @return
      */
-    public static boolean objFieldIsEmpty(Object obj,String ... fileName) throws IllegalAccessException {
+    public static boolean objFieldIsEmpty(Object obj,String ... fileName) {
         boolean res = true;
         for(String file:fileName){
             if(!objFieldIsEmpty(obj,file)){

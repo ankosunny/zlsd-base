@@ -69,6 +69,15 @@ public enum BillClassifyStatusEnum {
         return value;
     }
 
+    public static String getValueByCode(String code) {
+        for (BillClassifyStatusEnum osEnum : BillClassifyStatusEnum.values()) {
+            if (osEnum.getCode().equals(code)) {
+                return osEnum.value;
+            }
+        }
+        return null;
+    }
+
 
     public static BillClassifyStatusEnum getByCode(String code) {
         for (BillClassifyStatusEnum osEnum : BillClassifyStatusEnum.values()) {

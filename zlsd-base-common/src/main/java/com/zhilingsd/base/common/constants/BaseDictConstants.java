@@ -68,6 +68,8 @@ public class BaseDictConstants {
     public static final String ADDRESS_TYPE = "address_type";
     //函件类型
     public static final String JUSTICE_TYPE = "juestice_type";
+    //函件状态
+    public static final String JUSTICE_STATUS = "juestice_status";
 /************************  常量信息  **********************************************/
     //催收流程标识
     public static final String COLLECTION_TYPE = "collection_type";

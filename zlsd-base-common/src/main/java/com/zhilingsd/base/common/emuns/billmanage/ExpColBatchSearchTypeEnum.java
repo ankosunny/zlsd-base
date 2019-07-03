@@ -5,7 +5,7 @@ import com.zhilingsd.base.common.bean.KeyValueBean;
 
 import java.util.List;
 
-public enum ExpColBatchSearchTypeEunm {
+public enum ExpColBatchSearchTypeEnum {
     BILL_CODE("bill_code","案件编码"),
     ACCOUNT("account","账号"),
     CARD_NO("card_no","卡号"),
@@ -15,13 +15,13 @@ public enum ExpColBatchSearchTypeEunm {
     private String code;
     private String value;
 
-    ExpColBatchSearchTypeEunm(String code, String value) {
+    ExpColBatchSearchTypeEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
     public static String getValueByCode(String code) {
-        for (ExpColBatchSearchTypeEunm osEnum : ExpColBatchSearchTypeEunm.values()) {
+        for (ExpColBatchSearchTypeEnum osEnum : ExpColBatchSearchTypeEnum.values()) {
             if (code.equals(osEnum.getCode())) {
                 return osEnum.getValue();
             }
@@ -31,7 +31,7 @@ public enum ExpColBatchSearchTypeEunm {
 
     public static List<KeyValueBean> initParam(){
         List<KeyValueBean> initParamList = Lists.newArrayList();
-        for (ExpColBatchSearchTypeEunm osEnum: ExpColBatchSearchTypeEunm.values()){
+        for (ExpColBatchSearchTypeEnum osEnum: ExpColBatchSearchTypeEnum.values()){
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode()+"").name(osEnum.getValue()).build();
             initParamList.add(keyValueBean);
         }

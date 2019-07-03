@@ -27,27 +27,27 @@ public enum SmsStatusEnum {
     /**
      * 发送中
      */
-    SENDING("SENDING", "发送中"),
+    SENDING("sending", "发送中"),
 
     /**
      * 等待中
      */
-    wait("wait", "等待中"),
+    WAIT("wait", "等待中"),
 
     /**
      * 已提交
      */
-    submitted("submitted", "已提交"),
+    SUBMITTED("submitted", "已提交"),
 
     /**
      * 获取状态报告中
      */
-    reporting("reporting", "获取状态报告中"),
+    REPORTING("reporting", "获取状态报告中"),
 
     /**
      * 完成
      */
-    completed("completed", "完成"),
+    COMPLETED("completed", "完成"),
 
     ;
 

@@ -19,7 +19,7 @@ public class CommonUtils {
      * @param len
      * @return
      */
-    private static List<List<Long>> splitList(List<Long> list, int len) {
+    public static List<List<Long>> splitList(List<Long> list, int len) {
         if (list == null || list.size() == 0 || len < 1) {
             return null;
         }

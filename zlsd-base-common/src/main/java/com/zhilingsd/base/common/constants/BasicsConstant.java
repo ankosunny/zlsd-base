@@ -221,4 +221,9 @@ public class BasicsConstant {
      * 字符串-英文逗号分隔符
      */
     public static final String STRING_SPLIT_COMMA = ",";
+
+    /**
+     * mybatis xml中使用in的sql长度超过1000的配置
+     */
+    public static final Integer MYBATIS_IN_MAX = 990;
 }

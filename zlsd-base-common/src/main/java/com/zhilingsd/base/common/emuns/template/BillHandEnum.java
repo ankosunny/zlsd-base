@@ -1,4 +1,4 @@
-package com.zhilingsd.base.common.emuns;
+package com.zhilingsd.base.common.emuns.template;
 
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.bean.KeyValueBean;
@@ -6,22 +6,19 @@ import com.zhilingsd.base.common.bean.KeyValueBean;
 import java.util.List;
 
 /**
- * 催记类型状态
+ * 案件手别描述
  *
  * @Author: 刘行
  * @DateTime: 2019/5/9 19:17
  */
-public enum CollectionMarkTypeEnum {
-    PHONE_COLLECTION("diancui", "电催"),
-    WORK_ORDER("baojing", "报警"),
-    VISIT("waifang", "外访"),
-    ZHU_JI("zhuji", "注记"),
-    LETTER("xinhan", "信函");
+public enum BillHandEnum {
+    SHOUBIE("shoubie", "手别"),
+    ZHANGLING("zhangling", "账龄");
 
     private String code;
     private String value;
 
-    CollectionMarkTypeEnum(String code, String value) {
+    BillHandEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
@@ -43,8 +40,8 @@ public enum CollectionMarkTypeEnum {
     }
 
     public static String getValueByCode(String code) {
-        for (CollectionMarkTypeEnum osEnum : CollectionMarkTypeEnum.values()) {
-            if (osEnum.getCode() == code) {
+        for (BillHandEnum osEnum : BillHandEnum.values()) {
+            if (code.equals( osEnum.getCode())) {
                 return osEnum.getValue();
             }
         }
@@ -53,7 +50,7 @@ public enum CollectionMarkTypeEnum {
 
     public static List<KeyValueBean> initParam() {
         List<KeyValueBean> initParamList = Lists.newArrayList();
-        for (CollectionMarkTypeEnum osEnum : CollectionMarkTypeEnum.values()) {
+        for (BillHandEnum osEnum : BillHandEnum.values()) {
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
             initParamList.add(keyValueBean);
         }

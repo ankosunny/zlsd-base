@@ -11,17 +11,14 @@ import java.util.List;
  * @Author: 刘行
  * @DateTime: 2019/5/9 19:17
  */
-public enum CollectionMarkTypeEnum {
-    PHONE_COLLECTION("diancui", "电催"),
-    WORK_ORDER("baojing", "报警"),
-    VISIT("waifang", "外访"),
-    ZHU_JI("zhuji", "注记"),
-    LETTER("xinhan", "信函");
+public enum CollectionOriginTypeEnum {
+    ORIGIN_RECORD("originRecord", "原始催记"),
+    WORK_ORDER("workOrder", "工单");
 
     private String code;
     private String value;
 
-    CollectionMarkTypeEnum(String code, String value) {
+    CollectionOriginTypeEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
@@ -43,7 +40,7 @@ public enum CollectionMarkTypeEnum {
     }
 
     public static String getValueByCode(String code) {
-        for (CollectionMarkTypeEnum osEnum : CollectionMarkTypeEnum.values()) {
+        for (CollectionOriginTypeEnum osEnum : CollectionOriginTypeEnum.values()) {
             if (osEnum.getCode() == code) {
                 return osEnum.getValue();
             }
@@ -53,7 +50,7 @@ public enum CollectionMarkTypeEnum {
 
     public static List<KeyValueBean> initParam() {
         List<KeyValueBean> initParamList = Lists.newArrayList();
-        for (CollectionMarkTypeEnum osEnum : CollectionMarkTypeEnum.values()) {
+        for (CollectionOriginTypeEnum osEnum : CollectionOriginTypeEnum.values()) {
             KeyValueBean keyValueBean = KeyValueBean.builder().code(osEnum.getCode() + "").name(osEnum.getValue()).build();
             initParamList.add(keyValueBean);
         }

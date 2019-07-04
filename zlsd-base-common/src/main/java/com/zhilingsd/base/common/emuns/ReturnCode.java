@@ -66,6 +66,7 @@ public enum ReturnCode {
     ERROR_135(135, "数据库更新失败"),
     ERROR_136(136, "数据库查询异常"),
     ERROR_137(137, " 文件不能为空"),
+    ERROR_138(138, "数据库插入主键不存在"),
     ERROR_400(401, "HTTP请求异常"),
     ERROR_405(405, "请求方式不支持"),
     ERROR_500(501, "系统繁忙，请稍后再试"),
@@ -106,6 +107,7 @@ public enum ReturnCode {
     ERROR_40031(40031, "删除案件中对应除案件联系人ID失败"),
     ERROR_40032(40032, "案件导入或更新，未传入操作类型"),
     ERROR_40033(40033, "案件不为未分配新案件，无法进行物理删除操作"),
+    ERROR_40034(40034, "所选择的案件包含非停催状态，无法取消停催操作"),
     /*-----------案件中台服务业务异常结束 4000X---*/
 
     /*-------模板服务异常开始 4100X-------------------------*/
@@ -124,6 +126,8 @@ public enum ReturnCode {
     ERROR_41033(41033, "模板名称不能相同"),
     ERROR_41034(41034, "该贷款机构没有还没有导入案件模板，请新建"),
     ERROR_41035(41035, "暂无信封模板，请内置信封模板"),
+    ERROR_41036(41036, "模板id不能为空"),
+    ERROR_41037(41037, "映射人关系映射数据不能空"),
     /*-------模板服务异常结束 4100X-------------------------*/
 
     /*-------------- 作业管理服务异常开始 5100X-----------*/
@@ -149,6 +153,8 @@ public enum ReturnCode {
     ERROR_51020(51020, "请选择同一分公司的案件进行分配"),
     ERROR_51021(51021, "催记内容包含敏感词"),
     ERROR_51022(51022, "只能编辑当月的目标值"),
+    ERROR_51023(51023, "案件列表查询无返回数据"),
+    ERROR_51024(51024, "案件ID不能为空"),
     /*-------------- 作业管理服务异常结束 5100X-----------*/
 
     //------------------- 登录服务异常 6100X-------------------
@@ -156,6 +162,9 @@ public enum ReturnCode {
 
     //--------------------业务服务异常 7100x-------------------
     ERROR_71001(71001, "该案件编号不存在"),
+    ERROR_71002(71002, "文件有必填字段未填"),
+    ERROR_71003(71003, "无匹配案件信息"),
+    ERROR_71004(71004, "文件数不正确"),
 
 
     /*---------- agent 服务异常开始 8000x------- */
@@ -193,5 +202,17 @@ public enum ReturnCode {
             }
         }
         return "";
+    }
+    /**
+     * @description  确定到错误信息发生地点
+     **/
+    public static ReturnCode setErrInfo(ReturnCode returnCode,String headStr){
+        returnCode.msg = headStr+"-"+returnCode.getMsg();
+        return returnCode;
+    }
+
+    public static void main(String[] args) {
+        ReturnCode returnCode = ReturnCode.setErrInfo(ReturnCode.ERROR_138,"上报还款");
+        System.out.println(returnCode.getMsg());
     }
 }

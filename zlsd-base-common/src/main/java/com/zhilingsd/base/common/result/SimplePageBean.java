@@ -1,7 +1,7 @@
 package com.zhilingsd.base.common.result;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -16,7 +16,7 @@ import java.io.Serializable;
  * log.info()
  */
 @Data
-public class SimplePageBean implements Serializable {
+public class SimplePageBean {
     private static final long serialVersionUID = -917109313838368872L;
 
     /**

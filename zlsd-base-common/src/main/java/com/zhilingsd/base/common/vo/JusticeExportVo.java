@@ -23,7 +23,19 @@ public class JusticeExportVo extends ExportVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Map<String, String> exportValue;
+    private Long templateId;
+
+    private Long justiceApplyId;
+
+    public void setJusticeApplyId(Long justiceApplyId) {
+        this.justiceApplyId = justiceApplyId;
+    }
+
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
+    }
+
+    private Map<Long,Long> justiceAndResourceId;
 
     private String[] words = {
             "[案件编号]",

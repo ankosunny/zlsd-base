@@ -32,6 +32,32 @@ public class CommonUtils {
         }
         return result;
     }
+    /**
+     * @description  数据分割
+     **/
+    public static <T> List<List<T>> batchDataHandle(List<T> source, int n) {
+        //数据是空的或者分批元素个数小于0
+        if (null == source || source.size() == 0) {
+            return null;
+        }
+        if (n <= 0) {
+            n = 1000;
+        }
+        List<List<T>> result = new ArrayList<List<T>>();
+        int remainder = source.size() % n;
+        int size = (source.size() / n);
+        for (int i = 0; i < size; i++) {
+            List<T> subset = null;
+            subset = source.subList(i * n, (i + 1) * n);
+            result.add(subset);
+        }
+        if (remainder > 0) {
+            List<T> subset = null;
+            subset = source.subList(size * n, size * n + remainder);
+            result.add(subset);
+        }
+        return result;
+    }
 
     /**
      * 手机号脱敏

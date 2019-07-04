@@ -41,7 +41,7 @@ public enum BillHandEnum {
 
     public static String getValueByCode(String code) {
         for (BillHandEnum osEnum : BillHandEnum.values()) {
-            if (osEnum.getCode() == code) {
+            if (code.equals( osEnum.getCode())) {
                 return osEnum.getValue();
             }
         }

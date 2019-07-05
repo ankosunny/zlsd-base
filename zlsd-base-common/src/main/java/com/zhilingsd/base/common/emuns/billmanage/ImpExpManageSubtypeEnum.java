@@ -16,6 +16,7 @@ public enum ImpExpManageSubtypeEnum {
     EXP_BATCH_MARK("exp_batch_mark","导出批量催记"),
     EXP_SINGLE_MARK("exp_single_mark","导出单户催记"),
     EXP_RECORDINGS("exp_recordings","导出录音"),
+    EXP_BILL_CENTER("exp_bill_center","导出案件（案件中心）"),
     ;
 
     private String code;

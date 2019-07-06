@@ -44,7 +44,7 @@ public enum CollectionMarkTypeEnum {
 
     public static String getValueByCode(String code) {
         for (CollectionMarkTypeEnum osEnum : CollectionMarkTypeEnum.values()) {
-            if (osEnum.getCode() == code) {
+            if (osEnum.code.equals(code)) {
                 return osEnum.getValue();
             }
         }

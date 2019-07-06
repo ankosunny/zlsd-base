@@ -41,7 +41,7 @@ public enum CollectionOriginTypeEnum {
 
     public static String getValueByCode(String code) {
         for (CollectionOriginTypeEnum osEnum : CollectionOriginTypeEnum.values()) {
-            if (osEnum.getCode() == code) {
+            if (osEnum.code.equals(code)) {
                 return osEnum.getValue();
             }
         }

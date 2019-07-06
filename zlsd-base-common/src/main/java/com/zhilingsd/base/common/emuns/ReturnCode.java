@@ -178,6 +178,10 @@ public enum ReturnCode {
     ERROR_80007(80007, "插入角色异常"),
     ERROR_80008(80008, "修改角色异常"),
     /*---------- agent 服务异常结束 8000x------- */
+
+
+    /*---------- callcenter 服务异常结束 9000x------- */
+    ERROR_90001(90001, "excel校验异常"),
     ;
 
     private int code;

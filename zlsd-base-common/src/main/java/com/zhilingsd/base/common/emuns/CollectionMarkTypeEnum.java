@@ -16,6 +16,7 @@ public enum CollectionMarkTypeEnum {
     WORK_ORDER("baojing", "报警"),
     VISIT("waifang", "外访"),
     ZHU_JI("zhuji", "注记"),
+    TING_CUI("tingcui", "停催"),
     LETTER("xinhan", "信函");
 
     private String code;

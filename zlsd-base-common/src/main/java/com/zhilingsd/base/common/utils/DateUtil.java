@@ -2250,9 +2250,9 @@ public class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         int currentMonth = -1;
-        int i = calendar.get(Calendar.DAY_OF_MONTH);
+        int i = calendar.get(Calendar.MONTH);
         calendar.setTime(date);
-        return i==calendar.get(Calendar.DAY_OF_MONTH);
+        return i==calendar.get(Calendar.MONTH);
     }
     /**
      * 获取当天开始时间（0点）

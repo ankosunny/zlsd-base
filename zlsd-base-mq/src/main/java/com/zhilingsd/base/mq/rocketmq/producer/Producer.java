@@ -11,8 +11,17 @@ import java.io.UnsupportedEncodingException;
 public interface Producer {
     void start();
     void shutdown();
+    /**
+     * 同步延迟发送
+     * */
     SendResult synSend(String topic, String tag, String msg , Integer delayLevel) throws UnsupportedEncodingException;
+    /**
+     * 同步发送
+     * */
     SendResult synSend(String topic, String tag, String msg) throws UnsupportedEncodingException;
-    void asynSend(String topic,String tag,String msg ,Integer delayLevel) throws UnsupportedEncodingException;
+   // void asynSend(String topic,String tag,String msg ,Integer delayLevel) throws UnsupportedEncodingException;
+    /**
+     * 异步发送
+     * */
     void asynSend(String topic,String tag,String msg) throws UnsupportedEncodingException;
 }

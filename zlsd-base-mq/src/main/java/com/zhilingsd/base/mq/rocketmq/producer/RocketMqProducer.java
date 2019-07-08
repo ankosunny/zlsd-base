@@ -32,16 +32,20 @@ public class RocketMqProducer implements Producer {
     private final AtomicBoolean closed = new AtomicBoolean(false);
 
     public RocketMqProducer(String namesrvAddr, String producerGroupName, Integer sendMsgTimeout, Integer retryTimes) {
-        producer = new DefaultMQProducer(null == producerGroupName ? DEFAULT_GROUP_NAME : producerGroupName);
+        producer = new DefaultMQProducer(producerGroupName);
         producer.setNamesrvAddr(namesrvAddr);
         producer.setInstanceName("producer#" + UUID.randomUUID().toString());
-        if (null != sendMsgTimeout) {
-            producer.setSendMsgTimeout(sendMsgTimeout);
-        }
-        if (null != retryTimes) {
-            producer.setRetryTimesWhenSendFailed(retryTimes);
-        }
+        producer.setSendMsgTimeout(sendMsgTimeout);
+        producer.setRetryTimesWhenSendFailed(retryTimes);
+
     }
+
+    public RocketMqProducer(String namesrvAddr) {
+        producer = new DefaultMQProducer(DEFAULT_GROUP_NAME);
+        producer.setNamesrvAddr(namesrvAddr);
+        producer.setInstanceName("producer#" + UUID.randomUUID().toString());
+    }
+
 
     @Override
     public void start() {
@@ -49,7 +53,7 @@ public class RocketMqProducer implements Producer {
             try {
                 this.producer.start();
             } catch (Exception e) {
-                throw new MqException(e.getMessage(),e);
+                throw new MqException(e.getMessage(), e);
             }
         }
     }
@@ -69,9 +73,9 @@ public class RocketMqProducer implements Producer {
      * 例如，需要延迟10s，则 delayLevel = 3
      */
     @Override
-    public SendResult synSend(String topic,String tag,String msg ,Integer delayLevel) throws UnsupportedEncodingException {
+    public SendResult synSend(String topic, String tag, String msg, Integer delayLevel) throws UnsupportedEncodingException {
         Message message = new Message(topic, tag, msg.getBytes(RemotingHelper.DEFAULT_CHARSET));
-        if (delayLevel>0){
+        if (delayLevel > 0) {
             message.setDelayTimeLevel(delayLevel);
         }
         return synSend(message);
@@ -89,37 +93,37 @@ public class RocketMqProducer implements Producer {
         asynSend(message);
     }
 
-    @Override
-    public void asynSend(String topic,String tag,String msg ,Integer delayLevel) throws UnsupportedEncodingException {
-        Message message = new Message(topic, tag, msg.getBytes(RemotingHelper.DEFAULT_CHARSET));
-        if (delayLevel>0){
-            message.setDelayTimeLevel(delayLevel);
-        }
-        asynSend(message);
-    }
+//    @Override
+//    public void asynSend(String topic,String tag,String msg ,Integer delayLevel) throws UnsupportedEncodingException {
+//        Message message = new Message(topic, tag, msg.getBytes(RemotingHelper.DEFAULT_CHARSET));
+//        if (delayLevel>0){
+//            message.setDelayTimeLevel(delayLevel);
+//        }
+//        asynSend(message);
+//    }
 
-    private SendResult synSend(Message message){
+    private SendResult synSend(Message message) {
         try {
             SendResult result = producer.send(message);
             return result;
         } catch (MQClientException e) {
             e.printStackTrace();
-            throw new MqException(e.getMessage(),e);
+            throw new MqException(e.getMessage(), e);
         } catch (RemotingException e) {
             e.printStackTrace();
-            throw new MqException(e.getMessage(),e);
+            throw new MqException(e.getMessage(), e);
         } catch (MQBrokerException e) {
             e.printStackTrace();
-            throw new MqException(e.getMessage(),e);
+            throw new MqException(e.getMessage(), e);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            throw new MqException(e.getMessage(),e);
-        }finally {
+            throw new MqException(e.getMessage(), e);
+        } finally {
             producer.shutdown();
         }
     }
 
-    private void asynSend(Message message){
+    private void asynSend(Message message) {
         try {
             producer.send(message, new SendCallback() {
                 @Override
@@ -134,26 +138,17 @@ public class RocketMqProducer implements Producer {
             });
         } catch (MQClientException e) {
             e.printStackTrace();
-            throw new MqException(e.getMessage(),e);
+            throw new MqException(e.getMessage(), e);
         } catch (RemotingException e) {
             e.printStackTrace();
-            throw new MqException(e.getMessage(),e);
+            throw new MqException(e.getMessage(), e);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            throw new MqException(e.getMessage(),e);
-        }finally {
+            throw new MqException(e.getMessage(), e);
+        } finally {
             producer.shutdown();
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 }

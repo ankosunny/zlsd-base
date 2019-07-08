@@ -21,7 +21,7 @@ public class MqProducerTest {
             Date now = new Date();
 
             SendResult result = producer.synSend("topic1","1-1","测试消息");
-            SendResult result1 = producer.synSend("topic2","1-1","测试消息222222222");
+           // SendResult result1 = producer.synSend("topic2","1-1","测试消息222222222");
             System.out.println(
                     "id:" + result.getMsgId() + " result:" + result.getSendStatus() + " sendtime:"
                             + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(now));

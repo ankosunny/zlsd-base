@@ -18,21 +18,20 @@ import java.util.List;
 public enum JusticeTypeEnum {
 
 //    1：邮寄 2：外访
-    JUSTICE_TYPE_1(1, "邮寄"),
-    JUSTICE_TYPE_2(2, "外访"),
-    ;
+    JUSTICE_TYPE_1("youji", "邮寄"),
+    JUSTICE_TYPE_2("waifang", "外访");
 
-    private int code;
+    private String code;
     private String value;
 
-    JusticeTypeEnum(int code, String value) {
+    JusticeTypeEnum(String code, String value) {
         this.code = code;
         this.value = value;
     }
 
-    public static String getValueByCode(int code) {
+    public static String getValueByCode(String code) {
         for (JusticeTypeEnum osEnum : JusticeTypeEnum.values()) {
-            if (osEnum.getCode() == code) {
+            if (osEnum.code.equals( code)) {
                 return osEnum.getValue();
             }
         }
@@ -48,11 +47,11 @@ public enum JusticeTypeEnum {
         return initParamList;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

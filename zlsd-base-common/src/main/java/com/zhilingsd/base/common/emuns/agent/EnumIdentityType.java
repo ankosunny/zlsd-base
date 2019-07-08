@@ -46,6 +46,14 @@ public enum EnumIdentityType {
         }
         return null;
     }
+    public static String findByCode(String code) {
+        for (EnumIdentityType frs : EnumIdentityType.values()) {
+            if (frs.getCode().equals(code)) {
+                return frs.getDescription();
+            }
+        }
+        return null;
+    }
 
     public String getCode() {
         return code;

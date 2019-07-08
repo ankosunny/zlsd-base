@@ -13,6 +13,7 @@ import java.util.List;
 public enum ImpExpManageSubtypeEnum {
 
     IMP_BILL("imp_bill","导入新案"),
+    UPDATE_BILL("update_bill","更新案件"),
     EXP_BATCH_MARK("exp_batch_mark","导出批量催记"),
     EXP_SINGLE_MARK("exp_single_mark","导出单户催记"),
     EXP_RECORDINGS("exp_recordings","导出录音"),

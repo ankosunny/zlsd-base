@@ -121,7 +121,7 @@ public class ResultUtils {
      */
     public static void verifyResult(SingleResult result, String exceptionMsg) {
         if (!(ReturnCode.SUCCESS.getCode() == result.code)) {
-            throw new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), exceptionMsg + "---------" + result.getMsg());
+            throw new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), exceptionMsg + "-->" + result.getMsg());
         }
     }
 }

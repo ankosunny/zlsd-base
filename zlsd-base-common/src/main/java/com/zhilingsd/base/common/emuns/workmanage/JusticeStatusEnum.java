@@ -45,7 +45,7 @@ public enum JusticeStatusEnum {
 
     public static String getValueByCode(String code) {
         for (JusticeStatusEnum osEnum : JusticeStatusEnum.values()) {
-            if (osEnum.getCode() .equals(code) ) {
+            if (osEnum.code.equals(code) ) {
                 return osEnum.getValue();
             }
         }

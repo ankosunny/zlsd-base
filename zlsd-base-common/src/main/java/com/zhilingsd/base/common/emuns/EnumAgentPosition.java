@@ -1,10 +1,10 @@
-package com.zhilingsd.base.common.emuns;
+/*package com.zhilingsd.base.common.emuns;
 
-/**
+*//**
  * 员工职位
  * @author Administrator
  *
- */
+ *//*
 public enum EnumAgentPosition {
 
 	AGENT_IDENTITY_CSY(1000001,"催收员"),
@@ -24,9 +24,9 @@ public enum EnumAgentPosition {
 	AGENT_IDENTITY_ZBWG(1000015,"总部网管"),
     ;
 
-    /** 状态码 **/
+    *//** 状态码 **//*
     private int code;
-    /** 状态描述 **/
+    *//** 状态描述 **//*
     private String description;
 
 
@@ -53,3 +53,4 @@ public enum EnumAgentPosition {
     }
 
 }
+*/

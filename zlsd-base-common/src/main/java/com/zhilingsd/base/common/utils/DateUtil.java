@@ -2254,6 +2254,22 @@ public class DateUtil {
         calendar.setTime(date);
         return i==calendar.get(Calendar.MONTH);
     }
+
+    public static boolean checkMonth(Date date) {
+        Date currentDate = new Date();
+        String s = DateUtil.convertDateToString(DateUtil.DATE_MOTH, currentDate);
+        Date currentMonth = null;
+        try {
+            currentMonth = DateUtil.convertStringToDate(DateUtil.DATE_MOTH, s);
+        } catch (ParseException e) {
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentMonth);
+        long t1 = calendar.getTimeInMillis();
+        calendar.setTime(date);
+        long t2 = calendar.getTimeInMillis();
+        return t1<=t2;
+    }
     /**
      * 获取当天开始时间（0点）
      *

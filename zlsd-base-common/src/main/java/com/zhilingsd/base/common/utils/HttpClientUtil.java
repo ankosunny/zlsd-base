@@ -13,6 +13,7 @@ import org.apache.http.conn.params.ConnRouteParams;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -207,6 +208,34 @@ public class HttpClientUtil {
 
         return "";
     }
+
+    public static String postJson(String url, String jsonString)  {
+
+        org.apache.http.client.HttpClient httpclient = HttpClients
+                .createDefault();
+        HttpPost post = new HttpPost(url);
+
+        StringEntity entity = new StringEntity(jsonString, "utf-8");
+        entity.setContentEncoding("UTF-8");
+        entity.setContentType("application/json");
+        post.setEntity(entity);
+
+        try{
+            HttpResponse response = httpclient.execute(post);
+            HttpEntity entitys = response.getEntity();
+
+            if (response.getStatusLine().getStatusCode() == 200) {
+                String result = EntityUtils.toString(entitys);
+                return result;
+            }
+        }catch (IOException e) {//网络异常时，做业务时也要认为处理中
+            LOGGER.warn("网络异常", e);
+
+        }
+        return "";
+
+    }
+
 
     public static void main(String[] args) {
         String url = "https://59.41.103.102/gzdsf/ProcessServlet";

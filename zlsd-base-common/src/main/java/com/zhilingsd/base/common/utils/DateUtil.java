@@ -2268,7 +2268,7 @@ public class DateUtil {
         long t1 = calendar.getTimeInMillis();
         calendar.setTime(date);
         long t2 = calendar.getTimeInMillis();
-        return t1<=t2;
+        return t1>t2;
     }
     /**
      * 获取当天开始时间（0点）

@@ -31,6 +31,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -78,6 +79,14 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
         copyProperties(source, target, null, (String[]) null);
     }
 
+    /**
+     *
+     * 功能描述:
+     * @param: [source:源对象, target目标对象, editable, ignoreProperties：忽略不copy的字段]
+     * @return: void
+     * @auther: 吞星
+     * @date: 2019/7/9-10:19
+     */
     private static void copyProperties(Object source, Object target, Class<?> editable, String... ignoreProperties)
             throws BeansException {
 
@@ -108,7 +117,7 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
                                 readMethod.setAccessible(true);
                             }
                             Object value = readMethod.invoke(source);
-                            if(value != null){          //只拷贝不为null的属性 by zhao
+                            if(value != null){ //只拷贝不为null的属性
                                 if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
                                     writeMethod.setAccessible(true);
                                 }
@@ -123,6 +132,31 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
                 }
             }
         }
+    }
+
+    /**
+     *
+     * 功能描述:判断对象是否所有字段都为null,所以字段都为null就返回true,否则返回false
+     * @param: [obj]
+     * @return: boolean
+     * @auther: 吞星
+     * @date: 2019/7/9-10:31
+     */
+    public static boolean judgeBeanAllFieldIsNull(Object obj){
+        boolean flag = true;
+        for (Field field : obj.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                if (field.get(obj) != null) { //判断字段是否为空，并且对象属性中的基本都会转为对象类型来判断
+                    flag=false;
+                    return flag;
+                }
+            } catch (IllegalAccessException e) {
+                throw new FatalBeanException(
+                        "获得字段-->" + field.getName() + "' 值失败", e);
+            }
+        }
+        return flag;
     }
     
 }

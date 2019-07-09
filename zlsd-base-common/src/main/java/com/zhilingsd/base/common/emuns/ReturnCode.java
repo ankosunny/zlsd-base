@@ -1,7 +1,5 @@
 package com.zhilingsd.base.common.emuns;
 
-import sun.management.resources.agent;
-
 /**
  * Description: 自定义错误异常信息
  *
@@ -157,6 +155,7 @@ public enum ReturnCode {
     ERROR_51023(51023, "案件列表查询无返回数据"),
     ERROR_51024(51024, "案件ID不能为空"),
     ERROR_51025(51025, "函件数据缺少贷款机构不能为空"),
+    ERROR_51026(51026, "没有数据"),
     /*-------------- 作业管理服务异常结束 5100X-----------*/
 
     //------------------- 登录服务异常 6100X-------------------

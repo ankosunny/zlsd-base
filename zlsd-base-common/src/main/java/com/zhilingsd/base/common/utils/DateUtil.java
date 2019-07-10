@@ -387,7 +387,7 @@ public class DateUtil {
         return time;
     }
     /**
-     * 获取当月的第一天
+     * 获取某个时间月份的第一天
      * @return
      */
     public static Date theFirstDayOfMonth() {
@@ -401,11 +401,40 @@ public class DateUtil {
         return time;
     }
     /**
-     * 获取当月的最后一天
+     * 获取某个时间月份的最后一天
      * @return
      */
     public static Date theLastDayOfMonth() {
         Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR_OF_DAY,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.SECOND,0);
+        Date time = c.getTime();
+        return time;
+    }
+    /**
+     * 获取当月的第一天
+     * @return
+     */
+    public static Date theFirstDayOfMonth(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.MONTH, 0);
+        c.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
+        c.set(Calendar.HOUR_OF_DAY,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.SECOND,0);
+        Date time = c.getTime();
+        return time;
+    }
+    /**
+     * 获取当月的最后一天
+     * @return
+     */
+    public static Date theLastDayOfMonth(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
         c.set(Calendar.HOUR_OF_DAY,0);
         c.set(Calendar.MINUTE,0);

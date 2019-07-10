@@ -8,6 +8,7 @@ import com.zhilingsd.base.common.utils.collection.GV;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -72,6 +73,11 @@ public class PageBean<T> extends PageSerializable<T> {
     private int navigateLastPage;
 
     public PageBean() {
+        this.isFirstPage = true;
+        this.isLastPage = true;
+        navigatepageNums = new int[]{};
+        list = new ArrayList<>();
+        pageNum = 1;
     }
 
     /**

@@ -18,6 +18,14 @@ public enum ImpExpManageSubtypeEnum {
     EXP_SINGLE_MARK("exp_single_mark","导出单户催记"),
     EXP_RECORDINGS("exp_recordings","导出录音"),
     EXP_BILL_CENTER("exp_bill_center","导出案件（案件中心）"),
+    /////////////还款相关///////////////////
+    IMP_REPAY_FLOW("imp_repay_record","导入还款流水（还款）"),
+    IMP_REPAY_FLOW_BILL("imp_repay_record_bill","导入还款流水账单（还款）"),
+    IMP_REPAY_BILL("imp_repay_bill","导入还款账单（还款）"),
+    EXP_REPAY_FLOW("exp_repay_record","导出还款流水（还款）"),
+    EXP_REPAY_FLOW_BILL("exp_repay_record_bill","导出还款流水账单（还款）"),
+    EXP_REPAY_BILL("exp_repay_bill","导出还款账单（还款）"),
+    DEL_REPAY_FLOW("del_repay_bill","删除还款流水（还款）"),
     ;
 
     private String code;

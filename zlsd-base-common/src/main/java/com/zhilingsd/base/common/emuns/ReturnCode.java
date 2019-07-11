@@ -106,7 +106,7 @@ public enum ReturnCode {
     ERROR_40032(40032, "案件导入或更新，未传入操作类型"),
     ERROR_40033(40033, "案件不为未分配新案件，无法进行物理删除操作"),
     ERROR_40034(40034, "所选择的案件包含非停催状态，无法取消停催操作"),
-    ERROR_40035(40035,"组合字段查询案件信息为空"),
+    ERROR_40035(40035, "组合字段查询案件信息为空"),
     /*-----------案件中台服务业务异常结束 4000X---*/
 
     /*-------模板服务异常开始 4100X-------------------------*/
@@ -181,8 +181,11 @@ public enum ReturnCode {
     /*---------- agent 服务异常结束 8000x------- */
 
 
-    /*---------- callcenter 服务异常结束 9000x------- */
+    /*---------- callcenter 服务异常结束 900XX------- */
     ERROR_90001(90001, "excel校验异常"),
+    ERROR_90002(90002, "号码识别异常，请检查号码是否有误"),
+    ERROR_90003(90003, "获取不到该省会城市，请联系管理员修复基础数据"),
+    ERROR_90004(90004, "当前无符合要求的匹配号码，请稍后再试"),
     ;
 
     private int code;
@@ -193,14 +196,6 @@ public enum ReturnCode {
         this.msg = msg;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
     public static String getValueByCode(int code) {
         for (ReturnCode osEnum : ReturnCode.values()) {
             if (osEnum.getCode() == code) {
@@ -209,16 +204,25 @@ public enum ReturnCode {
         }
         return "";
     }
+
     /**
-     * @description  确定到错误信息发生地点
+     * @description 确定到错误信息发生地点
      **/
-    public static ReturnCode setErrInfo(ReturnCode returnCode,String headStr){
-        returnCode.msg = headStr+"-"+returnCode.getMsg();
+    public static ReturnCode setErrInfo(ReturnCode returnCode, String headStr) {
+        returnCode.msg = headStr + "-" + returnCode.getMsg();
         return returnCode;
     }
 
     public static void main(String[] args) {
-        ReturnCode returnCode = ReturnCode.setErrInfo(ReturnCode.ERROR_138,"上报还款");
+        ReturnCode returnCode = ReturnCode.setErrInfo(ReturnCode.ERROR_138, "上报还款");
         System.out.println(returnCode.getMsg());
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
     }
 }

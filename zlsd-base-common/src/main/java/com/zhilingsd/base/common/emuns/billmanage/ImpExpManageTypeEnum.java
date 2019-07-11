@@ -15,6 +15,7 @@ public enum ImpExpManageTypeEnum {
 
     IMPORT("import","导入"),
     EXPORT("export","导出"),
+    DELETE("delete","删除"),
     ;
 
     private String code;

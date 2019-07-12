@@ -70,4 +70,25 @@ public class CommonUtils {
         return phoneNumber;
     }
 
+    /**
+     * 判断Object是否为空
+     * @param obj
+     * @return
+     */
+    public static boolean ObjectisEmpty(Object obj)
+    {
+        if (obj == null)
+        {
+            return true;
+        }
+        if ((obj instanceof List))
+        {
+            return ((List) obj).size() == 0;
+        }
+        if ((obj instanceof String))
+        {
+            return ((String) obj).trim().equals("");
+        }
+        return false;
+    }
 }

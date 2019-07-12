@@ -60,16 +60,27 @@ public class CommonUtils {
     }
 
     /**
-     * 手机号脱敏
+     * 手机号脱敏(只显示前三位)
      * @param phone
      * @return
      */
     public static String desensitizationPhone(String phone){
-        String phoneNumber = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+        String phoneNumber = phone.replaceAll("(\\d{3})\\d{8}","$1********");
         log.info("脱敏前手机号phone={}，脱敏后的手机号phoneNumber={}",phone,phoneNumber);
         return phoneNumber;
     }
 
+    /**
+     * 手机号脱敏(脱敏中间4位)
+     * @param phone
+     * @return
+     */
+    public static String desensitizationCenterPhone(String phone){
+        String phoneNumber = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+        log.info("脱敏前手机号phone={}，脱敏后的手机号phoneNumber={}",phone,phoneNumber);
+        return phoneNumber;
+    }
+    
     /**
      * 判断Object是否为空
      * @param obj

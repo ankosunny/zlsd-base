@@ -17,7 +17,7 @@ public enum CallTypeEnum {
     }
 
 
-    public static CallTypeEnum find(int code) {
+    public static CallTypeEnum find(String code) {
         for (CallTypeEnum frs : CallTypeEnum.values()) {
             if (frs.getCode().equals(code)) {
                 return frs;

@@ -21,8 +21,8 @@ public enum PhoneStatusEnum {
         this.description = description;
     }
 
-    public static RecordTypeEnum find(String code) {
-        for (RecordTypeEnum recordType : RecordTypeEnum.values()) {
+    public static PhoneStatusEnum find(String code) {
+        for (PhoneStatusEnum recordType : PhoneStatusEnum.values()) {
             if (recordType.getCode().equals(code)) {
                 return recordType;
             }

@@ -70,6 +70,11 @@ public class BaseDictConstants {
     public static final String JUSTICE_TYPE = "juestice_type";
     //函件状态
     public static final String JUSTICE_STATUS = "juestice_status";
+    //导入导出状态
+    public static final String IMP_EXP_STATUS = "imp_exp_status";
+    //导入导出类型
+    public static final String IMP_EXP_SUB_TYPE = "imp_exp_sub_type";
+
 /************************  常量信息  **********************************************/
     //催收流程标识
     public static final String COLLECTION_TYPE = "collection_type";

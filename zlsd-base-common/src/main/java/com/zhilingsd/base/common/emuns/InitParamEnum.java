@@ -1,7 +1,6 @@
 package com.zhilingsd.base.common.emuns;
 
 import com.google.common.collect.Lists;
-import com.zhilingsd.base.common.bean.KeyValueBean;
 import com.zhilingsd.base.common.constants.BaseDictConstants;
 
 import java.util.List;
@@ -90,6 +89,14 @@ public enum InitParamEnum {
      * 函件类型
      */
     JUSTICE_TYPE(1, BaseDictConstants.JUSTICE_TYPE),
+    /**
+     * @description 导入导出状态
+     **/
+    IMP_EXP_STATUS(1, BaseDictConstants.IMP_EXP_STATUS),
+    /**
+     * 导入导出类型
+     */
+    IMP_EXP_SUB_TYPE(1, BaseDictConstants.IMP_EXP_SUB_TYPE),
 /******************** 使用CollectionType作为下拉 ，查询需要通过现有流程进行处理 ****************************/
     /**
      * @description 催收流程

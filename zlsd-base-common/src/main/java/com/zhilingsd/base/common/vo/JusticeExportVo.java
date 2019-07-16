@@ -89,6 +89,9 @@ public class JusticeExportVo extends ExportVo implements Serializable {
 
     @Override
     public void replaceContent(String text, XWPFRun bufferrun) {
+        if(!this.getExportValue().containsKey(text)){
+            bufferrun.setText("", 0);
+        }
         for (String word : this.getExportValue().keySet()) {
             if (word.equals(text) || text.contains(word)) {
                 text = text.replace(word, this.getExportValue().get(word));

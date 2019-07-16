@@ -3,6 +3,7 @@ package com.zhilingsd.base.common.utils;
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.vo.ReportExportVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.xwpf.usermodel.IRunBody;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -163,8 +166,7 @@ public class ExportReprotUtil<T extends ExportVo> {
 
 
     private void replaceTemplateContent(XWPFDocument doc, T vo ) throws XmlException {
-        String LEFT = "[";
-        String RIGHT = "]";
+        Pattern p = Pattern.compile("(.*)(\\[.*\\])(.*)");
         for (XWPFParagraph paragraph : doc.getParagraphs()) {
             XmlCursor cursor = paragraph.getCTP().newCursor();
             cursor.selectPath("declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//*/w:txbxContent/w:p/w:r");
@@ -183,15 +185,28 @@ public class ExportReprotUtil<T extends ExportVo> {
                 String text = bufferrun.getText(0);
                 sb.append(text);
                 String replaceText = sb.toString();
-                log.info("开始替换:{}",replaceText);
-                if(replaceText.startsWith("[")&&replaceText.endsWith("]")){
-                    bufferrun.setText(replaceText, 0);
-                    vo.replaceContent(replaceText,bufferrun);
+                Matcher m = p.matcher(replaceText);
+                if(m.find()){
+                    String findStr1 = m.group(1);
+                    String findStr2 = m.group(2);
+                    String findStr3 = m.group(3);
+                    vo.replaceContent(findStr2,bufferrun);
+                    if(StringUtils.isNotBlank(findStr1)||StringUtils.isNotBlank(findStr3)){
+                        String text1 = bufferrun.getText(0);
+                        String value = findStr1 + text1 + findStr3;
+                        bufferrun.setText(value);
+                    }
                     sb = new StringBuilder();
                     obj.set(bufferrun.getCTR());
-                }
+                }else {
+                    log.info("当前文档值{}：{}" ,i,text);
+                    bufferrun.setText("", 0);
+                    obj.set(bufferrun.getCTR());
+                    continue;}
+                log.info("开始替换:{}",replaceText);
+
 //                textList.add(text);
-                log.info("当前文档值{}：{}" ,i,text);
+
                 //分情况
                 //3、  [文字]
 //                if (Objects.nonNull(text)) {

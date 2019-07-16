@@ -74,7 +74,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
      **/
     private String name;
     /**
-     * 身份证
+     * 借款人身份证号
      **/
     private String idNumber;
     /**
@@ -86,7 +86,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
      **/
     private String phone;
     /**
-     * 委案金额
+     * 委托金额
      **/
     private String commitMoney;
     /**
@@ -106,7 +106,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
      **/
     private String clientNum;
     /**
-     * 委案时间
+     * 委托日期
      **/
     private String commitDate;
     /**
@@ -212,7 +212,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
     public void setIdNumber(String idNumber) {
         if (StringUtils.isNotBlank(idNumber)) {
             this.idNumber = idNumber;
-            this.exportValue.put("身份证", idNumber);
+            this.exportValue.put("借款人身份证号", idNumber);
         }
     }
     public void setIdNumberSafe(String idNumberSafe) {
@@ -232,7 +232,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
     public void setCommitMoney(String commitMoney) {
         if (StringUtils.isNotBlank(commitMoney)) {
             this.commitMoney = commitMoney;
-            this.exportValue.put("委案金额", commitMoney);
+            this.exportValue.put("委托金额", commitMoney);
         }
     }
 
@@ -267,7 +267,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
     public void setCommitDate(String commitDate) {
         if (StringUtils.isNotBlank(commitDate)) {
             this.commitDate = commitDate;
-            this.exportValue.put("委案时间", commitDate);
+            this.exportValue.put("委托日期", commitDate);
         }
     }
 
@@ -385,7 +385,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
     public void setVisitMarkContent(String visitMarkContent) {
         if (StringUtils.isNotBlank(visitMarkContent)) {
             this.visitMarkContent = visitMarkContent;
-            this.exportValue.put("外访催记内容", visitMarkContent);
+            this.exportValue.put("外访催记", visitMarkContent);
         }
     }
 

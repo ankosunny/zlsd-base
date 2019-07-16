@@ -26,15 +26,15 @@ public class VisitExportVo extends ExportVo implements Serializable {
     private String[] words = {
             "案件编号",
             "姓名",
-            "身份证",
+            "借款人身份证号",
             "脱敏身份证",
             "手机",
-            "委案金额",
+            "委托金额",
             "帐号",
             "卡号",
             "脱敏卡号",
             "客户号",
-            "委案时间",
+            "委托日期",
             "退案时间",
             "家庭电话",
             "外访日期",
@@ -51,7 +51,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
             "外访催记电话",
             "外访催记结果",
             "外访催记催收方式",
-            "外访催记内容"
+            "外访催记"
     };
 
     @Override

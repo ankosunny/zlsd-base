@@ -3,15 +3,9 @@ package com.zhilingsd.base.common.utils;
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.vo.ReportExportVo;
 import com.zhilingsd.base.common.vo.VisitExportVo;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.xwpf.usermodel.IRunBody;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.apache.poi.xwpf.usermodel.XWPFTable;
-import org.apache.poi.xwpf.usermodel.XWPFTableCell;
-import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -21,24 +15,11 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Author: zhangbo
@@ -98,7 +79,8 @@ public class ReportWordUtil {
             //输出地址 输入地址 加随机数
             InputStream is = new ByteArrayInputStream(bytes);
             XWPFDocument docx = new XWPFDocument(is);
-            replaceJusticeContent(docx, vo);
+            //replaceJusticeContent(docx, vo);
+            replaceContent(docx, vo);
             //把doc输出到输出流中
             docx.write(byteOutputStream);
             byteOutputStream.close();

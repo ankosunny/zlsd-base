@@ -264,11 +264,19 @@ public class ReportWordUtil {
             for (int i=0; i<runs.size(); i++) {
                 XWPFRun run = runs.get(i);
                 String runText = run.toString();
+
                 if(StringUtils.isNotBlank(runText) && runText.contains(RIGHT)){
                     run.setText("",0);
                     flag = false;
                 }
                 if(flag){
+                    for (int j=i+1; j<runs.size(); j++){
+                        if(!(StringUtils.isNotBlank(runs.get(j).toString()) && (runs.get(j).toString()).contains(RIGHT))){
+                            runText = runText+runs.get(j).toString();
+                        }else {
+                            break;
+                        }
+                    }
                     runText = values.get(runText);
                     run.setText(runText,0);
                 }

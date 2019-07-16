@@ -174,56 +174,67 @@ public class ExportReprotUtil<T extends ExportVo> {
                 XmlObject obj = cursor.getObject();
                 ctrsintxtbx.add(obj);
             }
+            StringBuilder sb = new StringBuilder();
             List<String> textList = Lists.newArrayList();
             for (int i = 0; i < ctrsintxtbx.size(); i++) {
                 XmlObject obj = ctrsintxtbx.get(i);
                 CTR ctr = CTR.Factory.parse(obj.xmlText());
                 XWPFRun bufferrun = new XWPFRun(ctr, (IRunBody) paragraph);
                 String text = bufferrun.getText(0);
-                textList.add(text);
+                sb.append(text);
+                String replaceText = sb.toString();
+                log.info("开始替换:{}",replaceText);
+                if(replaceText.startsWith("[")&&replaceText.endsWith("]")){
+                    bufferrun.setText(replaceText, 0);
+                    vo.replaceContent(replaceText,bufferrun);
+                    sb = new StringBuilder();
+                    obj.set(bufferrun.getCTR());
+                }
+//                textList.add(text);
                 log.info("当前文档值{}：{}" ,i,text);
                 //分情况
                 //3、  [文字]
-                if (Objects.nonNull(text)) {
-                    if (text.contains(LEFT) && text.contains(RIGHT)) {
-                        //这种不用替换 往下走
-                        log.info("{}都包含：{}",i,text);
-                    } else {
-                        //1、  [  文字 ]
-                        if (text.contains(LEFT)) {
-                            //删除所有
-                            bufferrun.setText("", 0);
-                            obj.set(bufferrun.getCTR());
-                            continue;
-                        } else if (text.contains(RIGHT)) {
-                            if(textList.size()>1 && textList.get(i-1).contains(LEFT)){
-                                text = textList.get(i-1) + text;
-                            }else if (textList.size()>2 && textList.get(i-2).contains(LEFT)){
-                                text = textList.get(i-2)+textList.get(i-1)+ text;
-                            }
-                        } else {
-                            //纯文字
-                            if (textList.size()>1 && textList.get(i-1).contains(LEFT)){
-                                //删除所有
-                                bufferrun.setText("", 0);
-                                obj.set(bufferrun.getCTR());
-                                continue;
-                            }else {
-                                continue;
-                            }
-                        }
-                    }
-                    vo.replaceContent(text,bufferrun);
-//                    log.info("到达之前{}：{}",i,text);
-//                    for (String word : vo.getExportValue().keySet()) {
-//                        if (word.equals(text) || text.contains(word)) {
-//                            text = text.replace(word, vo.getExportValue().get(word));
-//                            bufferrun.setText(text, 0);
-//                            break;
+//                if (Objects.nonNull(text)) {
+//
+//                    if (text.contains(LEFT) && text.contains(RIGHT)) {
+//                        //这种不用替换 往下走
+//                        log.info("{}都包含：{}",i,text);
+//                    } else {
+//                        //1、  [  文字 ]
+//                        if (text.contains(LEFT)) {
+//                            //删除所有
+//                            bufferrun.setText("", 0);
+//                            obj.set(bufferrun.getCTR());
+//                            continue;
+//                        } else if (text.contains(RIGHT)) {
+//                            if(textList.size()>1 && textList.get(i-1).contains(LEFT)){
+//                                text = textList.get(i-1) + text;
+//                            }else if (textList.size()>2 && textList.get(i-2).contains(LEFT)){
+//                                text = textList.get(i-2)+textList.get(i-1)+ text;
+//                            }
+//                        } else {
+//                            //纯文字
+//                            if (textList.size()>1 && textList.get(i-1).contains(LEFT)){
+//                                //删除所有
+//                                bufferrun.setText("", 0);
+//                                obj.set(bufferrun.getCTR());
+//                                continue;
+//                            }else {
+//                                continue;
+//                            }
 //                        }
 //                    }
-                }
-                obj.set(bufferrun.getCTR());
+//                    vo.replaceContent(text,bufferrun);
+////                    log.info("到达之前{}：{}",i,text);
+////                    for (String word : vo.getExportValue().keySet()) {
+////                        if (word.equals(text) || text.contains(word)) {
+////                            text = text.replace(word, vo.getExportValue().get(word));
+////                            bufferrun.setText(text, 0);
+////                            break;
+////                        }
+////                    }
+//                }
+
             }
         }
     }

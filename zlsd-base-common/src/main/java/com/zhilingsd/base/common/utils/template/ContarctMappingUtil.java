@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 public class ContarctMappingUtil {
 
     private String[] templateBaseFields = {"联系人姓名", "联系人关系", "联系人电话", "联系人性别", "联系人证件类型", "联系人证件号码", "联系人单位", "联系人地址", "联系人联系类型", "联系人固话","邮编"};
-    private String[] baseFieldCodes = {"contactName","contactReationship","contactPhone","contactGender","contactCredentiaType","contactCredentiaCode","contactCompany","contactAddr","contactType","contactCall","zipCode"};
+    private String[] baseFieldCodes = {"contactName","contactRelationship","contactPhone","contactGender","contactCredentiaType","contactCredentiaCode","contactCompany","contactAddr","contactType","contactCall","zipCode"};
 
     public int getContarct(String dto){
         if(StringUtils.isBlank(dto)){

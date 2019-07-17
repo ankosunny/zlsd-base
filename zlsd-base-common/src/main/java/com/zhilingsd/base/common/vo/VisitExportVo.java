@@ -34,7 +34,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
             "卡号",
             "脱敏卡号",
             "客户号",
-            "委案时间",
+            "委托日期",
             "退案时间",
             "家庭电话",
             "外访日期",
@@ -106,7 +106,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
      **/
     private String clientNum;
     /**
-     * 委案时间
+     * 委托日期
      **/
     private String commitDate;
     /**
@@ -267,7 +267,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
     public void setCommitDate(String commitDate) {
         if (StringUtils.isNotBlank(commitDate)) {
             this.commitDate = commitDate;
-            this.exportValue.put("委案时间", commitDate);
+            this.exportValue.put("委托日期", commitDate);
         }
     }
 

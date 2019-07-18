@@ -13,7 +13,9 @@ import java.util.List;
  */
 public enum CollectionOriginTypeEnum {
     ORIGIN_RECORD("originRecord", "原始催记"),
-    WORK_ORDER("workOrder", "工单");
+    WORK_ORDER("workOrder", "工单"),
+    STOP("stop", "停催"),
+    COMPLAINT("complaint", "投诉");
 
     private String code;
     private String value;

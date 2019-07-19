@@ -16,7 +16,7 @@ public enum EnumIdentityType {
 	AGENT_IDENTITY_XMZJ("director","项目总监"),
 	AGENT_IDENTITY_ZJLJ("president","总经理级"),
 	AGENT_IDENTITY_WFZY("visiter","外访专员"),
-	AGENT_IDENTITY_XZZY("office_admin","行政人员"),
+	AGENT_IDENTITY_XZZY("office_admin","行政文员"),
 	AGENT_IDENTITY_RSRY("personnel","人事人员"),
 	AGENT_IDENTITY_CWRY("financial_staff","财务人员"),
 	AGENT_IDENTITY_PGRY("qc_staff","品管人员"),

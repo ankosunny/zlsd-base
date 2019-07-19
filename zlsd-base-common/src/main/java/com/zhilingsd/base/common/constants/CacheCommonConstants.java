@@ -34,4 +34,11 @@ public class CacheCommonConstants {
      */
     public static String AGENT_INFO_CACHE = "collection_agent_info:";
 
+    /**
+     * 催收机构用户token信息
+     * 通过agentId获取token值
+     * exp:"collection_agent_token:{agentId}"
+     */
+    public static String AGENT_TOKEN_CACHE = "collection_agent_token:";
+
 }

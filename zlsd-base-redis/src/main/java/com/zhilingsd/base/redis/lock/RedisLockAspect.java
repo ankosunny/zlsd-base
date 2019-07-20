@@ -55,7 +55,7 @@ public class RedisLockAspect {
             }
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
-            //把捕获到的注解抛出去
+            //把捕获到的异常抛出去
             throw e;
         } finally {
             redisLock3.unlock();

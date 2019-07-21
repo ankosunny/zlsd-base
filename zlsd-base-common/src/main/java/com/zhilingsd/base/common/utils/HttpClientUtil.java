@@ -228,8 +228,8 @@ public class HttpClientUtil {
                 String result = EntityUtils.toString(entitys);
                 return result;
             }
-        }catch (IOException e) {//网络异常时，做业务时也要认为处理中
-            LOGGER.warn("网络异常", e);
+        }catch (Exception e) {//网络异常时，做业务时也要认为处理中
+            LOGGER.error("网络异常", e);
 
         }
         return "";

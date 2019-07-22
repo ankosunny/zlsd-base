@@ -27,6 +27,10 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
      * */
     private final static String COLLECTION_COMPANY_ID = "collectionCompanyId";
     /**
+     * 催收机构ID
+     * */
+    private final static String COLLECTION_GROUP_ID = "collectionGroupId";
+    /**
      * Session
      * */
     private final static String SESSION = "session";
@@ -41,7 +45,8 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
                 &&Objects.nonNull(AppUtil.getAppAgentInfo().getSession())){
             requestTemplate.header(OPERATOR_ID, AppUtil.getAppAgentInfo().getOperatorId()+"");
             requestTemplate.header(COLLECTION_COMPANY_ID, AppUtil.getAppAgentInfo().getCollectionCompanyId()+"");
-            requestTemplate.header(SESSION,AppUtil.getAppAgentInfo().getSession());
+            requestTemplate.header(SESSION, AppUtil.getAppAgentInfo().getSession());
+            requestTemplate.header(COLLECTION_GROUP_ID, AppUtil.getAppAgentInfo().getCollectionGroupId()+"");
         }
     }
 }

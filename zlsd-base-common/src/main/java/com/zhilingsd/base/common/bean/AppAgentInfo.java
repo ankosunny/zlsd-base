@@ -30,10 +30,11 @@ public class AppAgentInfo {
     public AppAgentInfo() {
     }
 
-    public AppAgentInfo(Long operatorId, Long collectionCompanyId,String session) {
+    public AppAgentInfo(Long operatorId, Long collectionCompanyId,String session, Long collectionGroupId) {
         this.operatorId = operatorId;
         this.collectionCompanyId = collectionCompanyId;
         this.session=session;
+        this.collectionGroupId=collectionGroupId;
     }
 
     public Long getOperatorId() {

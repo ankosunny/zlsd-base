@@ -357,6 +357,16 @@ public class DateUtil {
         Date time = c.getTime();
         return time;
     }
+    public static Date theDayOfWeekMax(int i) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        c.set(Calendar.DAY_OF_WEEK, i);
+        c.set(Calendar.HOUR_OF_DAY,23);
+        c.set(Calendar.MINUTE,59);
+        c.set(Calendar.SECOND,59);
+        Date time = c.getTime();
+        return time;
+    }
     /**
      * 获取周六的时间
      * @return

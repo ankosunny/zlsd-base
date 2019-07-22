@@ -18,9 +18,9 @@ import java.util.List;
  */
 public enum PacketAllotStatusEnum {
 
-    PACKET_NOT_ALLOT(0, "待分配"),
-    PACKET_ALLOTING(1, "部分分配"),
-    PACKET_ALLOT(2, "已分配");
+    PACKET_NOT_ALLOT(1, "待分配"),
+    PACKET_ALLOTING(2, "部分分配"),
+    PACKET_ALLOT(3, "已分配");
 
     private int code ;
     private String value;

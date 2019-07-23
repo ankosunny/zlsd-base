@@ -18,8 +18,10 @@ import java.util.List;
 public enum JusticeTypeEnum {
 
 //    1：邮寄 2：外访
-    JUSTICE_TYPE_1("youji", "邮寄"),
-    JUSTICE_TYPE_2("waifang", "外访");
+    JUSTICE_TYPE_0("youji", "邮寄"),
+    JUSTICE_TYPE_1("guahao", "挂号"),
+    JUSTICE_TYPE_2("waifang", "外访"),
+    JUSTICE_TYPE_3("chuanzhen", "传真");
 
     private String code;
     private String value;

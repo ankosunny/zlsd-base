@@ -41,4 +41,13 @@ public class CacheCommonConstants {
      */
     public static String AGENT_TOKEN_CACHE = "collection_agent_token:";
 
+    /**
+     * 应急限制信息
+     * 通过groupId获取应急限制信息
+     * exp:"emergency_group_info:{group}"
+     */
+    public static String EMERGENCY_GROUP_CACHE = "emergency_group_info:";
+
+
+
 }

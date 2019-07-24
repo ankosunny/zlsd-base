@@ -115,7 +115,7 @@ public class ImportUtils {
         for (int i = 0; i <substring.length() ; i++) {
             stringBuilder.append("*");
         }
-        idNum.replace(substring,stringBuilder.toString());
-        return idNum;
+        String replace = idNum.replace(substring, stringBuilder.toString());
+        return replace;
     }
 }

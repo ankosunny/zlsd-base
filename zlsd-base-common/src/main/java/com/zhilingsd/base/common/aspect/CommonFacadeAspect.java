@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhilingsd.base.common.bean.AppAgentInfo;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
+import com.zhilingsd.base.common.result.SingleResult;
 import com.zhilingsd.base.common.utils.AppUtil;
 import com.zhilingsd.base.common.utils.IPUtils;
 import com.zhilingsd.base.common.utils.JsonUtils;
@@ -13,6 +14,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -38,6 +40,7 @@ public class CommonFacadeAspect {
     private static final String PRE_TAG = "************** ";
 
     private static final String UNPRINT_CLASS = "com.zhilingsd.blackhole.dto.request.UploadWithBase64Request";
+    private static final String UNPRINT_RESP_CLASS = "com.zhilingsd.blackhole.dto.response.DownloadWithBase64Resp";
 
     @Around(value = "@annotation(com.zhilingsd.base.common.annotation.CommonFacade)")
     public Object before(ProceedingJoinPoint jp) throws Throwable {
@@ -72,7 +75,13 @@ public class CommonFacadeAspect {
 
         StringBuffer sbreturn = new StringBuffer();
         sbreturn.append("\n" + PRE_TAG + jp.getSignature().getDeclaringTypeName() + "." + jp.getSignature().getName());
-        sbreturn.append("\n" + PRE_TAG + " 接口返回 : " + JsonUtils.toJsonString(obj));
+
+        if (isPrintResp(obj)) {
+            sbreturn.append("\n" + PRE_TAG + " 接口返回 : " + JsonUtils.toJsonString(obj));
+        } else {
+            sbreturn.append("\n" + PRE_TAG + "接口返回 : 不打印返回");
+        }
+
         sbreturn.append("\n" + PRE_TAG + " 花费时间 : " + (System.currentTimeMillis() - startTime) + "ms");
         log.info(sbreturn.toString());
         return obj;
@@ -83,6 +92,27 @@ public class CommonFacadeAspect {
             return Arrays.stream(objects).noneMatch(object -> StringUtils.equals(object.getClass().getName(), UNPRINT_CLASS));
         } catch (Exception ex) {
             log.warn("判断是否输出接口入参出错，ex:{}", ex.toString());
+            return true;
+        }
+    }
+
+    private Boolean isPrintResp(Object object) {
+        try {
+            if(!(object instanceof ResponseEntity)){
+                return true;
+            }
+
+            ResponseEntity responseEntity = (ResponseEntity)object;
+
+            if(!(responseEntity.getBody() instanceof SingleResult)){
+                return true;
+            }
+
+            SingleResult singleResult = (SingleResult)responseEntity.getBody();
+
+            return !StringUtils.equals(singleResult.getData().getClass().getName(), UNPRINT_RESP_CLASS);
+        } catch (Exception ex) {
+            log.warn("判断是否输出接口出参错误，ex:{}", ex.toString());
             return true;
         }
     }

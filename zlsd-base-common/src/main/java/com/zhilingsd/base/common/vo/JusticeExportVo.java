@@ -95,9 +95,9 @@ public class JusticeExportVo extends ExportVo implements Serializable {
         }else {
             if(Objects.nonNull(this.getExportValue().get(text))){
                 String tureValue = text.replace(text, this.getExportValue().get(text));
-                bufferrun.setText(tureValue);
+                bufferrun.setText(tureValue,0);
             }else {
-                bufferrun.setText("");
+                bufferrun.setText("",0);
             }
 
         }

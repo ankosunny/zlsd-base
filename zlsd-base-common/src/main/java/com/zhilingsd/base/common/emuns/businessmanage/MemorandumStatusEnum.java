@@ -17,8 +17,8 @@ import java.util.List;
  */
 public enum MemorandumStatusEnum {
 
-    MEMORANDUM_WEIZUO("yizuo", "已做"),
-    MEMORANDUM_YIZUO("weizuo", "未做"),
+    MEMORANDUM_WEIZUO("weizuo", "已做"),
+    MEMORANDUM_YIZUO("yizuo", "未做"),
     ;
     private String code;
     private String value;

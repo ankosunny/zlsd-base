@@ -19,15 +19,18 @@ public class CommonUtils {
      * @param len
      * @return
      */
-    public static List<List<Long>> splitList(List<Long> list, int len) {
+    public static <T> List<List<T>> splitList(List<T> list, int len) {
         if (list == null || list.size() == 0 || len < 1) {
             return null;
         }
-        List<List<Long>> result = new ArrayList<List<Long>>();
+
+        List<List<T>> result = new ArrayList<List<T>>();
+
         int size = list.size();
         int count = (size + len - 1) / len;
+
         for (int i = 0; i < count; i++) {
-            List<Long> subList = list.subList(i * len, ((i + 1) * len > size ? size : len * (i + 1)));
+            List<T> subList = list.subList(i * len, ((i + 1) * len > size ? size : len * (i + 1)));
             result.add(subList);
         }
         return result;

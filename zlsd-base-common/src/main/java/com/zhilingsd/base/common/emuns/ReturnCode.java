@@ -219,19 +219,6 @@ public enum ReturnCode {
         return "";
     }
 
-    /**
-     * @description 确定到错误信息发生地点
-     **/
-    public static ReturnCode setErrInfo(ReturnCode returnCode, String headStr) {
-        returnCode.msg = headStr + "-" + returnCode.getMsg();
-        return returnCode;
-    }
-
-    public static void main(String[] args) {
-        ReturnCode returnCode = ReturnCode.setErrInfo(ReturnCode.ERROR_138, "上报还款");
-        System.out.println(returnCode.getMsg());
-    }
-
     public int getCode() {
         return code;
     }

@@ -1,6 +1,7 @@
 package com.zhilingsd.base.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,5 +105,16 @@ public class CommonUtils {
             return ((String) obj).trim().equals("");
         }
         return false;
+    }
+
+    /**
+     * @description  拼接用户名与账号
+     **/
+    public static String getShowName(String name,String account){
+        if (StringUtils.isNotBlank(account)){
+            return name.concat("(").concat(account).concat(")");
+        }else {
+            return name;
+        }
     }
 }

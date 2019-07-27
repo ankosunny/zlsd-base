@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
  */
 public class DecimalUtil {
 
-    public static final String TWO_BIT = ".00";
+    public static final String TWO_BIT = "0.00";
 
     public static String spentTimeSS(long val1, long val2) {
         return showTwoBit((double) (val1 - val2) / 1000);
@@ -28,6 +28,7 @@ public class DecimalUtil {
     }
 
     public static void main(String[] args) {
+        System.out.println(spentTimeSS(1000,234));
         System.out.println(spentTimeSS(100000, 34567));
     }
 

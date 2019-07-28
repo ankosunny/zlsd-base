@@ -302,12 +302,12 @@ public class GlobalExceptionHandler {
     /**
      * mybatis异常
      */
-/*    @ExceptionHandler(value = MyBatisSystemException.class)
+    @ExceptionHandler(value = MyBatisSystemException.class)
     public CollectionResult myBatisSystemException(MyBatisSystemException ex) {
         ex.printStackTrace();
         log.error("mybatis异常,异常信息：", ex);
         return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
-    }*/
+    }
 
 
     /**

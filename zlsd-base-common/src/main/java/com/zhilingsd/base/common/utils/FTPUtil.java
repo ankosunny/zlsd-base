@@ -52,6 +52,7 @@ public class FTPUtil {
                 ftp.disconnect();
                 return success;
             }
+            ftp.enterLocalPassiveMode();
             ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
             ftp.makeDirectory(path);
             ftp.changeWorkingDirectory(path);

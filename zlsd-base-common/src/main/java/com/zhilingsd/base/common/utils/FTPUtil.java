@@ -54,8 +54,20 @@ public class FTPUtil {
             }
             ftp.enterLocalPassiveMode();
             ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
-            ftp.makeDirectory(path);
-            ftp.changeWorkingDirectory(path);
+            //如果没有目录，需要一级一级创建目录
+            if (!ftp.changeWorkingDirectory(path)){
+                String[] arr = path.split("/");
+                //循环生成子目录
+                for (String s : arr) {
+                    //尝试切入目录
+                    if (ftp.changeWorkingDirectory("/" + s)){
+                        continue;
+                    }else{
+                        ftp.makeDirectory("/" + s);
+                        ftp.changeWorkingDirectory("/" + s);
+                    }
+                }
+            }
             ftp.storeFile(filename, input);
             input.close();
             ftp.logout();

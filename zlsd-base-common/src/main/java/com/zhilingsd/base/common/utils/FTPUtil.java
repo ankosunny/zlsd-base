@@ -60,11 +60,11 @@ public class FTPUtil {
                 //循环生成子目录
                 for (String s : arr) {
                     //尝试切入目录
-                    if (ftp.changeWorkingDirectory("/" + s)){
+                    if (ftp.changeWorkingDirectory(s)){
                         continue;
                     }else{
-                        ftp.makeDirectory("/" + s);
-                        ftp.changeWorkingDirectory("/" + s);
+                        ftp.makeDirectory(s);
+                        ftp.changeWorkingDirectory(s);
                     }
                 }
             }

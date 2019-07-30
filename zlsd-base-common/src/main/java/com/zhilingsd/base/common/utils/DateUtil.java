@@ -408,6 +408,7 @@ public class DateUtil {
         c.set(Calendar.HOUR_OF_DAY,0);
         c.set(Calendar.MINUTE,0);
         c.set(Calendar.SECOND,0);
+        c.set(Calendar.MILLISECOND,0);
         Date time = c.getTime();
         return time;
     }
@@ -421,6 +422,7 @@ public class DateUtil {
         c.set(Calendar.HOUR_OF_DAY,23);
         c.set(Calendar.MINUTE,59);
         c.set(Calendar.SECOND,59);
+        c.set(Calendar.MILLISECOND,999);
         Date time = c.getTime();
         return time;
     }

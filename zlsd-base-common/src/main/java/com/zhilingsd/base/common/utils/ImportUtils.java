@@ -100,19 +100,22 @@ public class ImportUtils {
     public static String getFortBitNumStr(Integer i) {
         String str = i.toString();
         String head = "";
-        if (str.length() < 6) {
+        if (str.length() < 7) {
             char[] chars = str.toCharArray();
-            for (int j = 0; j < 6 - chars.length; j++) {
+            for (int j = 0; j < 7 - chars.length; j++) {
                 head += "0";
             }
         }
         return head + str;
     }
-    public static String encrypIdNum(String idNum,int start,int end){
-        if(idNum==null||idNum.length()<end||0>start){ return null;}
+
+    public static String encrypIdNum(String idNum, int start, int end) {
+        if (idNum == null || idNum.length() < end || 0 > start) {
+            return null;
+        }
         String substring = idNum.substring(start, end);
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i <substring.length() ; i++) {
+        for (int i = 0; i < substring.length(); i++) {
             stringBuilder.append("*");
         }
         String replace = idNum.replace(substring, stringBuilder.toString());

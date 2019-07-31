@@ -22,7 +22,7 @@ public class DistributedConfigurationCenter implements ConfigurationCenter {
             _zk.waitUntilConnected();
         }
         if (!_zk.exists(path)) {
-            _zk.createPersistent(path, true, Ids.OPEN_ACL_UNSAFE);
+            _zk.createPersistent(path, true,Ids.OPEN_ACL_UNSAFE);
         }
         _zk.writeData(path, value);
     }
@@ -43,6 +43,20 @@ public class DistributedConfigurationCenter implements ConfigurationCenter {
         T res = _zk.readData(path, true);
         _zk.subscribeDataChanges(path, listener);
         return res;
+    }
+
+    @Override
+    public Boolean exists(String path) {
+        boolean exists = _zk.exists(path);
+        return exists;
+    }
+
+    @Override
+    public void setNodeData(String path, Object value) {
+        if (!_zk.isConnected()) {
+            _zk.waitUntilConnected();
+        }
+        _zk.writeData(path, value);
     }
 
     public ZkClient getZkClient() {

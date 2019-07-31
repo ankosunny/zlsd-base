@@ -55,11 +55,13 @@ public class CommonFacadeAspect {
         sb.append("\n" + PRE_TAG + jp.getSignature().getDeclaringTypeName() + "." + jp.getSignature().getName());
 
         if (isPrintArgs(jp.getArgs())) {
-            sb.append("\n" + PRE_TAG + "接口入参 : " + JsonUtils.toJsonString(jp.getArgs()));
+            String jsonString = JsonUtils.toJsonString(jp.getArgs());
+            if (jsonString.length() < 300) {
+                sb.append("\n" + PRE_TAG + "接口入参 : " + jsonString);
+            }
         } else {
             sb.append("\n" + PRE_TAG + "接口入参 : 不打印入参");
         }
-
         log.info(sb.toString());
         // 创建AppAgentInfo对象，如果有字段为空则抛出异常
         String session = Optional.ofNullable(request.getHeader("session")).orElseThrow(() -> new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), "请求头session不能为空"));
@@ -77,11 +79,13 @@ public class CommonFacadeAspect {
         sbreturn.append("\n" + PRE_TAG + jp.getSignature().getDeclaringTypeName() + "." + jp.getSignature().getName());
 
         if (isPrintResp(obj)) {
-            sbreturn.append("\n" + PRE_TAG + " 接口返回 : " + JsonUtils.toJsonString(obj));
+            String toJsonString = JsonUtils.toJsonString(obj);
+            if (toJsonString.length() < 300) {
+                sbreturn.append("\n" + PRE_TAG + " 接口返回 : " + toJsonString);
+            }
         } else {
             sbreturn.append("\n" + PRE_TAG + "接口返回 : 不打印返回");
         }
-
         sbreturn.append("\n" + PRE_TAG + " 花费时间 : " + (System.currentTimeMillis() - startTime) + "ms");
         log.info(sbreturn.toString());
         return obj;
@@ -98,17 +102,17 @@ public class CommonFacadeAspect {
 
     private Boolean isPrintResp(Object object) {
         try {
-            if(!(object instanceof ResponseEntity)){
+            if (!(object instanceof ResponseEntity)) {
                 return true;
             }
 
-            ResponseEntity responseEntity = (ResponseEntity)object;
+            ResponseEntity responseEntity = (ResponseEntity) object;
 
-            if(!(responseEntity.getBody() instanceof SingleResult)){
+            if (!(responseEntity.getBody() instanceof SingleResult)) {
                 return true;
             }
 
-            SingleResult singleResult = (SingleResult)responseEntity.getBody();
+            SingleResult singleResult = (SingleResult) responseEntity.getBody();
 
             return !StringUtils.equals(singleResult.getData().getClass().getName(), UNPRINT_RESP_CLASS);
         } catch (Exception ex) {
@@ -116,22 +120,4 @@ public class CommonFacadeAspect {
             return true;
         }
     }
-
-//    /**
-//     * 参数校验
-//     */
-//    private <T> ValidationResult  beanValidatorFail(T object, Class<?>... groups) {
-//        //ValidationResult为自己封装的对象
-//        ValidationResult validationResult = new ValidationResult();
-//        validationResult.setSuccess(true);
-//        try{
-//            BeanValidators.validateWithException(validator, object, groups);
-//        }catch(ConstraintViolationException ex){
-//            List<String> errMsgs = BeanValidators.extractPropertyAndMessageAsList(ex, ": ");
-//            validationResult.setSuccess(false);
-//            validationResult.setErrMsg(errMsgs.get(0));
-//        }
-//        return validationResult;
-//    }
-
 }

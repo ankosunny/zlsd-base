@@ -960,12 +960,12 @@ public class ZkClient implements Watcher {
                 waitForRetry();
             } catch (KeeperException e) {
                 // TODO modfiy by zhangcheng 修改了源码，原先打印没有节点的数据，现在隐藏掉不打印了！
-                e.printStackTrace();
+                //e.printStackTrace();
                 throw ZkException.create(e);
             } catch (InterruptedException e) {
                 throw new ZkInterruptedException(e);
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 throw ExceptionUtil.convertToRuntimeException(e);
             }
             // before attempting a retry, check whether retry timeout has elapsed

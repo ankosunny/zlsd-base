@@ -28,5 +28,22 @@ public interface ConfigurationCenter {
 
     <T> T getConfValue(String path, IZkDataListener listener);
 
+    /**
+     * 判断指定的节点是否已经存在
+     * @param path
+     * @return
+     */
+    Boolean exists(String path);
+
+    /**
+     * 节点不存在情况下，写数据
+     * @param path
+     * @param value
+     */
+    void setNodeData(String path, Object value);
+
+
+
+
     ZkClient getZkClient();
 }

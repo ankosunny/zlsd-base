@@ -1,5 +1,8 @@
 package com.zhilingsd.base.redis.lock;
 
+import com.zhilingsd.base.common.emuns.ReturnCode;
+import com.zhilingsd.base.common.exception.BusinessException;
+import com.zhilingsd.base.common.exception.ServiceException;
 import com.zhilingsd.base.redis.constants.RedisLockKeyConstants;
 import com.zhilingsd.base.redis.exception.RedisLockException;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -50,8 +53,8 @@ public class RedisLockAspect {
                 logger.debug("获取分布式锁成功");
                 obj = joinPoint.proceed();
             } else {
-                //TODO
                 logger.debug("获取分布式锁失败");
+                throw new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(),"获取分布式锁失败");
             }
         } catch (Exception e) {
             logger.info(e.getMessage(), e);

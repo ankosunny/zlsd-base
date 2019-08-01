@@ -29,6 +29,7 @@ public enum ImpExpManageSubtypeEnum {
     EXP_REPAY_FLOW_BILL_LIST("exp_repay_record_bill_list","导出流水结算账单列表（还款）"),
     EXP_REPAY_BILL("exp_repay_bill","导出汇总结算账单（还款）"),
     EXP_REPAY_BILL_LIST("exp_repay_bill_list","导出汇总结算账单列表（还款）"),
+    IMP_CONTACTS("imp_contacts","导入联系人")
     ;
 
     private String code;

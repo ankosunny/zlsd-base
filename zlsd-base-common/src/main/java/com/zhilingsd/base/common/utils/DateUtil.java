@@ -1,6 +1,7 @@
 package com.zhilingsd.base.common.utils;
 
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.Timestamp;
@@ -19,6 +20,7 @@ import java.util.*;
  * @author jiaowl
  * @version $Id: SystemUtils.java, v 0.1 2015-10-16 上午11:56:58 jiaowl Exp $
  */
+@Slf4j
 public class DateUtil {
     public static final String DATE_HOUR = "yyyy-MM-dd HH";
     public static final String TIME = "HH:mm:ss";
@@ -81,12 +83,13 @@ public class DateUtil {
     }
 
     public static String getTime(Date date) {
-        if(date == null){
+        if (date == null) {
             return "";
         }
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
         return formatter.format(date);
     }
+
     /**
      * 获取当前年度字符串。
      * <p>
@@ -159,7 +162,7 @@ public class DateUtil {
     }
 
     public static String getDate(Date date) {
-        if(date == null){
+        if (date == null) {
             return "";
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -331,103 +334,116 @@ public class DateUtil {
 
     /**
      * 获取周一的时间
+     *
      * @return
      */
     public static Date theMonDayOfWeek() {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        c.set(Calendar.HOUR_OF_DAY,0);
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.SECOND,0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
         Date time = c.getTime();
         return time;
     }
+
     /**
      * 获取周一的时间
+     *
      * @return
      */
     public static Date theDayOfWeek(int i) {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         c.set(Calendar.DAY_OF_WEEK, i);
-        c.set(Calendar.HOUR_OF_DAY,0);
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.SECOND,0);
-        c.set(Calendar.MILLISECOND,0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
         Date time = c.getTime();
         return time;
     }
+
     public static Date theDayOfWeekMax(int i) {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         c.set(Calendar.DAY_OF_WEEK, i);
-        c.set(Calendar.HOUR_OF_DAY,23);
-        c.set(Calendar.MINUTE,59);
-        c.set(Calendar.SECOND,59);
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
         Date time = c.getTime();
         return time;
     }
+
     /**
      * 获取周六的时间
+     *
      * @return
      */
     public static Date theSaturdayOfWeek() {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        c.set(Calendar.HOUR_OF_DAY,0);
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.SECOND,0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
         Date time = c.getTime();
         return time;
     }
 
     /**
      * 获取周天
+     *
      * @return
      */
     public static Date theSunDayOfWeek() {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        c.set(Calendar.HOUR_OF_DAY,0);
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.SECOND,0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
         Date time = c.getTime();
         return time;
     }
+
     /**
      * 获取某个时间月份的第一天
+     *
      * @return
      */
     public static Date theFirstDayOfMonth() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, 0);
         c.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
-        c.set(Calendar.HOUR_OF_DAY,0);
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.SECOND,0);
-        c.set(Calendar.MILLISECOND,0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
         Date time = c.getTime();
         return time;
     }
+
     /**
      * 获取某个时间月份的最后一天
+     *
      * @return
      */
     public static Date theLastDayOfMonth() {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        c.set(Calendar.HOUR_OF_DAY,23);
-        c.set(Calendar.MINUTE,59);
-        c.set(Calendar.SECOND,59);
-        c.set(Calendar.MILLISECOND,999);
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        c.set(Calendar.MILLISECOND, 999);
         Date time = c.getTime();
         return time;
     }
+
     /**
      * 获取当月的第一天
+     *
      * @return
      */
     public static Date theFirstDayOfMonth(Date date) {
@@ -435,26 +451,29 @@ public class DateUtil {
         c.setTime(date);
         c.set(Calendar.MONTH, 0);
         c.set(Calendar.DAY_OF_MONTH, 1);//设置为1号,当前日期既为本月第一天
-        c.set(Calendar.HOUR_OF_DAY,0);
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.SECOND,0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
         Date time = c.getTime();
         return time;
     }
+
     /**
      * 获取当月的最后一天
+     *
      * @return
      */
     public static Date theLastDayOfMonth(Date date) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        c.set(Calendar.HOUR_OF_DAY,0);
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.SECOND,0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
         Date time = c.getTime();
         return time;
     }
+
     /**
      * 获取时间戳，将日期对象转换为时间戳类型。
      *
@@ -1784,7 +1803,7 @@ public class DateUtil {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND,0);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
 
@@ -1908,10 +1927,11 @@ public class DateUtil {
         }
         return result;
     }
+
     /**
-     * @description  时分秒清零
+     * @description 时分秒清零
      **/
-    public static Date getResetHHMMSS(Date date){
+    public static Date getResetHHMMSS(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -1922,9 +1942,9 @@ public class DateUtil {
     }
 
     /**
-     * @description  当天23:59:59
+     * @description 当天23:59:59
      **/
-    public static Date getMaxHHMMSS(Date date){
+    public static Date getMaxHHMMSS(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 23);
@@ -2096,10 +2116,10 @@ public class DateUtil {
         }
         try {
             return new SimpleDateFormat("yyyyMMdd").parse(dateStr.toString());
-        } catch (ParseException e) {
-            throw new RuntimeException(String.format("parser %s to Date fail", source));
+        } catch (Exception e) {
+            log.error("解析字符串到Date对象失败,原字符串为-->{}", source);
         }
-
+        return null;
     }
 
     public static Date oneDayAfter(Date date) {
@@ -2289,13 +2309,13 @@ public class DateUtil {
         return seconds;
     }
 
-    public static boolean checkCurrentMonth(Date date){
+    public static boolean checkCurrentMonth(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         int currentMonth = -1;
         int i = calendar.get(Calendar.MONTH);
         calendar.setTime(date);
-        return i==calendar.get(Calendar.MONTH);
+        return i == calendar.get(Calendar.MONTH);
     }
 
     public static boolean checkMonth(Date date) {
@@ -2311,8 +2331,9 @@ public class DateUtil {
         long t1 = calendar.getTimeInMillis();
         calendar.setTime(date);
         long t2 = calendar.getTimeInMillis();
-        return t1>t2;
+        return t1 > t2;
     }
+
     /**
      * 获取当天开始时间（0点）
      *
@@ -2364,25 +2385,26 @@ public class DateUtil {
 
     /**
      * 获取当前时间是星期几
+     *
      * @param currentDate
      * @return
      */
-    public static int dayForWeek(Date currentDate)  {
-        Calendar c =Calendar.getInstance();
+    public static int dayForWeek(Date currentDate) {
+        Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
-        int dayForWeek=0;
-        dayForWeek=c.get(Calendar.DAY_OF_WEEK);
+        int dayForWeek = 0;
+        dayForWeek = c.get(Calendar.DAY_OF_WEEK);
         return dayForWeek;
     }
 
 
-        /**
-         * 日期转化成字符串
-         *
-         * @param date          日期字符串
-         * @param formatPattern 转化格式
-         * @return
-         */
+    /**
+     * 日期转化成字符串
+     *
+     * @param date          日期字符串
+     * @param formatPattern 转化格式
+     * @return
+     */
     public static String dateToString(Date date, String formatPattern) {
         if (date == null) {
             return null;
@@ -2500,8 +2522,10 @@ public class DateUtil {
         }
         return resultList;
     }
+
     /**
      * 解析excel时间格式
+     *
      * @param source
      * @return
      * @throws ParseException

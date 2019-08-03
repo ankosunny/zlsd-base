@@ -2115,12 +2115,19 @@ public class DateUtil {
             }
         }
         try {
-            return new SimpleDateFormat("yyyyMMdd").parse(dateStr.toString());
+            String string = dateStr.toString();
+            if (string.length() ==8){
+                return new SimpleDateFormat("yyyyMMdd").parse(string);
+            }else if (string.length() >8){
+                new SimpleDateFormat("yyyyMMdd").parse(string.substring(0,8));
+            }
+
         } catch (Exception e) {
             log.error("解析字符串到Date对象失败,原字符串为-->{}", source);
         }
         return null;
     }
+
 
     public static Date oneDayAfter(Date date) {
         return new Date(date.getTime() + 24 * 3600 * 1000);

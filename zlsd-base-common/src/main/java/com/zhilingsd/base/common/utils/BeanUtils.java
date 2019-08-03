@@ -24,6 +24,7 @@ package com.zhilingsd.base.common.utils;
 
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.util.Assert;
@@ -158,5 +159,34 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
         }
         return flag;
     }
-    
+
+
+    /**
+     *
+     * 功能描述:判断对象是否所有字段都为null(除了指定字段),就返回true,否则返回false
+     * @param: [obj]
+     * @return: boolean
+     * @auther: 吞星
+     * @date: 2019/7/9-10:31
+     */
+    public static boolean judgeBeanAllFieldIsNull(Object obj,String... fieldNames){
+        boolean flag = true;
+        for (Field field : obj.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            List<String> strings = Arrays.asList(fieldNames);
+            if (!strings.contains(field.getName())){
+                try {
+                    if (field.get(obj) != null) { //判断字段是否为空，并且对象属性中的基本都会转为对象类型来判断
+                        flag=false;
+                        return flag;
+                    }
+                } catch (IllegalAccessException e) {
+                    throw new FatalBeanException(
+                            "获得字段-->" + field.getName() + "' 值失败", e);
+                }
+            }
+        }
+        return flag;
+    }
+
 }

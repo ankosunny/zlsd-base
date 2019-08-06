@@ -30,6 +30,7 @@ public class VisitExportVo extends ExportVo implements Serializable {
             "脱敏身份证",
             "手机",
             "委托金额",
+            "目前金额",
             "帐号",
             "卡号",
             "脱敏卡号",
@@ -89,6 +90,10 @@ public class VisitExportVo extends ExportVo implements Serializable {
      * 委托金额
      **/
     private String commitMoney;
+    /**
+     * 目前金额
+     **/
+    private String latestCommitMoney;
     /**
      * 帐号
      **/
@@ -235,7 +240,12 @@ public class VisitExportVo extends ExportVo implements Serializable {
             this.exportValue.put("委托金额", commitMoney);
         }
     }
-
+    public void setLatestCommitMoney(String latestCommitMoney) {
+        if (StringUtils.isNotBlank(latestCommitMoney)) {
+            this.latestCommitMoney = latestCommitMoney;
+            this.exportValue.put("目前金额", latestCommitMoney);
+        }
+    }
     public void setAccountNum(String accountNum) {
         if (StringUtils.isNotBlank(accountNum)) {
             this.accountNum = accountNum;

@@ -2116,10 +2116,10 @@ public class DateUtil {
         }
         try {
             String string = dateStr.toString();
-            if (string.length() ==8){
+            if (string.length() == 8) {
                 return new SimpleDateFormat("yyyyMMdd").parse(string);
-            }else if (string.length() >8){
-                new SimpleDateFormat("yyyyMMdd").parse(string.substring(0,8));
+            } else if (string.length() > 8) {
+                return new SimpleDateFormat("yyyyMMdd").parse(string.substring(0, 8));
             }
 
         } catch (Exception e) {
@@ -2127,7 +2127,6 @@ public class DateUtil {
         }
         return null;
     }
-
 
     public static Date oneDayAfter(Date date) {
         return new Date(date.getTime() + 24 * 3600 * 1000);
@@ -2568,5 +2567,18 @@ public class DateUtil {
         return new SimpleDateFormat("yyyyMMddHHmmss").parse(dateStr.toString());
     }
 
-
+    public static void main(String[] args) {
+        String dateStr1 = "20121126";
+        String dateStr2 = "2012/11/26";
+        String dateStr3 = "2012-11-26";
+        Date toDate1 = toDate(dateStr1);
+        Date toDate2 = toDate(dateStr2);
+        Date toDate3 = toDate(dateStr3);
+        String dateToString1 = dateToString(toDate1, DateUtil.DATE);
+        String dateToString2 = dateToString(toDate2, DateUtil.DATE);
+        String dateToString3 = dateToString(toDate3, DateUtil.DATE);
+        System.out.println(dateToString1);
+        System.out.println(dateToString2);
+        System.out.println(dateToString3);
+    }
 }

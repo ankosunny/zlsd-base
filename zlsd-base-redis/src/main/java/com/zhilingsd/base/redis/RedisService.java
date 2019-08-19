@@ -427,6 +427,47 @@ public class RedisService implements Cache {
         }
     }
 
+    @Override
+    public Boolean zAdd(Serializable key, Serializable value, Long score) {
+        try {
+            return redisTemplate.opsForZSet().add((String)key, SerializeUtil.serialize(value), score);
+        } catch (Throwable e) {
+            log.error("zAdd key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean zAdd(Serializable key, Serializable value, Long score, int time) {
+        try {
+            boolean res = redisTemplate.opsForZSet().add((String)key, SerializeUtil.serialize(value), score);
+            redisTemplate.expire((String) key, time > 0 ? time : expireSeconds, TimeUnit.SECONDS);
+            return res;
+        } catch (Throwable e) {
+            log.error("zAdd key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return false;
+        }
+    }
+
+    @Override
+    public Integer zLenCount(Serializable key) {
+        try {
+            return redisTemplate.opsForZSet().zCard((String)key).intValue();
+        } catch (Throwable e) {
+            log.error("zLenCount key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return 0;
+        }
+    }
+
+    @Override
+    public Integer zLenCountBetween(Serializable key, Long start, Long end) {
+        try {
+            return redisTemplate.opsForZSet().rangeByScore((String)key, start, end).size();
+        } catch (Throwable e) {
+            log.error("zLenCountBetween key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return 0;
+        }
+    }
 
     public int getExpireSeconds() {
         return expireSeconds;

@@ -48,6 +48,18 @@ public class CacheCommonConstants {
      */
     public static String EMERGENCY_GROUP_CACHE = "emergency_group_info:";
 
+    /**
+     * 二级贷款机构对应的每日拨打限制信息
+     * 通过secondLendingId获取拨打限制信息
+     * exp:"callcenter_call_restriction:{secondLendingId}"
+     */
+    public static String CALLCENTER_CALL_RESTRICTION = "callcenter_call_restriction:";
 
+    /**
+     * 被叫号码今日被拨打次数
+     * 通过calledNumber获取号码今日被拨打次数
+     * exp:"callcenter_called_situation:{calledNumber}"
+     */
+    public static String CALLCENTER_CALLED_SITUATION = "callcenter_called_situation:";
 
 }

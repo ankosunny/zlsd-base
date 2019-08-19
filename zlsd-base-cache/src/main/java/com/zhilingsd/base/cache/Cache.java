@@ -353,4 +353,39 @@ public interface Cache<K extends Serializable, V extends Serializable> {
      * @return 从集合中移除元素的个数，不包括不存在的成员.
      */
     Long sRem(K key, V value);
+
+    /**
+     * 添加一个指定的(value, score)二元组到相应key的zset中
+     * @param key
+     * @param value
+     * @param score
+     * @return
+     */
+    Boolean zAdd(K key, V value, Long score);
+
+    /**
+     * 添加一个指定的(value, score)二元组到相应key的zset中，并设置过期时间
+     * @param key
+     * @param value
+     * @param score
+     * @param time
+     * @return
+     */
+    Boolean zAdd(K key, V value, Long score, int time);
+
+    /**
+     * 获取相应key的zset总长度
+     * @param key
+     * @return
+     */
+    Integer zLenCount(K key);
+
+    /**
+     * 获取相应key的zset中score在start-end区间内的长度
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    Integer zLenCountBetween(K key, Long start, Long end);
 }

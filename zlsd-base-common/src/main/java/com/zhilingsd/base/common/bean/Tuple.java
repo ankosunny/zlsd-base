@@ -1,4 +1,4 @@
-package com.mujin.entity.consigner;
+package com.zhilingsd.base.common.bean;
 
 /**
  * 二元对象

@@ -24,7 +24,7 @@ public enum ImpExpManageSubtypeEnum {
     IMP_REPAY_FLOW_BILL("imp_repay_record_bill","导入流水结算账单（还款）"),
     IMP_REPAY_BILL("imp_repay_bill","导入汇总结算账单（还款）"),
     EXP_REPAY_FLOW("exp_repay_record","导出日账单（还款）"),
-    EXP_REPAY_FLOW_LIST("exp_repay_record","导出日账单列表（还款）"),
+    EXP_REPAY_FLOW_LIST("exp_repay_record_list","导出日账单列表（还款）"),
     EXP_REPAY_FLOW_BILL("exp_repay_record_bill","导出流水结算账单（还款）"),
     EXP_REPAY_FLOW_BILL_LIST("exp_repay_record_bill_list","导出流水结算账单列表（还款）"),
     EXP_REPAY_BILL("exp_repay_bill","导出汇总结算账单（还款）"),

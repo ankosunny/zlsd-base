@@ -1,7 +1,6 @@
 package com.zhilingsd.base.common.utils;
 
 import com.google.common.collect.Lists;
-import com.zhilingsd.base.common.vo.ReportExportVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.xwpf.usermodel.IRunBody;
@@ -281,48 +280,5 @@ public class ExportReprotUtil<T extends ExportVo> {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) {
-        ExportReprotUtil<ReportExportVo>  exportVoExportReprotUtil = new ExportReprotUtil();
-        ReportExportVo vo = new ReportExportVo();
-        vo.setName("我的姓名");
-        vo.setCardNum("123456789");
-        vo.setCommitMoney("100000");
-        vo.setStaffName("我是催收员");
-        vo.setAddress("我的地址");
-        vo.setArea("我的地区");
-        vo.setIdCard("511321777777");
-        vo.setCommitYear("2019");
-        vo.setCommitMonth("5");
-        vo.setCommitDay("21");
-        vo.setYear("2019");
-        vo.setMonth("5");
-        vo.setDay("20");
-        vo.setStaffTelPhone("10010");
-        vo.setDate("2019-05-21");
-        vo.setLastName("李");
-        vo.setBillCode("case0010");
-        vo.setBeginDate("2019-05-21");
-        vo.setBeginTime("15:16");
-        vo.setEndTime("18:00");
-        vo.setVisitPhone("1578787878");
-        vo.setCommitDate("2019-05-21");
-        vo.setDebtMoney("1000");
-        vo.setVisitDesc("外放中");
-
-        byte[] readSize = new byte[8 * 1024];
-
-        try {
-            FileInputStream fileInputStream = new FileInputStream(new File("F:\\data\\a.docx"));
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            while (fileInputStream.read(readSize) != -1) {
-                byteArrayOutputStream.write(readSize);
-            }
-            exportVoExportReprotUtil.createWorldFile(byteArrayOutputStream.toByteArray(), vo);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
     }
 }

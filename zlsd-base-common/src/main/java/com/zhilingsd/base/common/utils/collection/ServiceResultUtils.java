@@ -1,18 +1,10 @@
 package com.zhilingsd.base.common.utils.collection;
 
 
-import com.google.common.collect.Lists;
-import com.zhilingsd.base.common.emuns.CollectionTypeEnum;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.BusinessException;
 import com.zhilingsd.base.common.result.SingleResult;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * **className CollectionTypeUtils

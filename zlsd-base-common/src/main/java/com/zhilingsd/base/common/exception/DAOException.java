@@ -1,5 +1,6 @@
 package com.zhilingsd.base.common.exception;
 
+import com.zhilingsd.base.common.bean.IReturnCode;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 
 /**
@@ -19,14 +20,15 @@ public class DAOException extends BaseException {
         this.code = code;
     }
 
-    public DAOException(int code) {
-        this.code = code;
+    public DAOException(IReturnCode iReturnCode){
+        this.code = iReturnCode.getCode();
+        this.setMessage(iReturnCode.getMsg());
     }
 
-    public DAOException(ReturnCode returnCode){
-        this.code = returnCode.getCode();
-        this.setMessage(returnCode.getMsg());
+    public DAOException(String message) {
+        super(ReturnCode.BUSINESS_ERROR.getCode(), message);
     }
+
 
     public DAOException(int code, Throwable throwable) {
         super(throwable);

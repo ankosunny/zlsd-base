@@ -1,5 +1,6 @@
 package com.zhilingsd.base.common.exception;
 
+import com.zhilingsd.base.common.bean.IReturnCode;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 
 /**
@@ -13,15 +14,15 @@ public class CoreException extends BaseException {
     public CoreException() {
     }
 
-    public CoreException(ReturnCode resultCodeEnum) {
-        super(resultCodeEnum.getCode(), resultCodeEnum.getMsg());
+    public CoreException(IReturnCode iReturnCode) {
+        super(iReturnCode.getCode(), iReturnCode.getMsg());
     }
 
     public CoreException(String message) {
         super(ReturnCode.BUSINESS_ERROR.getCode(), message);
     }
 
-    public CoreException(ReturnCode resultCodeEnum, String message) {
+    public CoreException(IReturnCode resultCodeEnum, String message) {
         super(resultCodeEnum.getCode(), message);
     }
 

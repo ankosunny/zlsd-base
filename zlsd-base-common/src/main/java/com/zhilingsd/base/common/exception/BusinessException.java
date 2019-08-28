@@ -1,5 +1,6 @@
 package com.zhilingsd.base.common.exception;
 
+import com.zhilingsd.base.common.bean.IReturnCode;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 
 /**
@@ -15,20 +16,16 @@ public class BusinessException extends BaseException {
     public BusinessException() {
     }
 
-    public BusinessException(ReturnCode resultCodeEnum) {
-        super(resultCodeEnum.getCode(), resultCodeEnum.getMsg());
-    }
-
-    public BusinessException(int code) {
-        super(code, ReturnCode.getValueByCode(code));
+    public BusinessException(IReturnCode iReturnCode) {
+        super(iReturnCode.getCode(), iReturnCode.getMsg());
     }
 
     public BusinessException(String message) {
         super(ReturnCode.BUSINESS_ERROR.getCode(), message);
     }
 
-    public BusinessException(ReturnCode resultCodeEnum, String message) {
-        super(resultCodeEnum.getCode(), message);
+    public BusinessException(IReturnCode iReturnCode, String message) {
+        super(iReturnCode.getCode(), message);
     }
 
     public BusinessException(int code, String message) {

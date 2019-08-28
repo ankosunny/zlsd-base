@@ -1932,6 +1932,9 @@ public class DateUtil {
      * @description 时分秒清零
      **/
     public static Date getResetHHMMSS(Date date) {
+        if (Objects.isNull(date)){
+            return null;
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);

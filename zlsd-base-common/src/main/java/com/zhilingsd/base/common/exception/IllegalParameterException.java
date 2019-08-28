@@ -1,6 +1,7 @@
 package com.zhilingsd.base.common.exception;
 
 
+import com.zhilingsd.base.common.bean.IReturnCode;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 
 /**
@@ -17,8 +18,8 @@ public class IllegalParameterException extends BaseException {
         super();
     }
 
-    public IllegalParameterException(ReturnCode resultCodeEnum) {
-        super(resultCodeEnum.getCode(), resultCodeEnum.getMsg());
+    public IllegalParameterException(IReturnCode iReturnCode) {
+        super(iReturnCode.getCode(), iReturnCode.getMsg());
     }
 
     public IllegalParameterException(String message) {

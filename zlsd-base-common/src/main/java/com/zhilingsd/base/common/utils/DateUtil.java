@@ -2491,6 +2491,40 @@ public class DateUtil {
     }
 
     /**
+     * @Description:
+     * @Param:
+     * @return:
+     * @Author: wuzs
+     * @Date: 2018/10/26 12:16
+     */
+    // 获取一段时间内每一天的日期 (当天的不要)
+    public static List<Date> findInterverDates(Date dBegin, Date dEnd) {
+        if (dBegin == null || dEnd == null) {
+            return null;
+        }
+        List<Date> list = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String es = sdf.format(dEnd);
+        try {
+            dEnd = sdf.parse(es);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calBegin = Calendar.getInstance();
+        // 使用给定的 Date 设置此 Calendar 的时间
+        calBegin.setTime(dBegin);
+        Calendar calEnd = Calendar.getInstance();
+        // 使用给定的 Date 设置此 Calendar 的时间
+        calEnd.setTime(dEnd);
+        while (dEnd.after(calBegin.getTime())) {
+            // 根据日历的规则，为给定的日历字段添加或减去指定的时间量
+            list.add(calBegin.getTime());
+            calBegin.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        return list;
+    }
+
+    /**
      * 取得两个日期的差值
      *
      * @param startTime           开始日期

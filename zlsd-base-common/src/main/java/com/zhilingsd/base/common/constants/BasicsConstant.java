@@ -218,9 +218,14 @@ public class BasicsConstant {
     public static final String DECIMAL_MIN_STR = "0.000000001";
 
     /**
-     * 字符串-英文逗号分隔符
+     * 字符串-英文逗号分隔符“,”
      */
     public static final String STRING_SPLIT_COMMA = ",";
+
+    /**
+     * 字符串-英文冒号分隔符“:”
+     */
+    public static final String STRING_SPLIT_COLON = ":";
 
     /**
      * mybatis xml中使用in的sql长度超过1000的配置

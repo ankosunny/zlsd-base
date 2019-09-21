@@ -7,6 +7,7 @@ import org.docx4j.dml.wordprocessingDrawing.Inline;
 import org.docx4j.jaxb.Context;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.Part;
 import org.docx4j.openpackaging.parts.PartName;
 import org.docx4j.openpackaging.parts.WordprocessingML.AlternativeFormatInputPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.BinaryPartAbstractImage;
@@ -21,6 +22,7 @@ import java.nio.channels.FileChannel.MapMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -79,8 +81,9 @@ public class DocUtil {
             return null;
         }
     }
+
     /**
-     * @description  文档混合处理
+     * @description 文档混合处理
      **/
     public static byte[] mergeDocx(final List<InputStream> streams) throws IOException, Docx4JException {
         WordprocessingMLPackage target = null;
@@ -96,15 +99,18 @@ public class DocUtil {
                         // Copy first (master) document
                         long start3 = System.currentTimeMillis();
                         target = WordprocessingMLPackage.load(is);
-                        System.out.println("start3 第一页 花费时间 ：" +(System.currentTimeMillis()-start3));
-                        System.out.println("第一页 花费时间 ：" +(System.currentTimeMillis()-start2));
+                        System.out.println("start3 第一页 花费时间 ：" + (System.currentTimeMillis() - start3));
+                        System.out.println("第一页 花费时间 ：" + (System.currentTimeMillis() - start2));
                     } else {
                         long start1 = System.currentTimeMillis();
                         MainDocumentPart documentPart = target.getMainDocumentPart();
-                        // 另起一页，换页
-                        addPageBreak(documentPart);
+                        if (!exixtWordImg(target)) {
+                            //修改只能选择某一个模板 （要么文字 ， 要么图片）
+                            // 如果是文字 则另起一页，换页 图片不需要
+                            addPageBreak(documentPart);
+                        }
                         insertDocx(documentPart, IOUtils.toByteArray(is), chunkId++);
-                        System.out.println("另起一页 花费时间 ：" +(System.currentTimeMillis()-start1));
+                        System.out.println("另起一页 花费时间 ：" + (System.currentTimeMillis() - start1));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -117,20 +123,42 @@ public class DocUtil {
         if (target != null) {
             long start = System.currentTimeMillis();
             target.save(generated);
-            System.out.println("save 花费时间 ：" +(System.currentTimeMillis()-start));
+            System.out.println("save 花费时间 ：" + (System.currentTimeMillis() - start));
             return getFileBytes(generated);
         } else {
             return null;
         }
     }
 
+    /**
+     * @description 判断word是否存在图片
+     */
+    public static boolean exixtWordImg(WordprocessingMLPackage target) {
+        for (Map.Entry<PartName, Part> entry : target.getParts().getParts()
+                .entrySet()) {
+            if (entry.getValue() instanceof BinaryPartAbstractImage) {
+                BinaryPartAbstractImage binImg = (BinaryPartAbstractImage) entry
+                        .getValue();
+                // 图片minetype
+                String imgContentType = binImg.getContentType();
+                PartName pt = binImg.getPartName();
+                String fileName = null;
+                if (pt.getName().indexOf("word/media/") != -1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**
      * 获得指定文件的byte数组
      */
-    public static byte[] getFileBytes(File file){
+    public static byte[] getFileBytes(File file) {
         long start = System.currentTimeMillis();
-        byte[] buffer = null;try {
+        byte[] buffer = null;
+        try {
             FileInputStream fis = new FileInputStream(file);
             ByteArrayOutputStream bos = new ByteArrayOutputStream(2048);
             byte[] b = new byte[2048];
@@ -146,12 +174,12 @@ public class DocUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("花费时间："+(System.currentTimeMillis()-start));
+        System.out.println("花费时间：" + (System.currentTimeMillis() - start));
         return buffer;
     }
 
     /**
-     * @description  插入文档
+     * @description 插入文档
      **/
     private static void insertDocx(MainDocumentPart main, byte[] bytes, int chunkId) {
         try {
@@ -346,6 +374,21 @@ public class DocUtil {
      *
      * @throws Docx4JException
      */
+    public static void addPageBreakByImg(MainDocumentPart documentPart) {
+        Br breakObj = new Br();
+        breakObj.setType(STBrType.COLUMN);
+        System.out.println(breakObj.getType());
+
+        P paragraph = factory.createP();
+        paragraph.getContent().add(breakObj);
+        documentPart.getJaxbElement().getBody().getContent().add(paragraph);
+    }
+
+    /**
+     * 文档结尾添加一个空白页
+     *
+     * @throws Docx4JException
+     */
     public static void addPageBreak(MainDocumentPart documentPart) {
         Br breakObj = new Br();
         breakObj.setType(STBrType.PAGE);
@@ -366,22 +409,26 @@ public class DocUtil {
 
 
     public static void main(String[] args) throws Exception {
-        File file1 = new File("F:\\新私有化\\导出\\a2.docx");
-        File file2 = new File("F:\\新私有化\\导出\\信封模板.docx");
+        String name1 = "函件文字";
+        String fileStr1 = "F:\\新建文件夹\\函件打印\\" + name1;
+        String name2 = "函件图片";
+        String fileStr2 = "F:\\新建文件夹\\函件打印\\" + name2;
+        File file1 = new File(fileStr2 + "1.docx");
+        File file2 = new File(fileStr2 + "1-and.docx");
         List<InputStream> list = Lists.newArrayList();
-        for (int i = 0; i < 100; i++) {
-            if (i%2==0){
+        for (int i = 0; i < 10; i++) {
+            if (i % 3 == 0) {
                 list.add(new FileInputStream(file1));
-            }else {
+            } else {
                 list.add(new FileInputStream(file2));
             }
         }
-        String path = "F:\\新私有化\\导出\\z.docx";
+        String restName = file1.getName() + file2.getName();
         //DocUtil.mergeWordML(files, path);
         long start = System.currentTimeMillis();
         byte[] bytes = mergeDocx(list);
-        System.out.println("end 花费时间："+(System.currentTimeMillis()-start));
+        System.out.println("end 花费时间：" + (System.currentTimeMillis() - start));
         //byte[] bytes = DocUtil.mergeDocx(list);
-        FileUtil.uploadFile(bytes,"F:\\新私有化\\导出\\","zz.docx");
+        FileUtil.uploadFile(bytes, "F:\\新建文件夹\\函件打印\\导出\\", restName + "导出.docx");
     }
 }

@@ -56,7 +56,7 @@ public class CommonFacadeAspect {
 
         if (isPrintArgs(jp.getArgs())) {
             String jsonString = JsonUtils.toJsonString(jp.getArgs());
-            if (jsonString.length() < 300) {
+            if (jsonString.length() < 1000) {
                 sb.append("\n" + PRE_TAG + "接口入参 : " + jsonString);
             }
         } else {
@@ -80,7 +80,7 @@ public class CommonFacadeAspect {
 
         if (isPrintResp(obj)) {
             String toJsonString = JsonUtils.toJsonString(obj);
-            if (toJsonString.length() < 300) {
+            if (toJsonString.length() < 1000) {
                 sbreturn.append("\n" + PRE_TAG + " 接口返回 : " + toJsonString);
             }
         } else {

@@ -36,6 +36,7 @@ public enum SnowFlakeEntityEnum {
     WORK_MANAGE(80, "作业管理"),
     BUSINESS_MANAGE(90, "业务管理"),
     CALL_CENTER(100, "呼叫中心"),
+    CALL_MANAGE(110, "呼叫管理"),
     ;
 
     private int entityId;

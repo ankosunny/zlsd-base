@@ -22,6 +22,7 @@
  */
 package com.zhilingsd.base.common.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -78,6 +79,22 @@ public class XmlUtils {
             xmlMap.put(et.getName(), et.getText());
         }
         return xmlMap;
+    }
+
+    /**
+     * xml转对象
+     * @param xmlDoc
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T xmlToObject(String xmlDoc, Class<T> clazz) {
+        try {
+            Map<String, Object> map = xmlToMap(xmlDoc);
+            return JSONObject.parseObject(JSONObject.toJSONString(map), clazz);
+        } catch (JDOMException | IOException e) {
+          throw new RuntimeException(e);
+        }
     }
 
     /**

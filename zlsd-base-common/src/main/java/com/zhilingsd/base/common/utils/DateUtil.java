@@ -307,6 +307,18 @@ public class DateUtil {
     }
 
     /**
+     * 将指定格式的时间字符串转换为日期对象。
+     *
+     * @param time  时间字符串（HH:mm:ss）。
+     * @return Date 日期对象。
+     */
+    public static Date parseTime(String time) {
+        String dateStr = getDateTime(DATE, new Date());
+        dateStr = dateStr + " " + time;
+        return parseDate(dateStr, DATE_TIME);
+    }
+
+    /**
      * 将“yyyy-MM-dd”格式的日期字符串转换为“yyyyMMdd”格式的日期字符串。
      *
      * @param source 日期字符串。

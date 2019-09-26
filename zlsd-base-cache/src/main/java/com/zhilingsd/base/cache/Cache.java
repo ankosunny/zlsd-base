@@ -26,7 +26,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.DoubleBinaryOperator;
 
 /**
  * 缓存接口
@@ -390,5 +389,10 @@ public interface Cache<K extends Serializable, V extends Serializable> {
      */
     Integer zLenCountBetween(K key, Long start, Long end);
 
-    Set zGet(K key, double start,double end);
+    /**
+     * 获取范围内的集合
+     * */
+    Set zGet(K key, double start, double end);
+
+    Double zIncrScore(K key,V value, double delta);
 }

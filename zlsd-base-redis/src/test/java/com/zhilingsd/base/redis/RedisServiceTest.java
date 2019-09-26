@@ -346,8 +346,11 @@ public class RedisServiceTest {
         redisService.zAdd(KEY + "sAdd1","158",1L);
         redisService.zAdd(KEY + "sAdd1","168",0L);
         redisService.zAdd(KEY + "sAdd1","178",2L);
-        System.out.println(redisService.zGet(KEY + "sAdd1", 1,2));
-
+        String xx =(String) redisService.zGet(KEY + "sAdd1", 1,2).iterator().next();
+        System.out.println(xx);
+        redisService.zIncrScore(KEY + "sAdd1",xx,-2);
+        String xxx =(String) redisService.zGet(KEY + "sAdd1", 1,2).iterator().next();
+        System.out.println(xxx);
     }
 
 }

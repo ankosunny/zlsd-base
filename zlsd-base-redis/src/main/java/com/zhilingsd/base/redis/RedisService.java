@@ -470,19 +470,32 @@ public class RedisService implements Cache {
         }
     }
 
+
+
     @Override
     public Set<Serializable> zGet(Serializable key, double start, double end) {
         try {
-            Set<byte[]> sets = redisTemplate.opsForZSet().reverseRangeByScore((String)key, start, end);
+            Set sets = redisTemplate.opsForZSet().reverseRangeByScore((String)key, start, end);
             if (sets == null || sets.size()==0){
                 return null;
             }
-            Set<Serializable> result = new HashSet<>();
+            Set result = new HashSet();
             Iterator<byte[]> iterator = sets.iterator();
             while (iterator.hasNext()) {
                 result.add((Serializable) SerializeUtil.unSerialize(iterator.next()));
             }
             return result;
+        } catch (Throwable e) {
+            log.error("zLenCountBetween key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return null;
+        }
+    }
+
+    @Override
+    public Double zIncrScore(Serializable key,Serializable value,double delta) {
+
+        try {
+            return redisTemplate.opsForZSet().incrementScore((String) key, SerializeUtil.serialize(value), delta);
         } catch (Throwable e) {
             log.error("zLenCountBetween key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
             return null;

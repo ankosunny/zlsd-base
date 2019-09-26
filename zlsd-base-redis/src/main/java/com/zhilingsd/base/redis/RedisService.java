@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -466,6 +467,25 @@ public class RedisService implements Cache {
         } catch (Throwable e) {
             log.error("zLenCountBetween key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
             return 0;
+        }
+    }
+
+    @Override
+    public Set<Serializable> zGet(Serializable key, double start, double end) {
+        try {
+            Set<byte[]> sets = redisTemplate.opsForZSet().reverseRangeByScore((String)key, start, end);
+            if (sets == null || sets.size()==0){
+                return null;
+            }
+            Set<Serializable> result = new HashSet<>();
+            Iterator<byte[]> iterator = sets.iterator();
+            while (iterator.hasNext()) {
+                result.add((Serializable) SerializeUtil.unSerialize(iterator.next()));
+            }
+            return result;
+        } catch (Throwable e) {
+            log.error("zLenCountBetween key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return null;
         }
     }
 

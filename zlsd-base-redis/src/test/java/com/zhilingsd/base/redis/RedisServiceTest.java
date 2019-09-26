@@ -341,6 +341,14 @@ public class RedisServiceTest {
         doPrint(KEY + "sRem", "end");
     }
 
+    @Test
+    public void test_7() {
+        redisService.zAdd(KEY + "sAdd1","158",1L);
+        redisService.zAdd(KEY + "sAdd1","168",0L);
+        redisService.zAdd(KEY + "sAdd1","178",2L);
+        System.out.println(redisService.zGet(KEY + "sAdd1", 1,2));
+
+    }
 
 }
 

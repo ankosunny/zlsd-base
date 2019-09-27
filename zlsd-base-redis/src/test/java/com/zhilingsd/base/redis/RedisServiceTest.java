@@ -40,6 +40,8 @@ public class RedisServiceTest {
     private static String hsetTest = "hsetTest";
     @Autowired
     Cache<String, Serializable> redisService;
+    @Autowired
+    RedisExtService redisExtService;
 
     @Test
     public void set() {
@@ -342,15 +344,25 @@ public class RedisServiceTest {
     }
 
     @Test
-    public void test_7() {
-        redisService.zAdd(KEY + "sAdd1","158",1L);
-        redisService.zAdd(KEY + "sAdd1","168",0L);
-        redisService.zAdd(KEY + "sAdd1","178",2L);
-        String xx =(String) redisService.zGet(KEY + "sAdd1", 1,2).iterator().next();
-        System.out.println(xx);
-        redisService.zIncrScore(KEY + "sAdd1",xx,-2);
-        String xxx =(String) redisService.zGet(KEY + "sAdd1", 1,2).iterator().next();
-        System.out.println(xxx);
+    public void test_7() throws Exception {
+        redisExtService.setOriginData("xxxxxxxxxx",10,3000);
+        System.out.println(redisExtService.getOriginData("xxxxxxxxxx"));
+        redisExtService.increment("xxxxxxxxxx",99);
+        try {
+            System.out.println(redisExtService.getOriginData("xxxxxxxxxx"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        redisService.zAdd(KEY + "sAdd1","158",1L);
+//        redisService.zAdd(KEY + "sAdd1","168",0L);
+//        redisService.zAdd(KEY + "sAdd1","178",2L);
+//        redisService.zAdd(KEY + "sAdd1","178",2L);
+//        System.out.println(redisService.zGet(KEY + "sAdd1", 1,2));
+//        String xx =(String) redisService.zGet(KEY + "sAdd1", 1,2).iterator().next();
+//        System.out.println(xx);
+//        redisService.zIncrScore(KEY + "sAdd1",xx,-2);
+//        String xxx =(String) redisService.zGet(KEY + "sAdd1", 1,2).iterator().next();
+//        System.out.println(xxx);
     }
 
 }

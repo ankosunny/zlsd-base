@@ -68,6 +68,7 @@ public interface Cache<K extends Serializable, V extends Serializable> {
      */
     void delete(K key);
 
+
     /**
      * 判断键是否存在.
      *

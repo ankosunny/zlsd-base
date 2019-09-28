@@ -33,7 +33,7 @@ import java.util.Set;
  * @author zhangrong
  * @version Id: Cache.java, v 0.1 2018/11/7 14:30 zhangrong Exp $$
  */
-public interface Cache<K extends Serializable, V extends Serializable> {
+public interface Cache<K, V> {
     /**
      * 存,默认过期时间300秒，即5分钟.
      * 默认过期时间可通过：zhilingsd.base.redis.expire.seconds 进行配置
@@ -60,6 +60,7 @@ public interface Cache<K extends Serializable, V extends Serializable> {
      * @throws Exception
      */
     V get(K key) throws Exception;
+
 
     /**
      * 删除.
@@ -219,7 +220,7 @@ public interface Cache<K extends Serializable, V extends Serializable> {
      * @param field
      * @return
      */
-    Serializable hget(K key, String field);
+    Object hget(K key, String field);
 
     /**
      * 将哈希表 key 中的域 field 的值设置为 value ，当且仅当域 field 不存在.
@@ -342,7 +343,7 @@ public interface Cache<K extends Serializable, V extends Serializable> {
      * @param value
      * @return 如果member元素是集合key的成员，则返回true; 不是集合key的成员，或者集合key不存在，则返回false
      */
-    Boolean sIsMember(Serializable key, Serializable value);
+    Boolean sIsMember(K key, V value);
 
     /**
      * 在key集合中移除指定的元素.

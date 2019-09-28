@@ -347,7 +347,7 @@ public class RedisServiceTest {
     public void test_7() throws Exception {
         redisExtService.setOriginData("xxxxxxxxxx",10,3000);
         System.out.println(redisExtService.getOriginData("xxxxxxxxxx"));
-        redisExtService.increment("xxxxxxxxxx",99);
+        redisExtService.increment("xxxxxxxxxx",-1);
         try {
             System.out.println(redisExtService.getOriginData("xxxxxxxxxx"));
         } catch (Exception e) {

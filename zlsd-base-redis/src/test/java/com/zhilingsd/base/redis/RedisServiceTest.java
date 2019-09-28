@@ -39,7 +39,7 @@ public class RedisServiceTest {
     private static String rpushKey1 = "rpushKey1";
     private static String hsetTest = "hsetTest";
     @Autowired
-    Cache<String, Serializable> redisService;
+    Cache redisService;
     @Autowired
     RedisExtService redisExtService;
 
@@ -304,10 +304,10 @@ public class RedisServiceTest {
 
     @Test
     public void test_2_sAdd1() {
-        doPrint(KEY + "sAdd1", "begin");
-        redisService.sAdd(KEY + "sAdd1", VALUE, EXPIRE_TIME);
-        redisService.sAdd(KEY + "sAdd1", VALUE1, EXPIRE_TIME);
-        doPrint(KEY + "sAdd1", "end");
+        doPrint(KEY + "setAdd1", "begin");
+        redisService.sAdd(KEY + "setAdd1", VALUE, EXPIRE_TIME);
+        redisService.sAdd(KEY + "setAdd1", VALUE1, EXPIRE_TIME);
+        doPrint(KEY + "setAdd1", "end");
     }
 
 
@@ -363,6 +363,18 @@ public class RedisServiceTest {
 //        redisService.zIncrScore(KEY + "sAdd1",xx,-2);
 //        String xxx =(String) redisService.zGet(KEY + "sAdd1", 1,2).iterator().next();
 //        System.out.println(xxx);
+    }
+
+    @Test
+    public void test_8_increment() {
+        doPrint(KEY + "INC", "begin");
+        redisExtService.increment(KEY+"INC", 1);
+        redisExtService.increment(KEY+"INC", 1);
+        redisExtService.increment(KEY+"INC", 1);
+        redisExtService.increment(KEY+"INC", 1);
+        System.out.println(redisService.get(KEY + "INC"));
+        doPrint(KEY + "INC", "begin");
+
     }
 
 }

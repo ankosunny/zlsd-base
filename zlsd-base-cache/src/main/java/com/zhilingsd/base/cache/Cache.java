@@ -57,9 +57,8 @@ public interface Cache<K, V> {
      *
      * @param key
      * @return
-     * @throws Exception
      */
-    V get(K key) throws Exception;
+    V get(K key);
 
 
     /**
@@ -150,18 +149,16 @@ public interface Cache<K, V> {
      *
      * @param key
      * @return
-     * @throws Exception
      */
-    V lpop(K key) throws Exception;
+    V lpop(K key);
 
     /**
      * list key右侧取值.
      *
      * @param key
      * @return
-     * @throws Exception
      */
-    V rpop(K key) throws Exception;
+    V rpop(K key);
 
     /**
      * 获取全量list key数据.

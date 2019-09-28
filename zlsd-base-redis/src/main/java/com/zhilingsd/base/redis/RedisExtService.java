@@ -3,14 +3,11 @@ package com.zhilingsd.base.redis;
 import com.zhilingsd.base.redis.exception.RedisOperateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
@@ -24,19 +21,18 @@ public class RedisExtService  {
     private int expireSeconds;
 
     @Resource
-    @Qualifier("StringRedisSerializerRedisTemplate")
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     /**
      * 设置原始数据
      * */
-    public void setOriginData(Serializable key, int value, int time) {
+    public void setOriginData(Object key, int value, int time) {
         try {
 
             if (time > 0) {
-                redisTemplate.opsForValue().set((String) key, String.valueOf(value), time, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             } else if (time < 0) {
-                redisTemplate.opsForValue().set((String) key, String.valueOf(value), expireSeconds, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(key, value, expireSeconds, TimeUnit.SECONDS);
             }
         } catch (Exception e) {
             log.error("Redis set 异常，堆栈信息：{}", getStackTrace(e));
@@ -44,7 +40,7 @@ public class RedisExtService  {
         }
     }
 
-    public Double getOriginData(Serializable key) throws Exception {
+    public Double getOriginData(Object key) throws Exception {
         try {
 
             Object object = redisTemplate.opsForValue().get(key);
@@ -58,13 +54,13 @@ public class RedisExtService  {
         }
     }
 
-    public Double increment(Serializable key, double delta) {
-        return redisTemplate.opsForValue().increment((String) key,delta);
+    public Double increment(Object key, double delta) {
+        return redisTemplate.opsForValue().increment(key,delta);
 //       return redisTemplate.getConnectionFactory().getConnection().incrBy(
 //                redisTemplate.getKeySerializer().serialize(key), delta);
     }
 
-    public void delete(Serializable key) {
+    public void delete(Object key) {
         try {
             redisTemplate.delete((String) key);
         } catch (Exception e) {

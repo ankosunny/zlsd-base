@@ -60,6 +60,10 @@ public interface Cache<K, V> {
      */
     V get(K key);
 
+    /**
+     * 自增
+     * */
+    Double increment(Object key, double delta);
 
     /**
      * 删除.

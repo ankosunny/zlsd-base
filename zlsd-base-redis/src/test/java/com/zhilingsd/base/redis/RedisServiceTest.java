@@ -345,11 +345,11 @@ public class RedisServiceTest {
 
     @Test
     public void test_7() throws Exception {
-        redisExtService.setOriginData("xxxxxxxxxx",10,3000);
-        System.out.println(redisExtService.getOriginData("xxxxxxxxxx"));
-        redisExtService.increment("xxxxxxxxxx",-1);
+        redisService.set("xxxxxxxxxx",10,3000);
+        System.out.println(redisService.get("xxxxxxxxxx"));
+        redisService.increment("xxxxxxxxxx",11);
         try {
-            System.out.println(redisExtService.getOriginData("xxxxxxxxxx"));
+            System.out.println(redisService.get("xxxxxxxxxx"));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -83,6 +83,11 @@ public class RedisService implements Cache {
     }
 
     @Override
+    public Double increment(Object key, double delta) {
+        return redisTemplate.opsForValue().increment(key,delta);
+    }
+
+    @Override
     public void delete(Object key) {
         try {
             redisTemplate.delete(key);

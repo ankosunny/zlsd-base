@@ -22,4 +22,9 @@ public interface Producer {
      * 异步发送
      * */
     void asynSend(String topic, String tag, Object body);
+
+    /**
+     * 异步发送到并指定路由
+     */
+    void asynSendWithRoute(String topic, String tag, Object body, Long routeId);
 }

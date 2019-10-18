@@ -54,6 +54,15 @@ public class RocketMqProducer implements Producer {
         asynSend(message);
     }
 
+    @Override
+    public void asynSendWithRoute(String topic, String tag, Object body, Long routeId) {
+        String msgJson = JSONObject.toJSONString(body);
+        Message message = new Message(topic, tag, msgJson.getBytes());
+        log.info("发送消息至RocketMQ:topic={} tag={} body={}", topic, tag, msgJson);
+        asynSendWithRoute(message, routeId);
+    }
+
+
     private void synSend(Message message) {
         SendResult sendResult = null;
         Integer retryCount = 0;
@@ -71,6 +80,28 @@ public class RocketMqProducer implements Producer {
     private void asynSend(Message message) {
         try {
             producer.send(message, new SendCallback() {
+                @Override
+                public void onSuccess(SendResult sendResult) {
+                    log.info("发送成功：{}", sendResult.getMsgId());
+                }
+
+                @Override
+                public void onException(Throwable e) {
+                    log.warn("发送失败", e);
+                }
+            });
+        } catch (MQClientException | RemotingException | InterruptedException ignore) {
+            log.warn("生产者发送消息时，MQ出现异常", ignore);
+        }
+    }
+
+    private void asynSendWithRoute(Message message, Long routeId) {
+        try {
+            producer.send(message, (mqs, msg, arg) -> {
+                Long tmpRouteId = (Long) arg;
+                long index = tmpRouteId % mqs.size();
+                return mqs.get((int) index);
+            }, routeId, new SendCallback() {
                 @Override
                 public void onSuccess(SendResult sendResult) {
                     log.info("发送成功：{}", sendResult.getMsgId());

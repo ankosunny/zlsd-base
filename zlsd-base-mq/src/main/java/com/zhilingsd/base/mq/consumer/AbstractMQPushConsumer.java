@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
 import org.apache.rocketmq.common.message.MessageExt;
 
 import java.util.List;
@@ -54,6 +56,26 @@ public abstract class AbstractMQPushConsumer<T> extends AbstractMQConsumer<T> {
             }
         }
         return  ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+    }
+
+    /**
+     * 原生dealMessage方法，可以重写此方法自定义序列化和返回消费成功的相关逻辑
+     *
+     * @param list 消息列表
+     * @param consumeOrderlyContext 上下文
+     * @return 处理结果
+     */
+    public ConsumeOrderlyStatus dealMessage(List<MessageExt> list, ConsumeOrderlyContext consumeOrderlyContext) {
+        for(MessageExt messageExt : list) {
+            log.info("receive msgId: {}, tags : {}" , messageExt.getMsgId(), messageExt.getTags());
+            T t = parseMessage(messageExt);
+            Map<String, Object> ext = parseExtParam(messageExt);
+            if( null != t && !process(t, ext)) {
+                log.warn("consume fail , ask for re-consume , msgId: {}", messageExt.getMsgId());
+                return ConsumeOrderlyStatus.SUSPEND_CURRENT_QUEUE_A_MOMENT;
+            }
+        }
+        return  ConsumeOrderlyStatus.SUCCESS;
     }
 
 }

@@ -7,6 +7,12 @@ package com.zhilingsd.base.mq.config;
  */
 public class MessageExtConst {
 
+    /**
+     * 消费模式 无序（多线程）或者 有序（单线程）
+     */
+    public static final String CONSUME_MODE_CONCURRENTLY = "CONCURRENTLY";
+    public static final String CONSUME_MODE_ORDERLY = "ORDERLY";
+
     public static final String PROPERTY_TOPIC = "TOPIC";
 
     /**

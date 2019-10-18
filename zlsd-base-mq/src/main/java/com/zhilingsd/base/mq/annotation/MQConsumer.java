@@ -1,5 +1,6 @@
 package com.zhilingsd.base.mq.annotation;
 
+import com.zhilingsd.base.mq.config.MessageExtConst;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
@@ -20,4 +21,11 @@ public @interface MQConsumer {
     String topic();
 
     String[] tag() default {"*"};
+
+    /**
+     * 使用线程池并发消费: CONCURRENTLY("CONCURRENTLY"),
+     * 单线程消费: ORDERLY("ORDERLY");
+     * @return 消费模式
+     */
+    String consumeMode() default MessageExtConst.CONSUME_MODE_CONCURRENTLY;
 }

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Configuration;
@@ -76,8 +77,18 @@ public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration {
             consumer.subscribe(topic, tags);
             consumer.setInstanceName(UUID.randomUUID().toString());
             AbstractMQPushConsumer abstractMQPushConsumer = (AbstractMQPushConsumer) bean;
-            consumer.registerMessageListener((List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) ->
-                    abstractMQPushConsumer.dealMessage(list, consumeConcurrentlyContext));
+            if (MessageExtConst.CONSUME_MODE_CONCURRENTLY.equals(mqConsumer.consumeMode())) {
+                // 多线程消费模式（无序）
+                consumer.registerMessageListener((List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) ->
+                        abstractMQPushConsumer.dealMessage(list, consumeConcurrentlyContext));
+            } else if (MessageExtConst.CONSUME_MODE_ORDERLY.equals(mqConsumer.consumeMode())) {
+                // 单线程消费模式（有序）
+                consumer.registerMessageListener((List<MessageExt> list, ConsumeOrderlyContext consumeOrderlyContext) ->
+                        abstractMQPushConsumer.dealMessage(list, consumeOrderlyContext));
+            } else {
+                throw new RuntimeException("unknown consume mode ! only support CONCURRENTLY and ORDERLY");
+            }
+
             abstractMQPushConsumer.setConsumer(consumer);
 
             consumer.start();

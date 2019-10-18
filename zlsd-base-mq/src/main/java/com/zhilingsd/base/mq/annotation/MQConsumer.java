@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Component
 public @interface MQConsumer {
 
-    String consumerGroup() default "default_consumer_group";
+    String consumerGroup();
 
     String topic();
 

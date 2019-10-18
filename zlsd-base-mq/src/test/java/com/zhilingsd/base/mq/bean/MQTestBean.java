@@ -11,4 +11,5 @@ public class MQTestBean {
     private Long id;
     private String name;
     private String sex;
+    private Long mills;
 }

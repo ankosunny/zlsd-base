@@ -21,6 +21,7 @@ public class MqProducerTest {
         mqTestBean.setId(11111L);
         mqTestBean.setName("张三");
         mqTestBean.setSex("男");
+        mqTestBean.setMills(System.currentTimeMillis());
         producer.synSend("test_topic", "test_tag", mqTestBean);
     }
 }

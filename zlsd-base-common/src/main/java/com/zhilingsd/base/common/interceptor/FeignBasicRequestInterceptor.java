@@ -1,5 +1,6 @@
 package com.zhilingsd.base.common.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
 import com.zhilingsd.base.common.utils.AppUtil;
@@ -41,6 +42,8 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
             log.info("拦截器没有当前登录用户信息");
             throw new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(),"请重新登录!");
         }
+        log.info("用户信息{}", JSONObject.toJSONString(AppUtil.getAppAgentInfo()));
+
         if (Objects.nonNull(AppUtil.getAppAgentInfo().getOperatorId()) && Objects.nonNull(AppUtil.getAppAgentInfo().getCollectionCompanyId())
                 &&Objects.nonNull(AppUtil.getAppAgentInfo().getSession())){
             requestTemplate.header(OPERATOR_ID, AppUtil.getAppAgentInfo().getOperatorId()+"");

@@ -70,7 +70,7 @@ public class RocketMqProducer implements Producer {
             try {
                 sendResult = producer.send(message);
             } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException ignore) {
-                log.warn("Topic:{}，第{}次发送消息时，出现异常", message.getBody(), retryCount + 1, ignore);
+                log.warn("Topic:{}，第{}次发送消息时，出现异常", message.getTopic(), retryCount + 1, ignore);
             } finally {
                 retryCount++;
             }

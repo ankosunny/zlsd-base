@@ -2,6 +2,7 @@ package com.zhilingsd.base.mq.producer;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhilingsd.base.mq.enums.DelayTimeLevelEnum;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -10,24 +11,19 @@ import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
- * 生产者
+ * @author yuboliang
+ * @date 2019-10-17
+ * MQ生产者
  */
-@Component
 @Slf4j
+@Data
 public class RocketMqProducer implements Producer {
 
-    @Resource(name = "defaultProducer")
     private DefaultMQProducer producer;
 
-    @Value("${spring.rocketmq.producer.retry.num:3}")
     private Integer retryNum;
-
 
     @Override
     public void synSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum) {

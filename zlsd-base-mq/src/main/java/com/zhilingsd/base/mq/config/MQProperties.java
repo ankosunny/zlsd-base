@@ -29,4 +29,9 @@ public class MQProperties {
      */
     private Integer sendMsgTimeout = 3000;
 
+    /**
+     * 重试次数
+     */
+    private Integer retryNum = 3;
+
 }

@@ -22,10 +22,13 @@
  */
 package com.zhilingsd.base.mq.config;
 
+import com.zhilingsd.base.mq.producer.Producer;
+import com.zhilingsd.base.mq.producer.RocketMqProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,7 +40,10 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @ConditionalOnBean(MQBaseAutoConfiguration.class)
+@ConditionalOnProperty(MQProducerAutoConfiguration.PRODUCER_GROUP_NAME_PROPERTY)
 public class MQProducerAutoConfiguration extends MQBaseAutoConfiguration {
+
+    protected static final String PRODUCER_GROUP_NAME_PROPERTY = "spring.rocketmq.producerGroupName";
 
     /**
      * 初始化向rocketmq发送普通消息的生产者
@@ -63,4 +69,11 @@ public class MQProducerAutoConfiguration extends MQBaseAutoConfiguration {
         return producer;
     }
 
+    @Bean
+    public Producer rocketMqProducer(DefaultMQProducer defaultMQProducer) {
+        RocketMqProducer rocketMqProducer = new RocketMqProducer();
+        rocketMqProducer.setProducer(defaultMQProducer);
+        rocketMqProducer.setRetryNum(mqProperties.getRetryNum());
+        return rocketMqProducer;
+    }
 }

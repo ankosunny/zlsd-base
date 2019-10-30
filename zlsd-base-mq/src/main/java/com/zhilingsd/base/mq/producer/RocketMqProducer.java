@@ -12,6 +12,8 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
+import java.util.UUID;
+
 /**
  * @author yuboliang
  * @date 2019-10-17
@@ -28,33 +30,37 @@ public class RocketMqProducer implements Producer {
     @Override
     public void synSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum) {
         String msgJson = JSONObject.toJSONString(body);
-        Message message = new Message(topic, tag, msgJson.getBytes());
+        String key = UUID.randomUUID().toString();
+        Message message = new Message(topic, tag, key, msgJson.getBytes());
         message.setDelayTimeLevel(delayTimeLevelEnum.getLevel());
-        log.info("发送消息至RocketMQ:topic={} tag={} body={}", topic, tag, msgJson);
+        log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
         synSend(message);
     }
 
     @Override
     public void synSend(String topic, String tag, Object body) {
         String msgJson = JSONObject.toJSONString(body);
-        Message message = new Message(topic, tag, msgJson.getBytes());
-        log.info("发送消息至RocketMQ:topic={} tag={} body={}", topic, tag, msgJson);
+        String key = UUID.randomUUID().toString();
+        Message message = new Message(topic, tag, key, msgJson.getBytes());
+        log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
         synSend(message);
     }
 
     @Override
     public void asynSend(String topic, String tag, Object body) {
         String msgJson = JSONObject.toJSONString(body);
-        Message message = new Message(topic, tag, msgJson.getBytes());
-        log.info("发送消息至RocketMQ:topic={} tag={} body={}", topic, tag, msgJson);
+        String key = UUID.randomUUID().toString();
+        Message message = new Message(topic, tag, key, msgJson.getBytes());
+        log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
         asynSend(message);
     }
 
     @Override
     public void asynSendWithRoute(String topic, String tag, Object body, Long routeId) {
         String msgJson = JSONObject.toJSONString(body);
-        Message message = new Message(topic, tag, msgJson.getBytes());
-        log.info("发送消息至RocketMQ:topic={} tag={} body={}", topic, tag, msgJson);
+        String key = UUID.randomUUID().toString();
+        Message message = new Message(topic, tag, key, msgJson.getBytes());
+        log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
         asynSendWithRoute(message, routeId);
     }
 

@@ -45,7 +45,7 @@ public abstract class AbstractMQPushConsumer<T> extends AbstractMQConsumer<T> {
      */
     public ConsumeConcurrentlyStatus dealMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
         for(MessageExt messageExt : list) {
-            log.debug("receive msgId: {}, tags : {}" , messageExt.getMsgId(), messageExt.getTags());
+            log.debug("receive msgId: {}, tags : {}, keys : {}" , messageExt.getMsgId(), messageExt.getTags(), messageExt.getKeys());
             // parse message body
             T t = parseMessage(messageExt);
             // parse ext properties
@@ -67,7 +67,7 @@ public abstract class AbstractMQPushConsumer<T> extends AbstractMQConsumer<T> {
      */
     public ConsumeOrderlyStatus dealMessage(List<MessageExt> list, ConsumeOrderlyContext consumeOrderlyContext) {
         for(MessageExt messageExt : list) {
-            log.info("receive msgId: {}, tags : {}" , messageExt.getMsgId(), messageExt.getTags());
+            log.debug("receive msgId: {}, tags : {}, keys : {}" , messageExt.getMsgId(), messageExt.getTags(), messageExt.getKeys());
             T t = parseMessage(messageExt);
             Map<String, Object> ext = parseExtParam(messageExt);
             if( null != t && !process(t, ext)) {

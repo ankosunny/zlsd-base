@@ -66,7 +66,7 @@ public class MQProducerAutoConfiguration extends MQBaseAutoConfiguration {
          * 注意：切记不可以在每次发送消息时，都调用start方法
          */
         producer.start();
-        System.out.println("RocketMq defaultProducer Started.");
+        log.info("RocketMq defaultProducer Started.");
         return producer;
     }
 

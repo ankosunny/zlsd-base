@@ -5,9 +5,8 @@ import com.zhilingsd.base.mq.consumer.AbstractMQPushConsumer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
-import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
-import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerOrderly;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -15,7 +14,6 @@ import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -72,19 +70,17 @@ public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration {
 
         // 配置push consumer
         if (AbstractMQPushConsumer.class.isAssignableFrom(bean.getClass())) {
-            DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(consumerGroup);
+            DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(consumerGroup, true);
             consumer.setNamesrvAddr(mqProperties.getNamesrvAddr());
             consumer.subscribe(topic, tags);
             consumer.setInstanceName(UUID.randomUUID().toString());
             AbstractMQPushConsumer abstractMQPushConsumer = (AbstractMQPushConsumer) bean;
             if (MessageExtConst.CONSUME_MODE_CONCURRENTLY.equals(mqConsumer.consumeMode())) {
                 // 多线程消费模式（无序）
-                consumer.registerMessageListener((List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) ->
-                        abstractMQPushConsumer.dealMessage(list, consumeConcurrentlyContext));
+                consumer.registerMessageListener((MessageListenerConcurrently) abstractMQPushConsumer::dealMessage);
             } else if (MessageExtConst.CONSUME_MODE_ORDERLY.equals(mqConsumer.consumeMode())) {
                 // 单线程消费模式（有序）
-                consumer.registerMessageListener((List<MessageExt> list, ConsumeOrderlyContext consumeOrderlyContext) ->
-                        abstractMQPushConsumer.dealMessage(list, consumeOrderlyContext));
+                consumer.registerMessageListener((MessageListenerOrderly) abstractMQPushConsumer::dealMessage);
             } else {
                 throw new RuntimeException("unknown consume mode ! only support CONCURRENTLY and ORDERLY");
             }

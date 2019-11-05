@@ -34,4 +34,9 @@ public class MQProperties {
      */
     private Integer retryNum = 3;
 
+    /**
+     * 是否开启VIP通道
+     */
+    private boolean vipChannelEnabled = false;
+
 }

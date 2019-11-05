@@ -56,9 +56,10 @@ public class MQProducerAutoConfiguration extends MQBaseAutoConfiguration {
          * ProducerGroup这个概念发送普通的消息时，作用不大，但是发送分布式事务消息时，比较关键，
          * 因为服务器会回查这个Group下的任意一个Producer
          */
-        DefaultMQProducer producer = new DefaultMQProducer(mqProperties.getProducerGroupName());
+        DefaultMQProducer producer = new DefaultMQProducer(mqProperties.getProducerGroupName(), true);
         producer.setNamesrvAddr(mqProperties.getNamesrvAddr());
         producer.setSendMsgTimeout(mqProperties.getSendMsgTimeout());
+        producer.setVipChannelEnabled(mqProperties.isVipChannelEnabled());
 
         /**
          * Producer对象在使用之前必须要调用start初始化，初始化一次即可<br>

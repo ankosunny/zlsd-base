@@ -2,10 +2,7 @@ package com.zhilingsd.base.common.utils;
 
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.BusinessException;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -23,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,31 +40,27 @@ public class HttpClientUtil {
         CloseableHttpClient httpClient = getHttpClient();
 
         HttpPost post = new HttpPost(url);
-        Header contentType = new BasicHeader("Content-Type",
-                "application/x-www-form-urlencoded;charset=GBK");
+        Header contentType = new BasicHeader("Content-Type", "application/x-www-form-urlencoded;charset=GBK");
         post.setHeader(contentType);
         post.setEntity(buildRequestEntity(params));
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10000)
                 .setConnectionRequestTimeout(10000).setSocketTimeout(10000).build();
         post.setConfig(requestConfig);
         try {
-            try {
-                long start = System.currentTimeMillis();
-                HttpResponse execute = httpClient.execute(post);
-                int statusCode = execute.getStatusLine().getStatusCode();
-                if (statusCode != 200) {
-                    LOGGER.error("请求URL:{}异常,CODE:{}", url, statusCode);
-                }
-                String responseStr = EntityUtils.toString(execute.getEntity(), "UTF-8");
-                return responseStr;
-            } finally {
-                httpClient.close();
+            HttpResponse execute = httpClient.execute(post);
+            int statusCode = execute.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                LOGGER.warn("请求URL:{}异常,CODE:{}", url, statusCode);
             }
-        } catch (IOException e) {//网络异常时，做业务时也要认为处理中
-            LOGGER.warn("网络异常", e);
-
-        } catch (Exception e) {
-            LOGGER.warn("", e);
+            return EntityUtils.toString(execute.getEntity(), "UTF-8");
+        } catch (IOException ignore) {
+            LOGGER.warn("网络异常", ignore);
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException ignore) {
+                LOGGER.warn("网络异常", ignore);
+            }
         }
 
         return "";
@@ -77,10 +69,8 @@ public class HttpClientUtil {
     private static HttpEntity buildRequestEntity(Map<String, String> params) {
         List<NameValuePair> nameValuePairs = new ArrayList();
         if (params != null) {
-            Iterator var5 = params.keySet().iterator();
 
-            while (var5.hasNext()) {
-                String key = (String) var5.next();
+            for (String key : params.keySet()) {
                 nameValuePairs.add(new BasicNameValuePair(key, params.get(key)));
             }
         }
@@ -108,8 +98,7 @@ public class HttpClientUtil {
         Header contentType = null;
 
         if (bodyType == null) {
-            contentType = new BasicHeader("Content-Type",
-                    "application/x-www-form-urlencoded;charset=GBK");
+            contentType = new BasicHeader("Content-Type", "application/x-www-form-urlencoded;charset=GBK");
         } else {
             contentType = new BasicHeader("Content-Type", bodyType);
         }
@@ -120,46 +109,36 @@ public class HttpClientUtil {
                 .setConnectionRequestTimeout(10000).setSocketTimeout(10000).build();
         post.setConfig(requestConfig);
         try {
-            try {
-                long start = System.currentTimeMillis();
-                HttpResponse execute = httpClient.execute(post);
-                int statusCode = execute.getStatusLine().getStatusCode();
-                if (statusCode != 200) {
-                    LOGGER.error("请求URL:{}异常,CODE:{}", url, statusCode);
-                }
-                String responseStr = EntityUtils.toString(execute.getEntity(), responseCharset);
-                return responseStr;
-            } finally {
-                httpClient.close();
+            HttpResponse execute = httpClient.execute(post);
+            int statusCode = execute.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                LOGGER.error("请求URL:{}异常,CODE:{}", url, statusCode);
             }
+            return EntityUtils.toString(execute.getEntity(), responseCharset);
         } catch (IOException e) {//网络异常时，做业务时也要认为处理中
             LOGGER.warn("网络异常", e);
-            throw new BusinessException(ReturnCode.NETWORK_ERROR.getCode(),
-                    ReturnCode.NETWORK_ERROR.getMsg(), e);
+            throw new BusinessException(ReturnCode.NETWORK_ERROR.getCode(), ReturnCode.NETWORK_ERROR.getMsg(), e);
         } catch (Exception e) {
             LOGGER.warn("执行post请求异常", e);
-            throw new BusinessException(ReturnCode.SYSTEM_ERROR.getCode(),
-                    ReturnCode.SYSTEM_ERROR.getMsg(), e);
+            throw new BusinessException(ReturnCode.SYSTEM_ERROR.getCode(), ReturnCode.SYSTEM_ERROR.getMsg(), e);
         }
     }
 
     /**
      * 发送http GET请求，并返回http响应字符串
      *
-     * @param urlstr 完整的请求url字符串
+     * @param url 完整的请求url字符串
      * @return
      */
-    public static String doGetRequest(String urlstr) {
-        return doGetRequest(urlstr, "GBK");
+    public static String doGetRequest(String url) {
+        return doGetRequest(url, "GBK");
     }
 
     public static String doGetRequest(String url, String responseCharset) {
         CloseableHttpClient httpClient = getHttpClient();
 
-        //url
         HttpGet httpGet = new HttpGet(url);
-        Header contentType = new BasicHeader("Content-Type",
-                "application/x-www-form-urlencoded;charset=GBK");
+        Header contentType = new BasicHeader("Content-Type", "application/x-www-form-urlencoded;charset=GBK");
         httpGet.setHeader(contentType);
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10000)
                 .setConnectionRequestTimeout(10000).setSocketTimeout(10000).build();
@@ -167,25 +146,24 @@ public class HttpClientUtil {
 
         try {
             try {
-                long start = System.currentTimeMillis();
                 HttpResponse execute = httpClient.execute(httpGet);
                 int statusCode = execute.getStatusLine().getStatusCode();
-                if (statusCode != 200) {
+                if (statusCode != HttpStatus.SC_OK) {
                     LOGGER.error("请求URL:{}异常,CODE:{}", url, statusCode);
                 }
-                String responseStr = EntityUtils.toString(execute.getEntity(), responseCharset);
-                return responseStr;
+                return EntityUtils.toString(execute.getEntity(), responseCharset);
             } finally {
                 httpClient.close();
             }
-        } catch (IOException e) {//网络异常时，做业务时也要认为处理中
-            LOGGER.warn("网络异常", e);
-
-        } catch (Exception e) {
-            LOGGER.warn("", e);
-            //            throw new HsjryPayChanelFailException("响应报文解析异常");//此类异常，业务认为处理中
+        } catch (IOException ignore) {
+            LOGGER.warn("网络异常", ignore);
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException ignore) {
+                LOGGER.warn("网络异常", ignore);
+            }
         }
-
         return "";
     }
 
@@ -203,20 +181,21 @@ public class HttpClientUtil {
         post.setConfig(requestConfig);
 
         CloseableHttpClient httpClient = getHttpClient();
-        try{
-            try {
-                HttpResponse response = httpClient.execute(post);
-                HttpEntity entitys = response.getEntity();
+        try {
+            HttpResponse response = httpClient.execute(post);
+            HttpEntity entitys = response.getEntity();
 
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    String result = EntityUtils.toString(entitys);
-                    return result;
-                }
-            } finally {
-                httpClient.close();
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                return EntityUtils.toString(entitys);
             }
-        } catch (Exception e) {//网络异常时，做业务时也要认为处理中
-            LOGGER.error("网络异常", e);
+        } catch (IOException ignore) {
+            LOGGER.warn("网络异常", ignore);
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException ignore) {
+                LOGGER.warn("网络异常", ignore);
+            }
         }
         return "";
 

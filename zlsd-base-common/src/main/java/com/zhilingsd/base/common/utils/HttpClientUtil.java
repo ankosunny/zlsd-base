@@ -216,6 +216,11 @@ public class HttpClientUtil {
         entity.setContentType("application/json");
         post.setEntity(entity);
 
+        //设置请求和传输超时时间
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10000)
+                .setConnectionRequestTimeout(10000).setSocketTimeout(10000).build();
+        post.setConfig(requestConfig);
+
         CloseableHttpClient httpClient = getHttpClient();
         try{
             try {

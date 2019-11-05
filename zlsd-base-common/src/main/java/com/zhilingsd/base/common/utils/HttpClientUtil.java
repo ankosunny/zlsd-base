@@ -145,16 +145,12 @@ public class HttpClientUtil {
         httpGet.setConfig(requestConfig);
 
         try {
-            try {
-                HttpResponse execute = httpClient.execute(httpGet);
-                int statusCode = execute.getStatusLine().getStatusCode();
-                if (statusCode != HttpStatus.SC_OK) {
-                    LOGGER.error("请求URL:{}异常,CODE:{}", url, statusCode);
-                }
-                return EntityUtils.toString(execute.getEntity(), responseCharset);
-            } finally {
-                httpClient.close();
+            HttpResponse execute = httpClient.execute(httpGet);
+            int statusCode = execute.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                LOGGER.error("请求URL:{}异常,CODE:{}", url, statusCode);
             }
+            return EntityUtils.toString(execute.getEntity(), responseCharset);
         } catch (IOException ignore) {
             LOGGER.warn("网络异常", ignore);
         } finally {
@@ -183,10 +179,10 @@ public class HttpClientUtil {
         CloseableHttpClient httpClient = getHttpClient();
         try {
             HttpResponse response = httpClient.execute(post);
-            HttpEntity entitys = response.getEntity();
+            HttpEntity responseEntity = response.getEntity();
 
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                return EntityUtils.toString(entitys);
+                return EntityUtils.toString(responseEntity);
             }
         } catch (IOException ignore) {
             LOGGER.warn("网络异常", ignore);

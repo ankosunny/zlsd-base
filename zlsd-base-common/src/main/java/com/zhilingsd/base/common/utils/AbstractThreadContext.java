@@ -1,8 +1,9 @@
 package com.zhilingsd.base.common.utils;
 
-import java.util.Map;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * 抽象线程上下文
@@ -65,10 +66,6 @@ public abstract class AbstractThreadContext {
      */
     public void clean() {
         ThreadLocal<Map<String,Object>> threadContext = getThreadContext();
-        Map<String,Object> map = threadContext.get();
-        if (!Objects.equal(null, map)) {
-            map.clear();
-            threadContext.set(map);
-        }
+        threadContext.remove();
     }
 }

@@ -76,7 +76,7 @@ public class CommonFacadeAspect {
         try {
             obj = jp.proceed();
         } finally {
-            AppUtil.clear();
+            AppUtil.clean();
         }
 
         StringBuilder stringBuilder = new StringBuilder();

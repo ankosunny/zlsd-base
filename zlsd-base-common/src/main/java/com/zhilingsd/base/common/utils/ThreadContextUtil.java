@@ -32,9 +32,4 @@ public class ThreadContextUtil extends AbstractThreadContext{
         return threadContext;
     }
 
-    public static void clear() {
-        threadContext.remove();
-    }
-
-
 }

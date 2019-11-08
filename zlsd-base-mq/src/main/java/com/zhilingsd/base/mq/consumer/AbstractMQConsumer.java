@@ -34,11 +34,11 @@ public abstract class AbstractMQConsumer<T> {
             try {
                 return JSONObject.parseObject(new String(messageExt.getBody()), type);
             } catch (Exception ignore) {
-                log.error("msgId: {}, tags : {}, keys : {}, parse message json fail",
+                log.error("msgId: {}, tags: {}, keys: {}, parse message json fail",
                         messageExt.getMsgId(), messageExt.getTags(), messageExt.getKeys(), ignore);
             }
         } else {
-            log.warn("Parse msg error. msg: {}, msgId: {}, tags : {}, keys : {},",
+            log.warn("Parse msg error. msg:{}, msgId:{}, tags: {}, keys: {},",
                     messageExt, messageExt.getMsgId(), messageExt.getTags(), messageExt.getKeys());
         }
         return null;

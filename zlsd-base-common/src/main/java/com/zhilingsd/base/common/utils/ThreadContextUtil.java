@@ -1,5 +1,7 @@
 package com.zhilingsd.base.common.utils;
 
+import com.alibaba.ttl.TransmittableThreadLocal;
+
 import java.util.Map;
 
 /**
@@ -9,7 +11,7 @@ import java.util.Map;
  * */
 public class ThreadContextUtil extends AbstractThreadContext{
 
-    private static ThreadLocal<Map<String,Object>> threadContext = new InheritableThreadLocal<>();
+    private static ThreadLocal<Map<String,Object>> threadContext = new TransmittableThreadLocal<>();
     private volatile static ThreadContextUtil app = null;
 
     private ThreadContextUtil(){}

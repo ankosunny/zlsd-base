@@ -31,4 +31,10 @@ public class ThreadContextUtil extends AbstractThreadContext{
     protected ThreadLocal<Map<String, Object>> getThreadContext() {
         return threadContext;
     }
+
+    public static void clear() {
+        threadContext.remove();
+    }
+
+
 }

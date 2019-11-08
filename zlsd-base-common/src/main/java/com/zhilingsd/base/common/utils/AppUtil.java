@@ -32,4 +32,8 @@ public class AppUtil {
         return (AppAgentInfo) ThreadContextUtil.getInstance().get("appAgentInfoKey");
     }
 
+    public static void clear() {
+        ThreadContextUtil.clear();
+    }
+
 }

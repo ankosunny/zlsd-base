@@ -69,25 +69,29 @@ public class CommonFacadeAspect {
         String collectionCompanyId = Optional.ofNullable(request.getHeader("collectionCompanyId")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头collectionCompanyId不能为空"));
         String collectionGroupId = Optional.ofNullable(request.getHeader("collectionGroupId")).orElse("0");
         AppAgentInfo agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), session, Long.parseLong(collectionGroupId));
-        if (agentInfo != null) {
-            AppUtil.setAppAgentInfo(agentInfo);
-        }
-        log.info("当前登录人基础信息：" + JSONObject.toJSONString(agentInfo));
-        Object obj = jp.proceed();
+        AppUtil.setAppAgentInfo(agentInfo);
 
-        StringBuffer sbreturn = new StringBuffer();
-        sbreturn.append("\n" + PRE_TAG + jp.getSignature().getDeclaringTypeName() + "." + jp.getSignature().getName());
+        log.info("当前登录人基础信息：" + JSONObject.toJSONString(agentInfo));
+        Object obj;
+        try {
+            obj = jp.proceed();
+        } finally {
+            AppUtil.clear();
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\n" + PRE_TAG).append(jp.getSignature().getDeclaringTypeName()).append(".").append(jp.getSignature().getName());
 
         if (isPrintResp(obj)) {
             String toJsonString = JsonUtils.toJsonString(obj);
             if (toJsonString.length() < 1000) {
-                sbreturn.append("\n" + PRE_TAG + " 接口返回 : " + toJsonString);
+                stringBuilder.append("\n" + PRE_TAG + " 接口返回 : ").append(toJsonString);
             }
         } else {
-            sbreturn.append("\n" + PRE_TAG + "接口返回 : 不打印返回");
+            stringBuilder.append("\n" + PRE_TAG + "接口返回 : 不打印返回");
         }
-        sbreturn.append("\n" + PRE_TAG + " 花费时间 : " + (System.currentTimeMillis() - startTime) + "ms");
-        log.info(sbreturn.toString());
+        stringBuilder.append("\n" + PRE_TAG + " 花费时间 : ").append(System.currentTimeMillis() - startTime).append("ms");
+        log.info(stringBuilder.toString());
         return obj;
     }
 

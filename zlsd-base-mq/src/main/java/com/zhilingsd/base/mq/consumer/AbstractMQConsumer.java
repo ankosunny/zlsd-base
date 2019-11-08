@@ -22,19 +22,24 @@ public abstract class AbstractMQConsumer<T> {
     /**
      * 反序列化解析消息
      *
-     * @param message  消息体
+     * @param messageExt  消息体
      * @return 序列化结果
      */
-    protected T parseMessage(MessageExt message) {
-        if (message == null || message.getBody() == null) {
+    protected T parseMessage(MessageExt messageExt) {
+        if (messageExt == null || messageExt.getBody() == null) {
             return null;
         }
         final Type type = this.getMessageType();
         if (type instanceof Class) {
-            T data = JSONObject.parseObject(new String(message.getBody()), type);
-            return data;
+            try {
+                return JSONObject.parseObject(new String(messageExt.getBody()), type);
+            } catch (Exception ignore) {
+                log.error("msgId: {}, tags : {}, keys : {}, parse message json fail",
+                        messageExt.getMsgId(), messageExt.getTags(), messageExt.getKeys(), ignore);
+            }
         } else {
-            log.warn("Parse msg error. {}", message);
+            log.warn("Parse msg error. msg: {}, msgId: {}, tags : {}, keys : {},",
+                    messageExt, messageExt.getMsgId(), messageExt.getTags(), messageExt.getKeys());
         }
         return null;
     }

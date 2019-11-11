@@ -5,7 +5,7 @@ public class RedisLockKeyConstants {
     /**
      * redis Lock key 的前缀
      **/
-    public static final String PREFIX_KEY = "ECARD_REDIS_LOCK:";
+    public static final String PREFIX_KEY = "ZLSD_REDIS_LOCK:";
 
     /**
      * 定时任务   以TASK开头

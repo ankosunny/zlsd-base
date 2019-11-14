@@ -6,9 +6,9 @@ import com.zhilingsd.base.common.result.CollectionResult;
 import com.zhilingsd.base.common.result.CommonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -142,12 +142,12 @@ public class GlobalExceptionHandler {
     public CommonResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
         BindingResult bindingResult = e.getBindingResult();
-        StringBuffer errorMesssage = new StringBuffer("参数校验错误:");
+        StringBuilder errorMessage = new StringBuilder("参数校验错误:");
         if (null != bindingResult && !CollectionUtils.isEmpty(bindingResult.getFieldErrors())) {
-            String message = bindingResult.getFieldErrors().stream().map(m -> m.getDefaultMessage()).collect(Collectors.joining(","));
-            errorMesssage.append(message);
+            String message = bindingResult.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
+            errorMessage.append(message);
         }
-        return returnErr(ReturnCode.ERROR_400.getCode(), e);
+        return returnErr(errorMessage.toString(), ReturnCode.ERROR_400.getCode(), e);
     }
 
     /**

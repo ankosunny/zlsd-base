@@ -397,5 +397,13 @@ public interface Cache<K, V> {
      * */
     Set zGet(K key, double start, double end);
 
-    Double zIncrScore(K key,V value, double delta);
+    /**
+     * 删除zset的key
+     * @param key
+     * @param value
+     * @return
+     */
+    Long zRem(Object key, Object value);
+
+    Double zIncrScore(K key, V value, double delta);
 }

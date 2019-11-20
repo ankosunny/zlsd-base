@@ -458,6 +458,16 @@ public class RedisService implements Cache {
     }
 
     @Override
+    public Long zRem(Object key, Object value) {
+        try {
+            return redisTemplate.opsForZSet().remove(key, value);
+        } catch (Throwable e) {
+            log.error("zRem key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return -1L;
+        }
+    }
+
+    @Override
     public Double zIncrScore(Object key,Object value,double delta) {
 
         try {

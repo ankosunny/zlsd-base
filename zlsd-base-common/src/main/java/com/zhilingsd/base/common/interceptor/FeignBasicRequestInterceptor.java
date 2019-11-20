@@ -42,7 +42,7 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
             log.info("拦截器没有当前登录用户信息");
             throw new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(),"请重新登录!");
         }
-        log.info("用户信息{}", JSONObject.toJSONString(AppUtil.getAppAgentInfo()));
+        log.debug("用户信息{}", JSONObject.toJSONString(AppUtil.getAppAgentInfo()));
 
         if (Objects.nonNull(AppUtil.getAppAgentInfo().getOperatorId()) && Objects.nonNull(AppUtil.getAppAgentInfo().getCollectionCompanyId())
                 &&Objects.nonNull(AppUtil.getAppAgentInfo().getSession())){

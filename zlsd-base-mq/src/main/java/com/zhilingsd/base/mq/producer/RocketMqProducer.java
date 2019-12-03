@@ -28,44 +28,44 @@ public class RocketMqProducer implements Producer {
     private Integer retryNum;
 
     @Override
-    public void synSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum) {
+    public void syncSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum) {
         String msgJson = JSONObject.toJSONString(body);
         String key = UUID.randomUUID().toString();
         Message message = new Message(topic, tag, key, msgJson.getBytes());
         message.setDelayTimeLevel(delayTimeLevelEnum.getLevel());
         log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
-        synSend(message);
+        syncSend(message);
     }
 
     @Override
-    public void synSend(String topic, String tag, Object body) {
+    public void syncSend(String topic, String tag, Object body) {
         String msgJson = JSONObject.toJSONString(body);
         String key = UUID.randomUUID().toString();
         Message message = new Message(topic, tag, key, msgJson.getBytes());
         log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
-        synSend(message);
+        syncSend(message);
     }
 
     @Override
-    public void asynSend(String topic, String tag, Object body) {
+    public void asyncSend(String topic, String tag, Object body) {
         String msgJson = JSONObject.toJSONString(body);
         String key = UUID.randomUUID().toString();
         Message message = new Message(topic, tag, key, msgJson.getBytes());
         log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
-        asynSend(message);
+        asyncSend(message);
     }
 
     @Override
-    public void asynSendWithRoute(String topic, String tag, Object body, Long routeId) {
+    public void asyncSendWithRoute(String topic, String tag, Object body, Long routeId) {
         String msgJson = JSONObject.toJSONString(body);
         String key = UUID.randomUUID().toString();
         Message message = new Message(topic, tag, key, msgJson.getBytes());
         log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
-        asynSendWithRoute(message, routeId);
+        asyncSendWithRoute(message, routeId);
     }
 
 
-    private void synSend(Message message) {
+    private void syncSend(Message message) {
         SendResult sendResult = null;
         Integer retryCount = 0;
         while (retryCount < retryNum && sendResult == null) {
@@ -79,7 +79,7 @@ public class RocketMqProducer implements Producer {
         }
     }
 
-    private void asynSend(Message message) {
+    private void asyncSend(Message message) {
         try {
             producer.send(message, new SendCallback() {
                 @Override
@@ -97,7 +97,7 @@ public class RocketMqProducer implements Producer {
         }
     }
 
-    private void asynSendWithRoute(Message message, Long routeId) {
+    private void asyncSendWithRoute(Message message, Long routeId) {
         try {
             producer.send(message, (mqs, msg, arg) -> {
                 Long tmpRouteId = (Long) arg;

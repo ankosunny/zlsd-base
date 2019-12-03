@@ -11,20 +11,20 @@ public interface Producer {
     /**
      * 同步延迟发送
      * */
-    void synSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum);
+    void syncSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum);
 
     /**
      * 同步发送
      * */
-    void synSend(String topic, String tag, Object body);
+    void syncSend(String topic, String tag, Object body);
 
     /**
      * 异步发送
      * */
-    void asynSend(String topic, String tag, Object body);
+    void asyncSend(String topic, String tag, Object body);
 
     /**
      * 异步发送到并指定路由
      */
-    void asynSendWithRoute(String topic, String tag, Object body, Long routeId);
+    void asyncSendWithRoute(String topic, String tag, Object body, Long routeId);
 }

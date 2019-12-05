@@ -7,8 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -30,10 +28,15 @@ public class ZipUtil {
         if (file.isDirectory()) {
             //判断此路径是否是一个目录
             File[] files = file.listFiles();
+            if (files == null) {
+                return;
+            }
+
             if (files.length == 0) {
                 out.putNextEntry(new ZipEntry(base+"/"));
                 out.closeEntry();
             }
+
             //获取路径数组
             for (int i = 0; i < files.length; i++) {
                 //循环遍历数组中的文件

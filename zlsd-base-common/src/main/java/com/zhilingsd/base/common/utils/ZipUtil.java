@@ -25,19 +25,34 @@ public class ZipUtil {
     }
 
     private static void doZip(ZipOutputStream out, File file, String base) throws IOException {
-        if (file.isDirectory()) {//判断此路径是否是一个目录
-            File[] files = file.listFiles();//获取路径数组
-            for (int i = 0; i < files.length; i++) {//循环遍历数组中的文件
+        if (file.isDirectory()) {
+            //判断此路径是否是一个目录
+            File[] files = file.listFiles();
+            if (files == null) {
+                return;
+            }
+
+            if (files.length == 0) {
+                out.putNextEntry(new ZipEntry(base+"/"));
+                out.closeEntry();
+            }
+
+            //获取路径数组
+            for (int i = 0; i < files.length; i++) {
+                //循环遍历数组中的文件
                 System.out.println(base);
                 doZip(out, files[i], files[i].getParentFile().getName() + "/" + files[i].getName());
             }
         } else {
-            out.putNextEntry(new ZipEntry(base));//创建新的进入点
+            out.putNextEntry(new ZipEntry(base));
+            //创建新的进入点
             //创建FileInputStream对象
             FileInputStream in = new FileInputStream(file);
             int b;
-            while ((b = in.read()) != -1) {//如果没有达到流的尾部
-                out.write(b);//将字节写入当前ZIP条目
+            while ((b = in.read()) != -1) {
+                //如果没有达到流的尾部
+                //将字节写入当前ZIP条目
+                out.write(b);
             }
             in.close();//关闭流
         }

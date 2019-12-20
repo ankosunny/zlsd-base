@@ -31,7 +31,9 @@ public enum PlatformEnum {
     COLLECTION("collection", "催收系统"),
     CONSOLE("console", "催收管理台"),
     SELECTION("selection", "选查系统"),
-    ANDROID("android", "选查系统"),
+    ANDROID("android", "外访APP"),
+    EMERGENCY("emergency", "应急限制系统"),
+
     ;
 
     private String code;

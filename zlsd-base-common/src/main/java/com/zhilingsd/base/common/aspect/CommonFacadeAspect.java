@@ -1,5 +1,6 @@
 package com.zhilingsd.base.common.aspect;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhilingsd.base.common.bean.AppAgentInfo;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
@@ -69,6 +70,7 @@ public class CommonFacadeAspect {
         String collectionGroupId = Optional.ofNullable(request.getHeader("collectionGroupId")).orElse("0");
         AppAgentInfo agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), session, Long.parseLong(collectionGroupId));
         AppUtil.setAppAgentInfo(agentInfo);
+        log.info("当前登录人基础信息：" + JSONObject.toJSONString(agentInfo));
 
         Object obj;
         try {

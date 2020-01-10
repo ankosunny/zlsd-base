@@ -1,9 +1,7 @@
 package com.zhilingsd.base.common.result;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-
-import java.io.Serializable;
+import lombok.Data;
 
 /**
  * ^---^---^---^---^---^---^---^
@@ -30,4 +28,10 @@ public class SimplePageBean {
      */
     @ApiModelProperty(value = "每页显示的总条数")
     private Integer pageSize = 10;
+
+    /**
+     * 总条数
+     */
+    @ApiModelProperty(value = "总条数")
+    private Long total;
 }

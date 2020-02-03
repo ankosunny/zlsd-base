@@ -29,7 +29,6 @@ public class MultipartFileConfig {
         }
 
         factory.setLocation(TMP_FILE_DIR);
-        System.out.println("+++++++++++++++++++++++++++测试");
         return factory.createMultipartConfig();
     }
 

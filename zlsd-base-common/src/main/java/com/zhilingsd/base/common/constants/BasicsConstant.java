@@ -233,7 +233,12 @@ public class BasicsConstant {
     public static final Integer MYBATIS_IN_MAX = 990;
 
     /**
-     * DFSX磁盘剩余空间
+     * DFSX-DataNode磁盘剩余空间
      */
     public static final String KEY_DFSX_DISK_FREE_SPACE = "diskFreeSpace";
+
+    /**
+     * DFSX-DataNode唯一标识
+     */
+    public static final String KEY_DFSX_DATA_NODE_ID = "dataNodeId";
 }

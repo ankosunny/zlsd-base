@@ -241,4 +241,9 @@ public class BasicsConstant {
      * DFSX-DataNode唯一标识
      */
     public static final String KEY_DFSX_DATA_NODE_ID = "dataNodeId";
+
+    /**
+     * DFSX-DataNode netty端口
+     */
+    public static final String KEY_DFSX_NETTY_PORT = "nettyPort";
 }

@@ -1,6 +1,7 @@
 package com.zhilingsd.base.common.utils;
 
 import com.zhilingsd.base.common.bean.AppAgentInfo;
+import com.zhilingsd.base.common.bean.AppUserInfo;
 
 /**
  * 系统工具
@@ -30,6 +31,14 @@ public class AppUtil {
 
     public static AppAgentInfo getAppAgentInfo() {
         return (AppAgentInfo) ThreadContextUtil.getInstance().get("appAgentInfoKey");
+    }
+
+    public static void setAppUserInfo(AppUserInfo appUserInfo) {
+        ThreadContextUtil.getInstance().set("appUserInfoKey", appUserInfo);
+    }
+
+    public static AppAgentInfo getAppUserInfo() {
+        return (AppAgentInfo) ThreadContextUtil.getInstance().get("appUserInfoKey");
     }
 
     public static void clean() {

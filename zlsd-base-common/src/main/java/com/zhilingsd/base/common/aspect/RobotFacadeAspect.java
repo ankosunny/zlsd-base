@@ -62,7 +62,9 @@ public class RobotFacadeAspect {
         // 创建AppUserInfo
         String session = Optional.ofNullable(request.getHeader("session")).orElseThrow(() -> new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), "请求头session不能为空"));
         String operatorId = Optional.ofNullable(request.getHeader("operatorId")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
-        AppUserInfo appUserInfo = new AppUserInfo(session, Long.parseLong(operatorId), null);
+        AppUserInfo appUserInfo = new AppUserInfo();
+        appUserInfo.setSession(session);
+        appUserInfo.setOperatorId(Long.parseLong(operatorId));
         AppUtil.setAppUserInfo(appUserInfo);
         log.info("当前登录人基础信息：" + JSONObject.toJSONString(appUserInfo));
 

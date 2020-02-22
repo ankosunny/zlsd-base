@@ -24,6 +24,10 @@ public class AppUserInfo {
     /**
      * 商户ID
      */
-    private Long merchanId;
+    private Long merchantId;
+    /**
+     * 平台
+     */
+    private String platform;
 
 }

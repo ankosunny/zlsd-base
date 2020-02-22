@@ -37,8 +37,8 @@ public class AppUtil {
         ThreadContextUtil.getInstance().set("appUserInfoKey", appUserInfo);
     }
 
-    public static AppAgentInfo getAppUserInfo() {
-        return (AppAgentInfo) ThreadContextUtil.getInstance().get("appUserInfoKey");
+    public static AppUserInfo getAppUserInfo() {
+        return (AppUserInfo) ThreadContextUtil.getInstance().get("appUserInfoKey");
     }
 
     public static void clean() {

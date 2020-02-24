@@ -12,7 +12,9 @@ import java.lang.annotation.Target;
  * */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
-public @interface RobotFacade {
+public @interface TechFacade {
 
     boolean printArgs() default true;
+
+    boolean needLogin() default true;
 }

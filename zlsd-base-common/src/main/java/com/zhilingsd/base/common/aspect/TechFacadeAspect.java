@@ -1,7 +1,7 @@
 package com.zhilingsd.base.common.aspect;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zhilingsd.base.common.annotation.RobotFacade;
+import com.zhilingsd.base.common.annotation.TechFacade;
 import com.zhilingsd.base.common.bean.AppUserInfo;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
@@ -32,12 +32,12 @@ import java.util.Optional;
 @Aspect
 @Component
 @Slf4j
-public class RobotFacadeAspect {
+public class TechFacadeAspect {
 
     private static final String PRE_TAG = "************** ";
 
 
-    @Around(value = "@annotation(com.zhilingsd.base.common.annotation.RobotFacade)")
+    @Around(value = "@annotation(com.zhilingsd.base.common.annotation.TechFacade)")
     public Object before(ProceedingJoinPoint jp) throws Throwable {
         long startTime = System.currentTimeMillis();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -98,7 +98,7 @@ public class RobotFacadeAspect {
         // 获取方法
         Method method = signature.getMethod();
         // 获取注解
-        RobotFacade annotation = method.getAnnotation(RobotFacade.class);
+        TechFacade annotation = method.getAnnotation(TechFacade.class);
 
         return annotation.printArgs();
     }

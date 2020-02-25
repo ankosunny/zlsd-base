@@ -15,36 +15,19 @@
  */
 package com.zhilingsd.base.zk.zkclient.serialize;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zhilingsd.base.zk.zkclient.exception.ZkMarshallingError;
-
-import java.io.*;
 
 public class SerializableSerializer implements ZkSerializer {
 
     @Override
     public Object deserialize(byte[] bytes) throws ZkMarshallingError {
-        try {
-            ObjectInputStream inputStream = new TcclAwareObjectIputStream(new ByteArrayInputStream(bytes));
-            Object object = inputStream.readObject();
-            return object;
-        } catch (ClassNotFoundException e) {
-            throw new ZkMarshallingError("Unable to find object class.", e);
-        } catch (IOException e) {
-            throw new ZkMarshallingError(e);
-        }
+        return JSONObject.parseObject(bytes, Object.class);
     }
 
     @Override
     public byte[] serialize(Object serializable) throws ZkMarshallingError {
-        try {
-            ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
-            ObjectOutputStream stream = new ObjectOutputStream(byteArrayOS);
-            stream.writeObject(serializable);
-            stream.close();
-            return byteArrayOS.toByteArray();
-        } catch (IOException e) {
-            throw new ZkMarshallingError(e);
-        }
+        return JSONObject.toJSONBytes(serializable);
     }
 
 }

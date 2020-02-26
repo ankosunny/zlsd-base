@@ -2,6 +2,7 @@ package com.zhilingsd.base.zk.confcenter;
 
 import com.zhilingsd.base.zk.zkclient.IZkDataListener;
 import com.zhilingsd.base.zk.zkclient.ZkClient;
+import com.zhilingsd.base.zk.zkclient.serialize.ZkSerializer;
 import org.apache.zookeeper.ZooDefs.Ids;
 
 public class DistributedConfigurationCenter implements ConfigurationCenter {
@@ -14,6 +15,10 @@ public class DistributedConfigurationCenter implements ConfigurationCenter {
 
     public DistributedConfigurationCenter(String zkServers, int zkClientTimeout) {
         _zk = new ZkClient(zkServers, zkClientTimeout);
+    }
+
+    public DistributedConfigurationCenter(String zkServers, int zkClientTimeout, ZkSerializer serializer) {
+        _zk = new ZkClient(zkServers, zkClientTimeout, serializer);
     }
 
     @Override

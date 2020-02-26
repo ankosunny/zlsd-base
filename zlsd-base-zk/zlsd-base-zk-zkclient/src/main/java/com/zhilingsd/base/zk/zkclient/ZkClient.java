@@ -69,6 +69,10 @@ public class ZkClient implements Watcher {
         this(new ZkConnection(zkServers), connectionTimeout);
     }
 
+    public ZkClient(String zkServers, int connectionTimeout, ZkSerializer serializer) {
+        this(new ZkConnection(zkServers), connectionTimeout, serializer);
+    }
+
     public ZkClient(String zkServers, int sessionTimeout, int connectionTimeout) {
         this(new ZkConnection(zkServers, sessionTimeout), connectionTimeout);
     }

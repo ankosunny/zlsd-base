@@ -231,4 +231,19 @@ public class BasicsConstant {
      * mybatis xml中使用in的sql长度超过1000的配置
      */
     public static final Integer MYBATIS_IN_MAX = 990;
+
+    /**
+     * DFSX-DataNode磁盘剩余空间
+     */
+    public static final String KEY_DFSX_DISK_FREE_SPACE = "diskFreeSpace";
+
+    /**
+     * DFSX-DataNode唯一标识
+     */
+    public static final String KEY_DFSX_DATA_NODE_ID = "dataNodeId";
+
+    /**
+     * DFSX-DataNode netty端口
+     */
+    public static final String KEY_DFSX_NETTY_PORT = "nettyPort";
 }

@@ -160,7 +160,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public CommonResult handleBindException(BindException e) {
-        return returnErr(ReturnCode.ERROR_400.getCode(), e);
+        BindingResult bindingResult = e.getBindingResult();
+        StringBuilder errorMessage = new StringBuilder("参数校验错误:");
+        if (null != bindingResult && !CollectionUtils.isEmpty(bindingResult.getFieldErrors())) {
+            String message = bindingResult.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
+            errorMessage.append(message);
+        }
+        return returnErr(errorMessage.toString(), ReturnCode.ERROR_400.getCode(), e);
     }
 
     /**

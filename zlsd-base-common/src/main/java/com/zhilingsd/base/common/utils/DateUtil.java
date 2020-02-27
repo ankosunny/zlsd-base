@@ -2616,6 +2616,39 @@ public class DateUtil {
         return new SimpleDateFormat("yyyyMMddHHmmss").parse(dateStr.toString());
     }
 
+    /**
+     * 根据日期获取年
+     * @param date
+     * @return
+     */
+    public static int getYearByDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.YEAR);
+    }
+
+    /**
+     * 根据日期获取月
+     * @param date
+     * @return
+     */
+    public static int getMonthByDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.MONTH) + 1;
+    }
+
+    /**
+     * 根据日期获取日
+     * @param date
+     * @return
+     */
+    public static int getDayByDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.DATE);
+    }
+
     public static void main(String[] args) {
         String dateStr1 = "20121126";
         String dateStr2 = "2012/11/26";

@@ -22,6 +22,10 @@ public class AppUserInfo {
      */
     private Long operatorId;
     /**
+     * 当前登录用户账号
+     */
+    private String account;
+    /**
      * 商户ID
      */
     private Long merchantId;

@@ -62,4 +62,12 @@ public class CacheCommonConstants {
      */
     public static String CALLCENTER_CALLED_SITUATION = "callcenter_called_situation:";
 
+
+    /**
+     * 用户缓存
+     * 通过session获取用户信息
+     * exp:"user_session_cache:platform:session"
+     */
+    public static String USER_SESSION_CACHE = "user_session_cache:";
+
 }

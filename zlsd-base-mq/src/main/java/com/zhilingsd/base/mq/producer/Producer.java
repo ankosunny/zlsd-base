@@ -1,6 +1,7 @@
 package com.zhilingsd.base.mq.producer;
 
 import com.zhilingsd.base.mq.enums.DelayTimeLevelEnum;
+import com.zhilingsd.base.mq.enums.SendStatusEnum;
 
 /**
  * 生产者接口
@@ -10,13 +11,15 @@ public interface Producer {
 
     /**
      * 同步延迟发送
-     * */
-    void syncSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum);
+     *
+     * @return*/
+    SendStatusEnum syncSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum);
 
     /**
      * 同步发送
-     * */
-    void syncSend(String topic, String tag, Object body);
+     *
+     * @return*/
+    SendStatusEnum syncSend(String topic, String tag, Object body);
 
     /**
      * 异步发送

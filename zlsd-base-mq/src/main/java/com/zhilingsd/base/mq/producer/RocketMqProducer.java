@@ -2,6 +2,7 @@ package com.zhilingsd.base.mq.producer;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhilingsd.base.mq.enums.DelayTimeLevelEnum;
+import com.zhilingsd.base.mq.enums.SendStatusEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.exception.MQBrokerException;
@@ -9,6 +10,7 @@ import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
@@ -28,22 +30,22 @@ public class RocketMqProducer implements Producer {
     private Integer retryNum;
 
     @Override
-    public void syncSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum) {
+    public SendStatusEnum syncSendDelay(String topic, String tag, Object body, DelayTimeLevelEnum delayTimeLevelEnum) {
         String msgJson = JSONObject.toJSONString(body);
         String key = UUID.randomUUID().toString();
         Message message = new Message(topic, tag, key, msgJson.getBytes());
         message.setDelayTimeLevel(delayTimeLevelEnum.getLevel());
         log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
-        syncSend(message);
+        return syncSend(message);
     }
 
     @Override
-    public void syncSend(String topic, String tag, Object body) {
+    public SendStatusEnum syncSend(String topic, String tag, Object body) {
         String msgJson = JSONObject.toJSONString(body);
         String key = UUID.randomUUID().toString();
         Message message = new Message(topic, tag, key, msgJson.getBytes());
         log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
-        syncSend(message);
+        return syncSend(message);
     }
 
     @Override
@@ -65,18 +67,21 @@ public class RocketMqProducer implements Producer {
     }
 
 
-    private void syncSend(Message message) {
-        SendResult sendResult = null;
+    private SendStatusEnum syncSend(Message message) {
         Integer retryCount = 0;
-        while (retryCount < retryNum && sendResult == null) {
+        while (retryCount < retryNum) {
             try {
-                sendResult = producer.send(message);
+                SendResult sendResult = producer.send(message);
+                SendStatus sendStatus = sendResult.getSendStatus();
+                return SendStatusEnum.valueOf(sendStatus.name());
             } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException ignore) {
                 log.warn("Topic:{}，第{}次发送消息时，出现异常", message.getTopic(), retryCount + 1, ignore);
             } finally {
                 retryCount++;
             }
         }
+
+        return SendStatusEnum.SEND_FAILED;
     }
 
     private void asyncSend(Message message) {

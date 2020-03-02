@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface TechFacade {
 
-    boolean printArgs() default true;
+    boolean needPrintArgs() default true;
 
     boolean needLogin() default true;
 }

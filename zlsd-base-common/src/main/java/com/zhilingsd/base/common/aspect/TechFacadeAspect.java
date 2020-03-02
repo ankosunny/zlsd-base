@@ -139,7 +139,7 @@ public class TechFacadeAspect {
         // 获取注解
         TechFacade annotation = method.getAnnotation(TechFacade.class);
 
-        return annotation.printArgs();
+        return annotation.needPrintArgs();
     }
 
     private Boolean isNeedLogin(ProceedingJoinPoint jp) {

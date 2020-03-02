@@ -7,6 +7,8 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
+import static com.zhilingsd.base.common.constants.TechConstant.*;
+
 
 /**
  * feign拦截器
@@ -15,14 +17,6 @@ import lombok.extern.slf4j.Slf4j;
  * */
 @Slf4j
 public class FeignTechRequestInterceptor implements RequestInterceptor {
-    /**
-     * Session
-     * */
-    private final static String SESSION = "session";
-    /**
-     * 当前操作人ID
-     * */
-    private final static String OPERATOR_ID = "operatorId";
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
@@ -35,5 +29,8 @@ public class FeignTechRequestInterceptor implements RequestInterceptor {
 
         requestTemplate.header(SESSION, appUserInfo.getSession());
         requestTemplate.header(OPERATOR_ID, String.valueOf(appUserInfo.getOperatorId()));
+        requestTemplate.header(ACCOUNT, String.valueOf(appUserInfo.getAccount()));
+        requestTemplate.header(MERCHANT_ID, String.valueOf(appUserInfo.getMerchantId()));
+        requestTemplate.header(PLATFORM, String.valueOf(appUserInfo.getPlatform()));
     }
 }

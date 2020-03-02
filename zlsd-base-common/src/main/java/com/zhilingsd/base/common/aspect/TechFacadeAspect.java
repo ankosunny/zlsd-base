@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
+import static com.zhilingsd.base.common.constants.TechConstant.*;
+
 /**
  * 接口公共服务处理
  *
@@ -74,11 +76,18 @@ public class TechFacadeAspect {
             return;
         }
 
-        String session = Optional.ofNullable(request.getHeader("session")).orElseThrow(() -> new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), "请求头session不能为空"));
-        String operatorId = Optional.ofNullable(request.getHeader("operatorId")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
+        String session = Optional.ofNullable(request.getHeader(SESSION)).orElseThrow(() -> new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), "请求头session不能为空"));
+        Long operatorId = Optional.ofNullable(request.getHeader(OPERATOR_ID)).map(Long::parseLong).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
+        String account = Optional.ofNullable(request.getHeader(ACCOUNT)).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头account不能为空"));
+        Long merchantId = Optional.ofNullable(request.getHeader(MERCHANT_ID)).map(Long::parseLong).orElse(null);
+        String platform = Optional.ofNullable(request.getHeader(PLATFORM)).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头platform不能为空"));
+
         AppUserInfo appUserInfo = new AppUserInfo();
         appUserInfo.setSession(session);
-        appUserInfo.setOperatorId(Long.parseLong(operatorId));
+        appUserInfo.setOperatorId(operatorId);
+        appUserInfo.setAccount(account);
+        appUserInfo.setMerchantId(merchantId);
+        appUserInfo.setPlatform(platform);
         AppUtil.setAppUserInfo(appUserInfo);
         log.info("当前登录人基础信息：" + JSONObject.toJSONString(appUserInfo));
     }

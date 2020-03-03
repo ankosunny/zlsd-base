@@ -13,15 +13,15 @@ public enum CloudPlatformEnum {
     /**
      * AI语音机器人
      */
-    AI("ai", "AI语音机器人"),
+    AI("ai", "AI语音系统"),
     /**
      * 质检
      */
-    QUALITY("quality", "质检"),
+    QUALITY("quality", "智能质检系统"),
     /**
      * 培训
      */
-    TRAIN("train", "培训"),
+    TRAIN("train", "智能培训系统"),
     ;
 
     private String code;

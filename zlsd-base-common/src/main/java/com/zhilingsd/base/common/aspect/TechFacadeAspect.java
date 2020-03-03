@@ -80,7 +80,7 @@ public class TechFacadeAspect {
         Long operatorId = Optional.ofNullable(request.getHeader(OPERATOR_ID)).map(Long::parseLong).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
         String account = Optional.ofNullable(request.getHeader(ACCOUNT)).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头account不能为空"));
         Long merchantId = Optional.ofNullable(request.getHeader(MERCHANT_ID)).map(Long::parseLong).orElse(null);
-        String platform = Optional.ofNullable(request.getHeader(PLATFORM)).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头platform不能为空"));
+        String platform = Optional.ofNullable(request.getHeader(PLATFORM)).orElse(null);
 
         AppUserInfo appUserInfo = new AppUserInfo();
         appUserInfo.setSession(session);

@@ -64,10 +64,16 @@ public class CacheCommonConstants {
 
 
     /**
-     * 用户缓存
+     * 用户session缓存
      * 通过session获取用户信息
-     * exp:"user_session_cache:platform:session"
+     * exp:"user_session_cache:business:merchantId:quality:UUID"
      */
     public static String USER_SESSION_CACHE = "user_session_cache:";
 
+    /**
+     * 用户id缓存
+     * 通过session获取用户信息
+     * exp:"user_id_cache:platform:userId"
+     */
+    public static String USER_ID_CACHE = "user_id_cache:";
 }

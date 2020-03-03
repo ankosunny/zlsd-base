@@ -7,9 +7,13 @@ package com.zhilingsd.base.common.emuns;
  **/
 public enum CloudPlatformEnum {
     /**
-     * 机器人
+     * 商户管理中心
      */
-    ROBOT("robot", "机器人"),
+    MERCHANT("merchant", "商户管理中心"),
+    /**
+     * AI语音机器人
+     */
+    AI("ai", "AI语音机器人"),
     /**
      * 质检
      */

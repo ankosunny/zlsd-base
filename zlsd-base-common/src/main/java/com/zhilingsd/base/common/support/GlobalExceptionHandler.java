@@ -332,7 +332,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public CollectionResult businessException(BusinessException ex) {
         ex.printStackTrace();
-        log.error("业务异常,异常信息：", ex);
+        log.warn("业务异常,异常信息：", ex);
         return CollectionResult.failed(ex.getCode(), ex.getMessage());
     }
 

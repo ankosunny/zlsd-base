@@ -44,4 +44,13 @@ public enum EngineSupplierEnum {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public static EngineSupplierEnum find(String code) {
+        for (EngineSupplierEnum item : EngineSupplierEnum.values()) {
+            if (item.getCode().equals(code)) {
+                return item;
+            }
+        }
+        return null;
+    }
 }

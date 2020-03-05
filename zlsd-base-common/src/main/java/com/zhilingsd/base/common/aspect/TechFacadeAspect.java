@@ -9,6 +9,7 @@ import com.zhilingsd.base.common.utils.AppUtil;
 import com.zhilingsd.base.common.utils.IPUtils;
 import com.zhilingsd.base.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -79,7 +80,7 @@ public class TechFacadeAspect {
         String session = Optional.ofNullable(request.getHeader(SESSION)).orElseThrow(() -> new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), "请求头session不能为空"));
         Long operatorId = Optional.ofNullable(request.getHeader(OPERATOR_ID)).map(Long::parseLong).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
         String account = Optional.ofNullable(request.getHeader(ACCOUNT)).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头account不能为空"));
-        Long merchantId = Optional.ofNullable(request.getHeader(MERCHANT_ID)).map(Long::parseLong).orElse(null);
+        Long merchantId = Optional.ofNullable(request.getHeader(MERCHANT_ID)).filter(StringUtils::isNotBlank).map(Long::parseLong).orElse(null);
         String platform = Optional.ofNullable(request.getHeader(PLATFORM)).orElse(null);
 
         AppUserInfo appUserInfo = new AppUserInfo();

@@ -47,4 +47,13 @@ public enum CloudPlatformEnum {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public static CloudPlatformEnum find(String code) {
+        for (CloudPlatformEnum item : CloudPlatformEnum.values()) {
+            if (item.getCode().equals(code)) {
+                return item;
+            }
+        }
+        return null;
+    }
 }

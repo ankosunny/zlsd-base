@@ -1,12 +1,12 @@
 package com.zhilingsd.base.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -33,7 +33,7 @@ public class ZipUtil {
             }
 
             if (files.length == 0) {
-                out.putNextEntry(new ZipEntry(base+"/"));
+                out.putNextEntry(new ZipEntry(base + "/"));
                 out.closeEntry();
             }
 
@@ -55,6 +55,63 @@ public class ZipUtil {
                 out.write(b);
             }
             in.close();//关闭流
+        }
+    }
+
+    /**
+     * 解压文件
+     * @param srcFile
+     * @param destDirPath
+     */
+    public static void unZip(File srcFile, String destDirPath) {
+        long start = System.currentTimeMillis();
+
+        // 判断源文件是否存在
+        if (!srcFile.exists()) {
+            throw new RuntimeException(srcFile.getPath() + "所指文件不存在");
+        }
+
+        // 开始解压
+        ZipFile zipFile = null;
+        try {
+            zipFile = new ZipFile(srcFile);
+            Enumeration<?> entries = zipFile.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = (ZipEntry) entries.nextElement();
+                log.debug("解压{}", entry.getName());
+
+                // 如果是文件夹，就创建个文件夹
+                if (entry.isDirectory()) {
+                    String dirPath = destDirPath + "/" + entry.getName();
+                    File dir = new File(dirPath);
+                    dir.mkdirs();
+                } else {
+                    // 如果是文件，就先创建一个文件，然后用io流把内容copy过去
+                    File targetFile = new File(destDirPath + "/" + entry.getName());
+                    // 保证这个文件的父文件夹必须要存在
+                    if (!targetFile.getParentFile().exists()) {
+                        targetFile.getParentFile().mkdirs();
+                    }
+                    targetFile.createNewFile();
+
+                    // 将压缩文件内容写入到这个文件中
+                    InputStream is = zipFile.getInputStream(entry);
+                    FileOutputStream fos = new FileOutputStream(targetFile);
+                    IOUtils.copy(is, fos);
+                }
+            }
+            long end = System.currentTimeMillis();
+            log.debug("解压完成，耗时{}ms", end - start);
+        } catch (Exception e) {
+            throw new RuntimeException("unzip error from ZipUtils", e);
+        } finally {
+            if (zipFile != null) {
+                try {
+                    zipFile.close();
+                } catch (IOException e) {
+                    log.warn("文件关闭异常", e);
+                }
+            }
         }
     }
 }

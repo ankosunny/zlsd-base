@@ -9,7 +9,7 @@ public enum CloudPlatformEnum {
     /**
      * 商户管理中心
      */
-    MERCHANT("merchant", "商户管理中心"),
+    MERCHANT("merchant", "管理中心"),
     /**
      * AI语音机器人
      */

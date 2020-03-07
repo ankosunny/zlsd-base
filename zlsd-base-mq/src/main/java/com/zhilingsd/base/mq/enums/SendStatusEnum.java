@@ -12,17 +12,17 @@ public enum SendStatusEnum {
     SEND_OK,
 
     /**
-     * 刷盘超时，SendStatus.FLUSH_DISK_TIMEOUT
+     * 发送成功，但刷盘超时，SendStatus.FLUSH_DISK_TIMEOUT
      */
     FLUSH_DISK_TIMEOUT,
 
     /**
-     * 同步slave超时，SendStatus.FLUSH_SLAVE_TIMEOUT
+     * 发送成功，但刷同步slave超时，SendStatus.FLUSH_SLAVE_TIMEOUT
      */
     FLUSH_SLAVE_TIMEOUT,
 
     /**
-     * salve 无法识别，SendStatus.SLAVE_NOT_AVAILABLE
+     * 发送成功，但刷salve无法识别，SendStatus.SLAVE_NOT_AVAILABLE
      */
     SLAVE_NOT_AVAILABLE,
 

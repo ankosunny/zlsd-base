@@ -13,7 +13,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,18 +26,12 @@ import java.util.UUID;
 @ConditionalOnBean(MQBaseAutoConfiguration.class)
 public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration {
 
-    // 维护一份map用于检测是否用同样的consumerGroup订阅了不同的topic+tag
-    private Map<String, String> validConsumerMap;
-
     @PostConstruct
     public void init() throws Exception {
         Map<String, Object> beans = applicationContext.getBeansWithAnnotation(MQConsumer.class);
-        validConsumerMap = new HashMap<>();
         for (Map.Entry<String, Object> entry : beans.entrySet()) {
             publishConsumer(entry.getKey(), entry.getValue());
         }
-        // 清空map，等待回收
-        validConsumerMap = null;
     }
 
 
@@ -58,14 +51,6 @@ public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration {
             tags = environment.resolvePlaceholders(mqConsumer.tag()[0]);
         } else if(mqConsumer.tag().length > 1) {
             tags = StringUtils.join(mqConsumer.tag(), "||");
-        }
-
-        // 检查consumerGroup
-        if(!StringUtils.isEmpty(validConsumerMap.get(consumerGroup))) {
-            String exist = validConsumerMap.get(consumerGroup);
-            throw new RuntimeException("消费组重复订阅，请新增消费组用于新的topic和tag组合: " + consumerGroup + "已经订阅了" + exist);
-        } else {
-            validConsumerMap.put(consumerGroup, topic + "-" + tags);
         }
 
         // 配置push consumer

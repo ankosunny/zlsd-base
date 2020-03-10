@@ -37,7 +37,7 @@ import static com.zhilingsd.base.common.constants.TechConstant.*;
 @Slf4j
 public class TechFacadeAspect {
 
-    private static final String PRE_TAG = "************** ";
+    private static final String PRE_TAG = "*** ";
 
 
     @Around(value = "@annotation(com.zhilingsd.base.common.annotation.TechFacade)")
@@ -90,7 +90,7 @@ public class TechFacadeAspect {
         appUserInfo.setMerchantId(merchantId);
         appUserInfo.setPlatform(platform);
         AppUtil.setAppUserInfo(appUserInfo);
-        log.info("当前登录人基础信息：" + JSONObject.toJSONString(appUserInfo));
+        log.info("operatorInfo：" + JSONObject.toJSONString(appUserInfo));
     }
 
     /**
@@ -101,19 +101,19 @@ public class TechFacadeAspect {
      */
     private void printRequestLog(ProceedingJoinPoint jp, HttpServletRequest request, Boolean printArgs) {
         StringBuilder requestMsg = new StringBuilder();
-        requestMsg.append("\n" + PRE_TAG + "URL : ").append(request.getRequestURL().toString());
-        requestMsg.append("\n" + PRE_TAG + "HTTP_METHOD : ").append(request.getMethod());
-        requestMsg.append("\n" + PRE_TAG + "IP地址 : ").append(IPUtils.getRemortIP(request));
+        requestMsg.append("\n" + PRE_TAG + "URL: ").append(request.getRequestURL().toString());
+        requestMsg.append("\n" + PRE_TAG + "HTTP_METHOD: ").append(request.getMethod());
+        requestMsg.append("\n" + PRE_TAG + "IP: ").append(IPUtils.getRemortIP(request));
         requestMsg.append("\n" + PRE_TAG).append(jp.getSignature().getDeclaringTypeName()).append(".").append(jp.getSignature().getName());
 
 
         if (printArgs) {
             String jsonString = JsonUtils.toJsonString(jp.getArgs());
             if (jsonString.length() < 1000) {
-                requestMsg.append("\n" + PRE_TAG + "接口入参 : ").append(jsonString);
+                requestMsg.append("\n" + PRE_TAG + "in: ").append(jsonString);
             }
         } else {
-            requestMsg.append("\n" + PRE_TAG + "接口入参 : 不打印入参");
+            requestMsg.append("\n" + PRE_TAG + "in: do not print");
         }
         log.info(requestMsg.toString());
     }
@@ -132,12 +132,12 @@ public class TechFacadeAspect {
         if (printArgs) {
             String toJsonString = JsonUtils.toJsonString(obj);
             if (toJsonString.length() < 1000) {
-                responseMsg.append("\n" + PRE_TAG + " 接口返回 : ").append(toJsonString);
+                responseMsg.append("\n" + PRE_TAG + " out: ").append(toJsonString);
             }
         } else {
-            responseMsg.append("\n" + PRE_TAG + "接口返回 : 不打印返回");
+            responseMsg.append("\n" + PRE_TAG + "out: do not print");
         }
-        responseMsg.append("\n" + PRE_TAG + " 花费时间 : ").append(System.currentTimeMillis() - startTime).append("ms");
+        responseMsg.append("\n" + PRE_TAG + " useTime: ").append(System.currentTimeMillis() - startTime).append("ms");
         log.info(responseMsg.toString());
     }
 

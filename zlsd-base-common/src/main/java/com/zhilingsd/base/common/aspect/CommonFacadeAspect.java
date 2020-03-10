@@ -37,7 +37,7 @@ public class CommonFacadeAspect {
 
     //    @Autowired
 //    protected Validator validator;
-    private static final String PRE_TAG = "************** ";
+    private static final String PRE_TAG = "*** ";
 
     private static final String UNPRINT_CLASS = "com.zhilingsd.blackhole.dto.request.UploadWithBase64Request";
     private static final String UNPRINT_RESP_CLASS = "com.zhilingsd.blackhole.dto.response.DownloadWithBase64Resp";
@@ -51,16 +51,16 @@ public class CommonFacadeAspect {
         StringBuffer sb = new StringBuffer();
         sb.append("\n" + PRE_TAG + "URL : " + request.getRequestURL().toString());
         sb.append("\n" + PRE_TAG + "HTTP_METHOD : " + request.getMethod());
-        sb.append("\n" + PRE_TAG + "IP地址 : " + IPUtils.getRemortIP(request));
+        sb.append("\n" + PRE_TAG + "IP : " + IPUtils.getRemortIP(request));
         sb.append("\n" + PRE_TAG + jp.getSignature().getDeclaringTypeName() + "." + jp.getSignature().getName());
 
         if (isPrintArgs(jp.getArgs())) {
             String jsonString = JsonUtils.toJsonString(jp.getArgs());
             if (jsonString.length() < 1000) {
-                sb.append("\n" + PRE_TAG + "接口入参 : " + jsonString);
+                sb.append("\n" + PRE_TAG + "in: " + jsonString);
             }
         } else {
-            sb.append("\n" + PRE_TAG + "接口入参 : 不打印入参");
+            sb.append("\n" + PRE_TAG + "in: do not print");
         }
         log.info(sb.toString());
         // 创建AppAgentInfo对象，如果有字段为空则抛出异常
@@ -70,7 +70,7 @@ public class CommonFacadeAspect {
         String collectionGroupId = Optional.ofNullable(request.getHeader("collectionGroupId")).orElse("0");
         AppAgentInfo agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), session, Long.parseLong(collectionGroupId));
         AppUtil.setAppAgentInfo(agentInfo);
-        log.info("当前登录人基础信息：" + JSONObject.toJSONString(agentInfo));
+        log.info("operatorInfo：" + JSONObject.toJSONString(agentInfo));
 
         Object obj;
         try {
@@ -85,12 +85,12 @@ public class CommonFacadeAspect {
         if (isPrintResp(obj)) {
             String toJsonString = JsonUtils.toJsonString(obj);
             if (toJsonString.length() < 1000) {
-                stringBuilder.append("\n" + PRE_TAG + " 接口返回 : ").append(toJsonString);
+                stringBuilder.append("\n" + PRE_TAG + " out: ").append(toJsonString);
             }
         } else {
-            stringBuilder.append("\n" + PRE_TAG + "接口返回 : 不打印返回");
+            stringBuilder.append("\n" + PRE_TAG + "out: do not print");
         }
-        stringBuilder.append("\n" + PRE_TAG + " 花费时间 : ").append(System.currentTimeMillis() - startTime).append("ms");
+        stringBuilder.append("\n" + PRE_TAG + " useTime: ").append(System.currentTimeMillis() - startTime).append("ms");
         log.info(stringBuilder.toString());
         return obj;
     }

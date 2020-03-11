@@ -48,16 +48,16 @@ public class CommonFacadeAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        StringBuffer sb = new StringBuffer();
-        sb.append("\n" + PRE_TAG + "URL : " + request.getRequestURL().toString());
-        sb.append("\n" + PRE_TAG + "HTTP_METHOD : " + request.getMethod());
-        sb.append("\n" + PRE_TAG + "IP : " + IPUtils.getRemortIP(request));
-        sb.append("\n" + PRE_TAG + jp.getSignature().getDeclaringTypeName() + "." + jp.getSignature().getName());
+        StringBuilder sb = new StringBuilder();
+        sb.append(PRE_TAG + "URL: ").append(request.getRequestURL().toString());
+        sb.append("\n" + PRE_TAG + "HTTP_METHOD: ").append(request.getMethod());
+        sb.append("\n" + PRE_TAG + "IP: ").append(IPUtils.getRemortIP(request));
+        sb.append("\n" + PRE_TAG).append(jp.getSignature().toShortString());
 
         if (isPrintArgs(jp.getArgs())) {
             String jsonString = JsonUtils.toJsonString(jp.getArgs());
             if (jsonString.length() < 1000) {
-                sb.append("\n" + PRE_TAG + "in: " + jsonString);
+                sb.append("\n" + PRE_TAG + "in: ").append(jsonString);
             }
         } else {
             sb.append("\n" + PRE_TAG + "in: do not print");
@@ -70,7 +70,7 @@ public class CommonFacadeAspect {
         String collectionGroupId = Optional.ofNullable(request.getHeader("collectionGroupId")).orElse("0");
         AppAgentInfo agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), session, Long.parseLong(collectionGroupId));
         AppUtil.setAppAgentInfo(agentInfo);
-        log.info("operatorInfo：" + JSONObject.toJSONString(agentInfo));
+        log.info(PRE_TAG + "operatorInfo：" + JSONObject.toJSONString(agentInfo));
 
         Object obj;
         try {
@@ -80,17 +80,17 @@ public class CommonFacadeAspect {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\n" + PRE_TAG).append(jp.getSignature().getDeclaringTypeName()).append(".").append(jp.getSignature().getName());
+        stringBuilder.append("\n" + PRE_TAG).append(jp.getSignature().toShortString());
 
         if (isPrintResp(obj)) {
             String toJsonString = JsonUtils.toJsonString(obj);
             if (toJsonString.length() < 1000) {
-                stringBuilder.append("\n" + PRE_TAG + " out: ").append(toJsonString);
+                stringBuilder.append("\n" + PRE_TAG + "out: ").append(toJsonString);
             }
         } else {
             stringBuilder.append("\n" + PRE_TAG + "out: do not print");
         }
-        stringBuilder.append("\n" + PRE_TAG + " useTime: ").append(System.currentTimeMillis() - startTime).append("ms");
+        stringBuilder.append("\n" + PRE_TAG + "usedTime: ").append(System.currentTimeMillis() - startTime).append("ms");
         log.info(stringBuilder.toString());
         return obj;
     }

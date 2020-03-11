@@ -90,7 +90,7 @@ public class TechFacadeAspect {
         appUserInfo.setMerchantId(merchantId);
         appUserInfo.setPlatform(platform);
         AppUtil.setAppUserInfo(appUserInfo);
-        log.info("operatorInfo：" + JSONObject.toJSONString(appUserInfo));
+        log.info(PRE_TAG + "operatorInfo：" + JSONObject.toJSONString(appUserInfo));
     }
 
     /**
@@ -101,10 +101,10 @@ public class TechFacadeAspect {
      */
     private void printRequestLog(ProceedingJoinPoint jp, HttpServletRequest request, Boolean printArgs) {
         StringBuilder requestMsg = new StringBuilder();
-        requestMsg.append("\n" + PRE_TAG + "URL: ").append(request.getRequestURL().toString());
+        requestMsg.append(PRE_TAG + "URL: ").append(request.getRequestURL().toString());
         requestMsg.append("\n" + PRE_TAG + "HTTP_METHOD: ").append(request.getMethod());
         requestMsg.append("\n" + PRE_TAG + "IP: ").append(IPUtils.getRemortIP(request));
-        requestMsg.append("\n" + PRE_TAG).append(jp.getSignature().getDeclaringTypeName()).append(".").append(jp.getSignature().getName());
+        requestMsg.append("\n" + PRE_TAG).append(jp.getSignature().toShortString());
 
 
         if (printArgs) {
@@ -127,17 +127,17 @@ public class TechFacadeAspect {
      */
     private void printResponseLog(ProceedingJoinPoint jp, long startTime, Boolean printArgs, Object obj) {
         StringBuilder responseMsg = new StringBuilder();
-        responseMsg.append("\n" + PRE_TAG).append(jp.getSignature().getDeclaringTypeName()).append(".").append(jp.getSignature().getName());
+        responseMsg.append("\n" + PRE_TAG).append(jp.getSignature().toShortString());
 
         if (printArgs) {
             String toJsonString = JsonUtils.toJsonString(obj);
             if (toJsonString.length() < 1000) {
-                responseMsg.append("\n" + PRE_TAG + " out: ").append(toJsonString);
+                responseMsg.append("\n" + PRE_TAG + "out: ").append(toJsonString);
             }
         } else {
             responseMsg.append("\n" + PRE_TAG + "out: do not print");
         }
-        responseMsg.append("\n" + PRE_TAG + " useTime: ").append(System.currentTimeMillis() - startTime).append("ms");
+        responseMsg.append("\n" + PRE_TAG + "usedTime: ").append(System.currentTimeMillis() - startTime).append("ms");
         log.info(responseMsg.toString());
     }
 

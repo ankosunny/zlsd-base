@@ -41,6 +41,8 @@ public enum SnowFlakeEntityEnum {
     QI_BUSINESS(130, "质检业务"),
     BASE_DATA(140, "基础管理"),
     NLS(150, "语音交互能力层"),
+    TRAINING_BUSINESS(160, "培训业务"),
+
     ;
 
     private int entityId;

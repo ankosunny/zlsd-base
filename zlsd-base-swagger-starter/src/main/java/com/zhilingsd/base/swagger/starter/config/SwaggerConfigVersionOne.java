@@ -30,15 +30,15 @@ import java.util.List;
  **/
 @Configuration
 @EnableSwagger2
-@ConditionalOnProperty(prefix = SwaggerProperties.SWAGGER_PREFIX, name = "whether.open",havingValue = "true",matchIfMissing = true)
+@ConditionalOnProperty(prefix = SwaggerProperties.SWAGGER_PREFIX, name = "whether.open.version.one", havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(SwaggerProperties.class)
-public class SwaggerConfig {
+public class SwaggerConfigVersionOne {
 
     private SwaggerProperties properties;
 
 
-    public SwaggerConfig(SwaggerProperties properties) {
-        this.properties=properties;
+    public SwaggerConfigVersionOne(SwaggerProperties properties) {
+        this.properties = properties;
     }
 
     @Bean

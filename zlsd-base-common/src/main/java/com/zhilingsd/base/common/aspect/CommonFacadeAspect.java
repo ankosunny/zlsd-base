@@ -37,7 +37,7 @@ public class CommonFacadeAspect {
 
     //    @Autowired
 //    protected Validator validator;
-    private static final String PRE_TAG = "*** ";
+    private static final String PRE_TAG = "\n" + "*** ";
 
     private static final String UNPRINT_CLASS = "com.zhilingsd.blackhole.dto.request.UploadWithBase64Request";
     private static final String UNPRINT_RESP_CLASS = "com.zhilingsd.blackhole.dto.response.DownloadWithBase64Resp";
@@ -50,17 +50,17 @@ public class CommonFacadeAspect {
         HttpServletRequest request = attributes.getRequest();
         StringBuilder sb = new StringBuilder();
         sb.append(PRE_TAG + "URL: ").append(request.getRequestURL().toString());
-        sb.append("\n" + PRE_TAG + "HTTP_METHOD: ").append(request.getMethod());
-        sb.append("\n" + PRE_TAG + "IP: ").append(IPUtils.getRemortIP(request));
-        sb.append("\n" + PRE_TAG).append(jp.getSignature().toShortString());
+        sb.append(PRE_TAG + "HTTP_METHOD: ").append(request.getMethod());
+        sb.append(PRE_TAG + "IP: ").append(IPUtils.getRemortIP(request));
+        sb.append(PRE_TAG).append(jp.getSignature().toShortString());
 
         if (isPrintArgs(jp.getArgs())) {
             String jsonString = JsonUtils.toJsonString(jp.getArgs());
             if (jsonString.length() < 1000) {
-                sb.append("\n" + PRE_TAG + "in: ").append(jsonString);
+                sb.append(PRE_TAG + "in: ").append(jsonString);
             }
         } else {
-            sb.append("\n" + PRE_TAG + "in: do not print");
+            sb.append(PRE_TAG + "in: do not print");
         }
         log.info(sb.toString());
         // 创建AppAgentInfo对象，如果有字段为空则抛出异常
@@ -80,17 +80,17 @@ public class CommonFacadeAspect {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\n" + PRE_TAG).append(jp.getSignature().toShortString());
+        stringBuilder.append(PRE_TAG).append(jp.getSignature().toShortString());
 
         if (isPrintResp(obj)) {
             String toJsonString = JsonUtils.toJsonString(obj);
             if (toJsonString.length() < 1000) {
-                stringBuilder.append("\n" + PRE_TAG + "out: ").append(toJsonString);
+                stringBuilder.append(PRE_TAG + "out: ").append(toJsonString);
             }
         } else {
-            stringBuilder.append("\n" + PRE_TAG + "out: do not print");
+            stringBuilder.append(PRE_TAG + "out: do not print");
         }
-        stringBuilder.append("\n" + PRE_TAG + "usedTime: ").append(System.currentTimeMillis() - startTime).append("ms");
+        stringBuilder.append(PRE_TAG + "usedTime: ").append(System.currentTimeMillis() - startTime).append("ms");
         log.info(stringBuilder.toString());
         return obj;
     }

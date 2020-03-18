@@ -46,6 +46,15 @@ import java.util.*;
 public class BeanUtils extends  org.springframework.beans.BeanUtils{
 
 
+    /**
+     * 功能描述 复制数组
+     *
+     * @param sourceList 原数组
+     * @param clz  目标数组类型
+     * @return java.util.List<T>
+     * @auther 吞星（yangguojun）
+     * @date 2020/3/17-18:39
+     */
     public static <T> List<T> copyArray(Collection sourceList, Class<T> clz){
         if (CollectionUtils.isEmpty(sourceList)) {
             return Collections.EMPTY_LIST;
@@ -65,6 +74,15 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
         return list;
     }
 
+    /**
+     * 功能描述 复制bean
+     *
+     * @param source 源对象
+     * @param clz    目标对象类型
+     * @return T
+     * @auther 吞星（yangguojun）
+     * @date 2020/3/17-18:38
+     */
     public static <T> T copyBean(Object source, Class<T> clz){
         T target = null;
         try {

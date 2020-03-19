@@ -112,6 +112,13 @@ public interface Cache<K, V> {
     Boolean expire(K key, int time);
 
     /**
+     * 获取过期时间
+     * @param key
+     * @return 过期时间，单位时间：秒
+     */
+    long getExpire(Object key);
+
+    /**
      * list key左侧加值.
      *
      * @param key

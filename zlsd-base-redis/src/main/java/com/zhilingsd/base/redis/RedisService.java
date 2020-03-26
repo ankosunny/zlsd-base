@@ -137,6 +137,16 @@ public class RedisService implements Cache {
     }
 
     @Override
+    public long getExpire(Object key) {
+        try {
+            return redisTemplate.getExpire(key);
+        } catch (Exception e) {
+            log.error("Redis getExpire 异常，堆栈信息：{}", getStackTrace(e));
+            throw new RedisOperateException("Redis getExpire 异常:" + e.getMessage());
+        }
+    }
+
+    @Override
     public Long lpush(Object key, Object value) {
         return lpush(key, value, expireSeconds);
     }

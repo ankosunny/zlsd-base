@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.zhilingsd</groupId>
         <artifactId>zlsd-base</artifactId>
-        <version>1.9.0</version>
+        <version>1.10.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>zlsd-base-redis</artifactId>

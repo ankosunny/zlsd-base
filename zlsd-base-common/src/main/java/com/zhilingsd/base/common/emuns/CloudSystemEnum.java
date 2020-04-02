@@ -14,6 +14,10 @@ public enum CloudSystemEnum {
      * 业务端（商户使用）
      */
     BUSINESS("business", "业务端"),
+    /**
+     * 开放平台
+     */
+    OPEN_API("openApi", "开放平台"),
     ;
 
     private String code;

@@ -22,6 +22,10 @@ public enum CloudPlatformEnum {
      * 培训
      */
     TRAIN("train", "智能培训系统"),
+    /**
+     * 贷后资产
+     */
+    LOAN("loan", "贷后资产管理系统"),
     ;
 
     private String code;

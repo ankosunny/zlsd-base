@@ -39,7 +39,6 @@ public class DateUtil {
     public static final String DATE_MINUTE_CHINESE_YMD = "yyyy年MM月dd日";
     public static final String[] MONTHS = {"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"};
     public static final String[] QUARTERS = {"一季度", "二季度", "三季度", "四季度"};
-    private static final ThreadLocal<Map<String, SimpleDateFormat>> threadLocal = new ThreadLocal<Map<String, SimpleDateFormat>>();
     private static final String CRON_DATE_FORMAT = "ss mm HH dd MM ? yyyy";
     private static final String CRON_DATE_FORMAT_EVERY_DAY = "ss mm HH * * ?";
     // 时间格式
@@ -2453,18 +2452,7 @@ public class DateUtil {
     }
 
     public static SimpleDateFormat getFormat(String pattern) {
-        Map<String, SimpleDateFormat> formats = threadLocal.get();
-        if (formats == null) {
-            formats = new HashMap<String, SimpleDateFormat>();
-        }
-        SimpleDateFormat sdf = formats.get(pattern);
-        if (sdf == null) {
-            sdf = new SimpleDateFormat(pattern);
-            formats.put(pattern, sdf);
-            threadLocal.set(formats);
-        }
-
-        return sdf;
+        return new SimpleDateFormat(pattern);
     }
 
     /**

@@ -13,7 +13,7 @@ public class AppUserConstants {
     /**
      * 当前登录用户Id
      */
-    public static final Long OPERATORID = 0L;
+    public static final Long OPERATOR_ID = 0L;
     /**
      * 当前登录用户账号
      */
@@ -21,5 +21,5 @@ public class AppUserConstants {
     /**
      * 商户ID
      */
-    public static final Long MERCHANTID = 0L;
+    public static final Long MERCHANT_ID = 0L;
 }

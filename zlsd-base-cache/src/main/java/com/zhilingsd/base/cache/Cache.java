@@ -354,6 +354,13 @@ public interface Cache<K, V> {
     Boolean sIsMember(K key, V value);
 
     /**
+     * size的成员数量
+     * @param key
+     * @return
+     */
+    Long scard(Object key);
+
+    /**
      * 在key集合中移除指定的元素.
      * 如果指定的元素不是key集合中的元素则忽略 如果key集合不存在则被视为一个空的集合，该命令返回0.
      * 如果key的类型不是一个集合,则返回错误.

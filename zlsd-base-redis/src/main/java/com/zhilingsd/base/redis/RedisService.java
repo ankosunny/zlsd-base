@@ -395,6 +395,16 @@ public class RedisService implements Cache {
     }
 
     @Override
+    public Long scard(Object key) {
+        try {
+            return redisTemplate.opsForSet().size(key);
+        } catch (Throwable e) {
+            log.error("scard key[{}] 异常，堆栈信息：{}", key, getStackTrace(e));
+            return 0L;
+        }
+    }
+
+    @Override
     public Long sRem(Object key, Object value) {
         try {
             return redisTemplate.opsForSet().remove(key, value);

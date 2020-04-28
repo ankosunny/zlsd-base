@@ -9,13 +9,17 @@ public class AppUserConstants {
     /**
      * 相当于token
      */
-    public static final String session = "0";
+    public static final String SESSION = "SESSION:VIRTUAL:0000-0000-0000-0000-0000";
     /**
      * 当前登录用户Id
      */
-    public static final Long operatorId = 0L;
+    public static final Long OPERATORID = 0L;
     /**
      * 当前登录用户账号
      */
-    public static final String account = "0";
+    public static final String ACCOUNT = "0";
+    /**
+     * 商户ID
+     */
+    public static final Long MERCHANTID = 0L;
 }

@@ -72,7 +72,7 @@ public class RocketMqProducer implements Producer {
         String key = UUID.randomUUID().toString();
         Message message = new Message(topic, tag, key, msgJson.getBytes());
         log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
-        asyncSend(message);
+        asyncSendWithCallBack(message, callback);
     }
 
     @Override
@@ -83,7 +83,6 @@ public class RocketMqProducer implements Producer {
         log.info("发送消息至RocketMQ:topic={} tag={} key={} body={}", topic, tag, key, msgJson);
         asyncSendWithRoute(message, routeId);
     }
-
 
     /**
      * 同步发送

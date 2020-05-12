@@ -64,6 +64,7 @@ public class DistributedConfigurationCenter implements ConfigurationCenter {
         _zk.writeData(path, value);
     }
 
+    @Override
     public ZkClient getZkClient() {
         return _zk;
     }

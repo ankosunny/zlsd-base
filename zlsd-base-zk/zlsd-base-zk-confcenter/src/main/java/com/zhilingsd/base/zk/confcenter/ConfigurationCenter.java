@@ -36,7 +36,7 @@ public interface ConfigurationCenter {
     Boolean exists(String path);
 
     /**
-     * 节点不存在情况下，写数据
+     * 节点存在情况下，写数据
      * @param path
      * @param value
      */

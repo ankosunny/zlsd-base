@@ -87,13 +87,26 @@ public class FTPUtil {
         return success;
     }
 
-    private static boolean downloadFile(String url, int port, String username, String passwprd,
+    /**
+     * 从ftp下载单个文件到指定outStream
+     *
+     * @param url ftp地址
+     * @param port ftp端口
+     * @param username ftp用户名
+     * @param password ftp密码
+     * @param filePath 文件地址
+     * @param fileName 文件名
+     * @param out 输出流
+     * @return 是否成功下载
+     * @throws IOException IOException
+     */
+    public static boolean downloadFile(String url, int port, String username, String password,
                                        String filePath, String fileName, OutputStream out) throws IOException {
         FTPClient ftpClient = new FTPClient();
         ftpClient.setControlEncoding("GBK");
         try {
             ftpClient.connect(url, port);
-            ftpClient.login(username, passwprd);
+            ftpClient.login(username, password);
             ftpClient.enterLocalPassiveMode();  // 设置被动模式，开通一个端口来传输数据
             ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
             // 判断是否存在该目录

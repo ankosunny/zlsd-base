@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * @program: 智灵时代广州研发中心
@@ -84,5 +85,37 @@ public class FTPUtil {
             }
         }
         return success;
+    }
+
+    private static boolean downloadFile(String url, int port, String username, String passwprd,
+                                       String filePath, String fileName, OutputStream out) throws IOException {
+        FTPClient ftpClient = new FTPClient();
+        ftpClient.setControlEncoding("GBK");
+        try {
+            ftpClient.connect(url, port);
+            ftpClient.login(username, passwprd);
+            ftpClient.enterLocalPassiveMode();  // 设置被动模式，开通一个端口来传输数据
+            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+            // 判断是否存在该目录
+            if (!ftpClient.changeWorkingDirectory(filePath)) {
+                log.error("ftp下载文件失败, 无法进入目录:[{}]", filePath);
+                return false;
+            }
+            // 判断该目录下是否有文件
+            String[] fs = ftpClient.listNames(fileName);
+            for (String ff : fs) {
+                ftpClient.retrieveFile(ff, out);
+            }
+            return true;
+        } finally {
+            ftpClient.logout();
+            if (ftpClient.isConnected()) {
+                try {
+                    ftpClient.disconnect();
+                } catch (IOException ioe) {
+                    log.error("断开连接出错", ioe);
+                }
+            }
+        }
     }
 }

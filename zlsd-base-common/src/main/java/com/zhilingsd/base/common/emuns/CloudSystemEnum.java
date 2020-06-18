@@ -2,6 +2,7 @@ package com.zhilingsd.base.common.emuns;
 
 /**
  * 登录系统
+ *
  * @author: yuboliang
  * @date: 2020/2/29
  **/
@@ -18,6 +19,8 @@ public enum CloudSystemEnum {
      * 开放平台
      */
     OPEN_API("openApi", "开放平台"),
+
+    KM("km", "知识库管理系统"),
     ;
 
     private String code;

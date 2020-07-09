@@ -51,8 +51,7 @@ public class PrivatizationFacadeAspect {
         // 请求参数
         printRequestLog(jp, request, printArgs);
 
-        // 创建AppUserInfo
-        processAppUserInfo(jp, request);
+
 
         // 执行代码流程
         Object obj;
@@ -67,29 +66,6 @@ public class PrivatizationFacadeAspect {
         return obj;
     }
 
-    /**
-     * 创建AppUserInfo
-     * @param jp
-     * @param request
-     */
-    private void processAppUserInfo(ProceedingJoinPoint jp, HttpServletRequest request) {
-        Boolean needLogin = isNeedLogin(jp);
-        if (!needLogin) {
-            return;
-        }
-
-        String session = Optional.ofNullable(request.getHeader(SESSION)).orElseThrow(() -> new ServiceException(ReturnCode.BUSINESS_ERROR.getCode(), "请求头session不能为空"));
-        Long operatorId = Optional.ofNullable(request.getHeader(OPERATOR_ID)).map(Long::parseLong).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
-        String account = Optional.ofNullable(request.getHeader(ACCOUNT)).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头account不能为空"));
-
-
-        AppUserInfo appUserInfo = new AppUserInfo();
-        appUserInfo.setSession(session);
-        appUserInfo.setOperatorId(operatorId);
-        appUserInfo.setAccount(account);
-        AppUtil.setAppUserInfo(appUserInfo);
-        log.info(PRE_TAG + "operatorInfo：" + JSONObject.toJSONString(appUserInfo));
-    }
 
     /**
      * 打印请求参数

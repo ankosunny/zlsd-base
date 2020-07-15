@@ -42,9 +42,9 @@ public enum SnowFlakeEntityEnum {
     BASE_DATA(140, "基础管理"),
     NLS(150, "语音交互能力层"),
     TRAINING_BUSINESS(160, "培训业务"),
-    ICBC_BUSINESS(170, "基础管理"),
-    ROBOT_BILL_MANAGE(180, "语音交互能力层"),
-    ROBOT_BUSINESS_MANAGE(190, "培训业务")
+    ICBC_BUSINESS(170, "工行业务"),
+    ROBOT_BILL_MANAGE(180, "机器人案件业务"),
+    ROBOT_BUSINESS_MANAGE(190, "机器人业务平台")
     ;
 
     private int entityId;

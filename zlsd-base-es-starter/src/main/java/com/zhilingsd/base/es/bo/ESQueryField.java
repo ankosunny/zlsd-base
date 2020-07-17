@@ -14,7 +14,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ESQueryOperationBO {
+public class ESQueryField {
+
+
     private Object value;
 
     private ESearchType eSearchType;

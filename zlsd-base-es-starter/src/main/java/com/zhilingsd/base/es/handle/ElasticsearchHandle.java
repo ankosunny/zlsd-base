@@ -9,59 +9,26 @@
  */
 package com.zhilingsd.base.es.handle;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhilingsd.base.common.exception.BusinessException;
 import com.zhilingsd.base.common.utils.BeanUtils;
 import com.zhilingsd.base.common.utils.DateUtil;
 import com.zhilingsd.base.common.utils.ReflectionUtils;
 import com.zhilingsd.base.es.bo.*;
-import com.zhilingsd.base.es.client.ElasticSearchClientConfig;
-import com.zhilingsd.base.es.emuns.AggreatinEnum;
 import com.zhilingsd.base.es.emuns.ESFieldType;
 import com.zhilingsd.base.es.emuns.ESReturnCode;
 import com.zhilingsd.base.es.emuns.ESearchType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.search.join.ScoreMode;
-import org.elasticsearch.action.DocWriteResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.support.WriteRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.CreateIndexRequest;
-import org.elasticsearch.client.indices.CreateIndexResponse;
-import org.elasticsearch.client.indices.GetIndexRequest;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
-import org.elasticsearch.index.reindex.BulkByScrollResponse;
-import org.elasticsearch.index.reindex.DeleteByQueryRequest;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.aggregations.AbstractAggregationBuilder;
-import org.elasticsearch.search.aggregations.Aggregation;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.bucket.nested.NestedAggregationBuilder;
-import org.elasticsearch.search.aggregations.bucket.nested.ParsedNested;
-import org.elasticsearch.search.aggregations.bucket.terms.ParsedTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.aggregations.metrics.sum.ParsedSum;
-import org.elasticsearch.search.aggregations.metrics.valuecount.ParsedValueCount;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
@@ -171,7 +138,7 @@ public class ElasticsearchHandle {
 
 
     public SearchSourceBuilder builderEsQuery(ESPageQueryBO esPageQueryBO) {
-        Map<String, ESQueryOperationBO> query = esPageQueryBO.getQuery();
+        Map<String, ESQueryField> query = esPageQueryBO.getQueryMap();
         Integer pageIndex = esPageQueryBO.getPageIndex();
         Integer pageSize = esPageQueryBO.getPageSize();
         if (query != null && !query.keySet().isEmpty()) {
@@ -191,7 +158,7 @@ public class ElasticsearchHandle {
             BoolQueryBuilder boolBuilder = QueryBuilders.boolQuery();
             if (MapUtils.isNotEmpty(query)) {
                 query.keySet().forEach(key -> {
-                    ESQueryOperationBO bo = query.get(key);
+                    ESQueryField bo = query.get(key);
                     builderFieldQuery(key, bo, boolBuilder);
                 });
             }
@@ -201,7 +168,7 @@ public class ElasticsearchHandle {
         return new SearchSourceBuilder();
     }
 
-    private void builderFieldQuery(String key, ESQueryOperationBO bo, BoolQueryBuilder boolBuilder) {
+    public void builderFieldQuery(String key, ESQueryField bo, BoolQueryBuilder boolBuilder) {
         ESearchType eSearchType = bo.getESearchType();
         switch (eSearchType) {
             case TERM: {
@@ -219,7 +186,7 @@ public class ElasticsearchHandle {
             case NESTED: {
                 try {
                     BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-                    Map<String, ESQueryOperationBO> nestedMap = buildESQueryOperationBOMap(bo.getValue());
+                    Map<String, ESQueryField> nestedMap = buildESQueryOperationBOMap(bo.getValue());
                     for (String nestedKey : nestedMap.keySet()) {
                         builderFieldQuery(nestedKey, nestedMap.get(nestedKey), boolQueryBuilder);
                     }
@@ -255,19 +222,19 @@ public class ElasticsearchHandle {
      * 功能描述:构建用于es查询的ESQueryOperationBOMap
      *
      * @param object
-     * @return java.util.Map<java.lang.String, com.zhilingsd.qi.business.common.bo.rule.ESQueryOperationBO>
+     * @return java.util.Map<java.lang.String, com.zhilingsd.qi.business.common.bo.rule.ESQueryField>
      * @auther 吞星（yangguojun）
      * @date 2020/3/4-18:46
      */
-    public Map<String, ESQueryOperationBO> buildESQueryOperationBOMap(Object object) throws Exception {
+    public Map<String, ESQueryField> buildESQueryOperationBOMap(Object object) throws Exception {
         try {
-            Map<String, ESQueryOperationBO> map = new HashMap<>();
+            Map<String, ESQueryField> map = new HashMap<>();
             Field[] declaredFields = object.getClass().getDeclaredFields();
             for (Field declaredField : declaredFields) {
                 declaredField.setAccessible(true);
                 Object value = declaredField.get(object);
                 if (value != null && ESAnnotationHandle.getSearchField(declaredField) != null) {
-                    map.put(ESAnnotationHandle.getSearchField(declaredField), new ESQueryOperationBO(value, ESAnnotationHandle.getESearchType(declaredField)));
+                    map.put(ESAnnotationHandle.getSearchField(declaredField), new ESQueryField(value, ESAnnotationHandle.getESearchType(declaredField)));
                 }
             }
             return map;
@@ -276,7 +243,7 @@ public class ElasticsearchHandle {
         }
     }
 
-    public void buildRangeQuery(Date start, Date end, String fieldName, Map<String, ESQueryOperationBO> map) {
+    public void buildRangeQuery(Date start, Date end, String fieldName, Map<String, ESQueryField> map) {
         ESRangeQueryBO esRangeQueryBO = new ESRangeQueryBO();
         if (start != null) {
             String StartStr = DateUtil.getDate(start, DateUtil.DATE_TIME);
@@ -288,14 +255,14 @@ public class ElasticsearchHandle {
         }
         boolean judgeBeanAllFieldIsNull = BeanUtils.judgeBeanAllFieldIsNull(esRangeQueryBO);
         if (!judgeBeanAllFieldIsNull) {
-            ESQueryOperationBO esQueryOperationBO = new ESQueryOperationBO();
-            esQueryOperationBO.setValue(esRangeQueryBO);
-            esQueryOperationBO.setESearchType(ESearchType.RANGE);
-            map.put(fieldName, esQueryOperationBO);
+            ESQueryField esQueryField = new ESQueryField();
+            esQueryField.setValue(esRangeQueryBO);
+            esQueryField.setESearchType(ESearchType.RANGE);
+            map.put(fieldName, esQueryField);
         }
     }
 
-    public void buildRangeQuery(Double start, Double end, String fieldName, Map<String, ESQueryOperationBO> map) {
+    public void buildRangeQuery(Double start, Double end, String fieldName, Map<String, ESQueryField> map) {
         ESRangeQueryBO esRangeQueryBO = new ESRangeQueryBO();
         if (start != null) {
             esRangeQueryBO.setStart(start);
@@ -305,10 +272,10 @@ public class ElasticsearchHandle {
         }
         boolean judgeBeanAllFieldIsNull = BeanUtils.judgeBeanAllFieldIsNull(esRangeQueryBO);
         if (!judgeBeanAllFieldIsNull) {
-            ESQueryOperationBO esQueryOperationBO = new ESQueryOperationBO();
-            esQueryOperationBO.setValue(esRangeQueryBO);
-            esQueryOperationBO.setESearchType(ESearchType.RANGE);
-            map.put(fieldName, esQueryOperationBO);
+            ESQueryField esQueryField = new ESQueryField();
+            esQueryField.setValue(esRangeQueryBO);
+            esQueryField.setESearchType(ESearchType.RANGE);
+            map.put(fieldName, esQueryField);
         }
     }
 

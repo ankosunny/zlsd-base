@@ -1,17 +1,14 @@
-package com.zhilingsd.base.es.client;
+package com.zhilingsd.base.es.config;
 
-import com.zhilingsd.base.es.config.ElasticSearchProperties;
-import com.zhilingsd.base.es.config.HttpHostProperties;
 import com.zhilingsd.base.es.handle.ElasticsearchHandle;
-import com.zhilingsd.base.es.handle.ElasticsearchTemplate;
-import com.zhilingsd.base.es.handle.ElasticsearchTemplateImpl;
+import com.zhilingsd.base.es.template.ElasticsearchTemplate;
+import com.zhilingsd.base.es.template.ElasticsearchTemplateImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;

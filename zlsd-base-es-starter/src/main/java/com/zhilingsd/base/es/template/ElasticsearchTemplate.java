@@ -1,4 +1,4 @@
-package com.zhilingsd.base.es.handle;
+package com.zhilingsd.base.es.template;
 
 import com.zhilingsd.base.es.bo.ESPageQueryBO;
 import com.zhilingsd.base.es.bo.QueryDocumentOutBO;

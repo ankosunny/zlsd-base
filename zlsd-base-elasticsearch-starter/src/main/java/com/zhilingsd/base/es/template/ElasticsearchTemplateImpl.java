@@ -230,8 +230,9 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         return null;
     }
 
+
     @Override
-    public QueryDocumentOutBO queryDocument(ESPageQueryBO esPageQueryBO) {
+    public QueryDocumentOutBO normalQueryDocument(ESPageQueryBO esPageQueryBO) {
         String[] indexNames = esPageQueryBO.getIndexNames();
         if (indexNames.length < 1) {
             throw new BusinessException(ReturnCode.BUSINESS_ERROR, "索引名称不能为空");
@@ -264,10 +265,16 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         return documentOutBO;
     }
 
-    /**
-     * 执行Es搜索
-     */
-    public SearchResponse execEsSearch(EsQueryBO esQueryBO, Map<String, Object> afterKey) throws IOException {
+    @Override
+    public PageDocumentOutBO pageQueryDocument(ESPageQueryBO esPageQueryBO) {
+        return null;
+    }
+
+
+
+
+    @Override
+    public SearchResponse aggreationQuery(EsQueryBO esQueryBO, Map<String, Object> offset) throws IOException {
         SearchRequest searchRequest = new SearchRequest(esQueryBO.getIndexNames());
         searchRequest.types(INDEX_DEFAULT_TYPE);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -276,7 +283,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         //处理普通查询 query
         buildNormalQuery(esQueryBO, searchSourceBuilder);
         //处理聚合分组层 group add,处理聚合数据层 count sum max min
-        buildAggGroupMap(esQueryBO, searchSourceBuilder, afterKey);
+        buildAggGroupMap(esQueryBO, searchSourceBuilder, offset);
         searchRequest.source(searchSourceBuilder);
         SearchResponse search = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         return search;
@@ -328,26 +335,23 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
      * @param esQueryBO
      * @param searchSourceBuilder
      */
-    public void buildAggGroupMap(EsQueryBO esQueryBO, SearchSourceBuilder searchSourceBuilder, Map<String, Object> afterKey) {
+    public void buildAggGroupMap(EsQueryBO esQueryBO, SearchSourceBuilder searchSourceBuilder, Map<String, Object> offset) {
         if (MapUtils.isEmpty(esQueryBO.getAggGroupFieldMap())) {
             return;
         }
         Map<String, Object> aggGroupMap = esQueryBO.getAggGroupFieldMap();
         Map<String, List<String>> aggMetricMap = esQueryBO.getAggMetricMap();
-        Integer returnBucketSize = esQueryBO.getNestBucketIndex() * esQueryBO.getNestBucketSize();
-        //默认聚合返回桶数量
-        if (returnBucketSize > DEFAULT_RETURN_EACH_BATCH_BUCKET_SIZE) {
-            returnBucketSize = DEFAULT_RETURN_EACH_BATCH_BUCKET_SIZE;
-        }
-        //如果需要返回全部桶，修改聚合返回桶数量为1万
+        //默认每批聚合返回桶数量
+        Integer  returnBucketSize = DEFAULT_RETURN_EACH_BATCH_BUCKET_SIZE;
+        //如果需要返回全部桶，修改每批聚合返回桶数量为1万
         if (esQueryBO.getNeedCount()) {
             returnBucketSize = MAX_RETURN_EACH_BATCH_BUCKET_SIZE;
         }
         //设置分组查询
         CompositeAggregationBuilder composite = buildAggComposite(aggGroupMap, returnBucketSize);
         //设置分批查询
-        if (MapUtils.isNotEmpty(afterKey)) {
-            composite.aggregateAfter(afterKey);
+        if (MapUtils.isNotEmpty(offset)) {
+            composite.aggregateAfter(offset);
         }
         //如果有需要，可以大桶套一个小桶
         if (MapUtils.isNotEmpty(esQueryBO.getAggGroupSubFieldMap())) {
@@ -401,14 +405,18 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     }
 
 
+
     /**
-     * 构建聚合查询  count  max  min  avg  sum
+     * 功能描述：构建聚合查询  count  max  min  avg  sum
      *
-     * @param aggMap
+     * @param aggMetricMap
      * @param aggregationBuilder
+     * @return void
+     * @auther 吞星（yangguojun）
+     * @date 2020/7/17-15:13
      */
-    public void buildAggMetricMap(Map<String, List<String>> aggMap, AggregationBuilder aggregationBuilder) {
-        aggMap.forEach(
+    public void buildAggMetricMap(Map<String, List<String>> aggMetricMap, AggregationBuilder aggregationBuilder) {
+        aggMetricMap.forEach(
                 (key, value) -> {
                     if (AggreatinEnum.SUM.getCode().equals(key)) {
                         value.forEach(

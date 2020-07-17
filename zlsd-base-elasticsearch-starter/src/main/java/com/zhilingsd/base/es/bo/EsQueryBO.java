@@ -23,12 +23,6 @@ public class EsQueryBO extends ESQueryBasicBO {
     private String[] includes = new String[]{"aggregations"};
     private String[] excludes = new String[]{"_source"};
 
-    //嵌套桶查询页
-    private Integer nestBucketIndex = 1;
-
-    //嵌套桶查询一页数量
-    private Integer nestBucketSize = 10000;
-
     //聚合分组查询字段 需排序
     private List<String> aggGroupFields;
 

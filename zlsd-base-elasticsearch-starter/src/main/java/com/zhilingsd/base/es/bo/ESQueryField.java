@@ -16,9 +16,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ESQueryField {
 
-
+    //字段值
     private Object value;
 
+    //字段类型
     private ESearchType eSearchType;
 
 

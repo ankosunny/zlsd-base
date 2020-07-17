@@ -40,6 +40,7 @@ import org.elasticsearch.search.aggregations.bucket.composite.DateHistogramValue
 import org.elasticsearch.search.aggregations.bucket.composite.TermsValuesSourceBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.joda.time.DateTimeZone;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.util.*;
@@ -162,6 +163,37 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     }
 
     /**
+     * 功能描述 添加document,需要自己指定indexName
+     *
+     * @param object
+     * @param id        documentId，如果想要自定义documentId，就需要传值
+     * @param indexName
+     * @return org.elasticsearch.action.index.IndexResponse
+     * *@auther 吞星（yangguojun）
+     * @date 2020/7/15-13:42
+     */
+    @Override
+    public IndexResponse addDocument(Object object, String id, String indexName) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Assert.notNull(id, "documentId is not null ");
+        Assert.notNull(indexName, "indexName is not null");
+        try {
+            String jsonStr = objectMapper.writeValueAsString(object);
+            IndexRequest request = new IndexRequest(indexName, id, INDEX_DEFAULT_TYPE);
+            request.source(jsonStr, XContentType.JSON);
+            IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
+            if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
+                return indexResponse;
+            } else {
+                log.error("新增一个document记录失败");
+            }
+        } catch (Exception e) {
+            log.error("新增一个document记录失败：{}", e);
+        }
+        return null;
+    }
+
+    /**
      * 获得新增的indexName
      *
      * @param object
@@ -184,6 +216,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
      * @date 2020/2/29-16:11
      */
     public String getIndexName(Class clazz, String indexNamesuffix) {
+        Assert.notNull(indexNamesuffix, "indexNamesuffix is not null ");
         String prefix = ESAnnotationHandle.getPrefix(clazz);
         StringBuffer buffer = new StringBuffer();
         buffer.append(prefix);
@@ -193,8 +226,20 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         return indexName;
     }
 
+    /**
+     * 功能描述
+     *
+     * @param object
+     * @param id
+     * @param indexName
+     * @return org.elasticsearch.action.index.IndexResponse
+     * @auther 吞星（yangguojun）
+     * @date 2020/7/17-17:44
+     */
     @Override
     public IndexResponse updateDocument(Object object, String id, String indexName) {
+        Assert.notNull(id, "documentId is not null");
+        Assert.notNull(indexName, "indexName is not null ");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
@@ -230,9 +275,48 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         return null;
     }
 
+    /**
+     * 功能描述：标准查询，非分页
+     *
+     * @param esNormalQueryBO
+     * @return com.zhilingsd.base.es.bo.QueryDocumentOutBO
+     * @auther 吞星（yangguojun）
+     * @date 2020/7/17-16:29
+     */
+    @Override
+    public List<HitBO> normalQueryDocument(ESNormalQueryBO esNormalQueryBO) {
+        String[] indexNames = esNormalQueryBO.getIndexNames();
+        if (indexNames.length < 1) {
+            throw new BusinessException(ReturnCode.BUSINESS_ERROR, "索引名称不能为空");
+        }
+        List<HitBO> list = new ArrayList<>(20);
+        SearchRequest searchRequest = new SearchRequest(indexNames);
+        searchRequest.types(INDEX_DEFAULT_TYPE);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        elasticsearchHandle.builderEsNormalQuery(esNormalQueryBO.getQueryFieldMap(), esNormalQueryBO.getEsQuerySortBO(), searchSourceBuilder);
+        searchRequest.source(searchSourceBuilder);
+        try {
+            log.info("ES查询DSL：{}", searchRequest.source().toString());
+            SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+            SearchHits hits = response.getHits();
+            for (SearchHit hit : hits) {
+                Map<String, Object> source = hit.getSourceAsMap();
+                Object object = JSONObject.parseObject(JSON.toJSONString(source), esNormalQueryBO.getClazz());
+                HitBO hitBO = new HitBO();
+                hitBO.setDocumentId(hit.getId());
+                hitBO.setIndexName(hit.getIndex());
+                hitBO.setDucumentContent(object);
+                list.add(hitBO);
+            }
+        } catch (Exception e) {
+            log.error("查询document异常：{}", e);
+        }
+        return list;
+    }
+
 
     @Override
-    public QueryDocumentOutBO normalQueryDocument(ESPageQueryBO esPageQueryBO) {
+    public PageDocumentOutBO pageQueryDocument(ESPageQueryBO esPageQueryBO) {
         String[] indexNames = esPageQueryBO.getIndexNames();
         if (indexNames.length < 1) {
             throw new BusinessException(ReturnCode.BUSINESS_ERROR, "索引名称不能为空");
@@ -241,7 +325,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         Long totalHits = null;
         SearchRequest searchRequest = new SearchRequest(indexNames);
         searchRequest.types(INDEX_DEFAULT_TYPE);
-        searchRequest.source(elasticsearchHandle.builderEsQuery(esPageQueryBO));
+        searchRequest.source(elasticsearchHandle.builderEsPageQuery(esPageQueryBO));
         try {
             log.info("ES查询DSL：{}", searchRequest.source().toString());
             SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
@@ -259,18 +343,13 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         } catch (Exception e) {
             log.error("查询document异常：{}", e);
         }
-        QueryDocumentOutBO documentOutBO = new QueryDocumentOutBO();
-        documentOutBO.setHitBOS(list);
-        documentOutBO.setTotalHits(totalHits);
-        return documentOutBO;
+        PageDocumentOutBO pageDocumentOutBO = new PageDocumentOutBO();
+        pageDocumentOutBO.setHitBOS(list);
+        pageDocumentOutBO.setCurPage(esPageQueryBO.getPageIndex());
+        pageDocumentOutBO.setPageSize(esPageQueryBO.getPageSize());
+        pageDocumentOutBO.setTotalRecord(totalHits);
+        return pageDocumentOutBO;
     }
-
-    @Override
-    public PageDocumentOutBO pageQueryDocument(ESPageQueryBO esPageQueryBO) {
-        return null;
-    }
-
-
 
 
     @Override
@@ -299,7 +378,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
      * @date 2020/7/16-20:51
      */
     public void buildNormalQuery(EsQueryBO esQueryBO, SearchSourceBuilder searchSourceBuilder) {
-        Map<String, ESQueryField> query = esQueryBO.getQueryMap();
+        Map<String, ESQueryField> query = esQueryBO.getQueryFieldMap();
         Integer pageIndex = esQueryBO.getPageIndex();
         Integer pageSize = esQueryBO.getPageSize();
         if (query != null && !query.keySet().isEmpty()) {
@@ -342,7 +421,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         Map<String, Object> aggGroupMap = esQueryBO.getAggGroupFieldMap();
         Map<String, List<String>> aggMetricMap = esQueryBO.getAggMetricMap();
         //默认每批聚合返回桶数量
-        Integer  returnBucketSize = DEFAULT_RETURN_EACH_BATCH_BUCKET_SIZE;
+        Integer returnBucketSize = DEFAULT_RETURN_EACH_BATCH_BUCKET_SIZE;
         //如果需要返回全部桶，修改每批聚合返回桶数量为1万
         if (esQueryBO.getNeedCount()) {
             returnBucketSize = MAX_RETURN_EACH_BATCH_BUCKET_SIZE;
@@ -371,7 +450,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     /**
      * 功能描述 :构建CompositeAggregationBuilder
      *
-     * @param aggGroupMap  分组字段 key:分组字段key；value:elasticsearch字段（全名称），如果分组字段要求有序，可以用LinkedHashMap
+     * @param aggGroupMap      分组字段 key:分组字段key；value:elasticsearch字段（全名称），如果分组字段要求有序，可以用LinkedHashMap
      * @param returnBucketSize
      * @return org.elasticsearch.search.aggregations.bucket.composite.CompositeAggregationBuilder
      * @auther 吞星（yangguojun）
@@ -403,7 +482,6 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         composite.size(returnBucketSize);
         return composite;
     }
-
 
 
     /**

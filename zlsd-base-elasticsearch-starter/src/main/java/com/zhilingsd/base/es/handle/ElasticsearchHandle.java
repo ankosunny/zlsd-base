@@ -132,41 +132,41 @@ public class ElasticsearchHandle {
     }
 
 
-
-
-
-
-
-    public SearchSourceBuilder builderEsQuery(ESPageQueryBO esPageQueryBO) {
-        Map<String, ESQueryField> query = esPageQueryBO.getQueryMap();
+    public SearchSourceBuilder builderEsPageQuery(ESPageQueryBO esPageQueryBO) {
         Integer pageIndex = esPageQueryBO.getPageIndex();
         Integer pageSize = esPageQueryBO.getPageSize();
-        if (query != null && !query.keySet().isEmpty()) {
-            SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-            if (pageIndex != null && pageSize != null) {
-                searchSourceBuilder.size(pageSize);
-                if (pageIndex <= 0) {
-                    pageIndex = 0;
-                }
-                searchSourceBuilder.from((pageIndex - 1) * pageSize);
-                searchSourceBuilder.size(pageSize);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        if (pageIndex != null && pageSize != null) {
+            searchSourceBuilder.size(pageSize);
+            if (pageIndex <= 0) {
+                pageIndex = 0;
             }
-            List<ESQuerySortBO> esQuerySortBOs = esPageQueryBO.getEsQuerySortBO();
+            searchSourceBuilder.from((pageIndex - 1) * pageSize);
+            searchSourceBuilder.size(pageSize);
+        }
+        builderEsNormalQuery(esPageQueryBO.getQueryFieldMap(), esPageQueryBO.getEsQuerySortBO(), searchSourceBuilder);
+        return searchSourceBuilder;
+    }
+
+    public void builderEsNormalQuery(Map<String, ESQueryField> queryFieldMap, List<ESQuerySortBO> esQuerySortBOs, SearchSourceBuilder searchSourceBuilder) {
+        if (queryFieldMap != null && !queryFieldMap.keySet().isEmpty()) {
             if (CollectionUtils.isNotEmpty(esQuerySortBOs)) {
-                esQuerySortBOs.forEach(value -> searchSourceBuilder.sort(SortBuilders.fieldSort(value.getSortFullField()).unmappedType(value.getEsFieldType().getCode()).order(value.getSortOrder())));
+                esQuerySortBOs.forEach(value -> searchSourceBuilder
+                        .sort(SortBuilders.fieldSort(value.getSortFullField())
+                                .unmappedType(value.getEsFieldType().getCode())
+                                .order(value.getSortOrder())));
             }
             BoolQueryBuilder boolBuilder = QueryBuilders.boolQuery();
-            if (MapUtils.isNotEmpty(query)) {
-                query.keySet().forEach(key -> {
-                    ESQueryField bo = query.get(key);
+            if (MapUtils.isNotEmpty(queryFieldMap)) {
+                queryFieldMap.keySet().forEach(key -> {
+                    ESQueryField bo = queryFieldMap.get(key);
                     builderFieldQuery(key, bo, boolBuilder);
                 });
             }
             searchSourceBuilder.query(boolBuilder);
-            return searchSourceBuilder;
         }
-        return new SearchSourceBuilder();
     }
+
 
     public void builderFieldQuery(String key, ESQueryField bo, BoolQueryBuilder boolBuilder) {
         ESearchType eSearchType = bo.getESearchType();

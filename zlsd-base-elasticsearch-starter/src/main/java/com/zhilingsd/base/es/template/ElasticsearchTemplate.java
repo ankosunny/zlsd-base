@@ -1,9 +1,6 @@
 package com.zhilingsd.base.es.template;
 
-import com.zhilingsd.base.es.bo.ESPageQueryBO;
-import com.zhilingsd.base.es.bo.EsQueryBO;
-import com.zhilingsd.base.es.bo.PageDocumentOutBO;
-import com.zhilingsd.base.es.bo.QueryDocumentOutBO;
+import com.zhilingsd.base.es.bo.*;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.settings.Settings;
@@ -57,7 +54,7 @@ public interface ElasticsearchTemplate {
     Boolean createIndex(String indexName, Class clazz, Settings.Builder builder);
 
     /**
-     * 功能描述 添加document
+     * 功能描述 添加document,当每个月一个index的时候，会自动添加到当月的index中
      *
      * @param object
      * @return org.elasticsearch.action.index.IndexResponse
@@ -65,6 +62,18 @@ public interface ElasticsearchTemplate {
      * @date 2020/7/15-13:42
      */
     IndexResponse addDocument(Object object);
+
+    /**
+     * 功能描述 添加document,需要自己指定indexName
+     *
+     * @param object
+     * @param id        documentId
+     * @param indexName
+     * @return org.elasticsearch.action.index.IndexResponse
+     * *@auther 吞星（yangguojun）
+     * @date 2020/7/15-13:42
+     */
+    IndexResponse addDocument(Object object, String id, String indexName);
 
 
     IndexResponse updateDocument(Object object, String id, String indexName);
@@ -74,13 +83,22 @@ public interface ElasticsearchTemplate {
     /**
      * 功能描述：标准查询，非分页
      *
+     * @param esNormalQueryBO
+     * @return com.zhilingsd.base.es.bo.QueryDocumentOutBO
+     * @auther 吞星（yangguojun）
+     * @date 2020/7/17-16:29
+     */
+    List<HitBO> normalQueryDocument(ESNormalQueryBO esNormalQueryBO);
+
+
+    /**
+     * 功能描述：分页查询
+     *
      * @param esPageQueryBO
      * @return com.zhilingsd.base.es.bo.QueryDocumentOutBO
      * @auther 吞星（yangguojun）
      * @date 2020/7/17-16:29
      */
-    QueryDocumentOutBO normalQueryDocument(ESPageQueryBO esPageQueryBO);
-
     PageDocumentOutBO pageQueryDocument(ESPageQueryBO esPageQueryBO);
 
 

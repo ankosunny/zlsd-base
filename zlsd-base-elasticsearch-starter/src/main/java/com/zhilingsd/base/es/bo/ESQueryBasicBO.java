@@ -15,7 +15,7 @@ import java.util.Map;
 public class ESQueryBasicBO {
 
     /*查询条件*/
-    Map<String, ESQueryField> queryMap;
+    Map<String, ESQueryField> queryFieldMap;
     /*排序字段集合*/
     List<ESQuerySortBO> esQuerySortBO;
 

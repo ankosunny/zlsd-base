@@ -28,13 +28,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnProperty(prefix = ElasticSearchProperties.ES_PREFIX, name = "whether.start", havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(ElasticSearchProperties.class)
-public class ElasticSearchClientConfig {
+public class ZLElasticSearchClientConfig {
 
 
     private ElasticSearchProperties esProperties;
 
 
-    public ElasticSearchClientConfig(ElasticSearchProperties properties) {
+    public ZLElasticSearchClientConfig(ElasticSearchProperties properties) {
         this.esProperties = properties;
     }
 

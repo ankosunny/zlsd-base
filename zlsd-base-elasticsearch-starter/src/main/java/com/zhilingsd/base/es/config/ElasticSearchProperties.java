@@ -17,7 +17,6 @@ import java.util.Map;
  **/
 
 @ConfigurationProperties(prefix = ElasticSearchProperties.ES_PREFIX)
-@Configuration
 @Data
 public class ElasticSearchProperties implements Serializable {
 

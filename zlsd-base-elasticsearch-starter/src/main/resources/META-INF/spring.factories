@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.zhilingsd.base.es.config.ElasticSearchClientConfig
+com.zhilingsd.base.es.config.ZLElasticSearchClientConfig

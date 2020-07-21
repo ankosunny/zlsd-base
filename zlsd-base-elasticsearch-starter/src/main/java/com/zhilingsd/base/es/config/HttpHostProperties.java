@@ -1,5 +1,6 @@
 package com.zhilingsd.base.es.config;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @create: 2020-02-26 18:09
  **/
 @ConfigurationProperties(prefix = HttpHostProperties.ES_HOST)
-@Configuration
+@Data
 public class HttpHostProperties {
 
     public static final String ES_HOST = "host";
@@ -19,19 +20,4 @@ public class HttpHostProperties {
 
     private String port;
 
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
 }

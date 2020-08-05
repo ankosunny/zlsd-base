@@ -22,7 +22,4 @@ public class ESQueryBasicBO {
     /*索引名数组*/
     String[] indexNames;
 
-    /*type数组*/
-    private String[] types = new String[]{"_doc"};
-
 }

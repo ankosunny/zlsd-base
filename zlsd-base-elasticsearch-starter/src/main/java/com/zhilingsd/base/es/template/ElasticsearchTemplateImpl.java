@@ -179,7 +179,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         Assert.notNull(indexName, "indexName is not null");
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
-            IndexRequest request = new IndexRequest(indexName, id, INDEX_DEFAULT_TYPE);
+            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE,id);
             request.source(jsonStr, XContentType.JSON);
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {

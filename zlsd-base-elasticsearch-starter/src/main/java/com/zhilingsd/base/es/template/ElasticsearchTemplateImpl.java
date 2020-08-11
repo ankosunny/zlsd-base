@@ -179,7 +179,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         Assert.notNull(indexName, "indexName is not null");
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
-            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE,id);
+            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, id);
             request.source(jsonStr, XContentType.JSON);
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
@@ -419,7 +419,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             return;
         }
         Map<String, Object> aggGroupMap = esQueryBO.getAggGroupFieldMap();
-        Map<String, List<String>> aggMetricMap = esQueryBO.getAggMetricMap();
+
         //默认每批聚合返回桶数量
         Integer returnBucketSize = DEFAULT_RETURN_EACH_BATCH_BUCKET_SIZE;
         //如果需要返回全部桶，修改每批聚合返回桶数量为1万
@@ -427,24 +427,22 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             returnBucketSize = MAX_RETURN_EACH_BATCH_BUCKET_SIZE;
         }
         //设置分组查询
-        CompositeAggregationBuilder composite = buildAggComposite(aggGroupMap, returnBucketSize);
+        CompositeAggregationBuilder compositeAggregationBuilder = buildAggComposite(aggGroupMap, returnBucketSize);
         //设置分批查询
         if (MapUtils.isNotEmpty(offset)) {
-            composite.aggregateAfter(offset);
+            compositeAggregationBuilder.aggregateAfter(offset);
         }
         //如果有需要，可以大桶套一个小桶
         if (MapUtils.isNotEmpty(esQueryBO.getAggGroupSubFieldMap())) {
             esQueryBO.getAggGroupSubFieldMap().forEach(
-                    (key, value) -> composite.subAggregation(AggregationBuilders.terms(key)
+                    (key, value) -> compositeAggregationBuilder.subAggregation(AggregationBuilders.terms(key)
                             .field(String.valueOf(value))
                             .size(DEFAULT_RETURN_EACH_BATCH_BUCKET_SIZE))
             );
         }
         //设置指标量聚合查询
-        if (MapUtils.isNotEmpty(aggMetricMap)) {
-            buildAggMetricMap(aggMetricMap, composite);
-        }
-        searchSourceBuilder.aggregation(composite);
+        buildAggMetricMap(esQueryBO, compositeAggregationBuilder);
+        searchSourceBuilder.aggregation(compositeAggregationBuilder);
     }
 
     /**
@@ -478,61 +476,65 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 sources.add(sourceBuilder);
             }
         });
-        CompositeAggregationBuilder composite = new CompositeAggregationBuilder(COMPOSITE_NAME, sources);
-        composite.size(returnBucketSize);
-        return composite;
+        CompositeAggregationBuilder compositeAggregationBuilder = new CompositeAggregationBuilder(COMPOSITE_NAME, sources);
+        compositeAggregationBuilder.size(returnBucketSize);
+        return compositeAggregationBuilder;
     }
 
 
     /**
      * 功能描述：构建聚合查询  count  max  min  avg  sum
      *
-     * @param aggMetricMap
+     * @param esQueryBO
      * @param aggregationBuilder
      * @return void
      * @auther 吞星（yangguojun）
      * @date 2020/7/17-15:13
      */
-    public void buildAggMetricMap(Map<String, List<String>> aggMetricMap, AggregationBuilder aggregationBuilder) {
-        aggMetricMap.forEach(
-                (key, value) -> {
-                    if (AggreatinEnum.SUM.getCode().equals(key)) {
-                        value.forEach(
-                                aggField -> {
-                                    aggregationBuilder.subAggregation(AggregationBuilders.sum(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
-                                }
-                        );
+    public void buildAggMetricMap(EsQueryBO esQueryBO, AggregationBuilder aggregationBuilder) {
+        Map<String, List<String>> aggMetricMap = esQueryBO.getAggMetricMap();
+        if (MapUtils.isNotEmpty(aggMetricMap)) {
+            aggMetricMap.forEach(
+                    (key, value) -> {
+                        if (AggreatinEnum.SUM.getCode().equals(key)) {
+                            value.forEach(
+                                    aggField -> {
+                                        aggregationBuilder.subAggregation(AggregationBuilders.sum(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
+                                    }
+                            );
+                        }
+                        if (AggreatinEnum.COUNT.getCode().equals(key)) {
+                            value.forEach(
+                                    aggField -> {
+                                        aggregationBuilder.subAggregation(AggregationBuilders.count(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
+                                    }
+                            );
+                        }
+                        if (AggreatinEnum.MAX.getCode().equals(key)) {
+                            value.forEach(
+                                    aggField -> {
+                                        aggregationBuilder.subAggregation(AggregationBuilders.max(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
+                                    }
+                            );
+                        }
+                        if (AggreatinEnum.MIN.getCode().equals(key)) {
+                            value.forEach(
+                                    aggField -> {
+                                        aggregationBuilder.subAggregation(AggregationBuilders.min(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
+                                    }
+                            );
+                        }
+                        if (AggreatinEnum.AVG.getCode().equals(key)) {
+                            value.forEach(
+                                    aggField -> {
+                                        aggregationBuilder.subAggregation(AggregationBuilders.avg(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
+                                    }
+                            );
+                        }
                     }
-                    if (AggreatinEnum.COUNT.getCode().equals(key)) {
-                        value.forEach(
-                                aggField -> {
-                                    aggregationBuilder.subAggregation(AggregationBuilders.count(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
-                                }
-                        );
-                    }
-                    if (AggreatinEnum.MAX.getCode().equals(key)) {
-                        value.forEach(
-                                aggField -> {
-                                    aggregationBuilder.subAggregation(AggregationBuilders.max(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
-                                }
-                        );
-                    }
-                    if (AggreatinEnum.MIN.getCode().equals(key)) {
-                        value.forEach(
-                                aggField -> {
-                                    aggregationBuilder.subAggregation(AggregationBuilders.min(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
-                                }
-                        );
-                    }
-                    if (AggreatinEnum.AVG.getCode().equals(key)) {
-                        value.forEach(
-                                aggField -> {
-                                    aggregationBuilder.subAggregation(AggregationBuilders.avg(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
-                                }
-                        );
-                    }
-                }
-        );
+            );
+        }
+
     }
 
 

@@ -16,6 +16,7 @@ public class ESQueryBasicBO {
 
     /*查询条件 key:esFullField;value:ESQueryField*/
     Map<String, ESQueryField> queryFieldMap;
+
     /*排序字段集合*/
     List<ESQuerySortBO> esQuerySortBO;
 

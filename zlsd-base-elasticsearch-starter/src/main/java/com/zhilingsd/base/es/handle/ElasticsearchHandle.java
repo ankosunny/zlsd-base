@@ -66,7 +66,6 @@ public class ElasticsearchHandle {
         xContentBuilder.startObject(PROPERTIES);
         xContentBuilder = resolveEntity(clazz, xContentBuilder);
         xContentBuilder.endObject();
-        xContentBuilder.endArray();
         xContentBuilder.endObject();
         return xContentBuilder;
     }

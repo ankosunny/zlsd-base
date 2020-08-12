@@ -531,6 +531,13 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                                     }
                             );
                         }
+                        if (AggreatinEnum.CARDINALITY.getCode().equals(key)) {
+                            value.forEach(
+                                    aggField -> {
+                                        aggregationBuilder.subAggregation(AggregationBuilders.cardinality(key.concat(UNDER_LINE).concat(aggField)).field(aggField));
+                                    }
+                            );
+                        }
                     }
             );
         }

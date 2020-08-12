@@ -12,7 +12,9 @@ public enum AggreatinEnum {
     AVG("avg", "平均数"),
     SUM("sum", "求和"),
     MAX("max", "最大值"),
-    MIN("min", "最小值");
+    MIN("min", "最小值"),
+    /*类似mysql distinct*/
+    CARDINALITY("cardinality","根据值去重");
 
     private String code;
     private String value;

@@ -46,8 +46,4 @@ public class EsQueryBO extends ESQueryBasicBO {
 
     /*统计总数*/
     private Boolean needCount = false;
-
-    /*是否需要对聚合结果，根据值，进行去重，类似mysql distinct*/
-    private Boolean isNeedDistinct;
-
 }

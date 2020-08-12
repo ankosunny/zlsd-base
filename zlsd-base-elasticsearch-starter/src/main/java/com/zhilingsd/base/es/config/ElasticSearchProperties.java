@@ -71,43 +71,4 @@ public class ElasticSearchProperties implements Serializable {
      */
     private int keepAliveTime = 60;
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getClustername() {
-        return clustername;
-    }
-
-    public void setClustername(String clustername) {
-        this.clustername = clustername;
-    }
-
-    public String getIndex() {
-        return index;
-    }
-
-    public void setIndex(String index) {
-        this.index = index;
-    }
-
-    public List<HttpHostProperties> getHosts() {
-        return hosts;
-    }
-
-    public void setHosts(List<HttpHostProperties> hosts) {
-        this.hosts = hosts;
-    }
 }

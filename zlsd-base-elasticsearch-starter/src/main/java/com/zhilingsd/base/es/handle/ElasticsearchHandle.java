@@ -279,21 +279,21 @@ public class ElasticsearchHandle {
     }
 
 
-    private List<GroupCountRecordBo> getGroupCountRecordBos(List<? extends Terms.Bucket> buckets) {
-        List<GroupCountRecordBo> groupCountRecordBos = new ArrayList<>();
+    private List<GroupCountRecordBO> getGroupCountRecordBos(List<? extends Terms.Bucket> buckets) {
+        List<GroupCountRecordBO> groupCountRecordBOS = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(buckets)) {
             buckets.forEach(
                     bucket -> {
-                        GroupCountRecordBo groupCountRecordBo = new GroupCountRecordBo();
+                        GroupCountRecordBO groupCountRecordBo = new GroupCountRecordBO();
                         String keyAsString = bucket.getKeyAsString();
                         long docCount = bucket.getDocCount();
                         groupCountRecordBo.setCountNum(docCount);
                         groupCountRecordBo.setGroupByColum(keyAsString);
-                        groupCountRecordBos.add(groupCountRecordBo);
+                        groupCountRecordBOS.add(groupCountRecordBo);
                     }
             );
         }
-        return groupCountRecordBos;
+        return groupCountRecordBOS;
     }
 
     private BoolQueryBuilder buildBoolQueryBuilder(Map<String, Object> queryMap, Map<String, Map<String, Object>> rangeMap) {

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroupCountRecordBo {
+public class GroupCountRecordBO {
     /*分组统计的数据*/
     private Long countNum;
     /*分组的字段*/

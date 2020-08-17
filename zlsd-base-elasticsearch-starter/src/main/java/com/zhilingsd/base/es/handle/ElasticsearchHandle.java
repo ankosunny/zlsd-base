@@ -149,12 +149,6 @@ public class ElasticsearchHandle {
 
     public void builderEsNormalQuery(Map<String, ESQueryField> queryFieldMap, List<ESQuerySortBO> esQuerySortBOs, SearchSourceBuilder searchSourceBuilder) {
         if (queryFieldMap != null && !queryFieldMap.keySet().isEmpty()) {
-            if (CollectionUtils.isNotEmpty(esQuerySortBOs)) {
-                esQuerySortBOs.forEach(value -> searchSourceBuilder
-                        .sort(SortBuilders.fieldSort(value.getSortFullField())
-                                .unmappedType(value.getEsFieldType().getCode())
-                                .order(value.getSortOrder())));
-            }
             BoolQueryBuilder boolBuilder = QueryBuilders.boolQuery();
             if (MapUtils.isNotEmpty(queryFieldMap)) {
                 queryFieldMap.keySet().forEach(key -> {
@@ -163,6 +157,12 @@ public class ElasticsearchHandle {
                 });
             }
             searchSourceBuilder.query(boolBuilder);
+        }
+        if (CollectionUtils.isNotEmpty(esQuerySortBOs)) {
+            esQuerySortBOs.forEach(value -> searchSourceBuilder
+                    .sort(SortBuilders.fieldSort(value.getSortFullField())
+                            .unmappedType(value.getEsFieldType().getCode())
+                            .order(value.getSortOrder())));
         }
     }
 

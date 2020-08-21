@@ -96,7 +96,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         } catch (Exception e) {
             log.error("判断索引是否存在失败：{}", e);
         }
-        return null;
+        return false;
     }
 
 
@@ -122,7 +122,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         } catch (Exception e) {
             log.error("创建索引：{}，失败：{}", indexName, e);
         }
-        return null;
+        return false;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         } catch (Exception e) {
             log.error("创建索引：{}，失败：{}", indexName, e);
         }
-        return null;
+        return false;
     }
 
     @Override

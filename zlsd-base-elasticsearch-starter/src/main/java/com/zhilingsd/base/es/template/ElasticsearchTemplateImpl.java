@@ -293,6 +293,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         SearchRequest searchRequest = new SearchRequest(indexNames);
         searchRequest.types(INDEX_DEFAULT_TYPE);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.size(esNormalQueryBO.getSize());
         elasticsearchHandle.builderEsNormalQuery(esNormalQueryBO.getQueryFieldMap(), esNormalQueryBO.getEsQuerySortBO(), searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
         try {

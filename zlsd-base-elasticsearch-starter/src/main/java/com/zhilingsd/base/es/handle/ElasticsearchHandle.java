@@ -136,7 +136,6 @@ public class ElasticsearchHandle {
         Integer pageSize = esPageQueryBO.getPageSize();
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         if (pageIndex != null && pageSize != null) {
-            searchSourceBuilder.size(pageSize);
             if (pageIndex <= 0) {
                 pageIndex = 0;
             }

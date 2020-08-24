@@ -9,9 +9,12 @@ import lombok.Data;
  * @create: 2020-03-03 15:56
  **/
 @Data
-public class ESNormalQueryBO extends  ESQueryBasicBO{
+public class ESNormalQueryBO extends ESQueryBasicBO {
 
     /*返回值类型*/
     Class clazz;
+
+    /*返回的记录数*/
+    Integer size = 10;
 
 }

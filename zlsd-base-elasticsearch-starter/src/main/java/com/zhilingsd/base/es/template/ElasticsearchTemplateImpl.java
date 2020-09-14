@@ -146,7 +146,36 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
-            String indexName = getAddIndexName(object);
+            String indexName = getCurMonthIndexName(object);
+            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
+            //request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
+            request.source(jsonStr, XContentType.JSON);
+            IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
+            if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
+                return indexResponse;
+            } else {
+                log.error("新增一个document记录失败");
+            }
+        } catch (Exception e) {
+            log.error("新增一个document记录失败：{}", e);
+        }
+        return null;
+    }
+
+    /**
+     * 功能描述 添加document,当一周一个index的时候，会自动添加到当周的index中
+     *
+     * @param object
+     * @return org.elasticsearch.action.index.IndexResponse
+     * *@auther 吞星（yangguojun）
+     * @date 2020/7/15-13:42
+     */
+    @Override
+    public IndexResponse addCurWeekDocument(Object object) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String jsonStr = objectMapper.writeValueAsString(object);
+            String indexName = getCurWeekIndexName(object);
             IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
             //request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
             request.source(jsonStr, XContentType.JSON);
@@ -199,10 +228,22 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
      * @param object
      * @return
      */
-    public String getAddIndexName(Object object) {
+    public String getCurMonthIndexName(Object object) {
         Date date = new Date();
         String indexNamesuffix = DateUtil.getDate(date, DATE_);
         String indexName = getIndexName(object.getClass(), indexNamesuffix);
+        return indexName;
+    }
+
+    public String getCurWeekIndexName(Object object) {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        //美国是以周日为每周的第一天 现把周一设成第一天
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setTime(date);
+        Integer curWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+        log.info("当前周为={}", curWeek);
+        String indexName = getIndexName(object.getClass(), curWeek.toString());
         return indexName;
     }
 

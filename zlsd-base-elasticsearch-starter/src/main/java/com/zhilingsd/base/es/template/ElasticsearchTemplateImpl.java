@@ -154,7 +154,27 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
                 return indexResponse;
             } else {
-                log.error("新增一个document记录失败");
+                log.error("新增一个document记录失败:" + JSON.toJSONString(indexResponse));
+            }
+        } catch (Exception e) {
+            log.error("新增一个document记录失败：{}", e);
+        }
+        return null;
+    }
+
+    @Override
+    public IndexResponse addDocument(Object object, String id) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String jsonStr = objectMapper.writeValueAsString(object);
+            String indexName = getCurMonthIndexName(object);
+            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE,id);
+            request.source(jsonStr, XContentType.JSON);
+            IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
+            if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
+                return indexResponse;
+            } else {
+                log.error("新增一个document记录失败:" + JSON.toJSONString(indexResponse));
             }
         } catch (Exception e) {
             log.error("新增一个document记录失败：{}", e);

@@ -14,6 +14,8 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -162,25 +164,6 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         return null;
     }
 
-    @Override
-    public IndexResponse addDocument(Object object, String id) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            String jsonStr = objectMapper.writeValueAsString(object);
-            String indexName = getCurMonthIndexName(object);
-            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE,id);
-            request.source(jsonStr, XContentType.JSON);
-            IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
-            if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
-                return indexResponse;
-            } else {
-                log.error("新增一个document记录失败:" + JSON.toJSONString(indexResponse));
-            }
-        } catch (Exception e) {
-            log.error("新增一个document记录失败：{}", e);
-        }
-        return null;
-    }
 
     /**
      * 功能描述 添加document,当一周一个index的时候，会自动添加到当周的index中
@@ -413,6 +396,20 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         return pageDocumentOutBO;
     }
 
+    @Override
+    public String getDocumentByKey(String indexName, String id) {
+        try {
+            GetRequest getRequest = new GetRequest(indexName, INDEX_DEFAULT_TYPE, id);
+            GetResponse getResponse = restHighLevelClient.get(getRequest, RequestOptions.DEFAULT);
+            if (getResponse != null && getResponse.isExists()) {
+                return getResponse.getSourceAsString();
+            }
+        } catch (Exception e) {
+            log.error("新增一个document记录失败：{}", e);
+        }
+        return null;
+
+    }
 
     @Override
     public SearchResponse aggreationQuery(EsQueryBO esQueryBO, Map<String, Object> offset) throws IOException {
@@ -429,6 +426,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         SearchResponse search = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         return search;
     }
+
 
     /**
      * 功能描述：构建普通查询

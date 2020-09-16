@@ -1,6 +1,7 @@
 package com.zhilingsd.base.es.template;
 
 import com.zhilingsd.base.es.bo.*;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.settings.Settings;
@@ -65,15 +66,6 @@ public interface ElasticsearchTemplate {
     IndexResponse addDocument(Object object);
 
 
-    /**
-     * 功能描述 添加document,支持自定义ID
-     *
-     * @param object
-     * @return org.elasticsearch.action.index.IndexResponse
-     * *@auther 吞星（yangguojun）
-     * @date 2020/7/15-13:42
-     */
-    IndexResponse addDocument(Object object,String id);
 
     /**
      * 功能描述 添加document,当一周一个index的时候，会自动添加到当周的index中
@@ -123,6 +115,16 @@ public interface ElasticsearchTemplate {
      */
     PageDocumentOutBO pageQueryDocument(ESPageQueryBO esPageQueryBO);
 
+    /**
+     * 功能描述：分页查询
+     *
+     * @param indexName
+     * @param id
+     * @return com.zhilingsd.base.es.bo.QueryDocumentOutBO
+     * @auther linmenghuai
+     * @date 2020年9月15日18:59:55
+     */
+    String getDocumentByKey(String indexName,String id);
 
     /**
      * 功能描述
@@ -137,5 +139,7 @@ public interface ElasticsearchTemplate {
      * @date 2020/7/17-15:15
      */
     SearchResponse aggreationQuery(EsQueryBO esQueryBO, Map<String, Object> offset) throws IOException;
+
+
 
 }

@@ -6,14 +6,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.BusinessException;
 import com.zhilingsd.base.common.utils.DateUtil;
-import com.zhilingsd.base.es.bo.*;
+import com.zhilingsd.base.common.utils.ReflectUtil;
+import com.zhilingsd.base.es.bo.ESNormalQueryBO;
+import com.zhilingsd.base.es.bo.ESPageQueryBO;
+import com.zhilingsd.base.es.bo.ESQueryField;
+import com.zhilingsd.base.es.bo.EsDateHistogramBO;
+import com.zhilingsd.base.es.bo.EsQueryBO;
+import com.zhilingsd.base.es.bo.HitBO;
+import com.zhilingsd.base.es.bo.PageDocumentOutBO;
 import com.zhilingsd.base.es.emuns.AggreatinEnum;
 import com.zhilingsd.base.es.handle.ESAnnotationHandle;
 import com.zhilingsd.base.es.handle.ElasticsearchHandle;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -29,7 +44,8 @@ import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryRequest;
 import org.elasticsearch.search.SearchHit;
@@ -43,9 +59,7 @@ import org.elasticsearch.search.aggregations.bucket.composite.TermsValuesSourceB
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.joda.time.DateTimeZone;
 import org.springframework.util.Assert;
-
-import java.io.IOException;
-import java.util.*;
+import org.springframework.util.StringUtils;
 
 /**
  * @program: 智灵时代广州研发中心
@@ -319,6 +333,37 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         return null;
     }
 
+    @Override
+    public BulkResponse batchAddDocument(List<Object> objects, String fieldName, String indexName) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Assert.notNull(indexName, "indexName is not null");
+        try {
+            BulkRequest bulkRequest = new BulkRequest();
+            for (Object object: objects){
+                IndexRequest indexRequest = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
+                if (!StringUtils.isEmpty(fieldName)){
+                    Object fieldValue = ReflectUtil.getFieldValue(object, fieldName);
+                    if (fieldValue == null){
+                        throw new BusinessException(ReturnCode.BUSINESS_ERROR, "指定docid的字段值不能为空");
+                    }
+                    indexRequest = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, fieldValue.toString());
+                }
+                String jsonStr = objectMapper.writeValueAsString(object);
+                indexRequest.source(jsonStr, XContentType.JSON);
+                bulkRequest.add(indexRequest);
+            }
+            BulkResponse bulkResponse = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+            if (bulkResponse != null) {
+                return bulkResponse;
+            } else {
+                log.error("批量新增document记录失败");
+            }
+        } catch (Exception e) {
+            log.error("批量新增document记录失败：{}", e);
+        }
+        return null;
+    }
+
     /**
      * 功能描述：标准查询，非分页
      *
@@ -405,7 +450,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 return getResponse.getSourceAsString();
             }
         } catch (Exception e) {
-            log.error("新增一个document记录失败：{}", e);
+            log.error("根据索引和id获取ocument记录失败：{}", e);
         }
         return null;
 
@@ -601,8 +646,6 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                     }
             );
         }
-
     }
-
 
 }

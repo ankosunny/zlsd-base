@@ -100,14 +100,14 @@ public interface ElasticsearchTemplate {
     /**
      * 功能描述 批量添加document,fieldName获取指定字段的值作为docid，不填默认不指定docid
      *
-     * @param object
+     * @param object ArrayList对象
      * @param fieldName
      * @param indexName
      * @return org.elasticsearch.action.bulk.BulkResponse
      * *@auther longhui
      * @date 2020/9/16
      */
-    BulkResponse batchAddDocument(List<Object> object, String fieldName, String indexName);
+    BulkResponse batchAddDocument(Object object, String fieldName, String indexName);
 
     /**
      * 功能描述：标准查询，非分页

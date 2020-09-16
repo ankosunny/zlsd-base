@@ -334,29 +334,33 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     }
 
     @Override
-    public BulkResponse batchAddDocument(List<Object> objects, String fieldName, String indexName) {
+    public BulkResponse batchAddDocument(Object object, String fieldName, String indexName) {
         ObjectMapper objectMapper = new ObjectMapper();
         Assert.notNull(indexName, "indexName is not null");
         try {
-            BulkRequest bulkRequest = new BulkRequest();
-            for (Object object: objects){
-                IndexRequest indexRequest = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
-                if (!StringUtils.isEmpty(fieldName)){
-                    Object fieldValue = ReflectUtil.getFieldValue(object, fieldName);
-                    if (fieldValue == null){
-                        throw new BusinessException(ReturnCode.BUSINESS_ERROR, "指定docid的字段值不能为空");
+            if (object instanceof ArrayList<?>) {
+                BulkRequest bulkRequest = new BulkRequest();
+                for (Object obj : (List<?>) object){
+                    IndexRequest indexRequest = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
+                    if (!StringUtils.isEmpty(fieldName)){
+                        Object fieldValue = ReflectUtil.getFieldValue(obj, fieldName);
+                        if (fieldValue == null){
+                            throw new BusinessException(ReturnCode.BUSINESS_ERROR, "指定docid的字段值不能为空");
+                        }
+                        indexRequest = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, fieldValue.toString());
                     }
-                    indexRequest = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, fieldValue.toString());
+                    String jsonStr = objectMapper.writeValueAsString(obj);
+                    indexRequest.source(jsonStr, XContentType.JSON);
+                    bulkRequest.add(indexRequest);
                 }
-                String jsonStr = objectMapper.writeValueAsString(object);
-                indexRequest.source(jsonStr, XContentType.JSON);
-                bulkRequest.add(indexRequest);
-            }
-            BulkResponse bulkResponse = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
-            if (bulkResponse != null) {
-                return bulkResponse;
-            } else {
-                log.error("批量新增document记录失败");
+                BulkResponse bulkResponse = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+                if (bulkResponse != null) {
+                    return bulkResponse;
+                } else {
+                    log.error("批量新增document记录失败");
+                }
+            }else{
+                throw new BusinessException(ReturnCode.BUSINESS_ERROR, "Object参数类型错误，必须是ArrayList");
             }
         } catch (Exception e) {
             log.error("批量新增document记录失败：{}", e);

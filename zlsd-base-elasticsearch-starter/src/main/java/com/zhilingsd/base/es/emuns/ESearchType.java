@@ -17,7 +17,7 @@ public enum ESearchType {
     NESTED,
     FUZZY,
     RANGE,
-    MATCH;
-
+    MATCH,
+    WILD_CARD;
 }
 

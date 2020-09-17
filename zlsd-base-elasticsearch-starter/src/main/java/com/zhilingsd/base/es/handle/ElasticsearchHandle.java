@@ -212,8 +212,11 @@ public class ElasticsearchHandle {
                 }
                 break;
             }
-            case WILD_CARD:{
+            case WILD_CARD: {
                 boolBuilder.must(QueryBuilders.wildcardQuery(key, bo.getValue().toString()));
+            }
+            case MUST_NOT_EXISTS: {
+                boolBuilder.mustNot(QueryBuilders.existsQuery(key));
             }
         }
     }

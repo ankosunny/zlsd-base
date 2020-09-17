@@ -235,6 +235,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         return indexName;
     }
 
+    @Override
     public String getCurWeekIndexName(Object object) {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();

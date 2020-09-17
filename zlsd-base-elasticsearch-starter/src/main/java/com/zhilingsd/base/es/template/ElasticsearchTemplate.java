@@ -53,6 +53,8 @@ public interface ElasticsearchTemplate {
      */
     Boolean createIndex(String indexName, Class clazz, Settings.Builder builder);
 
+   String getCurWeekIndexName(Object object);
+
 
     /**
      * 功能描述 添加document,当每个月一个index的时候，会自动添加到当月的index中

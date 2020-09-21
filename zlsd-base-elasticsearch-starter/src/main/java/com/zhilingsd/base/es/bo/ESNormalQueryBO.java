@@ -17,4 +17,12 @@ public class ESNormalQueryBO extends ESQueryBasicBO {
     /*返回的记录数*/
     Integer size = 10;
 
+    /**
+     * 返回指定字段
+     * */
+    private String[] includes = new String[0];
+    /**
+     * 返回排除指定字段
+     * */
+    private String[] excludes = new String[0];
 }

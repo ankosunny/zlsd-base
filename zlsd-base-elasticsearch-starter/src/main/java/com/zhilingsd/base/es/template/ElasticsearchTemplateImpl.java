@@ -387,6 +387,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         searchRequest.types(INDEX_DEFAULT_TYPE);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.size(esNormalQueryBO.getSize());
+        searchSourceBuilder.fetchSource(esNormalQueryBO.getIncludes(), esNormalQueryBO.getExcludes());
         elasticsearchHandle.builderEsNormalQuery(esNormalQueryBO.getQueryFieldMap(), esNormalQueryBO.getEsQuerySortBO(), searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
         try {
@@ -419,7 +420,10 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         Long totalHits = null;
         SearchRequest searchRequest = new SearchRequest(indexNames);
         searchRequest.types(INDEX_DEFAULT_TYPE);
-        searchRequest.source(elasticsearchHandle.builderEsPageQuery(esPageQueryBO));
+        SearchSourceBuilder searchSourceBuilder = elasticsearchHandle.builderEsPageQuery(esPageQueryBO);
+        searchSourceBuilder.fetchSource(esPageQueryBO.getIncludes(), esPageQueryBO.getExcludes());
+        searchRequest.source(searchSourceBuilder);
+
         try {
             log.info("ES查询DSL：{}", searchRequest.source().toString());
             SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);

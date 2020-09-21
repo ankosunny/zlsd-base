@@ -23,4 +23,6 @@ public class ESQueryBasicBO {
     /*索引名数组*/
     String[] indexNames;
 
+
+
 }

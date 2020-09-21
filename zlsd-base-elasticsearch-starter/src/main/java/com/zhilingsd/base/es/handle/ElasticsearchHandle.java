@@ -212,8 +212,12 @@ public class ElasticsearchHandle {
                 }
                 break;
             }
-            case WILD_CARD:{
+            case WILD_CARD: {
                 boolBuilder.must(QueryBuilders.wildcardQuery(key, bo.getValue().toString()));
+            }
+            //查询这个字段为空的或者没有这个字段的,key=es字段全路径
+            case MUST_NOT_EXISTS: {
+                boolBuilder.mustNot(QueryBuilders.existsQuery(key));
             }
         }
     }

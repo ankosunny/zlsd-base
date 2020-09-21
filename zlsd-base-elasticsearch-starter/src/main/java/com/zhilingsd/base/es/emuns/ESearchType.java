@@ -9,15 +9,20 @@ package com.zhilingsd.base.es.emuns;
  * @create: 2020-02-26 21:41
  **/
 public enum ESearchType {
+    /*must term*/
     TERM,
+    /*mustNot term*/
     TERM_NOT,
+    /*must terms*/
     TERMS,
     NESTED_HIT_RULE_MEDIA,
     NESTED_HIT_RULE_TEXT,
     NESTED,
     FUZZY,
+    /*must range*/
     RANGE,
     MATCH,
-    WILD_CARD;
+    WILD_CARD,
+    MUST_NOT_EXISTS;
 }
 

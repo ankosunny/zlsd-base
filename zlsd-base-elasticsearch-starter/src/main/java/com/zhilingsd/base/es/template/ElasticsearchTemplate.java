@@ -5,9 +5,11 @@ import com.zhilingsd.base.es.bo.ESPageQueryBO;
 import com.zhilingsd.base.es.bo.EsQueryBO;
 import com.zhilingsd.base.es.bo.HitBO;
 import com.zhilingsd.base.es.bo.PageDocumentOutBO;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -57,7 +59,14 @@ public interface ElasticsearchTemplate {
      */
     Boolean createIndex(String indexName, Class clazz, Settings.Builder builder);
 
-   String getCurWeekIndexName(Object object);
+    /**
+     * 功能描述 以周来分index的时候，获得当前周的indexName
+     * @param object
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2020/9/21-11:00
+     */
+    String getCurWeekIndexName(Object object);
 
 
     /**
@@ -69,7 +78,6 @@ public interface ElasticsearchTemplate {
      * @date 2020/7/15-13:42
      */
     IndexResponse addDocument(Object object);
-
 
 
     /**
@@ -102,7 +110,7 @@ public interface ElasticsearchTemplate {
     /**
      * 功能描述 批量添加document,fieldName获取指定字段的值作为docid，不填默认不指定docid
      *
-     * @param object ArrayList对象
+     * @param object    ArrayList对象
      * @param fieldName
      * @param indexName
      * @return org.elasticsearch.action.bulk.BulkResponse
@@ -141,7 +149,7 @@ public interface ElasticsearchTemplate {
      * @auther linmenghuai
      * @date 2020年9月15日18:59:55
      */
-    String getDocumentByKey(String indexName,String id);
+    String getDocumentByKey(String indexName, String id);
 
     /**
      * 功能描述
@@ -156,7 +164,6 @@ public interface ElasticsearchTemplate {
      * @date 2020/7/17-15:15
      */
     SearchResponse aggreationQuery(EsQueryBO esQueryBO, Map<String, Object> offset) throws IOException;
-
 
 
 }

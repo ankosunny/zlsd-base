@@ -48,7 +48,7 @@ public interface ElasticsearchTemplate {
     Boolean createDefaultIndex(String indexName, Class clazz);
 
     /**
-     * 功能描述 创建默认配置的index
+     * 功能描述 创建自定义的index
      *
      * @param indexName
      * @param clazz

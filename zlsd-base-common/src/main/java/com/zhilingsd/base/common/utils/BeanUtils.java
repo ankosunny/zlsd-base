@@ -25,6 +25,7 @@ package com.zhilingsd.base.common.utils;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.util.Assert;
@@ -217,10 +218,8 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
      * @auther 吞星（yangguojun）
      * @date 2020/9/22-14:18
      */
-    private Object mergeTwoBean(Object sourceBean, Object targetBean) {
+    public static Object mergeTwoBean(Object sourceBean, Object targetBean) {
         Class sourceBeanClass = sourceBean.getClass();
-        Class targetBeanClass = targetBean.getClass();
-
         Field[] sourceFields = sourceBeanClass.getDeclaredFields();
         Field[] targetFields = sourceBeanClass.getDeclaredFields();
         for (int i = 0; i < sourceFields.length; i++) {

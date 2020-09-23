@@ -25,6 +25,7 @@ package com.zhilingsd.base.common.utils;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.util.Assert;
@@ -205,6 +206,36 @@ public class BeanUtils extends  org.springframework.beans.BeanUtils{
             }
         }
         return flag;
+    }
+
+    /**
+     * 功能描述:该方法是用于相同对象不同属性值的合并，如果两个相同对象中同一属性都有值，
+     *                    那么sourceBean中的值会覆盖tagetBean重点的值
+     *
+     * @param sourceBean
+     * @param targetBean
+     * @return java.lang.Object
+     * @auther 吞星（yangguojun）
+     * @date 2020/9/22-14:18
+     */
+    public static Object mergeTwoBean(Object sourceBean, Object targetBean) {
+        Class sourceBeanClass = sourceBean.getClass();
+        Field[] sourceFields = sourceBeanClass.getDeclaredFields();
+        Field[] targetFields = sourceBeanClass.getDeclaredFields();
+        for (int i = 0; i < sourceFields.length; i++) {
+            Field sourceField = sourceFields[i];
+            Field targetField = targetFields[i];
+            sourceField.setAccessible(true);
+            targetField.setAccessible(true);
+            try {
+                if (!(sourceField.get(sourceBean) == null)) {
+                    targetField.set(targetBean, sourceField.get(sourceBean));
+                }
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return targetBean;
     }
 
 }

@@ -39,4 +39,9 @@ public class MQProperties {
      */
     private boolean vipChannelEnabled = false;
 
+    /**
+     * 单条消息大小上限
+     */
+    private int maxMessageSize =1024 * 1024 * 20; // 20M;
+
 }

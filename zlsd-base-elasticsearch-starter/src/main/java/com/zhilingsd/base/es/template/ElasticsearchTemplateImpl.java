@@ -305,7 +305,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
             IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, id);
-            request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
+            //request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
             request.source(jsonStr, XContentType.JSON);
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {

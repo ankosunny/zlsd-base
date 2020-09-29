@@ -17,12 +17,14 @@ import com.zhilingsd.base.es.bo.PageDocumentOutBO;
 import com.zhilingsd.base.es.emuns.AggreatinEnum;
 import com.zhilingsd.base.es.handle.ESAnnotationHandle;
 import com.zhilingsd.base.es.handle.ElasticsearchHandle;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
@@ -286,7 +288,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     }
 
     /**
-     * 功能描述
+     * 功能描述:如果传id表示更新，没传id表示插入
      *
      * @param object
      * @param id
@@ -303,10 +305,12 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
             IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, id);
-            request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
+            //request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
             request.source(jsonStr, XContentType.JSON);
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
+                return indexResponse;
+            } else if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
                 return indexResponse;
             } else {
                 log.error("修改一个document记录失败");
@@ -341,11 +345,11 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         try {
             if (object instanceof ArrayList<?>) {
                 BulkRequest bulkRequest = new BulkRequest();
-                for (Object obj : (List<?>) object){
+                for (Object obj : (List<?>) object) {
                     IndexRequest indexRequest = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
-                    if (!StringUtils.isEmpty(fieldName)){
+                    if (!StringUtils.isEmpty(fieldName)) {
                         Object fieldValue = ReflectUtil.getFieldValue(obj, fieldName);
-                        if (fieldValue == null){
+                        if (fieldValue == null) {
                             throw new BusinessException(ReturnCode.BUSINESS_ERROR, "指定docid的字段值不能为空");
                         }
                         indexRequest = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, fieldValue.toString());
@@ -360,7 +364,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 } else {
                     log.error("批量新增document记录失败");
                 }
-            }else{
+            } else {
                 throw new BusinessException(ReturnCode.BUSINESS_ERROR, "Object参数类型错误，必须是ArrayList");
             }
         } catch (Exception e) {

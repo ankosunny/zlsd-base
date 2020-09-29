@@ -193,6 +193,7 @@ public class ElasticsearchHandle {
                     log.error(ESReturnCode.ERROR_CODE_110507.getMsg(), e);
                     throw new BusinessException(ESReturnCode.ERROR_CODE_110507);
                 }
+                break;
             }
             case RANGE: {
                 if (bo.getValue() instanceof ESRangeQueryBO) {
@@ -214,10 +215,12 @@ public class ElasticsearchHandle {
             }
             case WILD_CARD: {
                 boolBuilder.must(QueryBuilders.wildcardQuery(key, bo.getValue().toString()+"*"));
+                break;
             }
             //查询这个字段为空的或者没有这个字段的,key=es字段全路径
             case MUST_NOT_EXISTS: {
                 boolBuilder.mustNot(QueryBuilders.existsQuery(key));
+                break;
             }
         }
     }

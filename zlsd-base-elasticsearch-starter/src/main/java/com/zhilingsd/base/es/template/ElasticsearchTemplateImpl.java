@@ -268,6 +268,28 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     }
 
     /**
+     * 功能描述 以周来分index的时候，获得当前周的indexName
+     *
+     * @param object
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2020/9/21-11:00
+     */
+    @Override
+    public String getNextWeekIndexName(Object object) {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        //美国是以周日为每周的第一天 现把周一设成第一天
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setTime(date);
+        Integer curWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+        Integer nextWeek = curWeek + 1;
+        log.info("当前周为={}", curWeek);
+        String indexName = getIndexName(object.getClass(), nextWeek.toString());
+        return indexName;
+    }
+
+    /**
      * 功能描述 获得索引名称
      *
      * @param clazz           实体类对象

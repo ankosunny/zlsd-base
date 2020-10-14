@@ -68,6 +68,15 @@ public interface ElasticsearchTemplate {
      */
     String getCurWeekIndexName(Object object);
 
+    /**
+     * 功能描述 以周来分index的时候，获得当前周的indexName
+     * @param object
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2020/9/21-11:00
+     */
+    String getNextWeekIndexName(Object object);
+
 
     /**
      * 功能描述 添加document,当每个月一个index的时候，会自动添加到当月的index中

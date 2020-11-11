@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -314,16 +315,6 @@ public class GlobalExceptionHandler {
         return CollectionResult.failed(ReturnCode.ERROR_4003.getCode(), ReturnCode.ERROR_4003.getMsg());
     }
 
-//    /**
-//     * mybatis异常
-//     */
-//    @ExceptionHandler(value = MyBatisSystemException.class)
-//    public CollectionResult myBatisSystemException(MyBatisSystemException ex) {
-//        ex.printStackTrace();
-//        log.error("mybatis异常,异常信息：", ex);
-//        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
-//    }
-
 
     /**
      * mysql异常
@@ -334,6 +325,22 @@ public class GlobalExceptionHandler {
         log.error("sql错误,异常信息：", ex);
         return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), ex.toString());
     }
+
+    /**
+     * 功能描述：发生sql语法错误时候，不返回具体异常，避免直接报sql暴露给前端
+     *
+     * @param ex
+     * @retun com.zhilingsd.base.common.result.CollectionResult
+     * @auther 吞星（yangguojun）
+     * @date 2020/11/11-18:32
+     */
+    @ExceptionHandler(value = BadSqlGrammarException.class)
+    public CollectionResult DataIntegrityViolationException(BadSqlGrammarException ex) {
+        ex.printStackTrace();
+        log.error("sql错误,异常信息：", ex);
+        return CollectionResult.failed(ReturnCode.ERROR_500.getCode(), "sql语法错误");
+    }
+
 
     /**
      * 自定义业务异常

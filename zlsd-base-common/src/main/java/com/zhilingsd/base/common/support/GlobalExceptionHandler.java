@@ -98,6 +98,15 @@ public class GlobalExceptionHandler {
         return result;
     }
 
+    private CommonResult returnErr(int code, Exception e, String errMsg) {
+        log.error(e.getMessage(), e);
+        CommonResult result = new CommonResult();
+        result.setCode(code);
+        result.setMsg(errMsg);
+        result.setSysTime(String.valueOf(System.currentTimeMillis()));
+        return result;
+    }
+
     /**
      * 全局异常捕获
      *
@@ -126,7 +135,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public CommonResult handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return returnErr(ReturnCode.ERROR_400.getCode(), e);
+        return returnErr(ReturnCode.ERROR_400.getCode(), e, "参数解析失败");
 
     }
 

@@ -125,7 +125,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public CommonResult handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-        return returnErr(ReturnCode.ERROR_400.getCode(), e);
+        return returnErr(ReturnCode.ERROR_400.getCode(), e, "缺少请求参数");
     }
 
     /**
@@ -156,7 +156,7 @@ public class GlobalExceptionHandler {
             String message = bindingResult.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
             errorMessage.append(message);
         }
-        return returnErr(errorMessage.toString(), ReturnCode.ERROR_400.getCode(), e);
+        return returnErr(ReturnCode.ERROR_400.getCode(), e, "参数验证失败");
     }
 
     /**
@@ -175,7 +175,7 @@ public class GlobalExceptionHandler {
             String message = bindingResult.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
             errorMessage.append(message);
         }
-        return returnErr(errorMessage.toString(), ReturnCode.ERROR_400.getCode(), e);
+        return returnErr(ReturnCode.ERROR_400.getCode(), e, "参数绑定失败");
     }
 
     /**
@@ -188,7 +188,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public CommonResult handleServiceException(ConstraintViolationException e) {
-        return returnErr(ReturnCode.ERROR_400.getCode(), e);
+        return returnErr(ReturnCode.ERROR_400.getCode(), e, "参数验证失败");
     }
 
     /**
@@ -201,7 +201,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
     public CommonResult handleValidationException(ValidationException e) {
-        return returnErr(ReturnCode.ERROR_400.getCode(), e);
+        return returnErr(ReturnCode.ERROR_400.getCode(), e, "参数验证失败");
     }
 
     /**
@@ -213,7 +213,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public CommonResult handleHttpMediaTypeNotSupportedException(Exception e) {
-        return returnErr(ReturnCode.ERROR_400.getCode(), e);
+        return returnErr(ReturnCode.ERROR_400.getCode(), e, "不支持多媒体类型");
     }
 
     /**
@@ -225,7 +225,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CommonResult handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        return returnErr(ReturnCode.ERROR_405.getCode(), e);
+        return returnErr(ReturnCode.ERROR_405.getCode(), e, "请求方法不允许");
     }
 
 
@@ -404,7 +404,7 @@ public class GlobalExceptionHandler {
     public CollectionResult requestTypeMismatch(TypeMismatchException ex) {
         ex.printStackTrace();
         log.error("TypeMismatchException,异常信息：", ex);
-        return CollectionResult.failed(ReturnCode.ERROR_400.getCode(), ex.toString());
+        return CollectionResult.failed(ReturnCode.ERROR_400.getCode(), "类型转换错误");
     }
 
 

@@ -138,6 +138,14 @@ public interface ElasticsearchTemplate {
      */
     List<HitBO> normalQueryDocument(ESNormalQueryBO esNormalQueryBO);
 
+    /**
+     * 功能描述：滚动查询
+     * @param esNormalQueryBO
+     * @param scrollTimeOut
+     * @return
+     */
+    List<HitBO> normalScrollQueryDocument(ESNormalQueryBO esNormalQueryBO,Long scrollTimeOut);
+
 
     /**
      * 功能描述：分页查询

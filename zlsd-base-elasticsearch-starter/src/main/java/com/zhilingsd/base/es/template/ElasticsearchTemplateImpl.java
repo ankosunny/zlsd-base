@@ -28,6 +28,7 @@ import java.util.Map;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -35,8 +36,7 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.*;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -44,12 +44,14 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryRequest;
+import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
@@ -433,6 +435,85 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         } catch (Exception e) {
             log.error("查询document异常：{}", e);
         }
+        return list;
+    }
+
+    /**
+     * 功能描述：滚动查询
+     * @param esNormalQueryBO
+     * @param scrollTimeOut
+     * @return
+     */
+    @Override
+    public List<HitBO> normalScrollQueryDocument(ESNormalQueryBO esNormalQueryBO, Long scrollTimeOut) {
+        String[] indexNames = esNormalQueryBO.getIndexNames();
+        if (indexNames.length < 1) {
+            throw new BusinessException(ReturnCode.BUSINESS_ERROR, "索引名称不能为空");
+        }
+
+        SearchRequest searchRequest = new SearchRequest(indexNames);
+        searchRequest.types(INDEX_DEFAULT_TYPE);
+        Scroll scroll = new Scroll(TimeValue.timeValueMinutes(10L));
+        searchRequest.scroll(scroll);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        //设置每次查询的记录数
+        searchSourceBuilder.size(esNormalQueryBO.getSize());
+        searchSourceBuilder.fetchSource(esNormalQueryBO.getIncludes(), esNormalQueryBO.getExcludes());
+        elasticsearchHandle.builderEsNormalQuery(esNormalQueryBO.getQueryFieldMap(), esNormalQueryBO.getEsQuerySortBO(), searchSourceBuilder);
+        searchRequest.source(searchSourceBuilder);
+
+        SearchResponse response = null;
+        try {
+            log.info("ES通过scroll查询DSL：{}", searchRequest.source().toString());
+            response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        } catch (Exception e) {
+            log.error("scroll查询document异常：{}", e);
+        }
+        String scrollId = response.getScrollId();
+        SearchHit[] hits = response.getHits().getHits();
+
+        //游标结果
+        List<SearchHit> resultSearchHit = new ArrayList<>();
+        while (ArrayUtils.isNotEmpty(hits)) {
+            for (SearchHit hit : hits) {
+                resultSearchHit.add(hit);
+            }
+            SearchScrollRequest searchScrollRequest = new SearchScrollRequest(scrollId);
+            searchScrollRequest.scroll(scroll);
+
+            SearchResponse searchScrollResponse = null;
+            try {
+                searchScrollResponse = restHighLevelClient.scroll(searchScrollRequest, RequestOptions.DEFAULT);
+            } catch (Exception e) {
+                log.error("scroll循环查询异常：{}", e);
+            }
+            scrollId = searchScrollResponse.getScrollId();
+            hits = searchScrollResponse.getHits().getHits();
+        }
+
+        //及时清除es快照，释放资源
+        ClearScrollRequest clearScrollRequest = new ClearScrollRequest();
+        clearScrollRequest.addScrollId(scrollId);
+        ClearScrollResponse clearScrollResponse = null;
+        try {
+            clearScrollResponse = restHighLevelClient.clearScroll(clearScrollRequest, RequestOptions.DEFAULT);
+        } catch (Exception e) {
+            log.error("清除scroll异常：{}", e);
+        }
+        log.info("清除scroll是否成功：" + clearScrollResponse.isSucceeded());
+
+        //返回结果
+        List<HitBO> list = new ArrayList<>(20);
+        for (SearchHit hit : resultSearchHit) {
+            Map<String, Object> source = hit.getSourceAsMap();
+            Object object = JSONObject.parseObject(JSON.toJSONString(source), esNormalQueryBO.getClazz());
+            HitBO hitBO = new HitBO();
+            hitBO.setDocumentId(hit.getId());
+            hitBO.setIndexName(hit.getIndex());
+            hitBO.setDucumentContent(object);
+            list.add(hitBO);
+        }
+
         return list;
     }
 

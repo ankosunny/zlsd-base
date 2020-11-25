@@ -48,7 +48,11 @@ public class SwaggerConfigVersionOne {
         List<Parameter> pars = Lists.newArrayList();
         tokenPar.name("operatorId").defaultValue("1").description("操作人ID").modelRef(new ModelRef("long")).parameterType("header").required(false).build();
         pars.add(tokenPar.build());
-        tokenPar.name("collectionCompanyId").defaultValue("783477993317728256").description("所属机构ID").modelRef(new ModelRef("long")).parameterType("header").required(false).build();
+        tokenPar.name("collectionCompanyId").defaultValue("0").description("所属机构ID").modelRef(new ModelRef("long")).parameterType("header").required(false).build();
+        pars.add(tokenPar.build());
+        tokenPar.name("isInner").defaultValue("true").description("是否行内").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+        pars.add(tokenPar.build());
+        tokenPar.name("collectionGroupId").defaultValue("0").description("所属业务组ID").modelRef(new ModelRef("long")).parameterType("header").required(false).build();
         pars.add(tokenPar.build());
         tokenPar.name("session").defaultValue("00000000-0000-0000-0000-000000000000").description("登陆Session").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
         pars.add(tokenPar.build());

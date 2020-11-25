@@ -1,6 +1,7 @@
 package com.zhilingsd.base.common.aspect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.javafx.scene.control.behavior.OptionalBoolean;
 import com.zhilingsd.base.common.bean.AppAgentInfo;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
@@ -21,6 +22,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -68,7 +70,16 @@ public class CommonFacadeAspect {
         String operatorId = Optional.ofNullable(request.getHeader("operatorId")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
         String collectionCompanyId = Optional.ofNullable(request.getHeader("collectionCompanyId")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头collectionCompanyId不能为空"));
         String collectionGroupId = Optional.ofNullable(request.getHeader("collectionGroupId")).orElse("0");
-        AppAgentInfo agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), session, Long.parseLong(collectionGroupId));
+        String isInnerStr = Optional.ofNullable(request.getHeader("companyType")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头isInner不能为空"));
+        Boolean isInner = Boolean.TRUE;
+        if ("false".equalsIgnoreCase(isInnerStr)){
+            isInner = Boolean.FALSE;
+        }else if ("true".equalsIgnoreCase(isInnerStr)){
+            isInner= Boolean.TRUE;
+        }else {
+           throw  new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头isInner值不正确");
+        }
+        AppAgentInfo agentInfo = new AppAgentInfo(session,Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), Long.parseLong(collectionGroupId),isInner);
         AppUtil.setAppAgentInfo(agentInfo);
         log.info(PRE_TAG + "operatorInfo：" + JSONObject.toJSONString(agentInfo));
 

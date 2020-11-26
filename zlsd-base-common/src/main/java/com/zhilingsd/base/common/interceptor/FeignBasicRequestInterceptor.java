@@ -38,7 +38,7 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
     /**
      * 是否行内
      */
-    private final static String IS_INNER = "isInner";
+    private final static String ASSET_COMPANY_TYPE = "assetCompanyType";
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
@@ -49,12 +49,12 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
         log.debug("用户信息{}", JSONObject.toJSONString(AppUtil.getAppAgentInfo()));
 
         if (Objects.nonNull(AppUtil.getAppAgentInfo().getOperatorId()) && Objects.nonNull(AppUtil.getAppAgentInfo().getCollectionCompanyId())
-                &&Objects.nonNull(AppUtil.getAppAgentInfo().getSession())&&Objects.nonNull(AppUtil.getAppAgentInfo().getIsInner())){
+                &&Objects.nonNull(AppUtil.getAppAgentInfo().getSession())&&Objects.nonNull(AppUtil.getAppAgentInfo().getAssetCompanyType())){
             requestTemplate.header(OPERATOR_ID, AppUtil.getAppAgentInfo().getOperatorId()+"");
             requestTemplate.header(COLLECTION_COMPANY_ID, AppUtil.getAppAgentInfo().getCollectionCompanyId()+"");
             requestTemplate.header(SESSION, AppUtil.getAppAgentInfo().getSession());
             requestTemplate.header(COLLECTION_GROUP_ID, AppUtil.getAppAgentInfo().getCollectionGroupId()+"");
-            requestTemplate.header(IS_INNER, AppUtil.getAppAgentInfo().getIsInner()+"");
+            requestTemplate.header(ASSET_COMPANY_TYPE, AppUtil.getAppAgentInfo().getAssetCompanyType());
         }
     }
 }

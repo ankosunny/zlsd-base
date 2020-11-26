@@ -33,8 +33,8 @@ public class AppAgentInfo {
      */
     private long collectionGroupId;
     /**
-     * 是否行内/委外
+     * 行内inner/委外out
      */
-    private Boolean isInner;
+    private String assetCompanyType;
 
 }

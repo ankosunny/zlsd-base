@@ -34,6 +34,7 @@ public enum PlatformEnum {
     ANDROID("android", "外访APP"),
     EMERGENCY("emergency", "应急限制系统"),
     BANK("bank", "银行管理系统"),
+    ASSET("asset","贷后资产管理系统")
     ;
 
     private String code;

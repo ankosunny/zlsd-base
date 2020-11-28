@@ -25,6 +25,7 @@ package com.zhilingsd.base.es.client;
 import java.util.Arrays;
 import java.util.Objects;
 
+import com.zhilingsd.base.es.client.config.ElasticSearchProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -40,7 +41,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.zhilingsd.collection.callcenter.es.client.config.ElasticSearchProperties;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,10 +55,10 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableConfigurationProperties(ElasticSearchProperties.class)
 public class ESClient {
-    private static final int ADDRESS_LENGTH = 2;
-    private static final String HTTP_SCHEME = "http";
+    private static final int                     ADDRESS_LENGTH = 2;
+    private static final String                  HTTP_SCHEME = "http";
     @Autowired
-    private ElasticSearchProperties elasticSearchProperties;
+    private              ElasticSearchProperties elasticSearchProperties;
 
     @Value("${zlsd.es.userName}")
     private String userName;

@@ -30,6 +30,7 @@ import java.util.Map;
 
 import com.zhilingsd.base.es.core.mapping.IndexCoordinates;
 import com.zhilingsd.base.es.core.query.*;
+import lombok.Data;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -75,12 +76,11 @@ import lombok.extern.slf4j.Slf4j;
  * @description //TODO
  * @date 2020/9/27 17:23
  */
-@Repository
+@Data
 @Slf4j
 public class ElasticSearchTemplateImpl extends AbstractElasticSearchTemplate {
 
 
-    @Autowired
     private RestHighLevelClient client;
 
     @Override

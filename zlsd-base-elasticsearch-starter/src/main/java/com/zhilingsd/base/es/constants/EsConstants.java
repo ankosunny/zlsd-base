@@ -31,20 +31,6 @@ package com.zhilingsd.base.es.constants;
  */
 public class EsConstants {
 
-    public static class CallDetailRecord {
-//        public static final String INDEX_NAME_PREFIX = "collection_cc_cdr";
-        public static final String ID = "id";
-        public static final String BILL_ID = "billId";
-        public static final String BILL_CODE = "billcode";
-        public static final String CALL_START_TIME = "callStartTime";
-        public static final String CALL_END_TIME = "callEndTime";
-        public static final String CALL_TYPE = "callType";
-        public static final String CALLED_NAME = "calledName";
-        public static final String CLIENT_NAME = "clientName";
-        public static final String CALLED_NUMBER = "calledNumber";
-        public static final String CALLING_NUMBER = "callingNumber";
-        public static final String TALK_TIME = "talkTime";
-        public static final String CREATED = "created";
-    }
+
 
 }

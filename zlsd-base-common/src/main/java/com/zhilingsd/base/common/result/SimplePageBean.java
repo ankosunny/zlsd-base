@@ -3,6 +3,8 @@ package com.zhilingsd.base.common.result;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * ^---^---^---^---^---^---^---^
  * --v---v---v---v---v---v---v--
@@ -34,4 +36,7 @@ public class SimplePageBean {
      */
     @ApiModelProperty(value = "总条数")
     private Long total;
+
+    @ApiModelProperty(value = "排序字段")
+    private List<OrderByBean> orderByBeans;
 }

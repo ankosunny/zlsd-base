@@ -47,13 +47,13 @@ public enum SnowFlakeEntityEnum {
 //    ROBOT_BUSINESS_MANAGE(190, "机器人业务平台"),
 //    ROBOT_BILL_CENTER(200, "机器人案件中心"),
 
-    ASSET_BILL(210, "资产案件中心"),
-    ASSET_AGENT(220, "资产用户"),
-    ASSET_WORK_MANAGE(230, "资产作业管理"),
-    ASSET_CALL_CENTER(240, "资产呼叫中心"),
-    ASSET_BILL_MANAGE(250, "资产案件管理"),
-    ASSET_DC(201, "资产数据中心"),
-    ASSET_ENGINE(202, "资产引擎"),
+    ASSET_BILL(10, "资产案件中心"),
+    ASSET_AGENT(20, "资产用户"),
+    ASSET_WORK_MANAGE(30, "资产作业管理"),
+    ASSET_CALL_CENTER(40, "资产呼叫中心"),
+    ASSET_BILL_MANAGE(50, "资产案件管理"),
+    ASSET_DC(60, "资产数据中心"),
+    ASSET_ENGINE(70, "资产引擎"),
     ;
 
     private int entityId;

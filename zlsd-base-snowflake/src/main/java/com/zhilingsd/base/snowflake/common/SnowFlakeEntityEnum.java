@@ -52,8 +52,8 @@ public enum SnowFlakeEntityEnum {
     ASSET_WORK_MANAGE(230, "资产作业管理"),
     ASSET_CALL_CENTER(240, "资产呼叫中心"),
     ASSET_BILL_MANAGE(250, "资产案件管理"),
-    ASSET_DC(260, "资产数据中心"),
-    ASSET_ENGINE(270, "资产引擎"),
+    ASSET_DC(201, "资产数据中心"),
+    ASSET_ENGINE(202, "资产引擎"),
     ;
 
     private int entityId;

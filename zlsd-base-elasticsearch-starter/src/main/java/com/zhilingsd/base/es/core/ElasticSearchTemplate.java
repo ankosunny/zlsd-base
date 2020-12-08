@@ -55,6 +55,11 @@ public interface ElasticSearchTemplate {
 
     Object getDocumentByKey(IndexCoordinates index, String id);
 
+    /**
+     * 批量获取文档数据
+     * */
+    List<Object> multiGetByKeys(IndexCoordinates index, List<String> ids);
+
     List<HitEntity> query(Object queryObject, ESNormalQuery normalQuery) throws Exception;
 
     ScrollResult queryScroll(Object queryObject, ESNormalQuery normalQuery) throws Exception;
@@ -69,6 +74,6 @@ public interface ElasticSearchTemplate {
     /**
      * 根据主键删除文档
      * */
-    public Boolean removeById(String id, IndexCoordinates index);
+    Boolean removeById(String id, IndexCoordinates index);
 
 }

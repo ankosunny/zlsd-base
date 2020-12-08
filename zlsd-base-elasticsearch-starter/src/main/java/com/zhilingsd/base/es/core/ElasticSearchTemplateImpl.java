@@ -39,6 +39,9 @@ import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.get.MultiGetItemResponse;
+import org.elasticsearch.action.get.MultiGetRequest;
+import org.elasticsearch.action.get.MultiGetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.ClearScrollRequest;
@@ -172,7 +175,36 @@ public class ElasticSearchTemplateImpl extends AbstractElasticSearchTemplate {
             log.error("根据索引和id获取ocument记录失败：{}", e);
         }
         return null;
+    }
 
+    @Override
+    public List<Object> multiGetByKeys(IndexCoordinates index, List<String> ids) {
+        MultiGetRequest request = new MultiGetRequest();
+        for (String id : ids) {
+            request.add(new MultiGetRequest.Item(
+                    index.getIndexName(),
+                    IndexCoordinates.TYPE,
+                    id));
+        }
+        List<Object> objects = new ArrayList<>();
+        try {
+            MultiGetResponse response = client.mget(request, RequestOptions.DEFAULT);
+            for (MultiGetItemResponse item : response.getResponses()){
+                GetResponse getResponse = item.getResponse();
+                if (getResponse.isExists()) {
+                    Object object = JSONObject.parseObject(getResponse.getSourceAsString(), index.getClazz());
+                    objects.add(object);
+                } else {
+                    log.error("获取不到数据：" + getResponse.getId());
+                    throw new BusinessException(ReturnCode.BUSINESS_ERROR, "获取不到部分数据");
+                }
+            }
+            return objects;
+
+        } catch (Exception e) {
+            log.error("批量获取文档异常",e);
+        }
+        return null;
     }
 
 
@@ -351,7 +383,7 @@ public class ElasticSearchTemplateImpl extends AbstractElasticSearchTemplate {
                 }
                 log.error("删除doc记录失败，错误信息:" + reason);
                 return false;
-            }else {
+            } else {
                 return true;
             }
         } catch (Exception e) {
@@ -360,6 +392,7 @@ public class ElasticSearchTemplateImpl extends AbstractElasticSearchTemplate {
         }
 
     }
+
 
     private Boolean index(IndexRequest request, Object record) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();

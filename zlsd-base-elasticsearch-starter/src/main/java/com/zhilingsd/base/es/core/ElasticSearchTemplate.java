@@ -65,4 +65,10 @@ public interface ElasticSearchTemplate {
 
     BulkIndexResult bulkIndex(Object object, String fieldName, IndexCoordinates index) throws IOException;
 
+
+    /**
+     * 根据主键删除文档
+     * */
+    public Boolean removeById(String id, IndexCoordinates index);
+
 }

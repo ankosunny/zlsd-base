@@ -35,6 +35,8 @@ import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -43,6 +45,7 @@ import org.elasticsearch.action.search.ClearScrollRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchScrollRequest;
+import org.elasticsearch.action.support.replication.ReplicationResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -318,7 +321,7 @@ public class ElasticSearchTemplateImpl extends AbstractElasticSearchTemplate {
                     }
                     bulkIndexResult.setSuccessful(false);
                     bulkIndexResult.setFailedDocuments(failedDocuments);
-                }else {
+                } else {
                     bulkIndexResult.setSuccessful(true);
                 }
                 return bulkIndexResult;
@@ -329,6 +332,33 @@ public class ElasticSearchTemplateImpl extends AbstractElasticSearchTemplate {
             log.error("批量新增document记录失败：{}", e);
             throw e;
         }
+    }
+
+    @Override
+    public Boolean removeById(String id, IndexCoordinates index) {
+        DeleteRequest deleteRequest = new DeleteRequest(
+                index.getIndexName(),
+                IndexCoordinates.TYPE,
+                id);
+        try {
+            DeleteResponse deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
+            ReplicationResponse.ShardInfo shardInfo = deleteResponse.getShardInfo();
+            if (shardInfo.getTotal() != shardInfo.getSuccessful() || shardInfo.getFailed() > 0 || deleteResponse.getResult() == DocWriteResponse.Result.NOT_FOUND) {
+                String reason = "";
+                for (ReplicationResponse.ShardInfo.Failure failure :
+                        shardInfo.getFailures()) {
+                    reason = reason + failure.reason();
+                }
+                log.error("删除doc记录失败，错误信息:" + reason);
+                return false;
+            }else {
+                return true;
+            }
+        } catch (Exception e) {
+            log.error("删除doc记录失败：{}", e);
+            throw new BusinessException(ReturnCode.BUSINESS_ERROR, e.getMessage());
+        }
+
     }
 
     private Boolean index(IndexRequest request, Object record) throws IOException {

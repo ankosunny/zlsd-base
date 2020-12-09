@@ -1,6 +1,6 @@
 package com.zhilingsd.base.es.emuns;
 
-import com.zhilingsd.base.common.bean.IReturnCode;
+import com.zhilingsd.base.common.IReturnCode;
 
 /**
  * @program: 智灵时代广州研发中心

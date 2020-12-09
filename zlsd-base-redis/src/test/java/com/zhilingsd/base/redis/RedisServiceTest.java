@@ -1,7 +1,7 @@
 package com.zhilingsd.base.redis;
 
 import com.zhilingsd.base.cache.Cache;
-import com.zhilingsd.base.common.utils.JsonUtils;
+import com.zhilingsd.base.common.utils.json.JsonUtils;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;

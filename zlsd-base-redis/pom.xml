@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.zhilingsd</groupId>
         <artifactId>zlsd-base</artifactId>
-        <version>1.12.0</version>
+        <version>1.13.0</version>
     </parent>
 
     <artifactId>zlsd-base-redis</artifactId>
@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.zhilingsd</groupId>
-            <artifactId>zlsd-base-common</artifactId>
+            <artifactId>zlsd-base-tool</artifactId>
         </dependency>
 
         <dependency>

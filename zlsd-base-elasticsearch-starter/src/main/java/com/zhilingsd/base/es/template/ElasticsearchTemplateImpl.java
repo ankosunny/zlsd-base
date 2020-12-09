@@ -5,8 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.BusinessException;
-import com.zhilingsd.base.common.utils.DateUtil;
-import com.zhilingsd.base.common.utils.ReflectUtil;
+import com.zhilingsd.base.common.utils.core.ReflectionUtils;
+import com.zhilingsd.base.common.utils.date.DateUtil;
 import com.zhilingsd.base.es.bo.ESNormalQueryBO;
 import com.zhilingsd.base.es.bo.ESPageQueryBO;
 import com.zhilingsd.base.es.bo.ESQueryField;
@@ -17,14 +17,12 @@ import com.zhilingsd.base.es.bo.PageDocumentOutBO;
 import com.zhilingsd.base.es.emuns.AggreatinEnum;
 import com.zhilingsd.base.es.handle.ESAnnotationHandle;
 import com.zhilingsd.base.es.handle.ElasticsearchHandle;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
@@ -37,7 +35,6 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.*;
-import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -372,7 +369,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 for (Object obj : (List<?>) object) {
                     IndexRequest indexRequest = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
                     if (!StringUtils.isEmpty(fieldName)) {
-                        Object fieldValue = ReflectUtil.getFieldValue(obj, fieldName);
+                        Object fieldValue = ReflectionUtils.getFieldValue(obj, fieldName);
                         if (fieldValue == null) {
                             throw new BusinessException(ReturnCode.BUSINESS_ERROR, "指定docid的字段值不能为空");
                         }

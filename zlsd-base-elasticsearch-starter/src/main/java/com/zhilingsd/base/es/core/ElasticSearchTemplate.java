@@ -44,6 +44,11 @@ public interface ElasticSearchTemplate {
     boolean doCreate(IndexCoordinates index, Class clazz, Settings.Builder setting);
 
     /**
+     * 判断是否存在索引
+     * */
+    Boolean isExists(IndexCoordinates index);
+
+    /**
      * 默认ES生成主键
      * */
     Boolean index(Object record, IndexCoordinates index);

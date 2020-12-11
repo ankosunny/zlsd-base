@@ -121,6 +121,18 @@ public class ElasticSearchTemplateImpl extends AbstractElasticSearchTemplate {
     }
 
     @Override
+    public Boolean isExists(IndexCoordinates index) {
+        GetIndexRequest getIndexRequest = new GetIndexRequest(index.getIndexNames());
+        try {
+            boolean exists = client.indices().exists(getIndexRequest, RequestOptions.DEFAULT);
+            return exists;
+        } catch (IOException e) {
+            log.error("查询索引：{}，失败：{}", JSON.toJSONString(index.getIndexNames()), e);
+            throw new BusinessException(ReturnCode.BUSINESS_ERROR);
+        }
+    }
+
+    @Override
     public Boolean index(Object record, IndexCoordinates index) {
 
         try {

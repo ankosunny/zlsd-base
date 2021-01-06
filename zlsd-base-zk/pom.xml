@@ -5,7 +5,7 @@
     <parent>
         <artifactId>zlsd-base</artifactId>
         <groupId>com.zhilingsd</groupId>
-        <version>asset_1.0.0</version>
+        <version>1.1.0_crbank-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>

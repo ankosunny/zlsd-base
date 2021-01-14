@@ -68,7 +68,8 @@ public class CommonFacadeAspect {
         String operatorId = Optional.ofNullable(request.getHeader("operatorId")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头operatorId不能为空"));
         String collectionCompanyId = Optional.ofNullable(request.getHeader("collectionCompanyId")).orElseThrow(() -> new ServiceException(ReturnCode.SYSTEM_ERROR.getCode(), "请求头collectionCompanyId不能为空"));
         String collectionGroupId = Optional.ofNullable(request.getHeader("collectionGroupId")).orElse("0");
-        AppAgentInfo agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), session, Long.parseLong(collectionGroupId));
+        String assetCompanyType = Optional.ofNullable(request.getHeader("assetCompanyType")).orElse("inner");
+        AppAgentInfo agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), session, Long.parseLong(collectionGroupId),assetCompanyType);
         AppUtil.setAppAgentInfo(agentInfo);
         log.info(PRE_TAG + "operatorInfo：" + JSONObject.toJSONString(agentInfo));
 

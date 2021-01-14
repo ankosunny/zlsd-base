@@ -24,7 +24,7 @@ public class AppAgentInfo {
      */
     private long collectionGroupId;
 
-
+    private String assetCompanyType;
 
 
     public AppAgentInfo() {
@@ -35,11 +35,12 @@ public class AppAgentInfo {
         this.operatorId = operatorId;
     }
 
-    public AppAgentInfo(Long operatorId, Long collectionCompanyId, String session, Long collectionGroupId) {
+    public AppAgentInfo(Long operatorId, Long collectionCompanyId, String session, Long collectionGroupId,String assetCompanyType) {
         this.operatorId = operatorId;
         this.collectionCompanyId = collectionCompanyId;
         this.session=session;
         this.collectionGroupId=collectionGroupId;
+        this.assetCompanyType=assetCompanyType;
     }
 
     public Long getOperatorId() {
@@ -72,5 +73,13 @@ public class AppAgentInfo {
 
     public void setSession(String session) {
         this.session = session;
+    }
+
+    public String getAssetCompanyType() {
+        return assetCompanyType;
+    }
+
+    public void setAssetCompanyType(String assetCompanyType) {
+        this.assetCompanyType = assetCompanyType;
     }
 }

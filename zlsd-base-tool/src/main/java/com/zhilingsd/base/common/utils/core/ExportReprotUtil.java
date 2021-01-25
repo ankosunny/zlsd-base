@@ -3,7 +3,7 @@ package com.zhilingsd.base.common.utils.core;
 import com.google.common.collect.Lists;
 import com.zhilingsd.base.common.utils.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xwpf.usermodel.IRunBody;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;

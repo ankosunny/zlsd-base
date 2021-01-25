@@ -36,14 +36,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>4.3.9.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
-            <version>1.5.7.RELEASE</version>
         </dependency>
-        <!--start 配置slf4j-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -52,12 +49,10 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -69,7 +64,6 @@
             <groupId>com.zhilingsd</groupId>
             <artifactId>zlsd-base-tool</artifactId>
         </dependency>
-        <!--end 配置slf4j-->
     </dependencies>
 
 

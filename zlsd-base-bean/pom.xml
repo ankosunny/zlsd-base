@@ -30,7 +30,6 @@
         <dependency>
             <groupId>com.zhilingsd</groupId>
             <artifactId>zlsd-base-enum</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
     </dependencies>

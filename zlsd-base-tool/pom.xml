@@ -24,10 +24,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -36,49 +33,12 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
-        <dependency>
-            <groupId>tk.mybatis</groupId>
-            <artifactId>mapper-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>8.5.5</version>
-        </dependency>
+
         <dependency>
             <groupId>net.sf.oval</groupId>
             <artifactId>oval</artifactId>
-            <version>1.84</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--start swagger2.0-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.8.0</version>
-        </dependency>
-        <!--end swagger2.0-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-ribbon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-feign</artifactId>
-            <version>1.4.2.RELEASE</version>
-        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -133,12 +93,8 @@
             <artifactId>ant</artifactId>
             <version>1.9.6</version>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
 
-        <!--        Word 转 PDF依赖 -->
+        <!--Word转PDF依赖 -->
         <dependency>
             <groupId>org.docx4j</groupId>
             <artifactId>docx4j</artifactId>
@@ -193,17 +149,14 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
-            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>com.zhilingsd</groupId>
             <artifactId>zlsd-base-enum</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zhilingsd</groupId>
             <artifactId>zlsd-base-bean</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>

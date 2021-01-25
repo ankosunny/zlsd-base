@@ -39,7 +39,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-feign</artifactId>
-            <version>1.4.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -77,22 +76,18 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
-            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>com.zhilingsd</groupId>
             <artifactId>zlsd-base-bean</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zhilingsd</groupId>
             <artifactId>zlsd-base-enum</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zhilingsd</groupId>
             <artifactId>zlsd-base-tool</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

@@ -55,6 +55,7 @@ public enum SnowFlakeEntityEnum {
     ASSET_DC(60, "资产数据中心"),
     ASSET_ENGINE(70, "资产引擎"),
     ASSET_BASE(80, "基础数据"),
+    ASSET_REPORT(90, "报表"),
     ;
 
     private int entityId;

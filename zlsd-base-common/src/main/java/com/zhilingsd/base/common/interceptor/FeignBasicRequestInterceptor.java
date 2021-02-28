@@ -42,7 +42,6 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
      */
     private final static String ASSET_COMPANY_TYPE = "assetCompanyType";
 
-    private final static String ASSET_COMPANY_TYPE = "assetCompanyType";
 
     @Override
     public void apply(RequestTemplate requestTemplate) {

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
  * */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class AppAgentInfo {
     /**
@@ -35,8 +34,6 @@ public class AppAgentInfo {
     /**
      * 行内inner/委外out
      */
-    private String assetCompanyType;
-
     private String assetCompanyType;
 
 

@@ -37,6 +37,10 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
      * Session
      */
     private final static String SESSION               = "session";
+    /**
+     * 是否行内
+     */
+    private final static String ASSET_COMPANY_TYPE = "assetCompanyType";
 
     private final static String ASSET_COMPANY_TYPE = "assetCompanyType";
 
@@ -55,6 +59,7 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
             requestTemplate.header(SESSION, AppUtil.getAppAgentInfo().getSession());
             requestTemplate.header(COLLECTION_GROUP_ID, AppUtil.getAppAgentInfo().getCollectionGroupId() + "");
             requestTemplate.header(ASSET_COMPANY_TYPE, Optional.ofNullable(AppUtil.getAppAgentInfo().getAssetCompanyType()).orElse("inner"));
+            requestTemplate.header(ASSET_COMPANY_TYPE, AppUtil.getAppAgentInfo().getAssetCompanyType());
         }
     }
 }

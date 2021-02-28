@@ -19,6 +19,8 @@ public enum EngineSupplierEnum {
      */
     XF_YUN("xfYun", "科大讯飞"),
 
+    KXJL_VOICE("kxjlVoice", "科讯嘉联"),
+
     ;
 
     private String code;

@@ -17,6 +17,7 @@
         <module>zlsd-base-cache</module>
         <module>zlsd-base-zk</module>
         <module>zlsd-base-mq</module>
+        <module>zlsd-base-elasticsearch-starter</module>
     </modules>
     <properties>
         <spring_boot_version>1.5.7.RELEASE</spring_boot_version>

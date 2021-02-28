@@ -1,8 +1,10 @@
+package com.zhilingsd.base.common.emuns;
+
 /**
  * Software License Declaration.
  * <p>
  * zhilingsd.com, Co,. Ltd.
- * Copyright © 2019 All Rights Reserved.
+ * Copyright © 2016 All Rights Reserved.
  * <p>
  * Copyright Notice
  * This documents is provided to zhilingsd contracting agent or authorized programmer only.
@@ -17,30 +19,31 @@
  * Production Department.Otherwise zhilingsd will charge the fee according to the programme itself.
  * <p>
  * Any one,including contracting agent and authorized programmer,cannot share this code to
- * the third party without the agreement of wandaph. If Any problem cannot be solved in the
+ * the third party without the agreement of zhilingsd. If Any problem cannot be solved in the
  * procedure of programming should be feedback to zhilingsd Co,. Ltd Inc in time, Thank you!
+ *
+ * @author zou.cp
+ * @version 1.0
+ * @Description
+ * @createTime 2020年11月26日 11:40*
+ * log.info()
  */
-package com.zhilingsd.base.common.emuns;
+public enum AssetCompanyTypeEnum {
 
-/**
- * @author ZhangRong
- * @version Id: com.collection.zhilingsd.api.common.enums.PlatformEnum, v 0.1 2019/5/22 23:22 ZhangRong Exp $$
- */
-public enum PlatformEnum {
-
-    COLLECTION("collection", "催收系统"),
-    CONSOLE("console", "催收管理台"),
-    SELECTION("selection", "选查系统"),
-    ANDROID("android", "外访APP"),
-    EMERGENCY("emergency", "应急限制系统"),
-    BANK("bank", "银行管理系统"),
-    ASSET("asset","贷后资产管理系统")
+    /**
+     * 行内
+     */
+    INNER("inner", "行内"),
+    /**
+     * 委外
+     */
+    OUT("out", "委外"),
     ;
 
     private String code;
     private String description;
 
-    PlatformEnum(String code, String description) {
+    AssetCompanyTypeEnum(String code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -60,4 +63,14 @@ public enum PlatformEnum {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public static AssetCompanyTypeEnum find(String code) {
+        for (AssetCompanyTypeEnum item : AssetCompanyTypeEnum.values()) {
+            if (item.getCode().equals(code)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
 }

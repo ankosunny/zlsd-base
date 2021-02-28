@@ -1,7 +1,9 @@
 package com.zhilingsd.base.common.aspect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.javafx.scene.control.behavior.OptionalBoolean;
 import com.zhilingsd.base.common.bean.AppAgentInfo;
+import com.zhilingsd.base.common.emuns.AssetCompanyTypeEnum;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.ServiceException;
 import com.zhilingsd.base.common.result.SingleResult;
@@ -21,6 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -72,7 +75,6 @@ public class CommonFacadeAspect {
         AppAgentInfo agentInfo = new AppAgentInfo(Long.parseLong(operatorId), Long.parseLong(collectionCompanyId), session, Long.parseLong(collectionGroupId),assetCompanyType);
         AppUtil.setAppAgentInfo(agentInfo);
         log.info(PRE_TAG + "operatorInfo：" + JSONObject.toJSONString(agentInfo));
-
         Object obj;
         try {
             obj = jp.proceed();

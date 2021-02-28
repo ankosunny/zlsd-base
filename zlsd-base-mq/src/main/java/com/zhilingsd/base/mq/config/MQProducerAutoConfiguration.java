@@ -60,6 +60,7 @@ public class MQProducerAutoConfiguration extends MQBaseAutoConfiguration {
         producer.setNamesrvAddr(mqProperties.getNamesrvAddr());
         producer.setSendMsgTimeout(mqProperties.getSendMsgTimeout());
         producer.setVipChannelEnabled(mqProperties.isVipChannelEnabled());
+        producer.setMaxMessageSize(mqProperties.getMaxMessageSize());
 
         /**
          * Producer对象在使用之前必须要调用start初始化，初始化一次即可<br>

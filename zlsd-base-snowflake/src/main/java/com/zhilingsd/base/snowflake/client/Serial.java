@@ -25,16 +25,88 @@ package com.zhilingsd.base.snowflake.client;
 import com.zhilingsd.base.snowflake.common.SnowFlakeEntityEnum;
 import com.zhilingsd.base.snowflake.common.SnowFlakeException;
 
+import java.util.List;
+
 /**
  * @author ZhangRong
  * @version Id: com.zhilingsd.base.snowflake.client.Serial, v 0.1 2019/5/1 15:35 ZhangRong Exp $$
  */
 public interface Serial {
+    /**
+     * 功能描述：获得通用Long类型雪花ID
+     * @param
+     * @return java.lang.Long
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
     Long getLongSerialNum() throws SnowFlakeException;
 
+    /**
+     * 功能描述：根据指定枚举获得Long类型雪花ID
+     * @param
+     * @return java.lang.Long
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
     Long getLongSerialNum(SnowFlakeEntityEnum entityEnum) throws SnowFlakeException;
 
+
+    /**
+     * 功能描述：获得通用String类型雪花ID
+     * @param
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
     String getStringSerialNum() throws SnowFlakeException;
 
+    /**
+     * 功能描述：根据指定枚举获得String类型雪花ID
+     * @param
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
     String getStringSerialNum(SnowFlakeEntityEnum entityEnum) throws SnowFlakeException;
+
+
+    /**
+     * 功能描述：获得一批通用Long类型雪花ID
+     * @param number 一批的ID个数
+     * @return java.lang.Long
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
+    List<Long> getBatchLongSerialNum(Integer number) throws SnowFlakeException;
+
+    /**
+     * 功能描述：根据一批指定枚举获得Long类型雪花ID
+     * @param entityEnum 枚举
+     * @param number 一批的ID个数
+     * @return java.lang.Long
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
+    List<Long> getBatchLongSerialNum(SnowFlakeEntityEnum entityEnum,Integer number) throws SnowFlakeException;
+
+
+    /**
+     * 功能描述：获得一批通用String类型雪花ID
+     * @param number 一批的ID个数
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
+    List<String> getBatchStringSerialNum(Integer number) throws SnowFlakeException;
+
+    /**
+     * 功能描述：根据一批指定枚举获得String类型雪花ID
+     * @param entityEnum 枚举
+     * @param number 一批的ID个数
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
+    List<String> getBatchStringSerialNum(SnowFlakeEntityEnum entityEnum,Integer number) throws SnowFlakeException;
+
 }

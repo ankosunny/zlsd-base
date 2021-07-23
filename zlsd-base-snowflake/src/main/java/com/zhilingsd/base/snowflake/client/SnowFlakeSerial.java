@@ -30,6 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ZhangRong
@@ -87,4 +89,116 @@ public class SnowFlakeSerial implements Serial {
         }
         return String.valueOf(snowFlakeId);
     }
+
+    /**
+     * 功能描述：获得一批通用Long类型雪花ID
+     *
+     * @param number 一批的ID个数
+     * @return java.lang.Long
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
+    @Override
+    public List<Long> getBatchLongSerialNum(Integer number) throws SnowFlakeException {
+        if (number < 1 || number > 1000) {
+            new SnowFlakeException("number illegal，requested 1-1000");
+        }
+        List<Long> list = new ArrayList<>();
+        try {
+            for (int i = 0; i < number; i++) {
+                long snowFlakeId = bebincaClient.getSnowFlakeId(SnowFlakeEntityEnum.COMMON.getEntityId());
+                list.add(snowFlakeId);
+            }
+            return list;
+
+        } catch (BebincaException | InterruptedException e) {
+            log.error("Get snow lake id error: ", e);
+            throw new SnowFlakeException(e);
+        }
+    }
+
+    /**
+     * 功能描述：根据一批指定枚举获得Long类型雪花ID
+     *
+     * @param entityEnum 枚举
+     * @param number     一批的ID个数
+     * @return java.lang.Long
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
+    @Override
+    public List<Long> getBatchLongSerialNum(SnowFlakeEntityEnum entityEnum, Integer number) throws SnowFlakeException {
+        if (number < 1 || number > 1000) {
+            new SnowFlakeException("number illegal，requested 1-1000");
+        }
+        List<Long> list = new ArrayList<>();
+        try {
+            for (int i = 0; i < number; i++) {
+                long snowFlakeId = bebincaClient.getSnowFlakeId(entityEnum.getEntityId());
+                list.add(snowFlakeId);
+            }
+            return list;
+
+        } catch (BebincaException | InterruptedException e) {
+            log.error("Get snow lake id error: ", e);
+            throw new SnowFlakeException(e);
+        }
+    }
+
+    /**
+     * 功能描述：获得一批通用String类型雪花ID
+     *
+     * @param number 一批的ID个数
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
+    @Override
+    public List<String> getBatchStringSerialNum(Integer number) throws SnowFlakeException {
+        if (number < 1 || number > 1000) {
+            new SnowFlakeException("number illegal，requested 1-1000");
+        }
+        List<String> list = new ArrayList<>();
+        try {
+            for (int i = 0; i < number; i++) {
+                long snowFlakeId = bebincaClient.getSnowFlakeId(SnowFlakeEntityEnum.COMMON.getEntityId());
+                list.add(String.valueOf(snowFlakeId));
+            }
+            return list;
+
+        } catch (BebincaException | InterruptedException e) {
+            log.error("Get snow lake id error: ", e);
+            throw new SnowFlakeException(e);
+        }
+    }
+
+    /**
+     * 功能描述：根据一批指定枚举获得String类型雪花ID
+     *
+     * @param entityEnum 枚举
+     * @param number     一批的ID个数
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2021/7/22-10:14
+     */
+    @Override
+    public List<String> getBatchStringSerialNum(SnowFlakeEntityEnum entityEnum, Integer number) throws SnowFlakeException {
+        if (number < 1 || number > 1000) {
+            new SnowFlakeException("number illegal，requested 1-1000");
+        }
+        List<String> list = new ArrayList<>();
+        try {
+            for (int i = 0; i < number; i++) {
+                long snowFlakeId = bebincaClient.getSnowFlakeId(entityEnum.getEntityId());
+                list.add(String.valueOf(snowFlakeId));
+            }
+            return list;
+
+        } catch (BebincaException | InterruptedException e) {
+            log.error("Get snow lake id error: ", e);
+            throw new SnowFlakeException(e);
+        }
+    }
+
+
 }

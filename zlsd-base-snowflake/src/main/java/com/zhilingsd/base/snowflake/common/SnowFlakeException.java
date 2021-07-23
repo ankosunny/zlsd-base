@@ -27,7 +27,40 @@ package com.zhilingsd.base.snowflake.common;
  * @version Id: com.zhilingsd.base.snowflake.common.SnowFlakeException, v 0.1 2019/5/1 15:30 ZhangRong Exp $$
  */
 public class SnowFlakeException extends RuntimeException {
+
+    private int code;
+
+    private String message;
+
     public SnowFlakeException(Throwable e) {
         super(e);
+    }
+
+    public SnowFlakeException(String message) {
+        super(message);
+        this.message = message;
+    }
+
+    public SnowFlakeException(int code, String message) {
+        super(message);
+        this.code = code;
+        this.message = message;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

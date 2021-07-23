@@ -101,7 +101,7 @@ public class SnowFlakeSerial implements Serial {
     @Override
     public List<Long> getBatchLongSerialNum(Integer number) throws SnowFlakeException {
         if (number < 1 || number > 1000) {
-            new SnowFlakeException("number illegal，requested 1-1000");
+            throw new SnowFlakeException("number illegal，requested 1-1000");
         }
         List<Long> list = new ArrayList<>();
         try {
@@ -129,7 +129,7 @@ public class SnowFlakeSerial implements Serial {
     @Override
     public List<Long> getBatchLongSerialNum(SnowFlakeEntityEnum entityEnum, Integer number) throws SnowFlakeException {
         if (number < 1 || number > 1000) {
-            new SnowFlakeException("number illegal，requested 1-1000");
+            throw new SnowFlakeException("number illegal，requested 1-1000");
         }
         List<Long> list = new ArrayList<>();
         try {
@@ -156,7 +156,7 @@ public class SnowFlakeSerial implements Serial {
     @Override
     public List<String> getBatchStringSerialNum(Integer number) throws SnowFlakeException {
         if (number < 1 || number > 1000) {
-            new SnowFlakeException("number illegal，requested 1-1000");
+            throw new SnowFlakeException("number illegal，requested 1-1000");
         }
         List<String> list = new ArrayList<>();
         try {
@@ -184,7 +184,7 @@ public class SnowFlakeSerial implements Serial {
     @Override
     public List<String> getBatchStringSerialNum(SnowFlakeEntityEnum entityEnum, Integer number) throws SnowFlakeException {
         if (number < 1 || number > 1000) {
-            new SnowFlakeException("number illegal，requested 1-1000");
+            throw new SnowFlakeException("number illegal，requested 1-1000");
         }
         List<String> list = new ArrayList<>();
         try {

@@ -18,7 +18,7 @@ public class MqProducerTest {
     @Test
     public void testProducer() {
         MQTestBean mqTestBean = new MQTestBean();
-        mqTestBean.setId(11111L);
+        mqTestBean.setId(System.currentTimeMillis());
         mqTestBean.setName("张三");
         mqTestBean.setSex("男");
         mqTestBean.setMills(System.currentTimeMillis());

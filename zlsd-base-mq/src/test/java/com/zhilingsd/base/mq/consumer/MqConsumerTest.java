@@ -12,6 +12,8 @@ public class MqConsumerTest {
 
     @Test
     public void testConsumer() throws InterruptedException {
-        Thread.sleep(100000);
+        System.out.println("waiting msg");
+
+        Thread.sleep(1000 * 60 * 11);
     }
 }

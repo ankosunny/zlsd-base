@@ -28,4 +28,14 @@ public @interface MQConsumer {
      * @return 消费模式
      */
     String consumeMode() default MessageExtConst.CONSUME_MODE_CONCURRENTLY;
+
+    /**
+     * @return 任务超时配置，分钟
+     */
+    long consumeTimeoutMinutes() default 15;
+
+    /**
+     * @return 任务成功前最大重试消费次数
+     */
+    int maxReconsumeTimes() default -1;  // -1是DefaultMQPushConsumer的默认配置，指16次
 }

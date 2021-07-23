@@ -74,6 +74,8 @@ public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration {
             consumer.setNamesrvAddr(mqProperties.getNamesrvAddr());
             consumer.subscribe(topic, tags);
             consumer.setInstanceName(UUID.randomUUID().toString());
+            consumer.setConsumeTimeout(mqConsumer.consumeTimeoutMinutes());
+            consumer.setMaxReconsumeTimes(mqConsumer.maxReconsumeTimes());
             AbstractMQPushConsumer abstractMQPushConsumer = (AbstractMQPushConsumer) bean;
             if (MessageExtConst.CONSUME_MODE_CONCURRENTLY.equals(mqConsumer.consumeMode())) {
                 // 多线程消费模式（无序）

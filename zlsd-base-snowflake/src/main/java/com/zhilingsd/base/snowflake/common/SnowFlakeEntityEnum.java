@@ -45,7 +45,9 @@ public enum SnowFlakeEntityEnum {
     ICBC_BUSINESS(170, "工行业务"),
     ROBOT_BILL_MANAGE(180, "机器人案件业务"),
     ROBOT_BUSINESS_MANAGE(190, "机器人业务平台"),
-    ROBOT_BILL_CENTER(200, "机器人案件中心")
+    ROBOT_BILL_CENTER(200, "机器人案件中心"),
+    ASSET_BILL(10, "资产案件中心"),
+    ASSET_AGENT(20, "资产用户"),
     ;
 
     private int entityId;

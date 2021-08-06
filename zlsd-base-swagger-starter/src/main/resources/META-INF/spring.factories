@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.zhilingsd.base.swagger.starter.config.SwaggerConfigVersionTwo,\
-com.zhilingsd.base.swagger.starter.config.SwaggerConfigVersionOne
+com.zhilingsd.base.swagger.starter.config.SwaggerConfigVersionOne,\
+com.zhilingsd.base.swagger.starter.config.SwaggerConfigVersionThree

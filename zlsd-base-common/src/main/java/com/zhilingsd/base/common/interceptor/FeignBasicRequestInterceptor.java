@@ -24,14 +24,6 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
      * */
     private final static String OPERATOR_ID = "operatorId";
     /**
-     * 催收机构ID
-     * */
-    private final static String COLLECTION_COMPANY_ID = "collectionCompanyId";
-    /**
-     * 催收机构ID
-     * */
-    private final static String COLLECTION_GROUP_ID = "collectionGroupId";
-    /**
      * Session
      * */
     private final static String SESSION = "session";

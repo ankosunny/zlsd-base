@@ -44,12 +44,9 @@ public class FeignBasicRequestInterceptor implements RequestInterceptor {
         }
         log.debug("用户信息{}", JSONObject.toJSONString(AppUtil.getAppAgentInfo()));
 
-        if (Objects.nonNull(AppUtil.getAppAgentInfo().getOperatorId()) && Objects.nonNull(AppUtil.getAppAgentInfo().getCollectionCompanyId())
-                &&Objects.nonNull(AppUtil.getAppAgentInfo().getSession())){
+        if (Objects.nonNull(AppUtil.getAppAgentInfo().getOperatorId())&&Objects.nonNull(AppUtil.getAppAgentInfo().getSession())){
             requestTemplate.header(OPERATOR_ID, AppUtil.getAppAgentInfo().getOperatorId()+"");
-            requestTemplate.header(COLLECTION_COMPANY_ID, AppUtil.getAppAgentInfo().getCollectionCompanyId()+"");
             requestTemplate.header(SESSION, AppUtil.getAppAgentInfo().getSession());
-            requestTemplate.header(COLLECTION_GROUP_ID, AppUtil.getAppAgentInfo().getCollectionGroupId()+"");
         }
     }
 }

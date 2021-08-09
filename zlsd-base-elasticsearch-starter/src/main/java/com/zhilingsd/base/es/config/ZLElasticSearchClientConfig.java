@@ -65,7 +65,7 @@ public class ZLElasticSearchClientConfig {
              */
             httpClientBuilder.setMaxConnPerRoute(esProperties.getMaxConnectPerRoute());
             Boolean isNeedIdentification = esProperties.getIsNeedIdentification();
-            if (isNeedIdentification) {
+            if (isNeedIdentification){
                 //需要用户名和密码的认证
                 final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
                 credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(esProperties.getUserName(), esProperties.getPassword()));
@@ -73,6 +73,7 @@ public class ZLElasticSearchClientConfig {
             }
             return httpClientBuilder;
         });
+        System.out.println(restClientBuilder);
         RestHighLevelClient restHighLevelClient = new RestHighLevelClient(restClientBuilder);
 
         return restHighLevelClient;

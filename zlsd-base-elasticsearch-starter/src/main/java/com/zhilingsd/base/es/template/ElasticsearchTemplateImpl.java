@@ -19,6 +19,7 @@ import com.zhilingsd.base.es.handle.ESAnnotationHandle;
 import com.zhilingsd.base.es.handle.ElasticsearchHandle;
 
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +30,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -525,7 +527,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             throw new BusinessException(ReturnCode.BUSINESS_ERROR, "索引名称不能为空");
         }
         List<HitBO> list = new ArrayList<>(20);
-        Long totalHits = null;
+        TotalHits totalHits = null;
         SearchRequest searchRequest = new SearchRequest(indexNames);
         searchRequest.types(INDEX_DEFAULT_TYPE);
         SearchSourceBuilder searchSourceBuilder = elasticsearchHandle.builderEsPageQuery(esPageQueryBO);
@@ -553,7 +555,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         pageDocumentOutBO.setHitBOS(list);
         pageDocumentOutBO.setCurPage(esPageQueryBO.getPageIndex());
         pageDocumentOutBO.setPageSize(esPageQueryBO.getPageSize());
-        pageDocumentOutBO.setTotalRecord(totalHits);
+        pageDocumentOutBO.setTotalRecord(totalHits.value);
         return pageDocumentOutBO;
     }
 
@@ -680,12 +682,13 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         List<CompositeValuesSourceBuilder<?>> sources = new ArrayList<>();
         aggGroupMap.forEach((key, value) -> {
             if (value instanceof EsDateHistogramBO) {
+                ZoneId zone = ZoneId.systemDefault();
                 //时间分组处理
                 EsDateHistogramBO esDateHistogramBo = (EsDateHistogramBO) aggGroupMap.get(key);
                 //违规率统计使用、需要按照时间分组进行处理
                 DateHistogramValuesSourceBuilder dateHistogramValuesSourceBuilder = new DateHistogramValuesSourceBuilder(key)
                         .field(String.valueOf(esDateHistogramBo.getEsField()))
-                        .timeZone(DateTimeZone.forOffsetHours(8))
+                        .timeZone(zone)
                         .dateHistogramInterval(esDateHistogramBo.getDateHistogramInterval())
                         .missingBucket(true);
                 sources.add(dateHistogramValuesSourceBuilder);

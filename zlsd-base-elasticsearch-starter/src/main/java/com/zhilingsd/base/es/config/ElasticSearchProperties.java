@@ -21,6 +21,10 @@ import java.util.Map;
 public class ElasticSearchProperties implements Serializable {
 
     public static final String ES_PREFIX = "zlsd.es";
+    /**
+     * 是否需要认证，默认是需要
+     */
+    private Boolean isNeedIdentification=true;
 
     private String userName;
     private String password;

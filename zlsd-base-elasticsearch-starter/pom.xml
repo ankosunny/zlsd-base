@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>6.8.6</version>
+            <version>7.13.4</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
@@ -26,12 +26,12 @@
                     <artifactId>elasticsearch</artifactId>
                 </exclusion>
             </exclusions>
-            <version>6.8.6</version>
+            <version>7.13.4</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch-x-content</artifactId>
-            <version>6.8.6</version>
+            <version>7.13.4</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

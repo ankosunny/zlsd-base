@@ -46,9 +46,7 @@ public class ZLElasticSearchClientConfig {
             HttpHostProperties host = esProperties.getHosts().get(i);
             httpHosts[i] = new HttpHost(host.getIp(), Integer.parseInt(host.getPort()), "http");
         }
-        //需要用户名和密码的认证
-        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(esProperties.getUserName(), esProperties.getPassword()));
+
         RestClientBuilder restClientBuilder = RestClient.builder(httpHosts);
         restClientBuilder.setRequestConfigCallback(requestConfigBuilder -> {
             requestConfigBuilder.setConnectTimeout(esProperties.getConnectTimeout());
@@ -66,6 +64,9 @@ public class ZLElasticSearchClientConfig {
              * 而我连接到http://zhilingsd.com 和 http://mujin.com时，到每个主机的并发最多只有200；即加起来是400（但不能超过400）；所以起作用的设置是maxConnectPerRoute
              */
             httpClientBuilder.setMaxConnPerRoute(esProperties.getMaxConnectPerRoute());
+            //需要用户名和密码的认证
+            final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+            credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(esProperties.getUserName(), esProperties.getPassword()));
             httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
             return httpClientBuilder;
         });

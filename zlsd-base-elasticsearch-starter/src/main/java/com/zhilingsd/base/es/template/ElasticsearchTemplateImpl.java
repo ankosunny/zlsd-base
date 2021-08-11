@@ -302,6 +302,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
      * @auther 吞星（yangguojun）
      * @date 2020/2/29-16:11
      */
+    @Override
     public String getIndexName(Class clazz, String indexNamesuffix) {
         Assert.notNull(indexNamesuffix, "indexNamesuffix is not null ");
         String prefix = ESAnnotationHandle.getPrefix(clazz);

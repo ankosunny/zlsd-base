@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.zhilingsd.base.es.handle.ESAnnotationHandle;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -46,7 +47,16 @@ public interface ElasticsearchTemplate {
      * @date 2020/7/15-11:30
      */
     Boolean createDefaultIndex(String indexName, Class clazz);
-
+    /**
+     * 功能描述 获得索引名称
+     *
+     * @param clazz           实体类对象
+     * @param indexNamesuffix 索引后缀
+     * @return java.lang.String
+     * @auther 吞星（yangguojun）
+     * @date 2020/2/29-16:11
+     */
+    public String getIndexName(Class clazz, String indexNamesuffix);
     /**
      * 功能描述 创建自定义的index
      *

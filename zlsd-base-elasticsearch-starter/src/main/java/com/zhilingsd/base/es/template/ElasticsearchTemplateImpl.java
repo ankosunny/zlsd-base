@@ -17,15 +17,6 @@ import com.zhilingsd.base.es.bo.PageDocumentOutBO;
 import com.zhilingsd.base.es.emuns.AggreatinEnum;
 import com.zhilingsd.base.es.handle.ESAnnotationHandle;
 import com.zhilingsd.base.es.handle.ElasticsearchHandle;
-
-import java.io.IOException;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
@@ -38,8 +29,11 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.*;
-import org.elasticsearch.action.support.WriteRequest;
+import org.elasticsearch.action.search.ClearScrollRequest;
+import org.elasticsearch.action.search.ClearScrollResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -63,9 +57,16 @@ import org.elasticsearch.search.aggregations.bucket.composite.CompositeValuesSou
 import org.elasticsearch.search.aggregations.bucket.composite.DateHistogramValuesSourceBuilder;
 import org.elasticsearch.search.aggregations.bucket.composite.TermsValuesSourceBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.joda.time.DateTimeZone;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.io.IOException;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @program: 智灵时代广州研发中心
@@ -87,7 +88,9 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     public static final String TYPE = "type";
     public static final String FORMAT = "format";
 
-    public static final String DATE_ = "yyyyMM";
+    public static final String YEAR_ = "yyyy";
+
+    public static final String YYYY_MM = "yyyyMM";
 
     public static String UNDER_LINE = "_";
 
@@ -164,11 +167,10 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     }
 
     @Override
-    public IndexResponse addDocument(Object object) {
+    public IndexResponse addDocument(Object object, String indexName) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
-            String indexName = getCurMonthIndexName(object);
             IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
             //request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
             request.source(jsonStr, XContentType.JSON);
@@ -251,9 +253,10 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
      * @param object
      * @return
      */
-    public String getCurMonthIndexName(Object object) {
+    @Override
+    public String getIndexName(Object object, String patterns) {
         Date date = new Date();
-        String indexNamesuffix = DateUtil.getDate(date, DATE_);
+        String indexNamesuffix = DateUtil.getDate(date, patterns);
         String indexName = getIndexName(object.getClass(), indexNamesuffix);
         return indexName;
     }
@@ -443,6 +446,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
 
     /**
      * 功能描述：滚动查询
+     *
      * @param esNormalQueryBO
      * @param scrollTimeOut
      * @return

@@ -5,17 +5,15 @@ import com.zhilingsd.base.es.bo.ESPageQueryBO;
 import com.zhilingsd.base.es.bo.EsQueryBO;
 import com.zhilingsd.base.es.bo.HitBO;
 import com.zhilingsd.base.es.bo.PageDocumentOutBO;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import com.zhilingsd.base.es.handle.ESAnnotationHandle;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @program: 智灵时代广州研发中心
@@ -47,6 +45,7 @@ public interface ElasticsearchTemplate {
      * @date 2020/7/15-11:30
      */
     Boolean createDefaultIndex(String indexName, Class clazz);
+
     /**
      * 功能描述 获得索引名称
      *
@@ -57,6 +56,7 @@ public interface ElasticsearchTemplate {
      * @date 2020/2/29-16:11
      */
     public String getIndexName(Class clazz, String indexNamesuffix);
+
     /**
      * 功能描述 创建自定义的index
      *
@@ -71,6 +71,7 @@ public interface ElasticsearchTemplate {
 
     /**
      * 功能描述 以周来分index的时候，获得当前周的indexName
+     *
      * @param object
      * @return java.lang.String
      * @auther 吞星（yangguojun）
@@ -80,6 +81,7 @@ public interface ElasticsearchTemplate {
 
     /**
      * 功能描述 以周来分index的时候，获得当前周的indexName
+     *
      * @param object
      * @return java.lang.String
      * @auther 吞星（yangguojun）
@@ -96,7 +98,7 @@ public interface ElasticsearchTemplate {
      * *@auther 吞星（yangguojun）
      * @date 2020/7/15-13:42
      */
-    IndexResponse addDocument(Object object);
+    IndexResponse addDocument(Object object, String indexName);
 
 
     /**
@@ -150,11 +152,12 @@ public interface ElasticsearchTemplate {
 
     /**
      * 功能描述：滚动查询
+     *
      * @param esNormalQueryBO
      * @param scrollTimeOut
      * @return
      */
-    List<HitBO> normalScrollQueryDocument(ESNormalQueryBO esNormalQueryBO,Long scrollTimeOut);
+    List<HitBO> normalScrollQueryDocument(ESNormalQueryBO esNormalQueryBO, Long scrollTimeOut);
 
 
     /**
@@ -191,6 +194,14 @@ public interface ElasticsearchTemplate {
      * @date 2020/7/17-15:15
      */
     SearchResponse aggreationQuery(EsQueryBO esQueryBO, Map<String, Object> offset) throws IOException;
+
+    /**
+     * 功能：
+     * @param object
+     * @param patterns yyyy,yyyyMM
+     * @return
+     */
+    String getIndexName(Object object, String patterns);
 
 
 }

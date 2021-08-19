@@ -19,7 +19,7 @@ public class ESQueryField {
     //字段值
     private Object value;
 
-    //字段类型
+    //查询方式，比如：全匹配、模糊匹配
     private ESearchType eSearchType;
 
 

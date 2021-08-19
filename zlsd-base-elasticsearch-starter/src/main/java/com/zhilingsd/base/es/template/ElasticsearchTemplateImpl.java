@@ -88,10 +88,6 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     public static final String TYPE = "type";
     public static final String FORMAT = "format";
 
-    public static final String YEAR_ = "yyyy";
-
-    public static final String YYYY_MM = "yyyyMM";
-
     public static String UNDER_LINE = "_";
 
     public static String INDEX_DEFAULT_TYPE = "_doc";

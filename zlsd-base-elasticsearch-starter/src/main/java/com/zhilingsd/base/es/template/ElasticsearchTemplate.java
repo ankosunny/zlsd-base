@@ -24,7 +24,9 @@ import java.util.Map;
 
 public interface ElasticsearchTemplate {
 
+    public static final String YEAR_ = "yyyy";
 
+    public static final String YYYY_MM = "yyyyMM";
     /**
      * 功能描述 判断索引是否已经存在
      *

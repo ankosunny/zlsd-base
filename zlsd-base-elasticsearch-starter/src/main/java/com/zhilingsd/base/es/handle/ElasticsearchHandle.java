@@ -165,7 +165,18 @@ public class ElasticsearchHandle {
         }
     }
 
-
+    /**
+     * bool过滤查询
+     * bool查询可以实现组合过滤查询
+     * 格式：
+     * {"bool" : {"must":[],"should":[],"must_not":[] } }
+     * must：必须满足的条件 （相当于and）
+     * should：可以满足也可以不满足的条件 （相当于or）
+     * must_not：不需要满足的条件 （相当于not）
+     * @param key
+     * @param bo
+     * @param boolBuilder
+     */
     public void builderFieldQuery(String key, ESQueryField bo, BoolQueryBuilder boolBuilder) {
         ESearchType eSearchType = bo.getESearchType();
         switch (eSearchType) {

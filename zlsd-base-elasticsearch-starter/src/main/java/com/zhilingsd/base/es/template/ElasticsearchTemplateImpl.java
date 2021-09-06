@@ -441,6 +441,44 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     }
 
     /**
+     * 功能描述：
+     *
+     * @param indexNames          索引名
+     * @param searchSourceBuilder 查询条件
+     * @param clazz               返回的集合里元素类型
+     * @return java.util.List<com.zhilingsd.base.es.bo.HitBO>
+     * @auther 吞星（yangguojun）
+     * @date 2021/9/6-15:47
+     */
+    @Override
+    public List<HitBO> queryDocument(String[] indexNames, SearchSourceBuilder searchSourceBuilder, Class clazz) {
+        if (indexNames.length < 1) {
+            throw new BusinessException(ReturnCode.BUSINESS_ERROR, "索引名称不能为空");
+        }
+        List<HitBO> list = new ArrayList<>(20);
+        SearchRequest searchRequest = new SearchRequest(indexNames);
+        searchRequest.types(INDEX_DEFAULT_TYPE);
+        searchRequest.source(searchSourceBuilder);
+        try {
+            log.info("ES查询DSL：{}", searchRequest.source().toString());
+            SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+            SearchHits hits = response.getHits();
+            for (SearchHit hit : hits) {
+                Map<String, Object> source = hit.getSourceAsMap();
+                Object object = JSONObject.parseObject(JSON.toJSONString(source), clazz);
+                HitBO hitBO = new HitBO();
+                hitBO.setDocumentId(hit.getId());
+                hitBO.setIndexName(hit.getIndex());
+                hitBO.setDucumentContent(object);
+                list.add(hitBO);
+            }
+        } catch (Exception e) {
+            log.error("查询document异常：{}", e);
+        }
+        return list;
+    }
+
+    /**
      * 功能描述：滚动查询
      *
      * @param esNormalQueryBO

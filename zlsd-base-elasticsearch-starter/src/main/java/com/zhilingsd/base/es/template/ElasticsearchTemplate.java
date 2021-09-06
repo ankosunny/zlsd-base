@@ -10,6 +10,7 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,6 +28,7 @@ public interface ElasticsearchTemplate {
     public static final String YEAR_ = "yyyy";
 
     public static final String YYYY_MM = "yyyyMM";
+
     /**
      * 功能描述 判断索引是否已经存在
      *
@@ -41,7 +43,7 @@ public interface ElasticsearchTemplate {
      * 功能描述 创建默认配置的index
      *
      * @param indexName 索引名称
-     * @param clazz     实体类
+     * @param clazz     实体类(用于构建mapping)
      * @return java.lang.Boolean
      * @auther 吞星（yangguojun）
      * @date 2020/7/15-11:30
@@ -57,7 +59,16 @@ public interface ElasticsearchTemplate {
      * @auther 吞星（yangguojun）
      * @date 2020/2/29-16:11
      */
-    public String getIndexName(Class clazz, String indexNamesuffix);
+    String getIndexName(Class clazz, String indexNamesuffix);
+
+    /**
+     * 功能：
+     *
+     * @param object
+     * @param patterns yyyy,yyyyMM
+     * @return
+     */
+    String getIndexName(Object object, String patterns);
 
     /**
      * 功能描述 创建自定义的index
@@ -82,7 +93,7 @@ public interface ElasticsearchTemplate {
     String getCurWeekIndexName(Object object);
 
     /**
-     * 功能描述 以周来分index的时候，获得当前周的indexName
+     * 功能描述 以周来分index的时候，获得下一周的indexName
      *
      * @param object
      * @return java.lang.String
@@ -152,6 +163,19 @@ public interface ElasticsearchTemplate {
      */
     List<HitBO> normalQueryDocument(ESNormalQueryBO esNormalQueryBO);
 
+
+    /**
+     * 功能描述：
+     *
+     * @param indexNames          索引名
+     * @param searchSourceBuilder 查询条件
+     * @param clazz               返回的集合里元素类型
+     * @return java.util.List<com.zhilingsd.base.es.bo.HitBO>
+     * @auther 吞星（yangguojun）
+     * @date 2021/9/6-15:47
+     */
+    List<HitBO> queryDocument(String[] indexNames, SearchSourceBuilder searchSourceBuilder, Class clazz);
+
     /**
      * 功能描述：滚动查询
      *
@@ -196,14 +220,6 @@ public interface ElasticsearchTemplate {
      * @date 2020/7/17-15:15
      */
     SearchResponse aggreationQuery(EsQueryBO esQueryBO, Map<String, Object> offset) throws IOException;
-
-    /**
-     * 功能：
-     * @param object
-     * @param patterns yyyy,yyyyMM
-     * @return
-     */
-    String getIndexName(Object object, String patterns);
 
 
 }

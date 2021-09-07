@@ -8,6 +8,7 @@ import com.zhilingsd.base.es.bo.PageDocumentOutBO;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -28,6 +29,16 @@ public interface ElasticsearchTemplate {
     public static final String YEAR_ = "yyyy";
 
     public static final String YYYY_MM = "yyyyMM";
+
+    /**
+     * 功能描述：返回restHighLevelClient对象给开发者自己使用
+     *
+     * @param
+     * @return org.elasticsearch.client.RestHighLevelClient
+     * @auther 吞星（yangguojun）
+     * @date 2021/9/7-15:56
+     */
+    RestHighLevelClient getRestHighLevelClient();
 
     /**
      * 功能描述 判断索引是否已经存在

@@ -100,6 +100,13 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
 
     public static final String PERCENTAGE = "%";
 
+
+
+    @Override
+    public RestHighLevelClient getRestHighLevelClient() {
+        return restHighLevelClient;
+    }
+
     /**
      * 功能描述 判断索引是否已经存在
      *
@@ -805,5 +812,6 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             );
         }
     }
+
 
 }

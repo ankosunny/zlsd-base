@@ -115,7 +115,7 @@ public interface ElasticsearchTemplate {
 
 
     /**
-     * 功能描述 添加document,当每个月一个index的时候，会自动添加到当月的index中
+     * 功能描述 添加document,指定indexName
      *
      * @param object
      * @return org.elasticsearch.action.index.IndexResponse

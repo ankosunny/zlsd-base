@@ -3,6 +3,7 @@ package com.zhilingsd.base.common.utils;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.util.Assert;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -12,7 +13,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * 日期工具
@@ -308,7 +315,7 @@ public class DateUtil {
     /**
      * 将指定格式的时间字符串转换为日期对象。
      *
-     * @param time  时间字符串（HH:mm:ss）。
+     * @param time 时间字符串（HH:mm:ss）。
      * @return Date 日期对象。
      */
     public static Date parseTime(String time) {
@@ -1780,16 +1787,33 @@ public class DateUtil {
         return result;
     }
 
+    /**
+     * 功能描述：判断date是否在start和end这个时间之内
+     *
+     * @param date
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return boolean
+     * @auther 吞星（yangguojun）
+     * @date 2021/9/8-16:42
+     */
     public static boolean between(Date date, Date start, Date end) throws ParseException {
-        return 0 <= getDay(start, date) && 0 >= getDay(end, date);
+        return 0 <= compareDate(start, date) && 0 >= compareDate(end, date);
     }
 
 
+    /**
+     * 功能描述：获取date2和date1之间相差天数
+     *
+     * @param date1
+     * @param date2
+     * @return int
+     * @auther 吞星（yangguojun）
+     * @date 2021/9/8-16:44
+     */
     public static int getDay(Date date1, Date date2) throws ParseException {
-        if (null == date1 || null == date2) {
-            return 0;
-        }
-
+        Assert.notNull(date1, "开始时间不能为空");
+        Assert.notNull(date2, "开始时间不能为空");
         return Long.valueOf((date2.getTime() - date1.getTime()) / 86400000).intValue();
     }
 
@@ -1943,7 +1967,7 @@ public class DateUtil {
      * @description 时分秒清零
      **/
     public static Date getResetHHMMSS(Date date) {
-        if (Objects.isNull(date)){
+        if (Objects.isNull(date)) {
             return null;
         }
         Calendar cal = Calendar.getInstance();
@@ -2606,6 +2630,7 @@ public class DateUtil {
 
     /**
      * 根据日期获取年
+     *
      * @param date
      * @return
      */
@@ -2617,6 +2642,7 @@ public class DateUtil {
 
     /**
      * 根据日期获取月
+     *
      * @param date
      * @return
      */
@@ -2628,6 +2654,7 @@ public class DateUtil {
 
     /**
      * 根据日期获取日
+     *
      * @param date
      * @return
      */

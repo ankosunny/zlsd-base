@@ -181,7 +181,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 return indexResponse;
             } else {
                 log.error("新增一个document记录失败:" + JSON.toJSONString(indexResponse));
-                throw new BusinessException("新增一个document记录失败");
+                throw new Exception();
             }
         } catch (Exception e) {
             log.error("新增一个document记录失败：{}", e);
@@ -212,7 +212,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 return indexResponse;
             } else {
                 log.error("新增一个document记录失败");
-                throw new BusinessException("新增一个document记录失败");
+                throw new Exception();
             }
         } catch (Exception e) {
             log.error("新增一个document记录失败：{}", e);

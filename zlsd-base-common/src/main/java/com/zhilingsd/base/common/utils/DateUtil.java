@@ -564,19 +564,30 @@ public class DateUtil {
         return df.format(c.getTime());
     }
 
+
     /**
-     * 日期减上多少月前的日期
+     * 功能描述：
      *
      * @param now
-     * @param month
-     * @return
+     * @param num
+     * @param timeUnits 时间单位
+     *                  Calendar.SECOND 秒
+     *                  Calendar.MINUTE 分钟
+     *                  Calendar.HOUR   小时
+     *                  Calendar.DATE   天
+     *                  Calendar.MONTH  月
+     *                  Calendar.YEAR   年
+     * @return java.util.Date
+     * @auther 吞星（yangguojun）
+     * @date 2021/9/9-10:30
      */
-    public static Date dateReduceMonth(Date now, int month) {
+    public static Date dateReduce(Date now, int num, int timeUnits) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
-        calendar.add(Calendar.MONTH, month * -1);
+        calendar.add(timeUnits, num * -1);
         return calendar.getTime();
     }
+
 
     /**
      * 日期减上多少天前的日期
@@ -589,6 +600,20 @@ public class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         calendar.add(Calendar.DATE, day * -1);
+        return calendar.getTime();
+    }
+
+    /**
+     * 日期减上多少月前的日期
+     *
+     * @param now
+     * @param month
+     * @return
+     */
+    public static Date dateReduceMonth(Date now, int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.MONTH, month * -1);
         return calendar.getTime();
     }
 
@@ -2662,20 +2687,5 @@ public class DateUtil {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.DATE);
-    }
-
-    public static void main(String[] args) {
-        String dateStr1 = "20121126";
-        String dateStr2 = "2012/11/26";
-        String dateStr3 = "2012-11-26";
-        Date toDate1 = toDate(dateStr1);
-        Date toDate2 = toDate(dateStr2);
-        Date toDate3 = toDate(dateStr3);
-        String dateToString1 = dateToString(toDate1, DateUtil.DATE);
-        String dateToString2 = dateToString(toDate2, DateUtil.DATE);
-        String dateToString3 = dateToString(toDate3, DateUtil.DATE);
-        System.out.println(dateToString1);
-        System.out.println(dateToString2);
-        System.out.println(dateToString3);
     }
 }

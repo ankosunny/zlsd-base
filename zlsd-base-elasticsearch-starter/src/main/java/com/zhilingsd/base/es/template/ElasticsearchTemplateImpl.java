@@ -242,14 +242,14 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
                 return indexResponse;
-            } else {
-                log.error("新增一个document记录失败");
-                throw new BusinessException("新增一个document记录失败");
+            } else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
+                log.info("修改document记录成功：docId：{}", id);
             }
         } catch (Exception e) {
             log.error("新增一个document记录失败：{}", e);
             throw new BusinessException("新增一个document记录失败");
         }
+        return null;
     }
 
     /**
@@ -345,16 +345,16 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
                 return indexResponse;
-            } else if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
+            } else if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
                 return indexResponse;
-            } else {
-                log.error("修改一个document记录失败");
-                throw new BusinessException("修改一个document记录失败");
+            } else if (indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
+                log.info("新增一个document成功，docId:{}", id);
             }
         } catch (Exception e) {
-            log.error("修改一个document记录失败：{}", e);
+            log.error("修改一个document记录失败:{}", e);
             throw new BusinessException("修改一个document记录失败");
         }
+        return null;
     }
 
     @Override
@@ -367,7 +367,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 return response;
             } else {
                 log.error("删除document记录失败");
-                throw new BusinessException("删除document记录失败");
+                throw new Exception();
             }
         } catch (Exception e) {
             log.error("删除document记录失败：{}", e);
@@ -400,7 +400,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                     return bulkResponse;
                 } else {
                     log.error("批量新增document记录失败");
-                    throw new BusinessException("批量新增document记录失败");
+                    throw new Exception();
                 }
             } else {
                 throw new BusinessException(ReturnCode.BUSINESS_ERROR, "Object参数类型错误，必须是ArrayList");

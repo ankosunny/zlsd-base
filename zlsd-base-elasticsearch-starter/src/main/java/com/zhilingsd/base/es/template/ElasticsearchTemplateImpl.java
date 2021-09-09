@@ -101,7 +101,6 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     public static final String PERCENTAGE = "%";
 
 
-
     @Override
     public RestHighLevelClient getRestHighLevelClient() {
         return restHighLevelClient;
@@ -123,8 +122,8 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             return exists;
         } catch (Exception e) {
             log.error("判断索引是否存在失败：{}", e);
+            throw new BusinessException("判断索引是否存在失败");
         }
-        return false;
     }
 
 
@@ -149,8 +148,8 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             return acknowledged;
         } catch (Exception e) {
             log.error("创建索引：{}，失败：{}", indexName, e);
+            throw new BusinessException("创建索引失败");
         }
-        return false;
     }
 
     @Override
@@ -165,8 +164,8 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             return acknowledged;
         } catch (Exception e) {
             log.error("创建索引：{}，失败：{}", indexName, e);
+            throw new BusinessException("创建索引失败");
         }
-        return false;
     }
 
     @Override
@@ -182,11 +181,12 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 return indexResponse;
             } else {
                 log.error("新增一个document记录失败:" + JSON.toJSONString(indexResponse));
+                throw new BusinessException("新增一个document记录失败");
             }
         } catch (Exception e) {
             log.error("新增一个document记录失败：{}", e);
+            throw new BusinessException("新增一个document记录失败");
         }
-        return null;
     }
 
 
@@ -212,11 +212,12 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 return indexResponse;
             } else {
                 log.error("新增一个document记录失败");
+                throw new BusinessException("新增一个document记录失败");
             }
         } catch (Exception e) {
             log.error("新增一个document记录失败：{}", e);
+            throw new BusinessException("新增一个document记录失败");
         }
-        return null;
     }
 
     /**
@@ -243,11 +244,12 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 return indexResponse;
             } else {
                 log.error("新增一个document记录失败");
+                throw new BusinessException("新增一个document记录失败");
             }
         } catch (Exception e) {
             log.error("新增一个document记录失败：{}", e);
+            throw new BusinessException("新增一个document记录失败");
         }
-        return null;
     }
 
     /**
@@ -347,11 +349,12 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 return indexResponse;
             } else {
                 log.error("修改一个document记录失败");
+                throw new BusinessException("修改一个document记录失败");
             }
         } catch (Exception e) {
             log.error("修改一个document记录失败：{}", e);
+            throw new BusinessException("修改一个document记录失败");
         }
-        return null;
     }
 
     @Override
@@ -364,11 +367,12 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 return response;
             } else {
                 log.error("删除document记录失败");
+                throw new BusinessException("删除document记录失败");
             }
         } catch (Exception e) {
             log.error("删除document记录失败：{}", e);
+            throw new BusinessException("删除document记录失败");
         }
-        return null;
     }
 
     @Override
@@ -396,14 +400,15 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                     return bulkResponse;
                 } else {
                     log.error("批量新增document记录失败");
+                    throw new BusinessException("批量新增document记录失败");
                 }
             } else {
                 throw new BusinessException(ReturnCode.BUSINESS_ERROR, "Object参数类型错误，必须是ArrayList");
             }
         } catch (Exception e) {
             log.error("批量新增document记录失败：{}", e);
+            throw new BusinessException("批量新增document记录失败");
         }
-        return null;
     }
 
     /**
@@ -443,6 +448,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             }
         } catch (Exception e) {
             log.error("查询document异常：{}", e);
+            throw new BusinessException("查询document异常");
         }
         return list;
     }
@@ -481,6 +487,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             }
         } catch (Exception e) {
             log.error("查询document异常：{}", e);
+            throw new BusinessException("查询document异常");
         }
         return list;
     }
@@ -516,6 +523,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
             log.error("scroll查询document异常：{}", e);
+            throw new BusinessException("scroll查询document异常");
         }
         String scrollId = response.getScrollId();
         SearchHit[] hits = response.getHits().getHits();
@@ -534,6 +542,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                 searchScrollResponse = restHighLevelClient.scroll(searchScrollRequest, RequestOptions.DEFAULT);
             } catch (Exception e) {
                 log.error("scroll循环查询异常：{}", e);
+                throw new BusinessException("scroll查询document异常");
             }
             scrollId = searchScrollResponse.getScrollId();
             hits = searchScrollResponse.getHits().getHits();
@@ -547,6 +556,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             clearScrollResponse = restHighLevelClient.clearScroll(clearScrollRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
             log.error("清除scroll异常：{}", e);
+            throw new BusinessException("清除scroll异常");
         }
         log.info("清除scroll是否成功：" + clearScrollResponse.isSucceeded());
 
@@ -596,6 +606,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             }
         } catch (Exception e) {
             log.error("查询document异常：{}", e);
+            throw new BusinessException("查询document异常");
         }
         PageDocumentOutBO pageDocumentOutBO = new PageDocumentOutBO();
         pageDocumentOutBO.setHitBOS(list);
@@ -615,6 +626,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
             }
         } catch (Exception e) {
             log.error("根据索引和id获取ocument记录失败：{}", e);
+            throw new BusinessException("根据索引和id获取ocument记录失败");
         }
         return null;
 

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.BusinessException;
+import com.zhilingsd.base.common.utils.AssertUtils;
 import com.zhilingsd.base.common.utils.DateUtil;
 import com.zhilingsd.base.common.utils.ReflectUtil;
 import com.zhilingsd.base.es.bo.ESNormalQueryBO;
@@ -245,8 +246,8 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     @Override
     public IndexResponse addDocument(Object object, String id, String indexName) {
         ObjectMapper objectMapper = new ObjectMapper();
-        Assert.notNull(id, "documentId is not null ");
-        Assert.notNull(indexName, "indexName is not null");
+        AssertUtils.notEmpty(id, "documentId is not null ");
+        AssertUtils.notEmpty(indexName, "indexName is not null");
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
             IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, id);
@@ -324,7 +325,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
      */
     @Override
     public String getIndexName(Class clazz, String indexNamesuffix) {
-        Assert.notNull(indexNamesuffix, "indexNamesuffix is not null ");
+        AssertUtils.notEmpty(indexNamesuffix, "indexNamesuffix is not null ");
         String prefix = ESAnnotationHandle.getPrefix(clazz);
         StringBuffer buffer = new StringBuffer();
         buffer.append(prefix);
@@ -346,8 +347,8 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
      */
     @Override
     public IndexResponse updateDocument(Object object, String id, String indexName) {
-        Assert.notNull(id, "documentId is not null");
-        Assert.notNull(indexName, "indexName is not null ");
+        AssertUtils.notEmpty(id, "documentId is not null");
+        AssertUtils.notEmpty(indexName, "indexName is not null ");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
@@ -390,7 +391,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
     @Override
     public BulkResponse batchAddDocument(Object object, String fieldName, String indexName) {
         ObjectMapper objectMapper = new ObjectMapper();
-        Assert.notNull(indexName, "indexName is not null");
+        AssertUtils.notEmpty(indexName, "indexName is not null");
         try {
             if (object instanceof ArrayList<?>) {
                 BulkRequest bulkRequest = new BulkRequest();
@@ -905,5 +906,8 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         }
     }
 
-
+    public static void main(String[] args) {
+        String a = "qqqqqqqqqq.aaa";
+        System.out.println(a.substring(a.indexOf(".") + 1));
+    }
 }

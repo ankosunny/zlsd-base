@@ -906,8 +906,4 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         }
     }
 
-    public static void main(String[] args) {
-        String a = "qqqqqqqqqq.aaa";
-        System.out.println(a.substring(a.indexOf(".") + 1));
-    }
 }

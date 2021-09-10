@@ -3,6 +3,7 @@ package com.zhilingsd.base.es.template;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
 import com.zhilingsd.base.common.emuns.ReturnCode;
 import com.zhilingsd.base.common.exception.BusinessException;
 import com.zhilingsd.base.common.utils.DateUtil;
@@ -12,6 +13,7 @@ import com.zhilingsd.base.es.bo.ESPageQueryBO;
 import com.zhilingsd.base.es.bo.ESQueryField;
 import com.zhilingsd.base.es.bo.EsDateHistogramBO;
 import com.zhilingsd.base.es.bo.EsQueryBO;
+import com.zhilingsd.base.es.bo.GroupAggregateResultBO;
 import com.zhilingsd.base.es.bo.HitBO;
 import com.zhilingsd.base.es.bo.PageDocumentOutBO;
 import com.zhilingsd.base.es.emuns.AggreatinEnum;
@@ -19,6 +21,7 @@ import com.zhilingsd.base.es.handle.ESAnnotationHandle;
 import com.zhilingsd.base.es.handle.ElasticsearchHandle;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.lucene.search.TotalHits;
@@ -50,12 +53,20 @@ import org.elasticsearch.index.reindex.DeleteByQueryRequest;
 import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.composite.CompositeAggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.composite.CompositeValuesSourceBuilder;
 import org.elasticsearch.search.aggregations.bucket.composite.DateHistogramValuesSourceBuilder;
+import org.elasticsearch.search.aggregations.bucket.composite.ParsedComposite;
 import org.elasticsearch.search.aggregations.bucket.composite.TermsValuesSourceBuilder;
+import org.elasticsearch.search.aggregations.metrics.ParsedAvg;
+import org.elasticsearch.search.aggregations.metrics.ParsedMax;
+import org.elasticsearch.search.aggregations.metrics.ParsedMin;
+import org.elasticsearch.search.aggregations.metrics.ParsedSum;
+import org.elasticsearch.search.aggregations.metrics.ParsedValueCount;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -67,6 +78,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @program: 智灵时代广州研发中心
@@ -646,6 +658,74 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         searchRequest.source(searchSourceBuilder);
         SearchResponse search = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         return search;
+    }
+
+    @Override
+    public GroupAggregateResultBO groupAggreationQuery(String[] indexNames, SearchSourceBuilder searchSourceBuilder) {
+        GroupAggregateResultBO resultBO = new GroupAggregateResultBO();
+        if (indexNames.length < 1) {
+            throw new BusinessException(ReturnCode.BUSINESS_ERROR, "索引名称不能为空");
+        }
+        SearchRequest searchRequest = new SearchRequest(indexNames);
+        searchRequest.types(INDEX_DEFAULT_TYPE);
+        searchRequest.source(searchSourceBuilder);
+        //分组结果
+        Map<String, Object> groupMap = Maps.newHashMap();
+        //聚合结果
+        Map<String, Double> resultMap = Maps.newHashMap();
+        try {
+            log.info("ES查询DSL：{}", searchRequest.source().toString());
+            SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+            Aggregations aggregations = response.getAggregations();
+            ParsedComposite currTerms = (ParsedComposite) aggregations.getAsMap().get(COMPOSITE_NAME);
+            Map<String, Object> afterKeyMap = currTerms.afterKey();
+            resultBO.setAfterKeyMap(afterKeyMap);
+            List<ParsedComposite.ParsedBucket> buckets = currTerms.getBuckets();
+            int size = buckets.size();
+            resultBO.setTotal(size);
+            if (CollectionUtils.isNotEmpty(buckets)) {
+                for (ParsedComposite.ParsedBucket parsedBucket : buckets) {
+                    for (Map.Entry<String, Object> m : parsedBucket.getKey().entrySet()) {
+                        groupMap.put(m.getKey(), m.getValue());
+                    }
+                    Aggregations bucketAggregations = parsedBucket.getAggregations();
+                    Map<String, Aggregation> asMap = bucketAggregations.getAsMap();
+                    buildResultMap(asMap, resultMap);
+                }
+            }
+        } catch (Exception e) {
+            log.error("查询document异常：{}", e);
+            throw new BusinessException("查询document异常");
+        }
+        resultBO.setGroupMap(groupMap);
+        resultBO.setResultMap(resultMap);
+        return resultBO;
+    }
+
+    public void buildResultMap(Map<String, Aggregation> fromMap, Map<String, Double> resultMap) {
+        Set<Map.Entry<String, Aggregation>> entrySet = fromMap.entrySet();
+        for (Map.Entry<String, Aggregation> m : entrySet) {
+            String type = m.getValue().getType();
+            String key = m.getKey();
+            if (type.startsWith(AggreatinEnum.SUM.getCode())) {
+                ParsedSum value = (ParsedSum) fromMap.get(key);
+                resultMap.put(key, value.getValue());
+            } else if (type.startsWith(AggreatinEnum.MIN.getCode())) {
+                ParsedMin value = (ParsedMin) fromMap.get(key);
+                resultMap.put(key, value.getValue());
+            } else if (type.startsWith(AggreatinEnum.MAX.getCode())) {
+                ParsedMax value = (ParsedMax) fromMap.get(key);
+                resultMap.put(key, value.getValue());
+            } else if (type.startsWith(AggreatinEnum.AVG.getCode())) {
+                ParsedAvg value = (ParsedAvg) fromMap.get(key);
+                resultMap.put(key, value.getValue());
+            } else if (type.startsWith(AggreatinEnum.COUNT.getCode())) {
+                ParsedValueCount value = (ParsedValueCount) fromMap.get(key);
+                resultMap.put(key, (double) value.getValue());
+            }
+
+        }
+
     }
 
 

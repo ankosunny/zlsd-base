@@ -3,6 +3,7 @@ package com.zhilingsd.base.es.template;
 import com.zhilingsd.base.es.bo.ESNormalQueryBO;
 import com.zhilingsd.base.es.bo.ESPageQueryBO;
 import com.zhilingsd.base.es.bo.EsQueryBO;
+import com.zhilingsd.base.es.bo.GroupAggregateResultBO;
 import com.zhilingsd.base.es.bo.HitBO;
 import com.zhilingsd.base.es.bo.PageDocumentOutBO;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -219,7 +220,7 @@ public interface ElasticsearchTemplate {
     String getDocumentByKey(String indexName, String id);
 
     /**
-     * 功能描述
+     * 功能描述：分组聚合查询(composite方式)
      *
      * @param esQueryBO
      * @param offset    聚合查询的时候，返回桶结果的偏移量，第一次调用传null,以后的调用，通过以下方式获得偏移量
@@ -231,6 +232,16 @@ public interface ElasticsearchTemplate {
      * @date 2020/7/17-15:15
      */
     SearchResponse aggreationQuery(EsQueryBO esQueryBO, Map<String, Object> offset) throws IOException;
+
+    /**
+     * 功能描述：分组聚合查询(composite方式)
+     * @param indexNames
+     * @param searchSourceBuilder
+     * @return com.zhilingsd.base.es.bo.GroupAggregateResultBO
+     * @auther 吞星（yangguojun）
+     * @date 2021/9/10-14:49
+     */
+    GroupAggregateResultBO groupAggreationQuery(String[] indexNames, SearchSourceBuilder searchSourceBuilder);
 
 
 }

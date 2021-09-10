@@ -9,11 +9,11 @@ import lombok.Data;
  * @create: 2020-03-16 18:30
  **/
 @Data
-public class HitBO {
+public class HitBO<T> {
     /*documentId*/
     private String documentId;
     /*索引名*/
     private String indexName;
     /*文档内容*/
-    private Object ducumentContent;
+    private T ducumentContent;
 }

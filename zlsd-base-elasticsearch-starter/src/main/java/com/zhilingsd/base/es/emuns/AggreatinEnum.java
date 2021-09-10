@@ -6,9 +6,7 @@ package com.zhilingsd.base.es.emuns;
  * @create: 2020/2/27 17:50
  */
 public enum AggreatinEnum {
-    TERMS("terms", "桶聚合"),
-    NESTED("nested", "嵌套聚合"),
-    COUNT("count", "总数"),
+    COUNT("value_count", "总数"),
     AVG("avg", "平均数"),
     SUM("sum", "求和"),
     MAX("max", "最大值"),

@@ -69,7 +69,6 @@ import org.elasticsearch.search.aggregations.metrics.ParsedMin;
 import org.elasticsearch.search.aggregations.metrics.ParsedSum;
 import org.elasticsearch.search.aggregations.metrics.ParsedValueCount;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -151,7 +150,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
                     //设置副本数为1
                     .put("index.number_of_replicas", 1)
                     //关闭自动创建type
-                    //.put("index.mapper.dynamic", false)
+                    .put("index.mapper.dynamic", false)
                     //设置查询最大返回数为3万
                     .put("index.max_result_window", 30000);
             request.settings(put);

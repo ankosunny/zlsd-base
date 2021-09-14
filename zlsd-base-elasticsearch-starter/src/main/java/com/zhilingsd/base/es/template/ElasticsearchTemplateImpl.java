@@ -181,91 +181,6 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         }
     }
 
-    @Override
-    public IndexResponse addDocument(Object object, String indexName) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            String jsonStr = objectMapper.writeValueAsString(object);
-            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
-            request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
-            request.source(jsonStr, XContentType.JSON);
-            IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
-            if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
-                return indexResponse;
-            } else {
-                log.error("新增一个document记录失败:" + JSON.toJSONString(indexResponse));
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            log.error("新增一个document记录失败：{}", e);
-            throw new BusinessException("新增一个document记录失败");
-        }
-    }
-
-
-    /**
-     * 功能描述 添加document,当一周一个index的时候，会自动添加到当周的index中
-     *
-     * @param object
-     * @return org.elasticsearch.action.index.IndexResponse
-     * *@auther 吞星（yangguojun）
-     * @date 2020/7/15-13:42
-     */
-    @Override
-    public IndexResponse addCurWeekDocument(Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            String jsonStr = objectMapper.writeValueAsString(object);
-            String indexName = getCurWeekIndexName(object);
-            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
-            //request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
-            request.source(jsonStr, XContentType.JSON);
-            IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
-            if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
-                return indexResponse;
-            } else {
-                log.error("新增一个document记录失败");
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            log.error("新增一个document记录失败：{}", e);
-            throw new BusinessException("新增一个document记录失败");
-        }
-    }
-
-    /**
-     * 功能描述 添加document,需要自己指定indexName
-     *
-     * @param object
-     * @param id        documentId，如果想要自定义documentId，就需要传值
-     * @param indexName
-     * @return org.elasticsearch.action.index.IndexResponse
-     * *@auther 吞星（yangguojun）
-     * @date 2020/7/15-13:42
-     */
-    @Override
-    public IndexResponse addDocument(Object object, String id, String indexName) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        AssertUtils.notEmpty(id, "documentId is not null ");
-        AssertUtils.notEmpty(indexName, "indexName is not null");
-        try {
-            String jsonStr = objectMapper.writeValueAsString(object);
-            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, id);
-            request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
-            request.source(jsonStr, XContentType.JSON);
-            IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
-            if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
-                return indexResponse;
-            } else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
-                log.info("修改document记录成功：docId：{}", id);
-            }
-        } catch (Exception e) {
-            log.error("新增一个document记录失败：{}", e);
-            throw new BusinessException("新增一个document记录失败");
-        }
-        return null;
-    }
-
     /**
      * 获得新增的indexName
      *
@@ -336,6 +251,61 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         return indexName;
     }
 
+    @Override
+    public IndexResponse addDocument(Object object, String indexName, WriteRequest.RefreshPolicy refreshPolicy) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String jsonStr = objectMapper.writeValueAsString(object);
+            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
+            request.setRefreshPolicy(refreshPolicy);
+            request.source(jsonStr, XContentType.JSON);
+            IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
+            if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
+                return indexResponse;
+            } else {
+                log.error("新增一个document记录失败:" + JSON.toJSONString(indexResponse));
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            log.error("新增一个document记录失败：{}", e);
+            throw new BusinessException("新增一个document记录失败");
+        }
+    }
+
+    /**
+     * 功能描述 添加document,需要自己指定indexName
+     *
+     * @param object
+     * @param id        documentId，如果想要自定义documentId，就需要传值
+     * @param indexName
+     * @return org.elasticsearch.action.index.IndexResponse
+     * *@auther 吞星（yangguojun）
+     * @date 2020/7/15-13:42
+     */
+    @Override
+    public IndexResponse addDocument(Object object, String id, String indexName, WriteRequest.RefreshPolicy refreshPolicy) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        AssertUtils.notEmpty(id, "documentId is not null ");
+        AssertUtils.notEmpty(indexName, "indexName is not null");
+        try {
+            String jsonStr = objectMapper.writeValueAsString(object);
+            IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, id);
+            request.setRefreshPolicy(refreshPolicy);
+            request.source(jsonStr, XContentType.JSON);
+            IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
+            if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
+                return indexResponse;
+            } else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
+                log.info("修改document记录成功：docId：{}", id);
+            }
+        } catch (Exception e) {
+            log.error("新增一个document记录失败：{}", e);
+            throw new BusinessException("新增一个document记录失败");
+        }
+        return null;
+    }
+
+
     /**
      * 功能描述:如果传id表示更新，没传id表示插入
      *
@@ -347,14 +317,14 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
      * @date 2020/7/17-17:44
      */
     @Override
-    public IndexResponse updateDocument(Object object, String id, String indexName) {
+    public IndexResponse updateDocument(Object object, String id, String indexName, WriteRequest.RefreshPolicy refreshPolicy) {
         AssertUtils.notEmpty(id, "documentId is not null");
         AssertUtils.notEmpty(indexName, "indexName is not null ");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
             IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, id);
-            request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
+            request.setRefreshPolicy(refreshPolicy);
             request.source(jsonStr, XContentType.JSON);
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
@@ -370,6 +340,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         }
         return null;
     }
+
 
     @Override
     public BulkByScrollResponse deleteDocument(String routeIdKey, List<Long> routeIdValue, String[] indexNames) {

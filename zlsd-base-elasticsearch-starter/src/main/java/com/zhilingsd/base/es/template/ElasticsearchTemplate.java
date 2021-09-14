@@ -9,6 +9,7 @@ import com.zhilingsd.base.es.bo.PageDocumentOutBO;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
@@ -114,15 +115,7 @@ public interface ElasticsearchTemplate {
      */
     String getNextWeekIndexName(Object object);
 
-    /**
-     * 功能描述 添加document,当一周一个index的时候，会自动添加到当周的index中
-     *
-     * @param object
-     * @return org.elasticsearch.action.index.IndexResponse
-     * *@auther 吞星（yangguojun）
-     * @date 2020/7/15-13:42
-     */
-    IndexResponse addCurWeekDocument(Object object);
+
 
 
     /**
@@ -133,7 +126,7 @@ public interface ElasticsearchTemplate {
      * *@auther 吞星（yangguojun）
      * @date 2020/7/15-13:42
      */
-    IndexResponse addDocument(Object object, String indexName);
+    IndexResponse addDocument(Object object, String indexName, WriteRequest.RefreshPolicy refreshPolicy);
 
 
 
@@ -147,10 +140,10 @@ public interface ElasticsearchTemplate {
      * *@auther 吞星（yangguojun）
      * @date 2020/7/15-13:42
      */
-    IndexResponse addDocument(Object object, String id, String indexName);
+    IndexResponse addDocument(Object object, String id, String indexName, WriteRequest.RefreshPolicy refreshPolicy);
 
 
-    IndexResponse updateDocument(Object object, String id, String indexName);
+    IndexResponse updateDocument(Object object, String id, String indexName, WriteRequest.RefreshPolicy refreshPolicy);
 
     BulkByScrollResponse deleteDocument(String routeIdKey, List<Long> routeIdValue, String[] indexNames);
 

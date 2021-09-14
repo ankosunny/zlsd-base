@@ -38,6 +38,7 @@ import org.elasticsearch.action.search.ClearScrollResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchScrollRequest;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -186,7 +187,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
             IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE);
-            //request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
+            request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
             request.source(jsonStr, XContentType.JSON);
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
@@ -250,6 +251,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
             IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, id);
+            request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
             request.source(jsonStr, XContentType.JSON);
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
@@ -352,7 +354,7 @@ public class ElasticsearchTemplateImpl implements ElasticsearchTemplate {
         try {
             String jsonStr = objectMapper.writeValueAsString(object);
             IndexRequest request = new IndexRequest(indexName, INDEX_DEFAULT_TYPE, id);
-            //request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
+            request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
             request.source(jsonStr, XContentType.JSON);
             IndexResponse indexResponse = restHighLevelClient.index(request, RequestOptions.DEFAULT);
             if (indexResponse != null && indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {

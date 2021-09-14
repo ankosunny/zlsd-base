@@ -114,6 +114,16 @@ public interface ElasticsearchTemplate {
      */
     String getNextWeekIndexName(Object object);
 
+    /**
+     * 功能描述 添加document,当一周一个index的时候，会自动添加到当周的index中
+     *
+     * @param object
+     * @return org.elasticsearch.action.index.IndexResponse
+     * *@auther 吞星（yangguojun）
+     * @date 2020/7/15-13:42
+     */
+    IndexResponse addCurWeekDocument(Object object);
+
 
     /**
      * 功能描述 添加document,指定indexName
@@ -126,15 +136,6 @@ public interface ElasticsearchTemplate {
     IndexResponse addDocument(Object object, String indexName);
 
 
-    /**
-     * 功能描述 添加document,当一周一个index的时候，会自动添加到当周的index中
-     *
-     * @param object
-     * @return org.elasticsearch.action.index.IndexResponse
-     * *@auther 吞星（yangguojun）
-     * @date 2020/7/15-13:42
-     */
-    IndexResponse addCurWeekDocument(Object object);
 
     /**
      * 功能描述 添加document,需要自己指定indexName
